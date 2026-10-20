@@ -1,0 +1,288 @@
+library: "Kokish Minor Openings"
+description: "Kokish-Kraft minor suit openings (1C/1D) with 15-18 balanced or 11+ unbalanced, Reverse Flannery, Inverted Minors with 2H* GF rebid, and 1NT rebid 2C puppet / 2D inquiry"
+version: "1.0"
+
+imports:
+  - "assets/libraries/conventions/serious_3nt_and_kickback.yaml"
+  - "assets/libraries/conventions/rkcb_1430.yaml"
+
+fragments:
+  fKokish1CResponses:
+    desc: "1C: 15-20 HCP balanced, 11+ with 5+ Clubs, or 12+ with 4414"
+    rule: "p#1 15-20hcp $bal c>=d, p#1 11+hcp 5+c, p#1 12+hcp s#4441 1-d"
+    priority: 1
+    bids:
+      1d:
+        desc: "Negative or waiting (often short without 4-card major), or 5+ Diamonds 8+ HCP"
+        rule: "p#2 6+hcp 4-h 4-s, p#1 8+hcp 5+d"
+        priority: 2
+        bids:
+          1nt:
+            desc: "Opener balanced 15 to bad 18 HCP"
+            rule: "p#1 15-18hcp $bal"
+            priority: 1
+            bids:
+              2c:
+                desc: "Puppet to 2D (signoffs and invitational hands)"
+                rule: "p#1"
+                priority: 1
+                bids:
+                  2d:
+                    desc: "Opener forced to 2D"
+                    rule: "p#1"
+                    priority: 1
+                    bids:
+                      pass:
+                        desc: "To play in 2D"
+                        rule: "5+d"
+                      2h:
+                        desc: "Invitational with 4M/6D"
+                        rule: "11-12hcp 4h 5+d"
+                      2s:
+                        desc: "Invitational with 4S/6D"
+                        rule: "11-12hcp 4s 5+d"
+                      2nt:
+                        desc: "Invitational in NT"
+                        rule: "11-12hcp"
+                      3c:
+                        desc: "Signoff in 3C"
+                        rule: "5+c"
+              2d:
+                desc: "Artificial Game-Forcing inquiry"
+                rule: "p#1 13+hcp"
+                priority: 1
+              2nt:
+                desc: "Natural invitational, 5+ Diamonds"
+                rule: "p#2 11-12hcp 5+d"
+                priority: 2
+              3nt:
+                desc: "Signoff in 3NT"
+                rule: "p#3 13-15hcp"
+                priority: 3
+
+      1h:
+        desc: "4+ Hearts, 6+ HCP (major first priority)"
+        rule: "p#1 6+hcp 4+h"
+        priority: 1
+        bids:
+          1nt:
+            desc: "Opener balanced 15 to bad 18 HCP"
+            rule: "p#1 15-18hcp $bal"
+            priority: 1
+            bids:
+              2c:
+                desc: "Puppet to 2D"
+                rule: "p#1"
+                priority: 1
+              2d:
+                desc: "Artificial Game-Forcing inquiry"
+                rule: "p#1 13+hcp"
+                priority: 1
+              2h:
+                desc: "Signoff in 2 Hearts (weak 5+ Hearts)"
+                rule: "p#2 6-9hcp 5+h"
+                priority: 2
+          2h:
+            desc: "Opener single raise (15-17 support points, 4 trumps)"
+            rule: "p#1 15-17hcp 4h"
+            priority: 1
+
+      1s:
+        desc: "4+ Spades, 6+ HCP"
+        rule: "p#1 6+hcp 4+s"
+        priority: 1
+        bids:
+          1nt:
+            desc: "Opener balanced 15 to bad 18 HCP"
+            rule: "p#1 15-18hcp $bal"
+            priority: 1
+            bids:
+              2c:
+                desc: "Puppet to 2D"
+                rule: "p#1"
+                priority: 1
+              2d:
+                desc: "Artificial Game-Forcing inquiry"
+                rule: "p#1 13+hcp"
+                priority: 1
+          2s:
+            desc: "Opener single raise (15-17 support points, 4 trumps)"
+            rule: "p#1 15-17hcp 4s"
+            priority: 1
+
+      1nt:
+        desc: "8-10 HCP, no 4-card major, balanced"
+        rule: "p#2 8-10hcp $bal 3-h 3-s"
+        priority: 2
+
+      2c:
+        desc: "Inverted Minor: 4+ Clubs, Limit raise+ (forcing to 3C, FG facing 15+)"
+        rule: "p#1 10+hcp 4+c"
+        priority: 1
+        bids:
+          2h:
+            desc: "Artificial Game Force with 4+ Clubs"
+            rule: "p#1 15+hcp 4+c"
+            priority: 1
+            bids:
+              2s:
+                desc: "Forced response when holding limit raise values"
+                rule: "p#1 10-12hcp"
+                priority: 1
+              2nt:
+                desc: "Scattered values, 13-14 HCP"
+                rule: "p#2 13-14hcp"
+                priority: 2
+              3c:
+                desc: "Game forcing club raise, 13+ HCP"
+                rule: "p#1 13+hcp 4+c"
+                priority: 1
+              4c:
+                ref: "fKickbackClubs"
+          2d:
+            desc: "Unbalanced game try in Clubs"
+            rule: "p#2 12-14hcp !balanced"
+            priority: 2
+          2nt:
+            desc: "Strong notrump (15-17 HCP), exactly 3 clubs"
+            rule: "p#3 15-17hcp 3c $bal"
+            priority: 3
+          3c:
+            desc: "Minimum opening (11-14 HCP), no game interest"
+            rule: "p#3 11-14hcp"
+            priority: 3
+
+      2d:
+        desc: "Reverse Flannery Weak: at least 5 Spades, at least 4 Hearts (4-7 HCP)"
+        rule: "p#1 4-7hcp 5+s 4+h"
+        priority: 1
+
+      2h:
+        desc: "Reverse Flannery Invitational: at least 5 Spades, at least 4 Hearts (7-11 HCP)"
+        rule: "p#1 8-11hcp 5+s 4+h"
+        priority: 1
+
+      2s:
+        desc: "Reverse Flannery Invitational: at least 6 Spades, 4 Hearts (7-11 HCP)"
+        rule: "p#1 8-11hcp 6+s 4h"
+        priority: 1
+
+      2nt:
+        desc: "Natural balanced, 13-15 HCP, no 4-card major"
+        rule: "p#2 13-15hcp $bal"
+        priority: 2
+
+      3c:
+        desc: "Preemptive raise in Clubs (5+ Clubs, 0-6 HCP)"
+        rule: "p#2 0-6hcp 5+c"
+        priority: 2
+
+  fKokish1DResponses:
+    desc: "1D: 15-20 HCP balanced, 11+ with 5+ Diamonds, or 12+ with 4144/4441"
+    rule: "p#1 15-20hcp $bal d>c, p#1 11+hcp 5+d, p#1 12+hcp s#4441 1-h, p#1 12+hcp s#4441 1-s"
+    priority: 1
+    bids:
+      1h:
+        desc: "4+ Hearts (or 3+ if 5-7 HCP with no 4-card major)"
+        rule: "p#1 5+hcp 4+h, p#2 5-7hcp 3h 3-s"
+        priority: 1
+        bids:
+          1nt:
+            desc: "Opener balanced 15 to bad 18 HCP"
+            rule: "p#1 15-18hcp $bal"
+            priority: 1
+          2h:
+            desc: "Opener single raise (15-17 support points, 4 trumps)"
+            rule: "p#1 15-17hcp 4h"
+            priority: 1
+
+      1s:
+        desc: "4+ Spades (or 3+ if 5-7 HCP)"
+        rule: "p#1 5+hcp 4+s"
+        priority: 1
+        bids:
+          1nt:
+            desc: "Opener balanced 15 to bad 18 HCP"
+            rule: "p#1 15-18hcp $bal"
+            priority: 1
+          2s:
+            desc: "Opener single raise (15-17 support points, 4 trumps)"
+            rule: "p#1 15-17hcp 4s"
+            priority: 1
+
+      1nt:
+        desc: "8-10 HCP, no 4-card major, balanced"
+        rule: "p#2 8-10hcp $bal 3-h 3-s"
+        priority: 2
+
+      2c:
+        desc: "Natural 9+ HCP, usually 5+ Clubs, Game Force opposite 15+"
+        rule: "p#1 9+hcp 5+c"
+        priority: 1
+        bids:
+          2d:
+            desc: "5+ Diamonds, forcing"
+            rule: "p#1 5+d"
+            priority: 1
+          2h:
+            desc: "Artificial 4=4=4=1 shape, forcing 1 round"
+            rule: "p#1 4=4=4=1"
+            priority: 1
+          2s:
+            desc: "Artificial Game-Forcing club raise (4+ Clubs)"
+            rule: "p#1 15+hcp 4+c"
+            priority: 1
+
+      2d:
+        desc: "Inverted Minor: 4+ Diamonds, Limit raise+ (forcing to 3D, FG facing 15+)"
+        rule: "p#1 10+hcp 4+d"
+        priority: 1
+        bids:
+          2h:
+            desc: "Artificial Game Force with 4+ Diamonds"
+            rule: "p#1 15+hcp 4+d"
+            priority: 1
+            bids:
+              2s:
+                desc: "Forced response when holding limit raise values"
+                rule: "p#1 10-12hcp"
+                priority: 1
+              3d:
+                desc: "Game forcing diamond raise, 13+ HCP"
+                rule: "p#1 13+hcp 4+d"
+                priority: 1
+              4h:
+                ref: "fKickbackDiamonds"
+          2s:
+            desc: "Unbalanced game try in Diamonds"
+            rule: "p#2 12-14hcp !balanced"
+            priority: 2
+          3d:
+            desc: "Minimum opening (11-14 HCP), no game interest"
+            rule: "p#3 11-14hcp"
+            priority: 3
+
+      2h:
+        desc: "Reverse Flannery: at least 5 Spades, at least 4 Hearts (3-10 HCP)"
+        rule: "p#1 3-10hcp 5+s 4+h"
+        priority: 1
+
+      2s:
+        desc: "Reverse Flannery Invitational: at least 6 Spades, 4 Hearts (8-11 HCP)"
+        rule: "p#1 8-11hcp 6+s 4h"
+        priority: 1
+
+      2nt:
+        desc: "Natural balanced, 13-15 HCP, no 4-card major"
+        rule: "p#2 13-15hcp $bal"
+        priority: 2
+
+      3c:
+        desc: "Artificial semi-preemptive diamond raise"
+        rule: "p#1 6-9hcp 5+d"
+        priority: 1
+
+      3d:
+        desc: "Preemptive raise in Diamonds (5+ Diamonds, 0-6 HCP)"
+        rule: "p#2 0-6hcp 5+d"
+        priority: 2

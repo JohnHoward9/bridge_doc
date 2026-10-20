@@ -1,0 +1,2762 @@
+System:"3-Way club 5 card Majors"
+Player:"John"
+Partner:"Andy"
+
+/*
+Test comment
+*/
+
+BidDefinitions[
+($bal,s#5332|4432|4333)
+($weakbal,11-14hcp $bal 4-h 4-s)
+($strongnt,15-17hcp $bal 4-h 4-s)
+($gf,23+hcp $bal, 27+knr)
+($11to12Bal,11-12hcp $bal 4-h 4-s)
+($13PlusBal,13+hcp $bal 4-h 4-s)
+($14to15Bal,14-15hcp $bal 4-h 4-s)
+($16PlusBal,16+hcp $bal 4-h 4-s)
+($16to17Bal,16-17hcp $bal 4-h 4-s)
+($18PlusBal,18+hcp $bal 4-h 4-s)
+($17to18Bal,17-18hcp $bal 4-h 4-s)
+($19PlusBal,19+hcp $bal 4-h 4-s)
+]
+
+
+OppositionOpeningBids [ 
+(50%SAYC.1c):"Short c" (p#6 2+c $weakbal, 4+c 12+hcp c>=*)
+(25%Acol.1c):"ACOL" (p#6 4+c 12+hcp c>=* !$bal, 4+c 15+hcp c>=*)
+(25%TwoWay.1c):"Polish" (p#6 2+c $weakbal, 16+hcp)
+{
+	1nt:"Minors" (4+c 4+d s#54xx|55xx 9-14hcp)
+}
+(1d):"Natural" (p#5 4+d 12+hcp d>=*)
+{
+	pass:"Nothing to say" (p#10)
+	{
+		(1s):"Natural" (4+s 5+hcp)
+		{
+			2c:"Other 2 suits" (5+c 5+h) ?1
+			2s:"Natural" (6+s q#hhh+s) ?1
+		}
+		(50%Inverted.2d):"Inverted" (4+d 10+hcp)
+		{
+			2nt:"5+s 5+c" (5+s 5+c) ?1
+			3d:"Majors" (5+s 5+h) ?1
+		}
+		(50%Natural.2d):"Natural" (4+d 5-9hcp)
+		{
+			2nt:"Any 2 suits" (5+s 5+c, 5+s 5+h, 5+h 5+c) ?1
+			3d:"Stop ask" (5+s 5+h) ?1
+		}
+	}
+	dbl:"Takeout" (p#5 12+hcp 3-d)
+	{
+		[1h,1s]:"Natural" (1h:9-hcp 4+h [$M=h] ^1s:9-hcp 4+s [$M=s])
+		{
+			1nt:"18-19 bal" (18-19hcp $bal)
+			{
+				2c:"Natural to play" (4+c c>$M)
+				2$M:"Natural to play" (5+$M 5-hcp) 
+			}
+		}
+	}
+	[1h-1s]:"Overcall" (1h:p#4 5+h 8+hcp h>s [$OM=s, $M=h] ^1s:p#4 5+s 8+hcp s>=* [$OM=h, $M=s])
+	{
+		(pass):"Neutral" (p#10)
+		{
+			2d:"Good 3 card raise" (3$M 8+hcp) ?4
+			2nt:"Good raise" (4+$M 11+hcp) ?2
+			3d:"Mixed raise" (4$M 8-10hcp) ?2
+			3$M:"Minimum raise" (4$M 7-hcp) ?4
+		}
+		<$M=s>(2h):"Hearts" (p#5 5+h 9+hcp)
+		{
+			3d:"Good 3 card raise" (3$M 8+hcp) ?2
+			2nt:"Good raise" (4+$M 11+hcp) ?2
+			3h:"Mixed raise" (4$M 8-10hcp) ?2
+			3$M:"Minimum raise" (4$M 7-hcp) ?4
+		}
+	}
+	1nt:"15-17hcp bal" (p#3 15-17hcp $bal) ->f1NTResponsesInComp
+	2c:"Overcall" (p#4 6+c 8+hcp)
+	{
+		(2d):"Natural" (3+d 6-9hcp)
+		{
+			2nt:"Good raise" (3+c 9+hcp) ?3
+			3c:"Minimum raise" (3+c 8-hcp) ?3
+		}
+	}
+}
+ (FiveCardM.[1h-1s]):"5 card majors" (1h:p#4 5+h 11+hcp h>s [$oppoM=h, $OM=s] ^1s:p#4 5+s 11+hcp s>=* [$oppoM=s, $OM=h])
+{
+	pass:"Weak or unsuitable" (p#6)
+	{
+		1nt:"12-16 bal" (12-16hcp $bal)
+		{
+			2c:"Crowhurst" (p#4 9+hcp) ?2
+			2d:"xFer" (p#3 5+h) ?2
+			2h:"xFer" (p#3 5+s) ?2
+		}
+		(2$oppoM):"Raise" (3$oppoM 7-10hcp)
+		{
+			<$oppoM=h>3h:"Spades and another" (5+s 5+d, 5+s 5+c) ?1
+			<$oppoM=s>3s:"Hearts and another" (5+h 5+d 15+hcp, 5+h 5+c 15+hcp) ?1
+			<$oppoM=h>2nt:"Minors" (5+c 5+d) ?1
+			<$oppoM=s>2nt:"Any 2 suits" (5+c 5+d, 5+h 5+c, 5+h 5+d 14-hcp) ?1
+		}
+		(1nt):"Natural" (4-9hcp)
+		{
+			dbl:"Takeout of M" (2-$oppoM 10+hcp)
+			{
+				(rdbl):"Good hand" (15+hcp)
+				{
+					pass:"Neutral not to play"
+				}
+			}
+		}
+		(Splinter.4c):"Splinter" (4+$oppoM 1-c 8-11hcp)
+		{
+			dbl:"Lead OM" (q#Hh+$OM) ?4
+		}
+	}
+	dbl:"Takeout" (p#4 s#4441|5431|4432 2-$oppoM 10+hcp)
+	{
+		(2$oppoM):"Support" (p#5 3$oppoM 5-9hcp)
+		{
+			dbl:"4 other major" (4$OM 6+hcp)
+			{
+				2nt:"equal minors or better diamonds" (3-$OM d>=c) ?2
+				3c:"longer clubs" (3-$OM c>*) ?2
+				3d:"Natural forcing" (d>* 13+hcp) ?2
+			}
+			<$oppoM=h>2s:"5 spades" (5s 6+hcp) ?4	
+			2nt:"Both minors" (3-$OM 4+c 4+d) ?2
+			<$oppoM=s>3h:"5 hearts" (5h 6+hcp) ?2			
+		}
+	}
+	1nt:"Strong bal" (p#3 15-17hcp $bal) ->f1NTResponsesInComp
+	2$oppoM:"OM+d" (p#3 5+$OM 5+d)
+	{
+		<$oppoM=h>2nt:"Good diamond raise" (8+hcp 4+d) ?2
+		<$oppoM=h>3h:"Good spade raise" (8+hcp 4+s) ?2
+		<$oppoM=s>2nt:"Good raise in either" (8+hcp 4+d, 8+hcp 4+s) ?2
+	}
+	2nt:"OM+c" (p#3 5+$OM 5+c) ?2
+}
+ (50%Acol.1nt):"12-14" (p#3 $weakbal)
+{
+	dbl:"Penalties" (p#3 15+hcp)
+	{
+		(2c):"Natural" (4+c)
+		{
+			dbl:"Takeout" (2-c 6+hcp) ?4
+		}
+	}
+	~>"MultiLandy" (p#4) ->fMultiLandy
+	pass:"Too weak to protect" (p#10)
+	{
+		(2d):"XFer" (5+h)
+		{
+			2h:"s+d" (p#5 5+s 5+d 8+hcp) ?2
+			2nt:"s+c" (p#5 5+s 5+c 8+hcp) ?2
+			pass:"Waiting" (p#10)
+			{
+				(2h):"Accept xFer" (p#10)
+				{
+					pass:"Too weak to protect"
+					{
+						dbl:"Takeout" (p#5 2-h 10+hcp) ?4
+					}
+				}
+			}
+		}
+	}
+}
+(50%SAYC.1nt):"15-17" (p#3 $strongnt)
+(50%Multi.2d):"Multi" (p#3 6h 3-9hcp, 6s 3-9hcp)
+{
+	pass:"Neutral" (p#10)
+	{
+		(pass):"Diamonds" (p#6 6+d 10-hcp)
+		(2h):"Pass or correct" (p#10)
+		{
+			pass:"Neutral" (p#10)
+			{
+				dbl:"Takeout" (p#5 8+hcp 2-h) ?2
+			}
+			dbl:"2 way" (p#3 11+hcp 2-h, 11+hcp 5h) ?2
+		}
+	}
+	dbl:"12-15bal" (p#4 12-15hcp $bal 4-s 4-h)
+	{
+		(pass):"6+d weak" (p#6 12-hcp 6+d [$oppos=undef]) ->fRubensohl
+		(2h):"Pass or correct" (p#10)
+		{
+			~> "Rubensohl" ([$oppos=undef]) ->fRubensohl
+			dbl:"Take out" (7+hcp 2-h) ?2
+		}
+		~> "Rubensohl" ([$oppos=undef]) ->fRubensohl
+	}
+	2nt:"16-19bal" (p#3 16-19hcp $bal) ->f2NTResponses
+	4c:"c+M" (p#3 5+c s#55xx|65xx 3-d 16+hcp) ?2
+	4d:"d+M" (p#3 5+d s#55xx|65xx 3-c 16+hcp) ?2
+}
+(25%Weak.2d):"Weak" (p#3 6d 3-9hcp)
+{
+	4c:"c+M" (p#3 5+c s#55xx|65xx 3-d 16+hcp)
+	{
+		4d:"Slam try" (9+hcp)
+		{
+			[4h,4s]:"To play" (5+%) ?2
+		}
+	}
+}
+(25%Ekren.2d):"Weak majors" (p#3 4+h 4+s 3-9hcp)
+{
+	dbl:"13-15 bal" ($bal 13-15hcp)
+	{
+		~> "Rubensohl" ([$oppos=undef]) ->fRubensohl
+	}
+	pass:"neutral"
+	{
+		(2h):"to play" (h>=s)
+		{
+			pass:"Neutral"
+			{
+				dbl:"Take out" (2-h 12+hcp) ?3
+			}
+		}
+	}
+}
+(Weak.2h):"Weak" (p#3 6h 3-9hcp [$os=h, $OM=s])
+{ name fWeak2Defence
+	pass:"Not enough points or wrong shape" (p#10)
+	dbl:"TakeOut" (p#4 s#4441|5431|4432 2-$os 11+hcp)
+	{
+		2nt:"Lebensohl" (p#5 8-hcp, 13+hcp)
+		{
+			3c:"Forced"
+			{
+				pass:"To play" (p#4 4+c 8-hcp c>=*) ?4
+				3d:"To play" (p#4 4+d 8-hcp d>=* d>c) ?4
+				3$os:"Stayman no stop" (p#3 4$OM !n#A|K$os 13+hcp) ?1
+				[4c-4d]:"5OM + %" (p#2 5$OM 4+% 13+hcp) ?1
+				4$OM:"4+OM slam try" (p#2 4+$OM 13+hcp) ?1
+			}
+		}
+		3c:"Natural" (p#4 5+c 9+hcp)
+		3d:"Natural" (p#4 5+c 9+hcp)
+		3$os:"Stayman + stop" (p#2 4$OM n#A|K$os) ?1
+		(rdbl):"Strong" (14+hcp)
+		{
+			pass:"To play" (4+$os q#hh+$os, 5+$os q#h+$os) ?2
+		}
+		4c:"Natural F" (p#3 6+c 11+hcp) ?2
+		4d:"Natural F" (p#3 6+d 11+hcp) ?2
+	}
+	[3c-3d]:"Natural good suit" (6+% q#hhh+% 10+hcp)
+	<$os=s>3h:"Natural good suit" (6+h q#hhh+h 10+hcp)
+	2nt:"Natural 15-19" (p#3 15-19hcp $bal) ->f2NTResponses
+	4c:"c+M" (p#3 5+c 5+$OM 16+hcp) ?2
+	4d:"d+M" (p#3 5+d 5+$OM 16+hcp) ?2
+	
+}
+(Weak.2s):"Weak" (p#3 6s 3-9hcp [$os=s, $OM=h]) ->fWeak2Defence
+(3h):"Pre-emptive" (7h 9-hcp)
+{
+	4c:"c+s GF" (5+c 5+s 17+hcp) ?2
+	4d:"d+s GF" (5+d 5+s 17+hcp) ?2
+} 
+(3s):"Pre-emptive" (p#3 7s 9-hcp)
+{
+	4c:"c+h GF" (5+c 5+h 17+hcp) ?4
+	4d:"d+h GF" (5+d 5+h 17+hcp) ?4
+}
+(4d):"Pre-emptive" (p#3 8d 9-hcp)
+{
+	4nt:"Natural" (18+hcp n#a|kd) ?2
+} 
+([4h-4s]):"Pre-emptive" (p#3 8% 9-hcp)
+{
+	4nt:"2 suited" (s#55xx|65xx 15+hcp) ?4
+} 
+]
+
+OpeningBids [
+
+pass:"No opening available" (10-hcp)
+{
+	[1h-1s]: "5 card major opening" (1h:p#5 5+h 11+hcp [$M=h, $OM=s, $os=h]^ 1s:p#4 5+s 11+hcp [$M=s, $OM=h, $os=s])
+	{
+		2c:"Drury 3-4" (9+hcp 3+$M)
+		{
+			2d:"Length enquiry" (14+hcp)
+			{
+				2$M:"3 major" (3$M) ?3
+				3$M:"4 major" (4$M) ?3
+			}
+			2$M:"Minimum" (13-hcp)
+		}
+		<$os=s>4h: "Fit" (4+s 5+h)
+	}
+	(50%Weak.1nt):"Weak NT" (12-14hcp)
+	{
+		pass:"Not enough to compete"
+		{
+			dbl:"4M 5+m" (d#4xx5|4xx6|4x5x|4x6x|x4x5|x4x6|x45x|x46x 8-11hcp) ?1
+			~>"MultiLandy" (p#3) ->fMultiLandy
+		}
+	}
+	(50%Strong.1nt):"Strong NT" (15-17hcp)
+}
+
+1c:"3 way club"(p#2 $weakbal, 5+c 11+hcp c>* !$bal, s#4441 4c 11-14hcp, $gf [$os=c]) 
+{
+	[1d-1h]: "xfer response showing 4+M" (1d:p#4 4+h h>s, 4h 4s [$M=h, $OM=s] ^1h:p#5 4+s [$M=s,$OM=h]) 
+	{
+		~> "Initial gf" (p#1 $gf) ->f1CMajorGameForcing
+		~> "Support" (p#4 3+$M) 
+		{
+			~> "Strong hand 3/4 card support" (17+hcp 5+c !s#5332) ->f1CMajorStrongSupport
+			~> "Limited hand 3/4 card support" (16-hcp) ->f1CMajorLimitedSupport 
+		}
+		~> "No Support"(p#5 2-$M) 
+		{
+			~> "Spades no support" (p#3 4+s) ->f1CMajorSpadeHands
+			~> "Strong hand no support" (p#3 17+hcp s#55xx|54xx|64xx, 18+hcp s#6322, 19+hcp 6+c) ->f1CMajorStrongHands
+			1nt:"Weak nt no support" (p#5 $weakbal, s#4441|5431 c>=* 11-14hcp 1$M) ->f1CMajorWeakNT
+			2c:"Clubs" (p#4 15-hcp 5+c !s#5332) ->f1CMajorClubs
+			3c:"Clubs natural inv" (p#3 16-17hcp 6+c) ?1
+		}
+		3d:"splinter 18+" (p#3 1-d 18-21hcp 4$M) ?1
+		3$OM:"splinter 18+" (p#3 1-$OM 18-21hcp 4$M) ?1
+		<$M=h>(1s):"Overcall" (5+s 7+hcp) 
+		{
+			2d:"Reverse" (16+hcp 5+c 4+d c>d) ?1
+			2s:"Initial GF" (p#1 $gf) ?1
+		}
+	}
+	1s:"GF diamonds or <10hcp no 4c M" (p#3 13+hcp 5+d d>*, 10-hcp 3-h 3-s)
+	{
+		1nt:"11-14 Bal" (p#4 $weakbal)
+		{
+			2c: "natural sign off" (5+c 9-hcp) ?1
+			2d: "natural sign off" (5+d 9-hcp) ?1
+			[2h,2s]: "natural GF diamonds" (2h:12+hcp 5+d 4+h d>h ^ 2s:12+hcp 5+d 4+s d>s) ?2
+			2nt:"natural gf" (5+d 13+hcp s#5332|6322) ?2
+			3c:"natural gf" (12+hcp 5+d 4+c d>c) ?2
+			3d:"natural gf" (6+d 13+hcp 3-s 3-h 3-c) ?2
+		}
+		2c:"clubs to play opposite 0-10" (p#5 15-hcp 5+c)
+		{
+			3c:"natural inv" (3-s 3-h 3+c 8-10hcp) ?2
+			2d:"natural gf diamonds" (6+d 13+hcp 3-s 3-h 3-c) ?1
+			[2h,2s]: "natural GF diamonds" (2h:12+hcp 5+d 4+h d>h ^ 2s:12+hcp 5+d 4+s d>s) ?1
+		}
+		2d:"initial gf" (p#1 $gf)
+		{
+			2h:"Relay semi +ive" (p#6 4+hcp) ?2
+			2s:"Double negative" (p#5 3-hcp) ?2
+			2nt:"8+ balanced" (p#4 8+hcp s#4432|4333|5332)
+			[3c-3d]:"+ive minor" (p#3 5+% 8+hcp) ?2
+			[3h-3s]:"GF diamonds" (p#3 4+% 5+d d>% 13+hcp) ?1
+		}
+		[2h-2s]:"reverse" (2h:p#2 4+h 5+c 17+hcp [$M=h]  ^ 2s:p#2 4+s 5+c 17+hcp [$M=s])
+		{
+			<$M=h>2s:"Bad hand" (p#3 5-hcp) ?1
+			<$M=h>2nt:"Values" (p#2 6+hcp 3-$M 3-c) ?3
+			<$M=s>2nt:"Bad hand" (p#3 5-hcp) ?3
+			3c:"Support" (p#3 3+c 6+hcp) ?3
+			3$M:"Support" (p#3 3+h 6+hcp) ?3
+		}
+		2nt:"diamond reverse" (p#2 4+d 5+c 17+hcp)
+		{
+			3c:"Minimum" (p#3 5-hcp) ?1
+			3d:"Agrees diamonds" (p#2 4+d 6+hcp) ?1
+			3h:"Agrees clubs" (p#3 3+c 6+hcp) ?1
+		}
+		(dbl):"Spades" (p#5 8+hcp 5+s)
+		{
+			1nt:"Minors" (s#54xx|55xx 4+c 4+d) ?1
+		}
+	}
+	1nt:"clubs inv+" (p#3 5+c c>* 10+hcp)
+	{
+		2c:"Forcing weak nt <4c or original gf" (p#2 $weakbal 3-c, $gf)
+		{
+			2d:"FG relay" (13+hcp) ?1
+			{
+				[2h-2s]:"4 cards" (p#3 4%) ?4
+				2nt:"Balanced" (s#4333|5332) ?4
+				3c:"Good 3 or any 4"(p#4 q#hh+c 3c, 4c) ?2
+				3d:"Good 5" (p#4 s#5332 5d q#hh+d) ?2
+				[3h,3s,4c,4d]:"Original GF" ($gf 6+% [$gfs=%]) ?1
+			}
+			[2h,2s,3c]:"Natural inv" (9-12hcp 4% [$2nds=%])
+			{
+				<$2nds=h>[3s,4c,4d]:"Original GF" ($gf 6+% [$gfs=%]) ?1
+				<$2nds=s>[4c,4d,4h]:"Original GF" ($gf 6+% [$gfs=%]) ?4
+				<$2nds=c>[4c,4d,4h,4s]:"Original GF" ($gf 6+% [$gfs=%]) ?4
+			}
+			2nt:"5c 4d inv" (4+d 5+c c>d 9-12hcp) ?1
+		}
+		2d:"Clubs <15hcp" (p#8 4+c 14-hcp) ?1
+		[2h,2s]:"Natural 15+" (p#8 15+hcp 4%) ?2
+		2nt:"4d 5c 15+" (p#8 4+d 5+c 15+hcp c>d) ?1
+		3c:"Clubs only 15+hcp" (p#8 6+c 15+hcp) ?2
+		[3d-3s]:"Splinter" (p#8 15+hcp 1-%) ?1
+		4c:"Solid clubs" (p#3 6+c n#akq$os)
+		4nt:"RCKB" (p#10 15+hcp) ->fRKCBResponses
+	}
+	2c:"diamonds inv" (p#3 5+d d>* 10-12hcp)
+	{
+		pass:"Poor 3316 or 3307" (p#12 s#6331|7330 12-hcp 6+c 1-d) ?2
+		2d:"Forcing any minimum" (p#11 14-hcp) ?1
+		{
+			2h:"Natural NF" (p#3 4+h d>h [$2nds=h]) ?1
+			2s:"Natural NF" (p#4 4+s d>s [$2nds=s]) ?1
+			3c:"Natural NF" (p#5 4+c d>c [$2nds=c]) ?1
+			2nt:"Natural inv" (s#5332 10-12hcp) ?2
+		}
+		[2h,2s]:"Natural 15+" (p#8 15+hcp 4%) ?2
+		2nt:"FG scattered 6322" (p#8 s#6322 6c 15+hcp) ?2
+		3c:"Clubs only 15+hcp" (p#8 s#6331|7xxx 6+c 15+hcp) ?2
+		3d:"Support game forcing" (p#8 15+hcp 4+d) ?2
+		[3h-3s]:"Splinter" (p#7 15+hcp 1-% 4+d) ?2
+		4c:"Good clubs agreeing diamonds" (p#8 15+hcp q#hh+c 4+d) ?2
+		4nt:"RCKB" (p#10 15+hcp) ->fRKCBResponses
+	}
+	2d:"weak major or bal slam try" (p#3 4-9hcp 6h, 4-9hcp 6s, $19PlusBal 3-h 3-s, $17to18Bal 3-h 3-s)
+	{
+		2h:"To play if hearts" (p#4 3-h 14-hcp)
+		{
+			2nt:"Bal slam try" ($19PlusBal)
+			{
+				3c:"Balanced" ($weakbal)
+				{
+					3d:"Enquiry" ([$amin=$17to18Bal, $amax=$19PlusBal, $rmin=11-12hcp, $rmax=13-14hcp])->fBalancedRelays
+				}
+				[3d,3s]:"Shape showing" (5+c 4+%) ?1
+			}
+		}
+		2s:"To play if spades" (p#4 3+h 2-s 14-hcp)
+		2nt:"Enquiry" (p#3 15+hcp) ?2
+		{
+			3c:"Min hearts" (4-6hcp 6h) ?1
+			3d:"Min spades" (4-6hcp 6s) ?3
+			[3h-3s]:"Maximum" (7-9hcp 6%) ?1
+			3nt:"Balanced slam try" ($19PlusBal) ?1
+		}
+		3h:"Pass or correct" (p#3 4h 4s $weakbal, 3h 4s 5+c 11-13hcp, 3s 4h 5+c 11-13hcp)
+		{
+			3s:"WJS in spades" (4-9hcp 6s)
+			3nt:"To play opposite 11-12 or 11-14 clubs" ($17to18Bal)
+			{
+				4c:"Natural clubs" (6+c) ?1
+				4d:"Diamond void" (0d s#5440) ?1
+				[4h,4s]:"Natural" (5c 4%) ?1
+				4nt:"13-14 balanced" (13-14hcp $weakbal) ?1
+			}
+			4c:"Enquiry slam forcing" ($19PlusBal)
+			{
+				4d:"6 clubs" (6c) ?1
+				[4h,4s]:"Natural" (5c 4%) ?1
+				4nt:"11-12 balanced" (11-12hcp $weakbal) ?1
+				5nt:"13-14 balanced" (13-14hcp $weakbal) ?1
+			}
+		}
+	}
+	2h:"inv+ balanced" (p#3 11-17hcp $bal 3-h 3-s)
+	{
+		2s:"Clubs rejecting inv" (5+c !s#5332 11-12hcp) ?2
+		{
+			2nt:"Signoff" (p#5 12-hcp) ?3
+			3c:"Signoff" (p#4 3+c 12-hcp) ?3
+			[3d,3h,3s]:"Try for nt" (p#3 13+hcp q#hh+%) ?4
+			3nt:"To play" (p#4 13+hcp) ?4
+		}
+		2nt:"Balanced rejecting inv" ($weakbal 11-12hcp) ?2
+		3c:"Clubs accepting inv" (5+c !s#5332 13+hcp) ?2
+		[3d,3h,3s]:"Natural with clubs accepting inv" (5+c 13+hcp 4+% c>%) ?2
+		3nt:"13-14 balanced to play" (13-14hcp $weakbal) ?2
+	}
+	2s:"minors 5-8" (p#3 5-8hcp s#54xx|55xx 4+c 4+d)
+	{
+		2nt:"Length enquiry" (p#5)
+		{
+			3c:"Same length or longer clubs" (c>=d) ?2
+			3d:"Longer diamonds" (d>c) ?2
+			{
+				[3nt,5c,5d]:"To play"
+				[3h,3s,4c,4d]:"Original GF" ($gf)
+			}
+		}
+		[3c,3d]:"To play" (3c:p#4 c>=d 15-hcp ^3d:p#4 d>c 15-hcp) ?2
+		[3h,3s]:"Natural + clubs GF" (p#4 5+c 16+hcp 4+% c>%) ?2
+		[4c,4d]:"Invitational" (4c:p#3 c>=d 16-18hcp ^4d:p#3 d>c 16-18hcp) ?2
+	}
+	2nt:"weak clubs" (p#3 0-6hcp 6+c)
+	{
+		[3c,4c,5c]:"To play"
+		[3d,3h,3s,3nt]:"Original GF" ($gf)
+	}
+	[3c-3s]:"pre empt" (p#3 7% 3-7hcp)
+	3nt:"bal 12-14" (p#3 12-14hcp $bal 3-h 3-s)
+	(dbl):"take out double" (p#4 s#4441|5431|4432 2-c 10+hcp)
+	{
+		rdbl:"diamonds" (p#6 4+d d>=* 6+hcp)
+		1d:"hearts" (p#3 4+h h>s 6+hcp, 4h 4s 6+hcp)
+		1h:"spades" (p#3 4+s 6+hcp)
+		1s:"xfer to nt" (p#7 3-s 3-h 6+hcp)
+		1nt:"clubs GF or comp" (p#2 5+c c>* 13+hcp, 5+c 3-h 3-s 8-hcp)
+		2c:"invitational NF" (p#5 5+c 3-h 3-s 9-12hcp)
+		[2d-2s]:"fit bids" (p#2 4+c 5+% q#Hh+% q#H+c 10-hcp)
+		2nt:"Good raise" (p#3 6+c 10+hcp)
+		3c:"Mixed raise" (p#4 5c 7-9hcp q#hhh+c, 6+c 7-9hcp)
+		[3d-3s]:"pre empt" (p#3 7% 3-7hcp)
+	}
+	(1d):"overcall" (p#5 5+d 9+hcp)
+	{
+		dbl:"hearts" (p#3 4+h h>s 6+hcp, 4h 4s 6+hcp) ?4
+		1h:"spades" (p#3 4+s 6+hcp) ?4
+		1s:"xfer to nt" (3-s 3-h 6+hcp) ?4
+		1nt:"clubs GF or comp" (p#2 5+c c>* 13+hcp, 5+c 3-h 3-s 8-hcp) ?1
+		2c:"invitational NF" (p#5 5+c 9-12hcp) ?1
+		2d:"majors" (p#2 4+h 4s 10+hcp) ?1
+		[2h-2s]:"fit bids" (p#2 4+c 5+% q#Hh+% q#H+c 10-hcp) ?1
+		2nt:"Good raise" (p#3 6+c 10+hcp) ?1
+		3c:"Mixed raise" (p#4 5c 7-9hcp q#hhh+c, 6+c 7-9hcp) ?1
+		[3d-3s]:"pre empt" (p#3 7% 3-7hcp) ?1
+	}
+	(1h):"overcall" (p#3 5+h 8+hcp [$oppos=h]) ->f1Minor1HOvercall
+	(1s):"overcall" (p#3 5+s 8+hcp [$oppos=s]) ->f1Minor1SOvercall
+	(1nt):"overcall" (p#3 15-18hcp) ->f1Suit1NTOvercall
+	(50%Michaels.2c):"michaels" (p#3 5+h 5+s 7+hcp)
+	{
+		2d:"natural F1" (p#5 5+d d>* 8-11hcp) ?1
+		2h:"GF diamonds" (p#4 5+d d>* 12+hcp) ?1
+		2s:"Good raise 4+cards" (p#3 4+c 8+hcp) ?1
+		2nt:"Good raise 6+cards" (p#2 6+c 8+hcp) ?1
+	}
+	(50%Overcall.2c):"overcall" (p#3 5+c 10+hcp) ->f1x2COvercall
+	(2d):"jump overcall" (p#5 6+d 9+hcp)
+	{
+		dbl:"take out" (p#4 d#44xx|4324|3424|3415|4315 8+hcp) ?3
+		[2h,2s]:"natural F1" (p#3 5+% 9+hcp) ?3
+		2nt:"clubs GF or comp" (p#2 5+c c>* 13+hcp, 5+c 3-h 3-s 8-hcp) ?1
+		3c:"invitational NF" (p#4 5+c 9-12hcp) ?1
+	}
+	(2h):"jump overcall" (p#3 6+h 6+hcp) ->f1Minor2HOvercall
+	(2s):"jump overcall" (p#3 6+s 6+hcp) ->f1x2SOvercall
+}
+
+1d:"Unbalanced" (p#3 5+d d>s d>h !s#5332 11+hcp, 4d s#4441 11+hcp 3-c [$os=d])
+{
+	[1h-1s]: "4+M natural" (1h:p#3 4+h h>s, 4h 4s [$M=h, $OM=s] ^1s:p#4 4+s [$M=s,$OM=h])
+	{
+		<$M=h>1s: "Natural" (p#3 4+s)
+		1nt:"3 card support limited" (p#3 3$M 14-hcp)
+		{
+			2c:"checkback inv+" (p#5 10+hcp)
+			{
+				~> "Reject 12-hcp" (12-hcp)
+				{
+					<$M=h>2d:"Reject invite either 6d or 4c" (3-s 6d, 3-s 5+d 4c) ?1
+					{
+						2s:"Natural GF 54" (5h 4s 12+hcp) ?2
+					}
+					<$M=s>2d:"Reject invite 6d" (6d) ?1
+					{
+						2h:"Natural GF 54" (5s 4h 12+hcp) ?2
+					}
+					2h:"Other major rejecting invite" (4$OM) ?1
+					<$M=s>2s:"Natural 4c rejecting invite" (4c) ?1
+				}
+				~> "Accept 13+ hcp" (13+hcp)
+				{
+					<$M=h>2s:"Natural GF" (4s 13+hcp) ?1
+					2nt:"scattered values 13+" (s#6322 6d 3$M) ?1
+					3c:"Unbalanced clubs" (s#5431|6430 4c 5+d) ?1
+					3d:"Unbalanced diamonds" (s#6331|7330 6+d) ?1
+					3$M:"Concentrated diamonds and $M" (s#6322 6d q#hhh+d q#hh+$M con{d,$M}) ?1
+				}
+			}
+			2d:"To play" (p#4 9-hcp, 3+d) ?1
+			2$M:"To play" (p#4 9-hcp 5$M) ?1
+			2$OM:"Natural inv+" (p#3 5$M 4$OM 10+hcp) ?1
+			2nt:"Natural inv" (p#4 10-11hcp 4$M) ?1
+			3c:"Natural inv 5M" (p#3 10-11hcp 5$M 4c) ?1
+			3d:"Natural inv 4M" (p#3 10-11hcp 4$M 4+d) ?1
+			3$OM:"Splinter" (p#2 10+hcp 5+$M 1-$OM) ?1
+			3$M:"Natural inv" (p#4 10-11hcp 5$M) ?1
+			[4c-4d]:"Splinter" (p#2 10+hcp 1-% 5+$M) ?1
+			(dbl):"Takeout" (8+hcp 4$OM 4+c)
+			{
+				rdbl:"Good hand" (15+hcp) ?1
+			}
+		}
+		2c:"Natural" (p#5 5d 4+c 17-hcp) ?2
+		{
+			<$M=s>3h:"55 GF" (12+hcp 5+s 5+h s>=h) ?1
+		}
+		2d:"Natural" (p#6 5+d 15-hcp) ?2
+		{
+			2$OM:"Artificial GF or Nat or Hearts or Unstopped suit" (p#3 13+hcp 4+h c<=$M, 13+hcp 4+d d<=$M, 13+hcp 4-c) ?2
+			2$M:"Natural comp+ NF" (p#5 5+$M 7-9hcp) ?2
+			2nt:"Natural inv" (p#4 $bal 10-12hcp) ?2 		
+			3c:"Natural clubs" (p#3 13+hcp 5+c 5+$M $M>=c) ?2
+		}
+		2$M:"Natural 4 card raise" (p#3 11-14hcp 4$M) ?4
+		{
+			2nt:"Natural game try" (11-12hcp s#4333|4432) ?3
+			[3c-3d]:"Natural game try" (11-12hcp 4%) ?3
+			3$M:"Pre-emptive" (5+$M 9-hcp) ?3
+		}
+		~> "Artificial reverse" (p#3 17+hcp 2-$M) ->f1DMajorStrongHands
+		2nt:"Game force 3+M support" (p#3 3+$M 15+hcp) ->f1DMajorStrongSupport
+		3c:"Invitational 5+5" (p#3 5+d 5+c d>c 15-17hcp) ?1
+		3d:"Natural" (p#3 6d 16-17hcp) ?1
+		3$OM:"Splinter GF - wide-range. (Use non-serious 3NT to cope with range)" (p#2 16+hcp 1-% 4+$M) ?1
+		4c:"Splinter GF - limited and based on shape" (p#2 16+hcp 1-% 4+$M) ?1
+		<$M=s>4h:"void" (p#1 16+hcp 4+s 0%) ?2
+		(dbl):"Takeout" (2-$M 4+$OM 4+c 10+hcp)
+		{
+			rdbl:"Good hand" (15+hcp) ?2
+		}
+	}
+	1nt:"10+ 4+clubs" (p#2 4+c 10-11hcp c>s c>h 3-h 3-s 3-d, 4+c 3-d 12+hcp c>s c>h)
+	{
+		2c:"14-hcp 3-c" (p#5 3-c 14-hcp)
+		{
+			2d:"FG relay" (13+hcp) ?1
+			{
+				[2h-2s]:"4 cards" (p#3 4%) ?1
+				2nt:"Balancedish" (s#4441) ?2
+				3c:"Good 3"(p#4 q#hh+c 3c) ?2
+				3d:"Good 5+" (p#4 5+d q#hh+d) ?2
+			}
+			[2h,2s,3c]:"Natural inv" (9-12hcp 4% [$2nds=%]) ?1
+			2nt:"Natural inv" (s#5332 10-12hcp) ?1
+		}
+		2d:"Min with 4+c" (p#4 4+c 14-hcp) ?1
+		{
+			pass:"To play" (p#7 9-10hcp) ?3
+			2h:"Natural GF" (p#3 4+% 13+hcp c>*) ?3
+			2s:"Natural GF" (p#3 4+% 13+hcp c>*) ?3
+			2nt:"Natural inv" (p#5 5c s#5332 11-12hcp) ?3
+			3c:"Natural GF" (p#2 13+hcp 6+c) ?1
+			3d:"Inv 3 card raise" (p#4 3d 11-12hcp) ?3
+		}
+		[2h-2s]:"Natural GF" (p#3 4+% 15+hcp) ?2
+		2nt:"Scattered 6322" (p#4 13+hcp s#6322) ?1
+		3c:"Natural GF" (p#3 15+hcp 4+c) ?1		
+	}
+	2c:"5-9 5+c" (p#4 5-9hcp 5+c) ?3
+	2d:"5-9 3+d" (p#4 5-9hcp 3+d) ?3
+	[2h-2s]:"4-9 1 suited" (p#3 4-9hcp 6%) ?2
+	2nt:"Inv+ raise" (p#3 4+d 3-s 3-h 10+hcp) ?2
+	{ name f1DInvPlusRaise
+		3c:"Any minimum" (14-hcp) ?2
+		{
+			3d:"Signoff" (p#2 10-11hcp) ?1
+			[3h,3s]:"Stops" (p#5 10-11hcp) ?2
+			3nt:"To play" ?3
+			[4c,4h,4s]:"Splinter" (p#3 1-% 15+hcp) ?2
+		}
+		3d:"Non minimum no shortage" (15+hcp s#5332|5422|6322) ?2
+		{
+			3h:"FG 16+hcp" (16+hcp) ?1
+			3nt:"FG 13-15hcp" (13-15hcp) ?1
+			4d:"Original inv" (10-12hcp) ?2
+			[3s,4c,4h]:"Splinter" (1-% 13+hcp) ?2
+		}
+		3h:"Short clubs" (1-c 15+hcp) ?2
+		{
+			3s:"FG 16+hcp" (16+hcp) ?1
+			3nt:"FG 13-15hcp" (13-15hcp) ?1
+			4c:"16+ naturalish" (16+hcp 4+c) ?1
+			4d:"Original inv" (10-12hcp) ?2		
+		}
+		3s:"Short hearts" (1-h 15+hcp) ?3
+		{
+			3nt:"FG 13-15hcp" (13-15hcp) ?1
+			4c:"16+ naturalish" (16+hcp 4+c) ?1
+			4d:"Original inv" (10-12hcp) ?2
+		}
+		3nt:"Short spades" (1-s 15+hcp) ?3
+		{
+			4d:"Original inv" (10-12hcp) ?1
+			4c:"13+ cue" (13+hcp n#a|kc) ?1
+			4h:"13+ cue" (13+hcp n#a|kh) ?1
+		}		
+		4c:"55 non minimum" (15+hcp 5+d 5c) ?1
+	}
+	3c:"Inv 1 suited" (p#4 6c 9-11hcp 3-d) ?2
+	3d:"6-9 raise" (p#3 6-9hcp 4+d 3-h 3-s) ?2
+	(dbl):"take out double" (p#4 s#4441|5431|4432 2-d 10+hcp)
+	{
+		rdbl:"hearts" (p#3 4+h h>s 6+hcp, 4h 4s 6+hcp) ?3
+		1h:"spades" (p#3 4+s 6+hcp) ?3
+		1s:"xfer to nt" (p#5 3-s 3-h 6+hcp) ?3
+		1nt:"clubs inv+" (p#4 5+c 10+hcp) ?3
+		2c:"diamonds GF or comp" (p#2 3+d 13+hcp, 3+d 3-h 3-s 8-hcp) ?1
+		2d:"invitational NF" (p#3 3+d 3-h 3-s 9-12hcp) ?1
+		[2h-2s]:"fit bids" (p#3 4+d 5+% q#Hh+% q#H+d) ?1
+	}
+	(1h):"overcall" (p#3 5+h 8+hcp [$oppos=h]) ->f1Minor1HOvercall
+	(1s):"overcall" (p#3 5+s 8+hcp [$oppos=s]) ->f1Minor1SOvercall
+	(1nt):"overcall" (p#3 15-18hcp) ->f1Suit1NTOvercall
+	(2c):"overcall" (p#3 5+c 10+hcp) ->f1x2COvercall
+	(2d):"michaels" (p#3 5+h 5+s 7+hcp)
+	{
+		2h:"GF clubs" (5+c 12+hcp) ?1
+		2s:"3 card raise" (3d 8+hcp) ?1
+		2nt:"4 card raise" (4+d 8+hcp) ?1
+	}
+	(2h):"jump overcall" (p#3 6+h 6+hcp) ->f1Minor2HOvercall
+	(2s):"jump overcall" (p#3 6+s 6+hcp) ->f1x2SOvercall
+}
+
+[1h-1s]: "5 card major opening" (1h:p#5 5+h 11+hcp h>=* [$M=h, $OM=s, $os=h]^ 1s:p#4 5+s s>=* 11+hcp [$M=s, $OM=h, $os=s])
+{
+	pass:"Bad hand <5hcp" (5-hcp)
+	<$M=h>1s:"Spades" (p#3 5-10hcp 4s 2-h, 5-10hcp 5s 3-h, 11+hcp 4+s s>=*, 9+hcp 6+s)
+	{
+		1nt:"Natural" (p#6 11-14hcp $bal)
+		{
+			2c:"Signoff/weak inv weak suit" (p#10 9-hcp)
+			{
+				2d:"Forced"
+				{
+					2h:"To play" (p#4 3h 5s 8-hcp) ?1
+					2s:"Inv 5s" (p#5 5s 8-hcp) ?1
+					[3c-3d]:"Weak inv 55" (p#2 5s 5% 7-8hcp) ?1
+					3s:"Inv poor suit" (p#3 9-11hcp q#hh-s 6+s) ?1
+				}
+			}
+			2d:"GF" (p#3 12+hcp)
+			{
+				2h:"Suit oriented 2-s" (2-s q#hhh+h) ?1
+				2s:"3 spades" (3s) ?1
+				2nt:"NT oriented" (2-s q#hhh-h) ?1
+			}
+			2h:"Inv 3h 5s" (p#4 3h 5s 9-11hcp) ?1
+			2s:"Inv 5s" (p#5 5s 9-11hcp) ?1
+			2nt:"Inv" (p#6 $bal 11-12hcp) ?2
+			[3c-3d]:"Inv 55" (p#2 5s 5% 10-12hcp) ?1
+			3s:"Inv good suit" (p#3 6+s 9-11hcp q#hhh+s) ?1
+		}
+		[2c-2d]:"Natural" (4+%)
+		{
+			2h:"To play" (p#4 3h 5s 8-hcp) ?2
+			3h:"Inv 3h 5s" (p#4 3h 5s 9-11hcp) ?1
+		}
+		2h:"Natural" (p#5 11-14hcp 6+h)
+		{
+			pass:"To play" (p#10)
+			2s:"Natural inv" (p#4 6+s 10-11hcp)  ?1
+			2nt:"Artificial GF" (p#5 12+hcp) ?1
+			3s:"Natural forcing" (p#4 6+s 12+hcp) ?2
+		}
+		2s:"Natural" (p#3 s#5431 3s 11-14hcp, 4s s#5422 11-14hcp)
+		{
+			pass:"To play" (p#10) ?2
+			2nt:"Natural" (p#4 10-11hcp 4s 2-h) ?1 
+			3h:"Natural GF" (p#4 3h 12+hcp) ?2
+		}
+		2nt:"Natural" (p#3 18-20hcp s#5332|5422) ?1
+		{
+			3c:"xFer" (4+d) ?1
+			3d:"xFer" (3+h) ?4
+			3h:"xFer" (5+s) ?4
+		}
+		3s:"Natural" (p#3 4s s#5431  11-14hcp) ?2
+		(dbl):"Takeout" (8+hcp 4+c 4+d)
+		{
+			1nt:"3 card support unbal" (3s s#5431|6331) ?1
+			rdbl:"Good hand" (15+hcp) ?1
+		}
+	}
+	1nt:"5-11hcp" (p#5 5-11hcp 2-$M 3-s)
+	{
+		2c:"Clubs or inv 1-suiter or any gf" (p#3 4c, 6$M 14-16hcp, 18+hcp)
+		{
+			2d:"Relay" (p#5 2$M 9-11hcp, 4+c, 6c 8-hcp q#hh-c, 6d 8-hcp q#hh-d)
+			{
+				2$M:"Clubs <16" (15-hcp 4c, 14-hcp 4+c) ?1
+				{
+					pass:"No club support" (p#10) ?2
+					2nt:"8-11 club raise" (p#3 8-11hcp 4c 2-$M) ?2
+					3c:"To play" (p#4 7-hcp 3+c 1-$M, 7-hcp 4+c 2-$M) ?2
+				}
+				2$OM:"Weakly inv 1-suited" (6$M 14-16hcp) ?1
+				2nt:"Clubs 18-20 balanced" (p#3 4c 18-20hcp s#5422) ?1
+				[3c,3d]:"Natural gf" (4+% 18+hcp) ?2
+				<$M=s>3h:"Natural gf" (4+h 18+hcp) ?2
+				<$M=h>3s:"Natural gf" (5s 6h 15+hcp) ?2
+				3nt:"Choice of games" (18-20hcp s#5332) ?3
+			}
+			<$M=s>2h:"Natural 5 good or 6" (p#4 5h q#hh+h, 6h) ?1
+			{
+				2s:"Weakly inv 1-suited" (6$M 14-16hcp) ?1
+				2nt:"Clubs 18-20 balanced" (4c 18-20hcp s#5422) ?2
+				[3c,3d]:"Natural gf" (4+% 18+hcp) ?3
+				<$M=s>3h:"Natural gf" (4+h 18+hcp) ?3
+				<$M=h>3s:"Natural gf" (5s 6h 15+hcp) ?3
+				3nt:"Choice of games" (18-20hcp s#5332) ?3
+			}
+			2$M:"To play opposite non-gf auctions" (p#5 8-hcp) ?1
+			2nt:"Max 55 minors" (p#3 5c 5d 9-11hcp) ?1
+			[3c,3d]:"Natural good suit" (3c:p#3 6c 7-9hcp q#hh+c ^3d:p#3 6d 7-9hcp q#hh+d) ?2
+		}
+		2d:"Natural less than gf" (5+d 14-hcp, 4d 16-hcp)
+		{
+			2nt:"8-11 diamond raise" (8-11hcp 4d) ?1
+			3d:"To play" (7-hcp 3+d, 1-$M, 7-hcp 4+d 2-$M) ?3
+		}
+		<$M=s>2h:"Natural less than gf" (5+h 14-hcp, 4h 16-hcp)
+		{
+			2nt:"8-11 heart raise" (8-11hcp 4h) ?3
+			3h:"To play" (7-hcp 3+h, 1-$M, 7-hcp 4+h 2-$M) ?3
+		}
+		2$M:"Natural non inv" (6$M 11-13hcp)
+		{
+			2nt:"Asks for shortage" (10-11hcp 2$M) ?1
+			{
+				<$M=s>[3c,3d,3h]:"Shortage" (1-%) ?1
+				<$M=h>[3c,3d]:"Shortage" (1-%) ?3
+			}
+		}
+		<$M=h>2s:"Natural F1" (15-17hcp 4+s h>s) ?3
+		<$M=s>[3c,3d,3h]:"Natural inv" (5+$M 5+% 15-17hcp $M>=%) ?3
+		<$M=h>[3c,3d]:"Natural inv" (5+$M 5+% 15-17hcp $M>=%) ?3
+		3$M:"Strongly inv 1 suited" (17-19hcp 6+$M) ?3
+		3nt:"To play" (18-20hcp s#5332) ?2
+		<$M=s>[4c,4d,4h]:"Auto splinter" (1-% 6+$M 16+hcp) ?2
+		<$M=h>[3s,4c,4d]:"Auto splinter" (1-% 6+$M 16+hcp) ?2
+	} 
+	2c:"inv+ bal or gf minor" (p#4 11+hcp s#4432|5332 2$M, 11+hcp 5+c, 11+hcp 5+d, 11+hcp 3$M)
+	{
+		2d:"weak not 6M/6OM and not 55 14" (p#5 14-hcp) 
+		{
+			2h:"Invitational" (p#5 10-11hcp 2$M, 11-12hcp 1-$M) 
+			{
+				<$M=h>pass:"Reject inv" (11-12hcp) ?2
+				<$M=s>2s:"Reject inv" (11-12hcp) ?2
+				{
+					2nt:"nf misfit" (1-$M) ?1
+					[3c,3d]:"Constructive 6m HxM" (6% 2$M q#H+$M) ?1
+				}
+				2nt:"Inv game" (13hcp s#5332|5422) ?2
+				[3c,3d]:"55 or 54 con" (5$M 5% 11-13hcp, 5$M 4% q#hh+% 13-14hcp con{%,$M}) ?2
+			}
+			2s:"FG enquiry" (p#5 13+hcp) ?2
+			{
+				2nt:"Natural" (s#5332)
+				[3c,3d]:"55 or 54 con" (5$M 4+% con{%,$M}) ?2
+				{
+					3$M:"Natural slam try" (3$M 17+hcp) ?1
+				}
+				3$M:"Natural" (6$M) ?3
+			}
+			2nt:"Clubs" (p#4 5+c c>* 13+hcp [$m=c, $om=d]) ?2
+			{ name f1M2C2RedMinor
+				<$m=c>3c:"Unbal 3 card support or balanced or 4+ card support(5422)" (s#5332|6332, 4+c s#5422, s#5431 3c) ?1
+				{ name f1M2C2DMinorBalOrSupport
+					<$m=c>3d:"Natural" (p#3 4+d) ?1
+					3$M:"Doubt about strain" (2$M q#H+$M)
+					3$OM:"Asking" (13+hcp)
+					{
+						3nt:"Balanced" (s#5332) ?1
+						4$m:"5422" (4$m s#5422) ?1
+						4$om:"Fragment" (3$m 3+$om s#5431|6331) ?1
+						4$M:"6322" (3$m 6$M s#6322) ?1
+					}
+					3nt:"To play opposite any balanced" (s#5332|5431 13-14hcp 2-$M)
+					{
+						4$m:"3 card support unbal" (s#5431 3$m) ?1
+					}
+				}
+				<$m=c>3d:"Natural 5-4 or longer" (p#2 4+d 2-c 14+hcp) ?1
+				<$m=d>3d:"Unbal 3 card support or balanced or 4+ card support(5422) or clubs" (s#5332|6332, 4d s#5422, s#5431 3d, 4+c) ?1 ->f1M2C2DMinorBalOrSupport
+				3$M:"6+$M playable opposite singleton" (6$M q#hhh+$M) ?1
+				3$OM:"6+$M weaker suit" (6$M q#hh-$M) ?1				
+				3nt:"Other minor if 3d available then less suitable" (p#3 4+$om 2-$m) ?1
+				4$m:"5422 concentrated" (s#5422 4$m q#hhh+$M q#hh+$m con{$m,$M}) ?1			
+				<!$M=%,!$m=%>[4c-4s]:"Splinter" (1-% 4+$m) ?1
+			}
+			3c:"Diamonds" (p#4 5+d d>* 13+hcp [$m=d, $om=c]) ->f1M2C2RedMinor
+			3d:"Minors 5d4c" (p#3 5d 4c) ?1
+			[3h-3s]:"55 minors fragment" (p#4 5c 5d 2%) ?1
+			3nt:"Natural probably doesn't exist" (p#10)
+			[4c,4d]:"Splinter 3 card support" (p#4 16+hcp 3$M 1-%) ?1
+			4$M:"Natural 3card support" (p#4 13-17hcp 3$M) ?3
+		}
+		2h:"strong" (p#5 15+hcp)
+		{
+			2s:"Balanced" (p#4 s#4432|4333|5332 3-$M)
+			{
+				2nt:"18-19 balanced" (p#3 18-19hcp s#5332) ?2
+				{
+					[3c,3d]:"5m original inv" (5% 11-12hcp) ?1
+					3$M:"Original GF 3M" (13+hcp 3$M) ?1
+					3$OM:"Original GF not 3M" (13+hcp 2-$M) ?1 
+					3nt:"Original inv not 5m" (4-c 4-d 11-12hcp) ?1
+				}
+				3c:"Always 54" (p#5 4c) ?2
+				3d:"5-4 or 55 17+" (p#5 4d, 5d 17+hcp) ?2
+				3$OM:"5-4" (p#4 4$OM) ?2
+			}
+			2nt:"Clubs" (p#3 5c c>* s#5332 13+hcp, 5+c c>* !s#5332 [$m=c, $om=d]) ->f1M2C2RedMinor 
+			3c:"Diamonds" (p#3 5d d>* s#5332 13+hcp, 5+d d>* !s#5332 [$m=d, $om=c]) ->f1M2C2RedMinor
+			3d:"Minors 5d4c" (p#3 5d 4c) ?1
+			[3h-3s]:"55 minors fragment" (p#3 5c 5d 2%) ?1
+			3nt:"Natural probably doesn't exist" (p#10)
+			[4c,4d]:"Splinter 3 card support" (p#3 13+hcp 3$M 1-%) ?1
+			4$M:"Natural slam unsuitable 3card support" (p#3 11-12hcp 3$M) ?4
+		}
+		2s:"54, 64 or 55 majors" (p#3 5$M 4$OM 14-16hcp, 5+$M 5$OM 12-13hcp, 5+$M 5$OM 17-19hcp, 6$M 4$OM 12-16hcp)
+		{
+			2nt:"enquiry" (p#5)
+			{
+				3c:"6M 4OM" (6$M 4$OM 12-16hcp)
+				{
+					3d:"enquiry gf" (p#4 12+hcp)
+					{
+						3h:"12-14 poor suit" (12-14hcp q#hh-$M) ?1
+						{
+							<$M=h>3s:"Agrees spades" (4s)
+							<$M=s>3s:"Agrees spades" (2+s)
+						}
+						3s:"12-14 good suit" (12-14hcp q#hh+$M) ?1
+						3nt:"15-16 poor suit" (15-16hcp q#hh-$M) ?1
+						4c:"15-16 good suit" (15-16hcp q#hh+$M) ?1
+					}
+					<$M=h>3h:"To play opposite min" (2+h 11-hcp) ?2
+					<$M=s>3h:"To play opposite min" (4+h 11-hcp) ?2
+					<$M=h>3s:"To play opposite min" (4s 11-hcp) ?2
+					<$M=s>3s:"To play opposite min" (2+s 11-hcp) ?2
+					3nt:"To play" (p#3 3-$OM 2-$M 12+hcp) ?2
+				}
+				3d:"5-5/5-6 GF" (5$M 5$OM, 6$M 5$OM) ?1
+				{
+					[3h-3s]: "Agrees suit no slam interest opposite lower range" (13-15hcp 3+% [$as=%]) ?1
+					{
+						[4c,4d]: "Maximum cue" (17-19hcp n#a|k%) ?1
+						4$as: "Minimum" (12-13hcp) ?1
+					}
+					4c: "Agrees linked major slam interest opposite lower range" (16+hcp 3+h) ?1
+					4d: "Agrees linked major slam interest opposite lower range" (16+hcp 3+s) ?1
+					4$OM: "Minimum no slam interest" (12-hcp 3+%) ?1 	/* Min in original major would make invitational raise */
+				}
+				~> "54xx"(s#54xx) 
+				{ name f1M2C54xx
+					3h:"5431 type with 3 diamonds" (s#5431 3d) ?1
+					{
+						<$M=h>3s:"agrees spades" (p#3 4+s) ?2
+						<$M=s>3s:"agrees spades" (p#3 3+s) ?2
+						<$M=h>4c:"agrees hearts" (p#3 3+h n#a|kc) ?2
+						<$M=s>4c:"agrees hearts" (p#3 4+h n#a|kc) ?2
+						<$M=h>4d:"agrees hearts" (p#3 3+h n#a|kd) ?2
+						<$M=s>4d:"agrees hearts" (p#3 4+h n#a|kd) ?2
+					}
+					3s:"5431 type with 3 clubs" (s#5431 3c) ?1
+					{
+						<$M=h>4c:"agrees hearts" (p#3 3+h) ?2
+						<$M=s>4c:"agrees hearts" (p#3 4+h) ?2
+						<$M=h>4d:"agrees spades" (p#3 4+s) ?2
+						<$M=s>4d:"agrees spades" (p#3 3+s) ?2
+					}
+					3nt:"5422" (s#5422) ?1
+					{
+						<$M=h>4c:"agrees hearts" (p#3 3+h) ?2
+						<$M=s>4c:"agrees hearts" (p#3 4+h) ?2
+						<$M=h>4d:"agrees spades" (p#3 4+s) ?2
+						<$M=s>4d:"agrees spades" (p#3 3+s) ?2
+					}
+				} 
+			}
+			[3c-3d]:"minor not interested in major" (3c:p#4 6+c 13+hcp [$m=c] ^ 3d:p#4 6+d 13+hcp [$m=d]) ?1
+			{
+				3d:"5422 no diamond stop" (2c 2d !n#a|kd) ?2
+				3$M:"64" (6$M 4$OM) ?2
+				3$OM:"5-5/5-6" (5$M 5$OM, 6$M 5$OM) ?2
+				3nt:"To play 5422/5431 type" (s#5431|5422 2-$m) ?2
+				4$m:"3 card support" (3$m) ?2
+			}
+			
+		}
+		2nt:"17+ both majors 5OM or 6M 4OM" (p#3 17+hcp 4$OM, 17+hcp 6$M 4$OM)
+		{
+			3c:"Enquiry"
+			{
+				3d:"6M-4OM" (6+$M 4$OM) ?1
+				~> "54xx" (s#54xx) ->f1M2C54xx
+			}
+		}
+		[3c-3d]:"Natural 55 14-16" (p#3 5$M 5% 14-16hcp) ?1
+		<$M=s>3h:"Natural 55 14-16" (p#3 5$M 5h 14-16hcp) ?1
+		<$M=h>3s:"Natural 56 14-16" (p#3 6h 5s 14-16hcp) ?1
+		3$M:"<15 7 card suit" (p#3 14-hcp 7$M) ?2
+	}
+	<$M=h> 2d: "3 card raise weak or 11-12" (p#4 3h 11-12hcp, 3h 0-6hcp) ?2
+	<$M=s> 2d: "2d hearts (after 1S)" (p#4 5+h 9+hcp) ?2
+	{
+		2h:"To play opposite inv" (p#5 13-hcp) ?2
+		2s:"6s to play opposite inv" (p#4 6s 2-h 13-hcp) ?2
+		2nt:"FG asking" (p#3 14+hcp) ?2
+		[3c-3d]:"Natural 5-5" (p#2 14+hcp 5+s 5+%) ?2
+		3h:"Support GF" (p#2 14+hcp 3+h) ?2
+		3s:"FG 1-suited" (p#2 6s 2-h 3-c 3-d 14+hcp) ?2
+		3nt:"max weak notrump, notrump-oriented" (p#2 s#5332 2h 14hcp) ?2
+		[4c-4d]:"Splinter 3-card support" (p#1 3h 1-% 14-hcp) ?2
+	}
+	2$M: "Simple raise 7-10" (p#4 7-10hcp 3$M) ?2
+	<$M=s> 2h: "3 card raise weak or 11-12" (p#4 3s 11-12hcp, 3s 0-6hcp) ?2
+	<$M=h> 2s: "Weak" (p#4 4-9hcp 6s 2-h) ?2
+	2nt: "Invitational 4+ card raise" (p#3 10+hcp 4+$M)
+	{
+		3c:"Any minimum" (14-hcp)
+		{
+			3d:"Enquiry" (p#2 16+hcp) ?2
+			{
+				3h:"Balanced" (s#5332|5422) ?2
+				3s:"Short clubs" (1-c) ?2
+				3nt:"Short diamonds" (1-d) ?2
+				4c:"Short OM" (1-$OM) ?2
+			}
+			3$M:"Inv" (p#5 10-11hcp) ?2
+			<$M=s>[4c,4d,4h]:"Splinter" (p#3 1-% 15+hcp) ?1
+			<$M=h>[3s,4c,4d]:"Splinter" (p#3 1-% 15+hcp) ?2
+			4$M:"Inv" (p#5 12-15hcp) ?2
+		}
+		3d:"Non minimum no shortage" (15+hcp s#5332|5422|6322) ?2
+		{
+			3$M:"FG 16+hcp" (16+hcp) ?1
+			3nt:"FG 13-15hcp" (13-15hcp) ?1
+			4$M:"Original inv" (10-12hcp) ?2
+			<$M=s>[4c,4d,4h]:"Splinter" (1-% 13+hcp) ?1
+			<$M=h>[3s,4c,4d]:"Splinter" (1-% 13+hcp) ?1
+		}
+		3h:"Short clubs" (1-c 15+hcp) ?2
+		{
+			<$M=s>3s:"FG 16+hcp" (16+hcp) ?1
+			<$M=h>3s:"FG 16+hcp naturalish" (16+hcp 4+s) ?1
+			3nt:"FG 13-15hcp" (13-15hcp) ?1
+			[4c-4d]:"16+ naturalish" (16+hcp 4+%) ?1
+			4$M:"Original inv" (10-12hcp) ?3
+		}
+		3s:"Short diamonds" (1-d 15+hcp) ?2
+		{
+			3nt:"FG 13-15hcp" (13-15hcp) ?1
+			[4c-4d]:"16+ naturalish" (16+hcp 4+%) ?1
+			4$M:"Original inv" (10-12hcp) ?2
+		}
+		3nt:"Short OM" (1-$OM 15+hcp) ?2
+		{
+			4$M:"Original inv" (10-12hcp) ?2
+			[4c-4d]:"13+ cue" (13+hcp n#a|k%) ?1
+			<$M=s>4h:"13+ cue" (13+hcp n#a|kh) ?1
+		}		
+		[4c-4d]:"55 non minimum" (15+hcp 5+$M 5%) ?1
+		<$M=s>4h:"55 non minimum" (15+hcp 5+$M 5h) ?1
+	}
+	[3c-3d]: "1 suited inv" (p#4 9-11hcp 6+% 2-$M !q#H+$M) ?3
+	<$M=s>3h: "1 suited inv" (p#4 9-11hcp 6+h 2-$M !q#H+$M) ?3
+	3$M: "Simple raise 7-9" (p#4 7-9hcp 4$M) ?3
+	<$M=s>[4c,4d,4h]:"Splinter" (p#4 4+$M 1-% 8-10hcp) ?3
+	<$M=h>[3s,4c,4d]:"Splinter" (p#4 4+$M 1-% 8-10hcp) ?3
+	4$M: "Pre-emptive" (p#4 5$M 9-hcp) ?4
+	<$M=h>(dbl):"take out double" (p#4 s#4441|5431|4432 2-h 10+hcp)
+	{
+		rdbl:"spades" (p#3 4+s 6+hcp) ?4
+		1s:"xfer to nt" (p#5 3-s 3-h 6+hcp) ?4
+		1nt:"clubs inv+" (p#4 5+c 10+hcp) ?2
+		2c:"diamonds inv+" (p#4 5+d 10+hcp) ?2
+		2d:"hearts GF or comp" (p#2 3h 13+hcp, 3h 8-hcp) ?2
+		2h:"invitational NF" (p#2 3h 9-12hcp) ?2
+		2s:"fit bids" (p#2 4+h 5+s q#Hh+s q#H+h 10-hcp) ?1
+		2nt:"Good raise" (p#3 4+h 10+hcp) ?2
+		3h:"Weak raise" (p#3 4+h 7-9hcp) ?2
+	}
+	<$M=s>(dbl):"take out double" (p#4 s#4441|5431|4432 2-s 10+hcp)
+	{
+		rdbl:"1nt or awkward hand" (p#4 8+hcp) ?4
+		1nt:"clubs inv+" (p#3 5+c 10+hcp) ?4
+		2c:"diamonds inv+" (p#3 5+d 10+hcp) ?4
+		2d:"hearts inv+" (p#3 5+h 10+hcp) ?2
+		2h:"spades GF or comp" (3+s 13+hcp, 3+s 8-hcp) ?2
+		2s:"invitational NF" (3+s 9-12hcp) ?2
+		2nt:"Good raise" (p#3 4+s 10+hcp) ?2
+		3s:"Weak raise" (p#3 4+s 7-9hcp) ?2
+	}
+	<$M=h>(1s):"overcall" (p#4 5+s 9+hcp)
+	{
+		dbl:"nt" (p#5 s#4432|5332|4333 3-s 6-11hcp) ?2
+		1nt:"clubs" (p#4 5+c 10+hcp) ?2
+		2c:"diamonds" (p#4 5+d 10+hcp) ?2
+		2d:"hearts GF or comp" (p#2 3+h 13+hcp, 3+h 8-hcp) ?1
+		2h:"invitational NF" (p#3 3+h 9-12hcp) ?1
+		2nt:"Good raise" (p#3 4+h 10+hcp) ?2
+		3h:"Weak raise" (p#3 4+h 7-9hcp) ?2
+	}
+	(1nt):"overcall" (p#3 15-18hcp) ->f1Suit1NTOvercall
+	(2c):"overcall" (p#3 5+c 10+hcp) ->f1x2COvercall
+	(2d):"overcall" (p#3 5+d 10+hcp)
+	{
+		2$os:"competitive" (p#3 3$os 8-hcp) ?4
+		<$os=h>[2s]:"natural F1" (p#5 5+% 9+hcp) ?4
+		<$os=s>[2h]:"natural F1" (p#5 5+% 9+hcp) ?4
+		2nt:"Clubs inv+" (p#3 6+c c>* 9+hcp) ?1
+		3c:"3 card raise" (p#4 3$os 9+hcp) ?1
+		3d:"4 card raise" (p#4 4+$os 9+hcp) ?1
+		<$os=s>3h:"Fit" (p#2 4+s 5+h 7+hcp) ?2
+		3$os:"competitive" (p#3 4+$os 8-hcp) ?2
+	}
+	<$M=s>(2h):"overcall" (p#4 5+h 10+hcp)
+	{
+		2s:"competitive" (p#3 3+s 8-hcp)
+		2nt:"Clubs inv+" (p#3 5+c c>* 9+hcp) ?1
+		3c:"Diamonds inv+" (p#3 5+d d>* 9+hcp) ?1
+		3d:"3 card raise" (p#4 3s 9+hcp) ?1
+		3h:"4 card raise" (p#4 4+s 9+hcp) ?1
+	}
+	<$M=h>(2h):"michaels" (p#3 5+s s#55xx 7+hcp)
+	{
+		pass:"Minimum" (p#7)
+		{
+			(2s):"To play" (3s 9-hcp)
+			{
+				pass:"Minimum" (14-hcp)
+				{
+					dbl:"Weak TO" (2-h 4+c 4+d 7-hcp)
+				}
+			}
+			(3s):"To play" (4s 9-hcp)
+		}
+		dbl:"F1" (p#6 10+hcp) ?2
+		2s:"Good 3 card raise" (p#4 3+h 9+hcp) ?1
+		2nt:"Clubs inv+" (p#5 6+c c>* 9+hcp) ?1
+		3c:"Diamonds inv+" (p#5 6+d d>* 9+hcp) ?1
+		3d:"Hearts comp or GF" (p#3 3+h 8-hcp, 4+h 12+hcp) ?1
+		3h:"Hearts inv" (p#2 4+h 9-11hcp) ?1
+	}
+	<$M=h>(2s):"jump overcall" (p#3 6+s 6+hcp) ->f1x2SOvercall
+	<$M=s>(50%Michaels.2s):"michaels" (p#3 5+h s#55xx 7+hcp)
+	{
+		dbl:"F1" (p#5 10+hcp) ?2
+		2nt:"Clubs inv+" (p#4 6+c c>* 9+hcp) ?1
+		3c:"Diamonds inv+" (p#4 6+d d>* 9+hcp) ?1
+		3d:"Spades inv+" (p#3 3s 9+hcp) ?1
+		3h:"4 card raise" (p#2 4+s 9+hcp) ?1
+		3s:"competitive" (p#2 4+s 8-hcp) ?1
+	}
+	<$M=s>(25%MichaelsSpecific.2s):"michaels h+d" (p#3 5+h 5+d 7+hcp)
+	{
+		2nt:"4 card raise" (p#2 4+s 9+hcp) ?1
+		3c:"Constructive NF" (p#4 6+c 9-11hcp) ?1
+		3d:"Clubs GF" (p#4 6+c 12+hcp) ?1
+		3h:"3 card raise" (p#3 3s 9+hcp) ?1
+		3s:"competitive" (p#2 4+s 8-hcp) ?1
+	}
+	(2nt):"unusual c+d" (p#3 5+c 5+d 7+hcp)
+	{
+		<$os=h>3c:"Spades GF" (p#3 5+s 12+hcp) ?2
+		<$os=s>3c:"Hearts GF" (p#3 5+h 12+hcp) ?2
+		3d:"Good raise" (p#2 4+$os 9+hcp) ?2
+		<$os=s>3s:"Competitive" (p#2 3+$os 8-hcp) ?2
+		<$os=h>3h:"Competitive" (p#2 3+$os 8-hcp) ?2
+		<$os=s>3h:"constructive nf" (p#4 5+h 9-11hcp) ?2
+		<$os=h>3s:"constructive nf" (p#4 5+s 9-11hcp) ?2
+	}
+}
+
+1nt:"Strong NT" (p#3 15-17hcp s#4333|4432|5332|4441, 14-16hcp s#5422 4-s 4-h, 13-15hcp s#6322 4-s 4-h)
+{ name f1NTResponses
+	2c:"4M inv+ or 1-suited major bad suit with shortage or 1 suited minor FG or 22(54) FG" (p#2 4h 3-s 8+hcp, 4s 3-h 8+hcp, 6+h 12+hcp q#hh-h s#6331|7321|7330|8221|8320, 6+s 12+hcp q#hh-s s#6331|7321|7330|8221|8320, 6+c 10+hcp 3-s 3-h, 6+d 10+hcp 3-s 3-h, s#5422 4+d 4+c 10+hcp)
+	{ name f1NT2C
+		2d:"Forced"
+		{ name f1NT2C2DResponses
+			2h:"Spades inv+" (4+s 8+hcp [$M=s, $OM=h])
+			{
+				2s:"Forced" ->f1NTInvPlusOne4CardMajor
+			} 
+			2s:"1-suiter minor gf or 22(54) gf" (6+c 10+hcp, 6+d 10+hcp, s#5422 4+d 4+c 10+hcp)
+			{
+				2nt:"Forced"
+				{
+					3c:"Diamonds" (6+d [$m=d, $Om=c])
+					{
+						3d:"Forced" ->f1NTGFSingleSuitedMinor
+					} 
+					3d:"Minors" (s#5422 4+d 4+c 10+hcp) ?1
+					~> "Clubs" (6+c [$m=c, $Om=d]) ->f1NTGFSingleSuitedMinor lastBid:3d
+				}
+			}
+			~> "Hearts inv+" (4+h 8+hcp [$M=h, $OM=s]) ->f1NTInvPlusOne4CardMajor
+			(dbl):"Diamonds" (5+d 6+hcp) ->f1NT2C2DResponses
+			(2h):"Natural" (5+h 6+hcp)
+			{
+				dbl:"Takeout, TODO"  (p#1 4s s#4432|4333)
+				pass:"Hearts" (p#1 4h)
+				2s:"Nat F1 4M" (p#3 4s)
+				3c:"Nat FG" (p#4 6%)
+				3d:"Nat FG" (p#4 6%)
+			}
+		}
+		(dbl):"Clubs" (5+c 6+hcp)
+		{
+			rdbl:"Clubs" (p#3 4+c q#hhh+c, 5+c q#hh+c) ?2
+			{
+				pass: (p#2 s#4333|4432)
+				[2h-2s]:"Nat F1 4M 5D" (p#3 4%)
+				3d:"Nat FG" (p#4 6%)
+				3c:"Whatever's left" (p#5)
+				4d:"Nat ST" (p#1 6% 13+hcp)
+			} 
+			pass: "Club stop, no major" (p#4 q#h+c) ?2
+			{
+				rdbl:"To play" (p#2 4+c)
+				[2h-2s]:"Nat F1 4M" (p#3 4%)
+				3d:"Nat FG" (p#4 6%)
+				3c:"Whatever's left" (p#5)
+				4d:"Nat ST" (p#1 6% 13+hcp)
+			} 
+			2d: "No club stop, no major" (p#5) ?2
+			{
+				[2h-2s]:"Nat F1 4M" (p#3 4%)
+				3d:"Nat FG" (p#4 6%)
+				3c:"Whatever's left" (p#5)
+				4d:"Nat ST" (p#1 6% 13+hcp)
+			} 
+			2h: "4 hearts" (p#1 4+h) ?2
+			2s: "4 spades" (p#2 4+s) ?2
+		}
+		(2d):"Natural" (5+d 6+hcp)
+		{
+			dbl:"Takeout, TODO" ?2
+			2h: "4 hearts" (p#2 4+h) ?2
+			2s: "4 spades" (p#2 4+s) ?2
+			pass:"No major" (p#3) ?2
+			{
+				dbl:"Takeout, balanced" (p#3 2d s#4432|4333)
+				[2h-2s]:"Nat F1 4M5C" (p#2 4% 5+c)
+				3c:"Nat FG" (p#4 6%)
+				3d:"Whatever's left" (p#5)
+				4c:"Nat ST" (p#1 6% 13+hcp)
+			} 
+		}
+		(2h):"Natural" (5+h 6+hcp)
+		{
+			dbl:"Takeout, TODO" ?4
+			pass:"Not 4 spades" (3-s)
+			{
+				dbl:"Takeout, balanced" (p#1 s#4432|4333) ?1
+				[2s]:"Nat F1 4M5m" (p#2 4% 5+c,4% 5+d)
+				[3c-3d]:"Nat FG" (p#4 6%)
+				3h:"Whatever's left" (p#5)
+				[4c-4d]:"Nat ST" (p#1 6% 13+hcp)
+			} 
+		}
+		(2s):"Natural" (5+s 6+hcp)
+		{
+			dbl:"Takeout, 4 hearts" (4+h) ?2
+			pass:"Not 4 hearts" (3-h)
+			{
+				dbl:"Takeout, balanced" (p#1 s#4432|4333) ?1
+				[3c-3d]:"Nat FG" (p#4 6%)
+				3s:"Whatever's left" (p#5)
+				[4c-4d]:"Nat ST" (p#1 6% 13+hcp)
+			} 
+		}
+		([3c-3d]):"Natural" (3c:6+c [$os=c, $om=d] ^ 3d:6+d [$os=d, $om=c])
+		{
+			dbl:"Takeout, TODO" ?4
+			pass:"Can't dbl, TODO" ?2
+			{
+				dbl:"Takeout, TODO" ?1
+				<$os=c>3d:"Nat FG, 5D4M or 6D" (5+d) ?1
+				[3h-3s]:"4M" (4% 4-d 8+hcp) ?1
+				3nt:"6 card other minor" (6+$om) ?1
+			} 
+		}
+		([3h,3s]):"Natural" (3h:6+h [$os=h, $OM=s] ^ 3s:6+s [$os=s, $OM=h])
+		{
+			dbl:"Takeout, TODO" ?4
+			pass:"Can't dbl" ?2
+			{
+				dbl:"Takeout, TODO" ?1
+			} 
+		}
+	}
+	2d:"Both M inv+ or Signoff H or inv+ 5H or 1 suited slam try good suit (shortage or no side control)" (p#3 5+h 7-hcp, 5h s#5332 8-12hcp, 5h 3-s s#5422|5431 15+hcp, 5h 3-s s#5422|5431 9-14hcp q#hhh+h, 5h 3-s s#5521|5530 7+hcp, 6h 12+hcp q#hhh+h s#6331|7321|8221, 4+h 4+s 8+hcp, 5+h 5+s 7+hcp [$M=h, $OM=s])
+	{
+		2h:"Fewer than 4H" (3-h)
+		{
+			pass:"Weak hand" (p#4 5+h 7-hcp)
+			2s:"Both majors inv+" (p#3 4+h 4+s 8+hcp, 5+h 5+s 7+hcp)
+			{
+				2nt:"Min no major" (15hcp 3-s) ?2
+				{
+					pass:"To play" (p#10 9-hcp) ?1
+					3c:"55 inv+ without slam interest" (p#3 12-hcp 5+h 5+s) ?1
+					3d:"5+h or 55 slam try" (p#4 5+h, 5+h 5+s 13+hcp)
+					{
+						3h:"Normal action" (p#2)
+						{
+							3s:"55 Slam try" (5+h 5+s 13+hcp) ?1
+						}
+						4h:"3H improved" (p#1 3h 16+knr)
+					}
+					3h:"5+s" (p#5 5+s) ?2
+						3s:"Normal action" (p#2)
+						4s:"3S improved" (p#1 3s 16+knr)
+					3s:"4441" (p#3 s#4441 1c 12-14hcp) ?1
+					3nt:"To play" (p#5 10+hcp 4h 4s) ?2
+					[4c,4d]:"44(50) slam try" (p#3 4h 4s 5% 14+hcp) ?1
+					[4h,4s]:"To play" (p#2 12-hcp 6%) ?1
+				}
+				3c:"Max no major FG" (16-17hcp 3-s) ?2
+				{
+					3d:"5+h or 55" (p#3 5+h, 5+h 5+s)
+					{
+						3h:"Support" (3h)
+						{
+							3s:"55" (p#1 5+h 5+s) ?1
+							[4c,4d]:"Cue" (p#2 14+hcp n#a|k%)
+							4h: "To play" (p#2 13-hcp)
+						}
+						3nt:"No support" (2-h)
+					}
+					3h:"5+s" (p#4 5+s 8+hcp) ?2
+					3s:"4441" (p#3 s#4441 1c 12-14hcp) ?2
+					3nt:"To play" (p#5 4h 4s) ?2
+					[4c,4d]:"44(50) slam try" (p#3 4h 4s 5% 14+hcp) ?2
+					[4h,4s]:"To play" (p#2 12-hcp 6%) ?2
+				}
+				3d:"Min 4s" (15hcp 4+s) ?2
+				3h:"Max 4s" (16-17hcp 4+s) ?2
+			}
+			~> "Hearts inv+" (p#3 5+h 8+hcp, 6h 12+hcp q#hhh+h, 5h 3-s s#5521|5530 7+hcp) ->f1NTInvPlus1Major
+		}
+		2s:"4H min" (4+h !s#4441 15hcp) ?1
+		2nt:"4H max" (4+h !s#4441 16-17hcp) ?1
+		[3c-3d]:"4441 bidding sing" (s#4441 1%) ?1
+		3h:"4441 sing spade" (s#4441 1s) ?1
+		(dbl):"Diamonds" (p#5 5d 8+hcp [$oppos=d])
+		{ name f1NTRedXFerDbl
+			rdbl:"To play" (4+$oppos) ?2
+			pass:"No support" (2-$M) ?2
+			{
+				rdbl: "retransfer"
+			}
+			2$M:"3 card support" (3$M) ?2
+			[2]:"4M min" (4+$M !s#4441 15hcp) ?1
+			[3]:"4M max" (4+$M !s#4441 16-17hcp) ?1
+		}
+		(2s):"Natural" (p#5 5+s 8+hcp [$oppos=s]) ->f1NTRedXFerOvercall
+		([3c,3d]):"Natural" (p#5 6+% 8+hcp [$oppos=%])
+		{ name f1NTRedXFerOvercall
+			pass:"No support or min" (2-$M, 3-$M 15hcp) ?2
+			{
+				dbl:"Takeout inv+" (2-$oppos 8+hcp) ?2
+				<$oppos=s>[3c-3d]:"Front of card" (5+$M 4+% 8+hcp) ?2
+				<$oppos=s>2nt:"Lebensohl" (s#55xx|54xx 5+$M 2-$oppos 7-hcp) ?1
+				<$M=h>3h:"Competitive" (6+h 7-hcp) ?1
+				<$M=h>3s:"5-4+ GF" (5+s 4+h 9+hcp) ?1
+				<$M=s>3h:"4+om GF" (5+$M 4+c 9+hcp, 5+$M 4+d 9+hcp) ?1
+				<$M=s>3s:"Competitive" (6+s 7-hcp) ?1
+			}
+			dbl:"Max 3 card support" (3$M 16-17hcp) ?1
+			<!$oppos=d,$M=h>[1]:"4M min" (4+$M 15hcp) ?1
+			<!$oppos=d,$M=h>3$M:"4M max" (4+$M 16-17hcp) ?1
+			<$oppos=d,$M=h>3$M:"4M" (4+$M) ?1
+		}
+	} 
+	2h:"Signoff S or inv+ 5s or 1 suited slam try good suit (shortage or no side control)" (p#4 5+s 7-hcp, 5s s#5332 8-12hcp, 5s 3-h s#5422|5431 15+hcp, 5s 3-h s#5422|5431 9-14hcp q#hhh+s, 5s 3-h s#5521|5530 7-14hcp, 6s 12+hcp q#hhh+s s#6331|7321|8221 [$M=s, $OM=h])
+	{
+		2s:"Fewer than 4S" (3-s) ?2
+		{
+			~> "Spades inv+" (p#3 5+s 8+hcp, 6s 12+hcp q#hhh+s, 5s 3-h s#5521|5530 7+hcp) ->f1NTInvPlus1Major
+		}
+		2nt:"4S min" (4+s !s#4441 15hcp) ?2
+		3c:"4S max" (4+s !s#4441 16-17hcp) ?1
+		[3d,3h]:"4441 bidding sing" (s#4441 1%) ?1
+		3s:"4441 sing club" (s#4441 1c) ?1
+		(dbl):"Hearts" (p#5 5+h 8+hcp [$oppos=h]) ->f1NTRedXFerDbl
+		([3c,3d,3h]):"Natural" (3c:p#5 5+c 8+hcp [$oppos=c, $om=d] ^3d:p#5 5+d 8+hcp [$oppos=d, $om=c] ^3h:p#5 5+h 8+hcp [$oppos=h]) ->f1NTRedXFerOvercall
+	}
+	2s:"Inv bal or signoff clubs or bal slam try or fg 54/45 minors singleton major" (p#2 8-9hcp 3-h 3-s, 6+c 7-hcp, $14to15Bal, $16PlusBal, 3s 1h 4+d 4+c, 1s 3h 4+d 4+c)
+	{
+		2nt:"Minimum" (15hcp) ?2
+		{
+			pass:"Inv bal" (8-9hcp)
+			3c:"signoff clubs" (6+c 7-hcp) ?1
+			3d:"bal slam try" ($16PlusBal)
+			{
+				~> "Forced enquiry" ([$amin=$16to17Bal, $amax=$18PlusBal, $rmin=15hcp, $rmax=15hcp]) ->fBalancedRelays
+			}
+			[3h-3s]:"13(54)/31(54) best game or better" (3h:p#2 d#1354|1345 ^ 3s:p#2 d#3154|3145) ?1
+		}
+		3c:"Maximum" (16-17hcp) ?1
+		{
+			pass:"signoff clubs" (p#2 6+c 7-hcp)
+			3d:"bal slam try" (p#2 $16PlusBal, $14to15Bal)
+			{
+				~> "Forced enquiry" ([$amin=$14to15Bal, $amax=$16PlusBal, $rmin=16hcp, $rmax=17hcp]) ->fBalancedRelays
+			}
+			[3h-3s]:"13(54)/31(54) best game or better" (3h:p#2 d#1354|1345 ^ 3s:p#2 d#3154|3145) ?1
+			3nt:"Inv bal" (p#3 8-9hcp) ?2
+		}
+	}
+	2nt:"6 card suit missing 1 card" (p#2 7-hcp 6c n#AK|AQ|KQc, 7-hcp 6d n#AK|AQ|KQd, 7-hcp 6h n#AK|AQ|KQh, 7-hcp 6s n#AK|AQ|KQs) ?1
+	3c:"Puppet to 3d" (p#3 6+d 7-hcp, s#4441 14+hcp)
+	{
+		3d:"Forced"
+		{
+			pass:"Diamonds weak" (6+d 7-hcp) ?1
+			[3h,3s,4c]:"4441 bidding singleton" (s#4441 14+hcp 1%) ?1
+			3nt:"4441 singleton diamond" (s#4441 14+hcp 1d) ?1
+		}
+	}
+	3d:"Inv one suiter or 5 card raise to 3nt forcing 5-3 fit or 5332 slam try or 1 suited st with outside control" (p#3 6h 7-8hcp, 5h s#5422|5431 9-12hcp q#hh-h, s#5332 5h 13+hcp, 6+h s#6322|7222 13+hcp)
+	{
+		3h:"Declines invite" (3-h 15hcp) ?1
+		{
+			3nt:"Natural choice" (p#1 5h 13-hcp) ?2
+			3s:"Cue bid" (p#2 n#a|ks 6+h 13+hcp) ?2
+			[4c-4d]:"Cue bid" (p#3 n#a|k% 6+h 13+hcp) ?2
+			4h: "NF Slam try" (p#4 6+h 13+hcp) ?1
+			4nt:"Natural inv" (p#1 5h 16-17hcp) ?2
+			5nt:"Choice of slams" (p#1 5h 18+hcp) ?2
+		}
+		3s:"Accepts 4h" (4h) ?1
+		{
+			3nt:"Non serious slam try" (s#5332|5422 11-13hcp) ?1
+			4c:"Cue bid" (p#2 n#a|kc 14+hcp) ?2
+			4d:"xFer" (10-hcp) ?2
+			4h:"NF Diamond cue bid" (p#2 n#a|kd 6+h 11hcp, n#a|kd 5h 13-14hcp) ?2
+			4s:"Cue bid" (p#3 n#a|ks 14+hcp) ?2
+			4nt:"RKCB" (p#4 13+hcp, 6+h 12+hcp) ?2
+		}
+		3nt:"Accepts 2h" (16-17hcp 2h) ?1
+		{
+			[4c-4d]:"Cue bid" (p#2 n#a|k% 6+h 13+hcp) ?2
+			4h:"To play" (p#3 6+h 13+hcp n#a|ks) ?2
+			4nt:"Natural inv" (p#3 5h 14-15hcp) ?2
+		}
+		4c:"Accepts 3h slam suitable" (17hcp 3h) ?1
+		{
+			4d:"xFer" (p#4 12-hcp) ?2
+			4h:"NF Diamond cue bid" (p#2 n#a|kd 6+h 11hcp, n#a|kd 5h 13-14hcp) ?1
+			4nt:"RKCB" (p#3 5h 13+hcp, 6+h 12+hcp) ?2
+		}
+		4h:"Accepts 3h not slam suitable" (16hcp 3h) ?1
+	}
+	3h:"Inv one suiter or 5 card raise to 3nt forcing 5-3 fit or 5332 slam try or 1 suited st with outside control" (p#3 6s 7-8hcp, 5s s#5422|5431 9-12hcp q#hh-h, s#5332 5s 13+hcp, 6+s s#6322|7222 13+hcp)
+	{
+		3s:"Declines invite" (3-s 15hcp) ?2
+		{
+			3nt:"Natural choice" (s#5332|5422 5-13hcp) ?2
+			[4c-4h]:"Cue bid" (n#a|k% 13+hcp) ?2
+			4s: "NF Slam try" (p#4 6+s 13hcp) ?1
+			4nt:"Natural inv" (s#5332 14-15hcp) ?2
+		}
+		3nt:"Accepts 2s" (16-17hcp 2s) ?2
+		{
+			[4c-4d]:"Cue bid" (n#a|k% 6+s s#6322|7222) ?2
+			4h:"xFer" (6+s s#6322|7222) ?2
+			4nt:"Natural inv" (s#5332 14-15hcp) ?2
+		}
+		4c:"Accepts 4s" (4s) ?2
+		{
+			4d:"Cue bid" (n#a|kd 13+hcp) ?2
+			4h:"xFer" ?2
+			4s:"NF Heart cue bid" (n#a|kd 13+hcp) ?2 
+			4nt:"RKCB" (s#5332 13+hcp, 6+s s#6322|7222 12+hcp) ?2
+		}
+		4d:"Accepts 3s slam suitable" (17hcp 3s) ?1
+		{
+			4h:"xFer" ?2
+			4s:"NF Heart cue bid" (n#a|kh 6+s s#6322|7222, n#a|kh s#5332 13+hcp) ?2
+			4nt:"RKCB" (s#5332 13+hcp, 6+s s#6322|7222 12+hcp) ?2
+		}
+		4s:"Accepts 3s not slam suitable" (16hcp 3s) ?2
+	}
+	3s:"Minors 55" (p#4 5c 5d 13+hcp) ?1
+	3nt:"Natural to play" (p#6 9-14hcp) ?2
+	4c:"Gerber 0/4-1-2-3" (p#10 13+hcp) ?2
+	4d:"xFer, signoff or keycard" (p#4 6+h 9-12hcp) ?1
+	4h:"xFer, signoff or keycard" (p#4 6+s 9-12hcp) ?2
+	4s:"Minors 55 game only" (p#4 5c 5d 9-12hcp) ?1
+	4nt:"Slam invite" (p#6 15-17hcp) ?2
+	[5c,5d]:"To play" (5c:p#2 7+c q#hhh+c 7-hcp ^5d:p#2 7+d q#hhh+d 7-hcp) ?2
+	(50%SpadesMinor.dbl):"Artificial 4+s 4+m" (p#3 4+s 7+hcp s#54xx|55xx 3-h [$oppos=s])
+	{
+		rdbl:"Values" (p#5 s#4432|4333|5332 8+hcp) ?2
+		2c:"Natural to play" (p#3 5+c 4-7hcp, 6+c 3-5hcp) ?2
+		2d:"Natural to play" (p#3 5+d 4-7hcp, 6+d 3-5hcp) ?2
+		2h:"Natural to play" (p#3 5+h 4-7hcp, 6+h 3-5hcp) ?2
+		2s:"Inv+ 5h" (p#1 5+h 8+hcp) ?2
+		~> "rubensohl" (p#2)->fRubensohl
+	}
+	(50%OneSuited.dbl):"Unspecified one-suiter" (p#3 s#6322|6331 8+hcp [$oppos=undef])
+	{
+		dbl:"Values" (p#5 s#4432|4333|5332 8+hcp) ?2
+		2c:"Natural to play" (p#3 5+c 4-7hcp, 6+c 3-5hcp) ?2
+		2d:"Natural to play" (p#3 5+d 4-7hcp, 6+d 3-5hcp) ?2
+		2h:"Natural to play" (p#3 5+h 4-7hcp, 6+h 3-5hcp) ?2
+		2s:"Natural to play" (p#3 5+s 4-7hcp, 6+s 3-5hcp) ?2
+		~> "rubensohl" (p#2)->fRubensohl
+	}
+	(25%Random.2c):"Artificial no specific suit" (p#3 s#4432|4441 3+c 8+hcp [$oppos=undef])
+	{
+		dbl:"Values" (p#5 s#4432|4333|5332 8+hcp) ?2
+		2d:"Natural to play" (p#3 5+d 4-7hcp, 6+d 3-5hcp) ?2
+		2h:"Natural to play" (p#3 5+h 4-7hcp, 6+h 3-5hcp) ?2
+		2s:"Natural to play" (p#3 5+s 4-7hcp, 6+s 3-5hcp) ?2
+		~> "rubensohl" (p#2)->fRubensohl
+	}
+	(50%Landy.2c):"Both majors" (p#3 d#54xx|45xx|55xx 8+hcp [$oppos=undef])
+	{
+		dbl:"Balanced inv+" (p#5 s#4432|4333|5332 8+hcp) ?2
+		2d:"Natural to play" (p#3 5+d 4-7hcp, 6+d 3-5hcp) ?2
+		2h:"Natural to play" (p#3 5+h q#hh+h 4-7hcp, 6+h 3-5hcp) ?2
+		2s:"Natural to play" (p#3 5+s q#hh+s 4-7hcp, 6+s 3-5hcp) ?2
+		~> "rubensohl" (p#2)->fRubensohl
+	}
+	(25%Asptro.2c):"Hearts and another" (p#3 4+h s#54xx 8+hcp [$oppos=h])
+	{
+		dbl:"Values" (p#5 s#4432|4333|5332 8+hcp) ?2
+		{
+			(2h):"To play" (3+h)
+			{
+				dbl:"Penalties" (4+h) ?2
+			}
+		}
+		2h:"Inv+ 5s" (p#1 5s 8+hcp) ?2
+		2s:"Natural to play" (p#3 5+s 4-7hcp, 6+s 3-5hcp) ?2
+		~> "rubensohl" (p#2)->fRubensohl
+	}
+	(25%Natural.2d):"Natural" (p#3 6+d 8+hcp [$oppos=h])
+	{
+		dbl:"Takeout 6+" (p#5 s#4441|5431|4432 2-d 6+hcp) ?2
+		2h:"Natural to play" (p#3 5+h 4-7hcp, 6+h 3-5hcp) ?2
+		2s:"Natural to play" (p#3 5+s 4-7hcp, 6+s 3-5hcp) ?2
+		~> "rubensohl" (p#2)->fRubensohl
+	}
+	(25%Asptro.2d):"Spades and another" (p#3 4+s s#54xx 8+hcp [$oppos=s])
+	{
+		dbl:"Values" (p#5 s#4432|4333|5332 8+hcp) ?2
+		2h:"Natural to play" (p#3 5+h q#hh+h 4-7hcp, 6+h 3-5hcp) ?2
+		2s:"Inv+ 5h" (p#1 5+h 8+hcp) ?2
+		~> "rubensohl" (p#2) ->fRubensohl
+	}
+	(2h):"Natural" (p#3 6+h 8+hcp [$oppos=h])
+	{
+		dbl:"Takeout" (p#5 2-h 6+hcp 4s) ?2
+		2s:"Natural to play" (p#3 5+s 4-7hcp, 6+s 3-5hcp) ?2
+		~> "rubensohl" (p#2)
+		{ name fRubensohl
+			<!$oppos=c>2nt:"xfer to clubs" (p#10 5+c 6+hcp)
+			{
+				3c:"Forced"
+				{
+					<!$oppos=undef>3$oppos:"Slam try" (6+c 11+hcp) ?1
+				}
+			}
+			<$oppos=c>2nt:"stayman" (p#10 4s 8+hcp, 4h 8+hcp) ?1
+			{
+				3c:"No stop" (!n#a|kc, !q#hh+c) ?1
+				3h:"Stop + hearts" (4+h n#a|kc, 4+h q#hh+c 3+c) ?1
+				3s:"Stop + spades" (4+s n#a|kc, 4+s q#hh+c 3+c) ?1
+			}
+			<!$oppos=d>3c:"xfer to dimaonds" (p#10 5+d 6+hcp) ?1
+			<$oppos=d>3c:"stayman" (p#10 4s 8+hcp, 4h 8+hcp) ?1
+			{
+				3d:"No stop" (!n#a|kd, !q#hh+d) ?1
+				3h:"Stop + hearts" (4+h n#a|kd, 4+h q#hh+d 3+d) ?1
+				3s:"Stop + spades" (4+s n#a|kd, 4+s q#hh+d 3+d) ?1
+			}
+			<!$oppos=h>3d:"xfer to hearts" (p#10 5+h 6+hcp) ?1
+			<$oppos=h>3d:"stayman" (p#10 4s 9+hcp) ?1
+			{
+				3h:"No stop and no support" (3-s !n#a|kh, 3-s !q#hh+h) ?1
+				3s:"Support" (4+s) ?1
+				3nt:"Stop but no support" (3-s n#a|kh, 3-s q#hh+h 3+h) ?1
+			}
+			<!$oppos=s>3h:"xfer inv+" (p#10 5+s 8+hcp) ?1
+			{
+				3s:"Declines inv" (3-s 15hcp) ?1
+				3nt:"To play" (2-s 16-17hcp) ?1
+				4s:"To play" (3+s 16-17hcp) ?1
+			}
+			<$oppos=s>3h:"stayman" (p#10 4h 9+hcp) ?1
+			{
+				3s:"No stop and no support" (3-h !n#a|ks, 3-h !q#hh+s) ?1
+				4h:"Support" (4+h) ?1
+				3nt:"Stop but no support" (3-h n#a|kh, 3-h q#hh+s 3+s) ?1
+			}
+			<!$oppos=undef>3s:"<4M no stop" (p#10 3-s 3-h 8+hcp !n#a|k$oppos !q#hh+$oppos) ?1
+			<!$oppos=undef>3nt:"<4M + stop" (p#10 3-s 3-h 8+hcp n#a|k$oppos, 3-s 3-h q#hh+$oppos 8+hcp 3+$oppos) ?1
+			[4c,4d]:"Minor + OM" (p#5 5+s 5+% 8+hcp) ?1
+			<!$oppos=h>4h:"To play" (p#9 6+h 8-11hcp) ?1
+			<!$oppos=s>4s:"To play" (p#9 6+s 8-11hcp) ?1
+		}
+	}
+	(2s):"Natural" (p#3 6+s 8+hcp [$oppos=s])
+	{
+		dbl:"Takeout" (p#5 2-s 4h 6+hcp) ?2
+		~> "rubensohl" (p#2) ->fRubensohl
+	}
+	(2nt):"Whatever it shows" (p#3 s#65xx 7+hcp)
+	{
+		dbl:"Clubs comp or FG" (p#3 5+c 6+hcp) ?1
+		3c:"Diamonds comp or FG" (p#3 5+d 6+hcp) ?1
+		3d:"Hearts comp or FG" (p#3 5+h 6+hcp) ?1
+		3h:"Spades comp or FG" (p#3 5+s 6+hcp) ?1
+		3nt:"To play" (p#4 9+hcp) ?1
+	}
+	(3c):"Natural" (p#3 7+c 7+hcp)
+	{
+		dbl:"Takeout FG" (p#4 9+hcp d#43xx|44xx|34xx) ?1
+		3d:"Hearts comp or FG" (p#3 5+h 6+hcp) ?1
+		3h:"Spades comp or FG" (p#3 5+s 6+hcp) ?1
+		3s:"Asks for stop" (p#4 9+hcp !d#43xx|44xx|34xx !n#A|Kc) ?1
+		3nt:"To play shows stop" (p#4 9+hcp !d#43xx|44xx|34xx n#A|Kc) ?1
+	}
+	(3d):"Natural" (p#3 7+d 7+hcp)
+	{
+		dbl:"Takeout FG" (p#4 9+hcp d#43xx|44xx|34xx) ?1
+		3h:"Spades comp or FG" (p#3 5+s 6+hcp) ?1
+		3s:"Hearts FG" (p#3 5+h 9+hcp) ?1
+		3nt:"To play" (p#4 9+hcp !d#43xx|44xx|34xx) ?1
+	}
+	(3h):"Natural" (p#3 7+h 7+hcp)
+	{
+		dbl:"Takeout FG" (p#4 9+hcp 4+s) ?1
+		3s:"Spades FG" (p#3 5+s 9+hcp) ?1
+		3nt:"To play" (p#4 9+hcp 3-s) ?1
+	}
+	([4c-4s]):"Natural" (p#2 8+% 7+hcp)
+	{
+		dbl:"Takeout" (p#4 9+hcp) ?1
+	}
+}
+
+2c:"Majors 8-13" (p#1 s#55xx 4+h 4+s 8-11hcp, s#5431 4+h 4+s 8-12hcp, s#5422 4+h 4+s 8-13hcp, 4h 4s 8-12hcp)
+{
+	2d:"Enquiry inv+" (p#5 12+hcp)
+	{ name f2CEnquiryResp
+		2h:"Min hearts longer or same length" (p#5 8-10hcp) ?3
+		2s:"Min spades longer" (p#1 s>h 8-10hcp) ?3
+		2nt:"Max 45" (p#4 4s 5h 11-13hcp)
+		{
+			3c:"Shape ask" ->f2CShapeEnquiry
+		}
+		3c:"Max 54" (p#4 4h 5s 11-13hcp)
+		{
+			3d:"Shape ask" ->f2CShapeEnquiry
+		}
+		3d:"Max 44" (p#4 4h 4s 11-13hcp) ?1
+		3h:"Min 55" (p#4 5h 5s 8-9hcp) ?1
+		{
+			3s:"NF"
+			[4c-4d]:"Agrees linked minor"
+		}
+		3s:"Max 55" (p#4 5h 5s 10-11hcp) ?1
+	}
+	2h:"To play" (p#4 11-hcp) ?3
+	2s:"To play" (p#3 s>h 11-hcp) ?3
+	2nt:"Clubs inv+" (p#4 6+c 12+hcp 3-h 3-s) ?1
+	3c:"Diamonds inv+" (p#4 6+d 12+hcp 3-h 3-s) ?1
+	3d:"4h inv" (p#4 4h 12-14hcp) ?1
+	(dbl):"12-15bal" (p#5 12-15hcp $bal)
+	{
+		pass:"To play" (5+c) ?2
+		rdbl:"Diamonds or to play better M" (5+d 3-h 3-s, h=s) ?1
+		2h:"Natural" (h>s) ?2
+		2s:"Natural" (s>h) ?2
+	}
+	(2d):"Diamond nat" (p#6 5+d 11+hcp)
+	{
+		dbl:"Enquiry inv+" (12+hcp) ->f2CEnquiryResp
+	}
+	([2h-2s]):"Natural" (p#4 5+% [$oppoM=%])
+	{
+		dbl:"Penalties" (10+hcp 3+$oppoM, 13+hcp 1+$oppoM) ?1 
+	}
+}
+
+2d:"18-19 balanced not 5 card major" (p#1 18-19hcp 4-h 4-s s#4333|4432|5332|4441, 17-18hcp s#5422 4-s 4-h, 16-17hcp s#6322 4-s 4-h)
+{ name f2dResponses
+	2h:"Spades" (p#5 4+s)
+	{
+		2s:"<4s <6C/D" (3-s 5-d 5-c)
+		{
+			pass: "To play" (4-hcp 4+s)
+			3c:"5s 4m" (5+s 4+c, 5+s 4+d)
+			{
+				3d:"Enquiry" ?2
+				{
+					3h:"Clubs" (4+c 10-hcp) ?1
+					3s:"Diamonds" (4+d 10-hcp) ?1
+					[4c-4d]:"Slam try" (4+% 11+hcp) ?1
+				}
+				3s:"3 spades" (3s) ?1
+				{
+					[4c-4d]:"slam try" (4+% 11+hcp) ?1
+				}
+			}
+			3d:"4s 5c" (4s 5+c) ?1
+			3h:"4s 5d" (4s 5+d) ?1
+			3s:"4s + raise to 3nt" (4s 5-11hcp) ?1
+			[4c-4h]:"Auto splinter" (6+s 10+hcp 1-%) ?1
+		}
+		2nt:"4s" (4s) ?2
+		{
+			3h:"Re-xfer" ?1
+		}
+		[3c-3d]:"6-card minor" (6+%) ?1
+		{
+			3h:"Re-xfer" (5+s) ?2
+			3s:"Forces 3NT" (4-s 4+hcp)
+		}
+	}
+	2s:"Sign off in 2nt or hearts" (p#5 5-hcp, 4+h)
+	{
+		2nt:"<6C/D" (5-d 5-c)
+		{
+			pass:"To play" (p#10 5-hcp) ?2
+			3c:"5h 4m" (p#3 5+h 4+c, 5+h 4+d)
+			{
+				3d:"Enquiry" ?2
+				{
+					3s:"Clubs" (4+c 10-hcp) ?1
+					3nt:"Diamonds" (4+d 10-hcp) ?1
+					[4c-4d]:"Slam try" (4+% 11+hcp) ?1
+				}
+				3h:"3 hearts" (3+h) ?2
+				{
+					[4c-4d]:"slam try" (4+% 11+hcp)
+				}
+			}
+			3d:"xFer signoff or 4h5c" (p#3 5+h 4-hcp, 4h 5+c)
+			{
+				3h:"Forced"
+				{
+					3s:"4h 5c" (4h 5c) ?1
+				}
+			}
+			3s:"4h 5d" (p#3 4h 5+d) ?1
+			3nt:"4h + raise to 3nt" (p#4 4h 5-11hcp) ?1
+			[4c-4d]:"Auto splinter" (p#3 6+h 10+hcp 1-%) ?1
+		}
+		[3c-3d]:"6-card minor" (6+%) ?1
+		{
+			3d:"Re-xfer" (5+h) ?2
+			3s:"Forces 3NT" (4-h 4+hcp)
+		}
+	}
+	2nt:"signoff clubs or 1 suited minor or bal slam try or 55m" (p#4 5+c 4-hcp, 6+c 5+hcp, 6+d 5+hcp, $13PlusBal, 5+c 5+d 1-h 9+hcp)
+	{
+		3c:"Forced"
+		{
+			pass:"Signoff in clubs" (5+c 4-hcp) ?2
+			3d:"Balanced Slam try" ($13PlusBal)
+			{
+				~> "Enquiry" ([$amin=$11to12Bal, $amax=$13PlusBal, $rmin=18-19hcp, $rmax=20hcp]) ->fBalancedRelays
+			}
+			3h:"1 suited clubs" (6+c 5+hcp) ?1
+			3s:"1 suited diamonds" (6+d 5+hcp) ?1
+			3nt:"55m short hearts" (5+c 5+d 1-h 9-10hcp) ?1
+			4c:"1 suited diamond slam try" (6+d 11+hcp)
+			{
+				4d:"forced"
+				{
+					4h:"1 suited diamond slam try short c" (6+d 1-c 11+hcp) ?1
+					4s:"1 suited diamond slam try short h" (6+d 1-h 11+hcp) ?1
+					4nt:"1 suited diamond slam try short s" (6+d 1-s 11+hcp) ?1
+				}
+			}
+			4d:"55m short hearts" (p#3 5c 5d 1-h 11+hcp) ?1
+			{
+				4h:"Agrees clubs" (3+c c>=d) ?1
+				4s:"Agrees diamonds" (4+d d>c) ?1
+				4nt:"Agrees neither" (2-c 3-d) ?1
+			}
+			4h:"1 suited club slam try short d" (6+c 1-d 11+hcp) ?1
+			4s:"1 suited club slam try short h" (6+c 1-h 11+hcp) ?1
+			4nt:"1 suited club slam try short s" (6+c 1-s 11+hcp) ?1
+		}
+	}
+	3c:"Both majors" (p#3 4+h 4+s 6+hcp)
+	{
+		3d:"No major" (3-h 3-s) ?2
+		{
+			3h:"5+ spades" (5+s) ?1
+			3s:"5+ hearts" (5+h) ?2
+			3nt:"To play" (4s 4h) ?1
+			[4c-4d]:"44(50) or 44(41) slam try" (s#5440 5% 11+hcp, s#4441 4% 11+hcp) ?1
+		}
+		3h:"4h only bad or medium" (4h 3-s 18hcp) ?1
+		{
+			3s:"Cue agreeing hearts" (p#2 4+h 12+hcp n#a|k%) ?1
+			3nt:"Initiates cue bidding" (p#3 12+hcp) ?1
+			[4c-4d]:"Shortage"(p#1 1-% 10+hcp) ?1
+		}
+		3s:"4s only bad or medium" (4s 3-h 18hcp) ?2
+		{
+			3nt:"Initiates cue bidding" (p#3 12+hcp) ?1
+			[4c-4d]:"Shortage"(p#1 1-% 10+hcp) ?1
+		}
+		3nt:"44M bad or medium" (4h 4s 18hcp) ?2
+		{
+			4c:"How good" (p#3 10+hcp)
+			{
+				4d:"Bad" (18hcp) ?1
+				[4h-4s]:"Better major" (19hcp) ?2
+			}
+			[4d-4h]:"xFers" (4d:p#4 h>=s ^4h:p#4 s>h) ?1
+		}
+		4c:"44M good" (4h 4s 19hcp) ?1
+		{
+			[4d-4h]:"xFers" (4d:p#4 h>=s ^4h:p#4 s>h) ?2
+		}
+		4h:"4h only, good" (4h 3-s 19hcp) ?2
+		4s:"4s only, good" (4s 3-h 19hcp) ?2
+	}
+	3d:"Hearts inv 5+ or 5 card raise to 3nt or 5332 slam try or 1 suited slam try no shortage" (p#4 5+h 5-7hcp, s#5332|5422 5-11hcp 5h, s#5332 5h 12+hcp, 6+h s#6322|7222)
+	{
+		3h:"Declines invite" (3-h 18hcp) ?1
+		{
+			3s:"Choice of games" (5h 5-13hcp) ?2
+			3nt:"Spade cue-bid" (n#a|ks 11+hcp) ?2
+			[4c-4d]:"Cue bid" (n#a|k% 11+hcp) ?2
+			4h:"To play" (6+h s#6322|7222) ?1
+			4nt:"Natural inv" (s#5332 13-14hcp) ?2
+		}
+		3s:"Accepts 4h" (4h) ?1
+		{
+			3nt:"Non serious slam try" (s#5332|5422 11-13hcp) ?1
+			4c:"Cue bid" (p#2 n#a|kc 14+hcp) ?2
+			4d:"xFer" (9-hcp) ?2
+			4h:"NF Diamond cue bid" (p#3 n#a|kd 14+hcp) ?1
+			4nt:"RKCB" (s#5332 13+hcp, 6+h s#6322|7222 12+hcp) ?2
+		}
+		3nt:"Accepts 2h" (19hcp 2h) ?1
+		{
+			4c:"Cue bid" (p#2 n#a|kc 6+h 12+hcp) ?2
+			4d:"xFer" (p#3 6+h) ?2
+			4h:"NF Diamond cue bid" (p#3 n#a|kd 12hcp) ?1
+			4nt:"Natural inv" (s#5332 14-15hcp) ?2
+		}
+		4c:"Accepts 3h slam suitable" (19hcp 3h) ?1
+		{
+			4d:"xFer" ?2
+			4h:"NF Diamond cue bid" (n#a|kd 6+h s#6322|7222 11hcp, n#a|kd s#5332 12hcp) ?2
+			4nt:"RKCB" (s#5332 13+hcp, 6+h s#6322|7222 12+hcp) ?2
+		}
+		4h:"Accepts 3h not slam suitable" (18hcp 3h) ?1
+	}
+	3h:"Spades inv 5+ or 5 card raise to 3nt or 5332 slam try or 1 suited slam try no shortage" (p#4 5+s 5-7hcp, s#5332|5422 5-11hcp 5s, s#5332 5s 12+hcp, 6+s s#6322|7222)
+	{
+		3s:"Declines invite" (3-s 18hcp) ?2
+		{
+			3nt:"Natural choice" (s#5332|5422 5-13hcp) ?2
+			[4c-4h]:"Cue bid" (n#a|k% 12+hcp) ?2
+			4s:"To play" (6+s s#6322|7222) ?2
+			4nt:"Natural inv" (s#5332 14-15hcp) ?2
+		}
+		3nt:"Accepts 2s" (19hcp 2s) ?2
+		{
+			[4c-4d]:"Cue bid" (n#a|k% 6+s s#6322|7222 12+hcp) ?2
+			4h:"xFer" (6+s s#6322|7222) ?2
+			4s:"NF Heart cue bid" (n#a|kh 6+s s#6322|7222 11hcp, n#a|kh s#5332 12hcp) ?2
+			4nt:"Natural inv" (s#5332 14-15hcp) ?2
+		}
+		4c:"Accepts 4s" (4s) ?2
+		{
+			4d:"Cue bid" (n#a|kd 12+hcp) ?2
+			4h:"xFer" ?2
+			4s:"NF Heart cue bid" (n#a|kd 12+hcp) ?2
+			4nt:"RKCB" (s#5332 13+hcp, 6+s s#6322|7222 12+hcp) ?2
+		}
+		4d:"Accepts 3h slam suitable" (19hcp 3h) ?2
+		{
+			4h:"xFer" ?2
+			4s:"NF Heart cue bid" (n#a|kh 6+s s#6322|7222 12+hcp, n#a|kh s#5332 13+hcp) ?2
+			4nt:"RKCB" (s#5332 13+hcp, 6+s s#6322|7222 12+hcp) ?2
+		}
+		4s:"Accepts 3s not slam suitable" (18hcp 3s) ?2
+	}
+	3s:"3nt or both minors slam try" (p#4 3-h 3-s 5-11hcp, 4+c 4+d s#55xx|54xx 12+hcp)
+	{
+		3nt:"Forced"
+		{
+			4c:"xx54" (4c 5d 12+hcp)
+			{
+				4d:"enquiry"
+				{
+					4h:"3154" (d#3154 12+hcp) ?1
+					4s:"1354" (d#1354 12+hcp) ?1
+					4nt:"2254" (d#2254 12+hcp) ?1
+				}
+			}
+			4d:"xx55" (5c 5d 12+hcp 1-s) ?1
+			{
+				4h:"Agrees clubs" (3+c c>=d) ?1
+				4s:"Agrees diamonds" (4+d d>c) ?1
+				4nt:"Agrees neither" (2-c 3-d) ?1
+			}
+			4h:"3145" (d#3145 12+hcp) ?1
+			{
+				[5c-5d]:"Forcing"
+			}
+			4s:"1345" (d#1345 12+hcp) ?1
+			{
+				[5c-5d]:"Forcing"
+			}
+			4nt:"2245" (d#2245 12+hcp) ?1
+			{
+				[5c-5d]:"Forcing"
+			}
+		}
+	}
+	3nt:"55m short spades" (p#3 5c 5d 1-s 9-10hcp) ?1
+	4c:"Gerber" (p#7 13+hcp) ?2
+	4d:"xFer, signoff or Keycard" (p#3 6+h 9-hcp) ?1
+	4h:"xFer, signoff or Keycard" (p#3 6+s 9-hcp) ?2
+	4s:"55 minors game values only" (p#3 5+c 5+d 4-8hcp) ?1
+	4nt:"Invitational cop out" (p#7 11-12hcp) ?2
+	(dbl):"Diamonds" (5+d q#hhh+d)
+	{
+		pass:"To play" (p#1 5+d) ?1
+		rdbl:"Scramble" (p#2 4-s 4-h 5-c 4-hcp) ?1
+		{
+			2h:"Natural" (4+h) ?1
+			2s:"Natural" (4+s s>h) ?1
+		}
+		~> "+ive" (p#3) ->f2dResponses
+	}
+	(2h):"Natural" (6+h 9+hcp [$oppos=h])
+	{
+		2s:"Natural" (5+s 6+hcp) ?3
+		~> "Rubensohl" () ->fRubensohl
+	}
+	(2s):"Natural" (6+s 9+hcp [$oppos=s])
+	{
+		~> "Rubensohl" () ->fRubensohl
+	}
+	(2nt):"Whatever it shows" (p#3 s#65xx 7+hcp)
+	{
+		dbl:"Clubs comp or FG" (p#3 5+c 3+hcp) ?1
+		3c:"Diamonds comp or FG" (p#3 5+d 3+hcp) ?1
+		3d:"Hearts comp or FG" (p#3 5+h 3+hcp) ?1
+		3h:"Spades comp or FG" (p#3 5+s 3+hcp) ?1
+		3nt:"To play" (p#4 6+hcp) ?1
+	}
+	(3c):"Natural" (p#3 7+c 7+hcp)
+	{
+		dbl:"Takeout FG" (p#4 6+hcp d#43xx|44xx|34xx) ?1
+		3d:"Hearts comp or FG" (p#3 5+h 3+hcp) ?1
+		3h:"Spades comp or FG" (p#3 5+s 3+hcp) ?1
+		3s:"Asks for stop" (p#4 6+hcp !d#43xx|44xx|34xx !n#A|Kc) ?1
+		3nt:"To play shows stop" (p#4 6+hcp !d#43xx|44xx|34xx n#A|Kc) ?1
+	}
+	(3d):"Natural" (p#3 7+d 7+hcp)
+	{
+		dbl:"Takeout FG" (p#4 6+hcp d#43xx|44xx|34xx) ?1
+		3h:"Spades comp or FG" (p#3 5+s 3+hcp) ?1
+		3s:"Hearts FG" (p#3 5+h 6+hcp) ?1
+		3nt:"To play" (p#4 6+hcp !d#43xx|44xx|34xx) ?1
+	}
+	(3h):"Natural" (p#3 7+h 7+hcp)
+	{
+		dbl:"Takeout FG" (p#4 6+hcp 4+s) ?1
+		3s:"Spades FG" (p#3 5+s 6+hcp) ?1
+		3nt:"To play" (p#4 6+hcp 3-s) ?1
+	}
+	([4c-4s]):"Natural" (p#2 8+% 7+hcp)
+	{
+		dbl:"Takeout" (p#4 6+hcp) ?1
+	}
+}
+
+[2h-2s]:"Weak 2" (p#9 6% 3-9hcp)
+{
+	2s:"Natural NF" (p#1 11-15hcp 6+s 2-h)
+	2nt:"Shortage ask" (p#2 15+hcp)
+	([3c-3d]):"Natural FG" (p#1 15+hcp 6+%)
+}
+
+2nt:"20-22 balanced" (p#1 20-22hcp 20+knr s#4333|4432|5332|4441, 19-21hcp s#5422 4-s 4-h, 18-20hcp s#6322 4-s 4-h)
+{ name f2NTResponses
+	3c:"Both majors or 4S bal ST" (p#3 4+h 4+s, 4s 4c 10+hcp, 4s 4d 10+hcp, s#4333 10+hcp)
+	{
+		3d:"No major" (3-h 3-s) ?2
+		{
+			3h:"5+ spades" (5+s) ?1
+			3s:"5+ hearts" (5+h) ?1
+			3nt:"To play" (4s 4h) ?2
+			[4c-4d]:"4s 4m" (p#1 4s 4% 10+hcp) ?1
+			4nt:"4333 slam try" (s#4333)
+		}
+		3h:"4h only bad or medium" (4h 3-s 20-21hcp) ?2
+		{
+			3s:"Cue agreeing hearts" (p#1 4+h 10+hcp n#a|k%) ?1
+			3nt:"Initiates cue bidding" (p#2 4+h 10+hcp) ?1
+			[4c-4d]:"4s 4m" (4s 4% 3-h) ?1
+			4nt:"4333 slam try" (s#4333)
+		}
+		3s:"4s only bad or medium" (4s 3-h 20-21hcp) ?2
+		{
+			3nt:"Initiates cue bidding" (10+hcp) ?1
+			[4c-4d]:"Shortage slam try" (1-% 10+hcp) ?1
+		}
+		3nt:"44M bad or medium" (4h 4s 20-21hcp)
+		{
+			4c:"How good" (p#1 10+hcp)
+			{
+				4d:"Bad" (20hcp) ?1
+				[4h-4s]:"Better major" (21hcp)
+			}
+			[4d-4h]:"xFers" (4d:p#4 h>=s ^4h:p#4 s>h) ?1
+		}
+		4c:"44M good" (4h 4s 22hcp) ?1
+		{
+			[4d-4h]:"xFers" (4d:p#4 h>=s ^4h:p#4 s>h) ?1
+		}
+		4h:"4h only, good" (4h 3-s 22hcp) ?2
+		{
+			[6c-6d]:"4s 4m" (p#1 4s 4% 10+hcp)
+		}
+		4s:"4s only, good" (4s 3-h 22hcp) ?2
+	}
+	3d:"4+ hearts" (p#4 4+h)
+	{
+		3h:"All non breaks" (p#10)
+		{
+			3s:"Exactly 4h" (p#1 4h) ?1
+			{
+				3nt:"To play"
+				{
+					[4c-4d]:"4h 4m" (4% 11+hcp) ?1
+				}
+			}
+			3nt:"Natural choice" (p#3 4-10hcp) ?2
+			[4c-4d]:"Natural" (p#2 4+% 5+h 10+hcp) ?1
+			4h:"To play"(p#2 6+h 4-10hcp) ?2
+			4nt:"Natural inv" (p#2 s#5332 11-12hcp) ?2
+		}
+		3s:"4h minimum" (p#5 4+h !s#4441 20-21hcp) ?1
+		3nt:"4h max" (p#5 4+h !s#4441 22hcp) ?1
+		[4c-4d]:"4441 bidding singleton" (p#4 4h 1%) ?1
+		4h:"4441 sing spade" (p#4 4h 1s) ? 1
+	}
+	3h:"5+ spades" (p#4 5+s)
+	{
+		3s:"All non breaks" (p#10)
+		{
+			3nt:"Natural choice" (p#3 4-10hcp) ?2
+			[4c-4d]:"Natural" (p#2 4+% 5+s 10+hcp) ?1
+			4h:"Cue bid" (p#2 6+s n#a|k% 11+hcp) ?2
+			4s:"To play"(p#2 6+s 4-10hcp) ?2
+			4nt:"Natural inv" (p#2 s#5332 11-12hcp) ?2
+		}
+		3nt:"4s minimum" (p#5 4s !s#4441 20-21hcp) ?1
+		4c:"4s max" (p#5 4s !s#4441 22hcp) ?1
+		[4d-4h]:"4441 bidding singleton" (p#4 4s 1%) ?1
+		4s:"4441 sing club" (p#4 4s 1c) ? 1
+	}
+	3s:"Raise to 3nt or 5m4M slam try or minors slam try" (p#5 3-h 3-s 5-11hcp, s#54xx|55xx 4+c 4+d 11+hcp, d#4xx5|4x5x|x4x5|x45x 11+hcp, s#5332 5c 11+hcp, s#5332 5d 11+hcp)
+	{
+		3nt:"Forced"
+		{
+			pass:"To play"(p#1 5-10hcp)
+			4c:"5+d" (p#3 5+d 11+hcp)
+			{
+				4d:"Forced"
+				{
+					4h:"5+diamonds 4h" (5+d 4h) ?1
+					{
+						4nt:"Sign off" (p#2) ?1
+						4s:"Cue for hearts" (p#1 4+h 21+hcp n#a|ks) ?1
+						5c:"Cue for hearts" (p#1 4+h 21+hcp n#a|kc) ?1
+						5d:"Agrees diamonds, forcing" (p#1 4+d 21+hcp) ?1
+					}
+					4s:"5+diamonds 4s" (5+d 4s) ?1
+					{
+						4nt:"Sign off" (p#2) ?1
+						5c:"Cue for spades" (p#1 4+s 21+hcp n#a|kc) ?1
+						5d:"Agrees diamonds, forcing" (p#1 4+d 21+hcp) ?1
+					}
+					4nt:"5 diamonds balanced" (5d s#5332) ?1
+					5c:"5 diamonds balanced slam forcing" (5d s#5332 13+hcp) ?1
+				}
+			}
+			4d:"Both minors" (p#2 s#54xx|55xx 4+c 4+d 11+hcp)
+			{
+				4h:"Asks, suitable" (p#2)
+				{
+					4s:"4d5c" (p#5 4d 5c) ?1
+					{
+						4nt:"Signoff" (20hcp 3-d 3-c) ?1
+						5c:"Agrees minor" (21+hcp 3+c)
+						5d:"Agrees minor" (21+hcp 4+d)
+					}
+					4nt:"5d4c" (p#5 4c 5d) ?1
+					{
+						5c:"Agrees minor" (21+hcp 4+c)
+						5d:"Agrees minor" (21+hcp 3+d)
+					}
+					5c:"55 slam forcing" (p#5 5d 5c) ?1
+					5nt:"5d4c forcing" (p#4 4c 5d 13+hcp) ?1
+				}
+				4nt:"Signoff" (p#1 3-c 3-d)
+			}
+			4h:"5+clubs 4h" (p#2 5+c 4h) ?1
+				{
+					4nt:"Sign off" (p#2) ?1
+					4s:"Cue for hearts" (p#1 4+h 21+hcp n#a|ks) ?1
+					5d:"Agrees clubs, forcing" (p#1 4+c 21+hcp) ?1
+				}
+			4s:"5+clubs 4s" (p#2 5+c 4s) ?1
+				{
+					4nt:"Sign off" (p#2) ?1
+					5c:"Agrees clubs, forcing" (p#1 4+c 21+hcp) ?1
+					[5d-5h]:"Cue for spades" (p#1 4+s 21+hcp n#a|k%) ?1
+				}
+			4nt:"5 clubs balanced" (p#2 5c s#5332 11-12hcp) ?1
+			5c:"5 clubs balanced slam forcing" (p#2 5c s#5332 13+hcp) ?1
+		}
+	}
+	3nt:"4 spades choice of game" (p#6 4s) ?1
+	4c:"Slam try hearts" (p#2 6+h 10+hcp) ?1
+	4d:"Slam try spades" (p#2 6+s 10+hcp) ?2
+	4h:"Slam try clubs" (p#2 6+c 10+hcp) ?2
+	{
+		4nt:"Sign off" (p#1 20.5-knr 2-c) ?1
+		4s:"Interest" (p#2) ?1
+		5c:"Sign off" (p#1 20.5-knr 3c) ?1
+	}
+	4s:"Slam try diamonds" (p#2 6+d 10+hcp) ?2
+	{
+		4nt:"Sign off" (p#1 20.5-knr 2-d) ?1
+		5c:"Interest" (p#2) ?1
+		5d:"Sign off" (p#1 20.5-knr 3d) ?1
+	}
+	(3c):"Natural" (p#3 7+c 7+hcp)
+	{
+		dbl:"Takeout FG" (p#4 4+hcp d#43xx|44xx|34xx) ?1
+		3d:"Hearts comp or FG" (p#3 5+h) ?1
+		3h:"Spades comp or FG" (p#3 5+s) ?1
+		3s:"Asks for stop" (p#4 4+hcp !d#43xx|44xx|34xx !n#A|Kc) ?1
+		3nt:"To play shows stop" (p#4 4+hcp !d#43xx|44xx|34xx n#A|Kc) ?1
+	}
+	(3d):"Natural" (p#3 7+d 7+hcp)
+	{
+		dbl:"Takeout FG" (p#4 4+hcp d#43xx|44xx|34xx) ?1
+		3h:"Spades comp or FG" (p#3 5+s) ?1
+		3s:"Hearts FG" (p#3 5+h 4+hcp) ?1
+		3nt:"To play" (p#4 4+hcp !d#43xx|44xx|34xx) ?1
+	}
+	(3h):"Natural" (p#3 7+h 7+hcp)
+	{
+		dbl:"Takeout FG" (p#4 4+hcp 4+s) ?1
+		3s:"Spades FG" (p#3 5+s 4+hcp) ?1
+		3nt:"To play" (p#4 4+hcp 3-s) ?1
+	}
+	([4c-4s]):"Natural" (p#2 8+% 7+hcp)
+	{
+		dbl:"Takeout" (p#4 4+hcp) ?1
+	}
+}
+
+[3c-3s]:"Pre-empt" (p#9 7% 8-hcp [$os=%])
+{
+	<$os=c>4d:"Kickback" (3+c 17+hcp) ?2
+	<$os=c>[3h-3s]:"Natural FG" (5+% 14+hcp [$rs=%]) ?2
+	{ name fPreemptResponses
+		<$rs=h>3s:"Support + shortage" (3+h 1-s) ?2
+		3nt:"No support" (2-$rs) ?1
+		4$os:"Support + A" (3+$rs n#A$os) ?1
+		<!$os=c>4c:"Support + shortage" (3+$rs 1-c) ?2
+		<!$os=d>4d:"Support + shortage" (3+$rs 1-d) ?1
+		<$rs=s>4h:"Support + shortage" (3+s 1-h) ?2
+	}
+	<$os=d>[3h-3s]:"Natural FG" (5+% 14+hcp [$rs=%]) ?2 ->fPreemptResponses
+	<$os=h>[3s]:"Natural FG" (5+% 14+hcp [$rs=%]) ?2 ->fPreemptResponses
+}
+]
+
+Fragments [
+Fragment f1Minor1HOvercall [
+pass:"Weak or trap" (p#6 6-hcp, 7+hcp 5+h q#hh+h)
+{
+	dbl:"Takeout" (p#3 2-h) ?2
+	1s:"Natural" (p#2 13+hcp 5+$os 4+s $os>s) ?2
+	<$os=c>2d:"Reverse" (p#2 17+hcp 5+c 4+d c>d) ?1
+	<$os=c>2h:"Original GF" (p#1 $gf) ?1
+}
+dbl:"spades" (p#4 4+s 6+hcp) ?1
+1s:"nt" (p#5 s#4432|5332|4333 3-s 6-11hcp) ?1
+1nt:"clubs" (p#3 5+c 9+hcp) ?1
+<$os=c>2c:"diamonds GF or any 6" (p#2 5+d 13+hcp, 6d 4+hcp [$rs=d]) ->fAny6orGF5Responses
+<$os=c>2d:"invitational NF" (p#4 5+d 10-12hcp) ?1
+<$os=d>2c:"weak/inv+ diamonds" (p#4 3+d 11+hcp) ?1
+<$os=d>2d:"constructive raise" (3+d 3-h 3-s 9-hcp) ?1
+2h:"6 spades or gf" (p#2 6+s 5+hcp, 5+s 12+hcp [$rs=s]) ->fAny6orGF5Responses
+2s:"5 spades inv NF" (p#2 5s 10-12hcp) ?1
+<$os=c>2nt:"Good raise" (p#2 6+c 10+hcp) ?1
+<$os=c>3c:"Mixed raise" (p#4 5c 7-9hcp q#hhh+c, 6+c 7-9hcp) ?1
+<$os=c>[3d,3s]:"pre empt" (p#3 7% 3-7hcp) ?1
+<$os=d>2nt:"Good raise" (p#3 4+d 10+hcp) ->f1DInvPlusRaise
+<$os=d>3c:"Inv+ clubs" (p#3 3-d 6+c 9-11hcp) ?1
+<$os=d>3d:"Mixed raise" (p#4 4+d 7-9hcp 3-s 3-h) ?1
+<$os=d>[3s]:"pre empt" (p#3 7% 3-7hcp) ?1
+]
+
+Fragment f1Minor1SOvercall [
+dbl:"hearts" (p#4 4+h 6+hcp) ?1
+1nt:"natural" (p#4 3-h 6-10hcp) ?1
+2c:"diamonds" (p#5 5+d 10+hcp) ?1
+2d:"6 hearts or 5 gf" (p#3 6+h 5+hcp, 5+h 12+hcp [$rs=h]) ->fAny6orGF5Responses
+2h:"natural inv" (p#3 5h 9-11hcp) ?1
+2s:"clubs inv+" (p#4 5+c 9+hcp) ?1
+3d:"Preempt" (p#2 6d 7-hcp q#hh+d, 7+d 7-hcp) ?1
+3h:"Preempt" (p#2 7+h 7-hcp) ?1
+]
+
+Fragment fAny6orGF5Responses [
+2$rs:"Minimum not 3 card support" (p#6 2-$rs 13-hcp) ?1
+{
+	<$rs=d>2s:"Natural GF" (5+d 4+s d>s 12+hcp) ?1
+}
+<$oppos=s>2s:"3 card raise" (p#3 3$rs 13hcp) ?1
+2nt:"Non-minimum" (p#5 14+hcp) ?1
+{
+	3c:"Ogust 5-7 bad suit" (5-7hcp q#hh-$rs) ?1 
+	3d:"Ogust 5-7 good suit" (5-7hcp q#hh+$rs) ?1
+	3h:"Ogust 8-9 bad suit" (8-9hcp q#hh-$rs) ?1
+	3s:"Ogust 8-9 good suit" (8-9hcp q#hh+$rs) ?1
+	3nt:"Original invite" (10-12hcp) ?1
+}
+3$rs:"Minimum 3 card support" (p#4 3$rs 12-hcp) ?1
+{
+	3nt:"Original gf" (p#4 12+hcp) ?1
+	4c:"Original gf 4+c" (p#3 4+c 12+hcp) ?1
+}
+<$os=c,!$rs=d>3d:"GF" (p#3 5+c 4+d c>d 18+hcp) ?1
+3$os:"Natural" (p#3 6+$os 1-$rs) ?1
+<!$rs=d>4d:"Unbal spl" (p#2 4+$rs 1-d 13+hcp) ?1
+<$oppos=h>3h:"3 card raise" (p#3 3$rs 13hcp) ?1
+4$rs:"4 card support" (p#4 4+$rs 14-hcp) ?1
+]
+
+Fragment f1Suit1NTOvercall [
+dbl:"Penalties" (p#3 10+hcp) ?1
+<!$os=c>2nt:"Raise" (p#2 4+$os 8-11hcp) ?1
+<$os=c>2nt:"Raise" (p#2 6+$os 8-11hcp) ?1
+[2c,2d,2h,2s]:"4-8 Good 5 card suit or any 6" (p#4 5% q#hh+% 4-8hcp, 6+% 4-8hcp) ?1
+<!$os=c>3$os:"Pre-emptive raise" (p#3 4-7hcp 4$os) ?1
+<!$os=c>4$os:"Pre-emptive raise" (p#2 3-7hcp 5+$os) ?2
+<$os=c>3$os:"Pre-emptive raise" (p#3 4-7hcp 6+$os) ?1
+]
+
+Fragment f1x2COvercall [
+<!$os=c>2$os:"competitive" (p#3 3+$os 8-hcp) ?1
+<$os=c>[2d,2h,2s]:"natural F1" (p#5 5+% %>* 9+hcp) ?1
+<$os=d>[2h,2s]:"natural F1" (p#5 5+% %>* 9+hcp) ?1
+<$os=h>[2d,2s]:"natural F1" (p#5 5+% %>* 9+hcp) ?2
+<$os=s>[2d,2h]:"natural F1" (p#5 5+% %>* 9+hcp) ?2
+2nt:"3 card raise" (p#4 3$os 9+hcp) ?1
+3c:"4 card raise" (p#4 4+$os 9+hcp) ?1
+]
+
+Fragment f1Minor2HOvercall [
+dbl:"take out" (4+s 8+hcp) ?2
+2s:"natural F1" (5+% 9+hcp) ?2
+2nt:"Clubs inv+" (4+c c>* 9+hcp) ?1
+<$os=c>3c:"6 diamonds inv or any GF" (6+d d>* 9+hcp, 5+d d>* 12+hcp) ?1
+<$os=c>3d:"Diamonds inv" (5d d>* 9-11hcp) ?1
+<$os=d>3c:"diamonds GF or comp" (4+d 13+hcp, 3+d 3-h 3-s 8-hcp) ?1
+<$os=d>3d:"invitational NF" (4+d 3-h 3-s 9-12hcp) ?1
+3h:"Splinter" (4+$os 1-h) ?1
+]
+
+Fragment f1x2SOvercall [
+dbl:"take out" (4h 8+hcp) ?2
+2nt:"Clubs inv+" (4+c c>* 9+hcp) ?1
+3c:"Diamonds inv+" (6+d d>* 9+hcp) ?2
+<$os=c>3d:"6 hearts inv or GF" (6+h h>* 9+hcp, 5+h h>* 12+hcp) ?1
+<$os=d>3d:"6 hearts inv or GF" (6+h h>* 9+hcp, 5+h h>* 12+hcp) ?1
+<$os=c>3h:"Hearts inv" (5h h>* 9-11hcp) ?1
+<$os=d>3h:"Hearts inv" (5h h>* 9-11hcp) ?1
+<$os=h>3d:"hearts GF or comp" (5+h 13+hcp, 5+h 8-hcp) ?1
+<$os=h>3h:"invitational NF" (5+h 9-12hcp) ?1
+<!$os=c>3s:"Splinter" (4+$os 11-14hcp 1-s) ?1
+<$os=c>3s:"Splinter" (6+$os 11-14hcp 1-s) ?1
+]
+
+Fragment f2CShapeEnquiry [
+[1]:"31" (3d 1c) ?1
+[2]:"31" (1d 3c) ?1
+[3]:"22" (2d 2c) ?1
+]
+
+Fragment f1NTInvPlus1Major [
+2nt:"Natural inv" (p#3 9-hcp) ?1
+{
+	3$M:"Signoff" (p#3 3+$M) ?1
+	3nt:"Game values" (p#2 16+hcp) ?1
+	4$M:"Game values" (p#1 16+hcp 3+$M) ?1
+}
+3c:"5M 4+m inv+ no slam interest offering 5-2M fit" (p#1 14-hcp 4+c q#hhh+$M, 14-hcp 5+c) ?1
+3d:"5M 4+m inv+ no slam interest offering 5-2M fit" (p#1 14-hcp 4+d q#hhh+$M, 14-hcp 5+d) ?1
+3h:"5M 4+m slam interest" (p#2 15+hcp 4+c [$m=c]) ?1
+{
+	<$M=h>3s:"Agrees hearts, cue" (p#1 3+h n#a|ks) ?1
+	<$M=h>4c:"Agrees clubs" (p#4 4+c) ?1
+	<$M=h>4d:"Agrees hearts, cue" (p#2 3+h n#a|kd) ?1
+	<$M=h>4h:"Agrees hearts" (p#3 3+h) ?1
+	<$M=s>3s:"Agrees spades" (p#1 3+s) ?1
+	<$M=s>4c:"Agrees clubs" (p#3 4+c) ?1
+	<$M=s>[4d,4h]:"Agrees clubs, cue" (p#2 4+c n#a|k%) ?1
+}
+3s:"5M 4+m slam interest" (p#2 15+hcp 4+d [$m=d]) ?1
+{
+	4c:"Agrees M, cue" (p#1 3+$M n#a|kc) ?1
+	4d:"Agrees diamonds" (p#4 4+d) ?1
+	<$M=h>4h:"Agrees hearts" (p#2 3+h) ?1
+	<$M=s>4h:"Agrees spades, cue" (p#2 3+s n#a|kh) ?1
+	<$M=s>4s:"Agrees spades" (p#3 3+s) ?1
+}
+3nt:"Natural" (p#3 10+hcp s#5332|5422) ?2
+4$M:"Good suit slam interest no outside controls" (p#1 q#hh+$M 6+$M s#6322|7222 14+hcp !n#A|K$OM !n#A|Kc !n#A|Kd) ?1
+4c:"Auto splinter, good suit" (p#1 q#hh+$M 6+$M 14+hcp 1-c) ?1
+4d:"Auto splinter, good suit" (p#1 q#hh+$M 6+$M 14+hcp 1-d) ?2
+4$OM:"Auto splinter, good suit" (p#1 q#hh+$M 6+$M 14+hcp 1-$OM) ?2
+]
+
+Fragment f1NTInvPlusOne4CardMajor [
+2nt:"4M natural inv" (p#5 8-9hcp 4$M) ?2
+[3c,3d]:"4M5m inv" (p#4 4$M 5% 8-9hcp) ?1
+3h:"4M5m GF" (p#3 4$M 5+c 10+hcp) ?1
+{
+	<$M=h>3s:"Agrees hearts, cue" (p#1 4+h n#a|ks) ?1
+	<$M=h>4c:"Agrees clubs" (p#4 4+c) ?1
+	<$M=h>4d:"Agrees hearts, cue" (p#2 4+h n#a|kd) ?1
+	<$M=h>4h:"Agrees hearts" (p#3 4+h) ?1
+	<$M=s>3s:"Agrees spades" (p#1 4+s) ?1
+	<$M=s>4c:"Agrees clubs" (p#3 4+c) ?1
+	<$M=s>[4d,4h]:"Agrees clubs, cue" (p#2 4+c n#a|k%) ?1
+}
+3s:"4M5m GF" (p#3 4$M 5+d 10+hcp) ?1
+{
+	4c:"Agrees M, cue" (p#1 4+$M n#a|kc) ?1
+	4d:"Agrees diamonds" (p#4 4+d) ?1
+	<$M=h>4h:"Agrees hearts" (p#2 4+h) ?1
+	<$M=s>4h:"Agrees spades, cue" (p#2 4+s n#a|kh) ?1
+	<$M=s>4s:"Agrees spades" (p#3 4+s) ?1
+}
+3nt:"4M natural" (p#4 10-14hcp 4$M) ?2
+[4c,4d]:"Auto splinter bad suit" (p#3 6+$M 12+hcp q#hh-$M 1-%) ?1
+<$M=s>4h:"Auto splinter bad suit" (p#3 6+$M 12+hcp q#hh-$M 1-h) ?1
+<$M=h>4s:"Auto splinter bad suit" (p#3 6+$M 12+hcp q#hh-$M 1-s) ?1
+4nt:"Doesn't exist (but quantitative if you bid it)" (p#4 16hcp s#4333)
+]
+
+Fragment f1NTGFSingleSuitedMinor [
+<$m=c>[1]: "Diamonds shortage" (1-d) ?1
+<$m=d>[1]: "Clubs shortage" (1-c) ?1
+[2]: "Hearts shortage" (1-h) ?1
+[3]: "Spades shortage" (1-s) ?1
+[4]: "Slam try no shortage" (s#6322 12+hcp) ?2
+[5]:"Slam try short spades" (1-s 12+hcp) ?1
+]
+
+Fragment f1CMajorLimitedSupport [
+1$M:"3 card support" (11-16hcp 3$M)
+{
+	(dbl):"Take out" (4$OM 2-$M 11+hcp)
+	{
+		rdbl:"Inv not 5" (4$M 10+hcp) ?1
+		<$M=h>1s:"44" (4h 4s 7+hcp) ?1
+		2$M:"Competitive" (5$M 4-9hcp) ?2
+		[2c-2d]:"Canape" (4$M 5+% 5-9hcp) ?1
+		2nt:"Inv 5" (5$M 10+hcp) ?2
+	}
+	pass:"weak hand" (p#10 5-hcp) ?2
+	<$M=h>1s:"44 with 5h bid h" (p#2 7-16hcp 4h 4s) ?1
+	{
+		1nt:"weak NT" (3-s $weakbal) ?1
+		{
+			[2c-2d]:"4441 nf" (2c:4c 11-hcp ^ 2d:4d 11-hcp) ?1
+			[3c-3d]:"4441 gf" (3c:4c 12+hcp ^ 3d:4d 12+hcp) ?1
+		}
+	}
+	1nt:"4M 6-10" (p#5 4$M 6-10hcp) ?1
+	2c:"Artificial game try" (p#5 10-12hcp)
+	{
+		~> "<13 rejects invite" (11-12hcp)
+		{
+			2d:"11-12 bal" (11-12hcp $weakbal) ?1
+			2h:"11-12 unbalanced" (5+c !s#5332|5422) ?1
+		}
+		~> "13+ hcp accepts invite" (13+hcp)
+		{
+			2s:"Natural 13+" (s#5431|6430 4$OM 5+c) ?1
+			2nt:"scattered values 13+" (s#6322 6c 3$M) ?1
+			3c:"Unbalanced clubs" (s#6331|7330 6+c) ?1
+			3d:"Unbalanced diamonds" (s#5431|6430 4d 5+c) ?1
+			3$M:"Concentrated clubs and $M" (s#6322 6c q#hhh+c q#hh+$M con{c,$M}) ?1
+			3nt:"To play" (13+hcp $weakbal) ?2
+		}
+	}
+	2d:"Artificial game force" (p#3 13+hcp)
+	{
+		2h:"Weak balanced" (p#5 $weakbal)
+		{
+			2s:"nt probe" (p#2 6+$M n#akq$M, s#5332 15-hcp)
+			{
+				2nt:"forced"
+				{
+					3$M:"Solid suit little outside" (6+$M n#akq$M s#64xx|63xx|73xx|72xx con{$M}) ?1
+					[3c-3d]:"doubleton"(s#5332 2%) ?1
+					3$OM:"doubleton"(s#5332 2$OM) ?1
+				}
+			}
+			2nt:"Various special hands" (p#2 17+hcp $bal, 5$M 4$OM, s#4441 1$OM)
+			{
+				3c:"forced"
+				{
+					3d:"Balanced slam try" (17+hcp $bal [$amin=17-18hcp, $amax=19+hcp, $rmin=11-12hcp, $rmax=13-14hcp]) ->fBalancedRelaysWithoutMajor
+					3$OM:"Natural 54" (5$M 4$OM) ?1
+					3$M:"4441" (s#4441 1$OM) ?1
+				}
+			}
+			3$M:"Slam try" (p#4 5+$M 18+hcp) ?1
+			3nt:"To play" (p#5 4$M) ?2
+			4c:"Slam try with good clubs" (p#3 5+$M 4+c q#hhh+c 17+hcp) ?1
+			4$M:"To play" (p#5 5+$M) ?2
+		}
+		2s:"Weak unbalanced" (p#4 5+c 11-14hcp !$bal) ?1
+		{
+			2nt:"enquiry" (p#5) ?2
+			3$M:"Slam try" (p#4 5+$M 18+hcp) ?1
+			4c:"Slam try good clubs" (p#3 5+$M 4+c q#hh+c 17+hcp) ?1
+		}
+		2nt:"scattered values 15-17" (p#3 s#6322 6c 3$M 15-17hcp) ?1
+		3c:"Unbalanced clubs" (p#2 s#6331|7330 6+c 15-17hcp) ?1
+		3d:"Unbalanced diamonds" (p#2 s#5431|6430 4d 5+c 15-17hcp) ?1
+		3$M:"Concentrated clubs and $M" (p#2 s#6322 6c 15-17hcp q#hhh+c q#hh+$M con{c,$M}) ?1
+	}
+	2$M:"2M 7-9 5 cards" (p#3 5+$M 6-9hcp) ?2
+	<$M=s>2h:"55M" (p#2 7-9hcp 5h 5s) ?1
+	<$M=h>2s:"54 invitational" (p#2 5+$M 4s 9-11hcp) ?1
+	2nt:"Game try balanced" (p#3 4$M 10-12hcp) ?2
+	[3c,3d]:"Natural game try" (p#2 8-11hcp 5$M 4+%)
+	<$M=h>3h:"Natural game try" (p#2 8-11hcp 5$M 4+%)
+	3$M:"Invitational 5+ cards" (p#3 9-11hcp 5+$M) ?2 
+	3nt:"Balanced with 4 card major" (p#3 13-17hcp 4$M 3-$OM) ?2
+	<$M=h>[3s,4c,4d]:"Mini splinter" (p#2 11-14hcp 5$M 1%) ?1
+	<$M=s>[4c,4d,4h]:"Mini splinter" (p#2 11-14hcp 5$M 1%) ?1
+}
+2$M:"weak nt 4M" ($weakbal 4$M) ?2
+3d:"unbalanced 15-16" (15-16hcp 5+c 4+$M) ?1
+3$M:"unbalanced <= 14" (14-hcp 5+c 4+$M) ?2
+]
+
+Fragment f1CMajorStrongSupport [
+2nt:"3/4 card support 17+" (17+hcp)
+{
+	3c:"3c sub min" (5-hcp 3+c)
+	3d:"GF relay" (p#4 6+hcp)
+	{
+		3h:"4 OM" (s#5431 4$OM 3$M) ?1
+		3s:"4 diamonds" (s#5431 4+d 3$M) ?1
+		3nt:"6+ clubs 3$M" (s#63xx|73xx 3$M) ?1
+		4c:"6+ clubs 4$M" (s#64xx|74xx 4$M) ?1
+		4d:"diamond fragment" (3+d 4$M) ?1
+		4$OM:"OM fragment" (3+$OM 4$M) ?1
+		 
+	}
+	3$M:"3M submin" (5-hcp 5+$M) ?1
+	4$M:"4M no slam aspirations" (p#3 4+$M 6-9hcp) ?2
+}
+]
+
+Fragment f1DMajorStrongSupport [
+3c:"GF relay" (6+hcp)
+{
+	3d:"4 OM" (s#5431 4$OM 3$M) ?1
+	3h:"4 clubs" (s#5431 4c 3$M) ?1
+	3s:"6+ diamonds 3$M" (s#63xx|73xx 3$M) ?1
+	4c:"6+ diamonds 4$M" (s#64xx|74xx 4$M) ?1
+	4d:"club fragment" (3+c 4$M) ?1
+	4$OM:"OM fragment" (3+$OM 4$M) ?1
+}
+3d:"3d sub min" (5-hcp 3+d) ?1
+<$M=h>3s:"5+5 +ive" (p#2 6+h 5s 7+hcp) ?1	 
+<$M=s>3h:"5+5 +ive" (p#2 5+s 5h 7+hcp) ?1	 
+3$M:"3M submin" (5-hcp 5+$M) ?1
+4$M:"4M no slam aspirations" (6-10hcp) ?2
+]
+
+Fragment f1CMajorGameForcing [
+2d:"Initial GF" 
+{
+	2h:"semi +ive" (p#4 4+hcp)
+	{ 
+		2nt:"Balanced 23+" (23+hcp $bal)
+		{ name fXFerResponsesTo23Plus
+			3c:"xFer" (4+d) ?1
+			<$M=h>3d:"xFer" (5+h) ?2
+			<$M=s>3d:"xFer" (5+s 4+h) ?2
+			<$M=h>3h:"xFer" (4+s) ?1
+			<$M=s>3h:"xFer" (5+s) ?2
+			3s:"xFer" (5+c) ?2
+		}
+	}
+	2s:"double -ive" (p#5 3-hcp)
+	{ 
+		2nt:"Balanced 23+" (23+hcp $bal) ->fXFerResponsesTo23Plus
+	}
+	2nt:"5M +ive" (p#3 7+hcp 5$M) ?1
+	[3c-3d]:"+ive canape" (p#3 5% %>$M) ?1
+	3$M:"+ive 6M" (p#2 6$M 7+hcp) ?2
+	<$M=h>3$OM:"56 +ive" (p#2 5s 6h 7+hcp) ?1
+	<$M=s>3$OM:"5+5 +ive" (p#2 5+s 5h 7+hcp) ?2
+}
+]
+
+Fragment f1CMajorSpadeHands [
+<$M=h>1s:"Spades and clubs" (5+c 4+s c>s) ?1
+]
+
+Fragment f1CMajorStrongHands [
+<$M=h> 2s: "Artificial reverse" (18+hcp 3-s [$m=c, $om=d]) ->f1Minor1MajorStrongHandsResponses
+<$M=s> 2h: "Artificial reverse" (18+hcp [$m=c, $om=d]) ->f1Minor1MajorStrongHandsResponses
+]
+
+Fragment f1Minor1MajorStrongHandsResponses [
+[1]:"enough to respond to an opening bid" (p#3 6+hcp) ?1
+{
+	<$M=s>2nt:"$m + hearts" (5+$m 4+h 17+hcp) ?1
+	<$m=c>3c:"Clubs + diamonds" (5+$m 4+$om 17-18hcp) ?1
+	<$m=d>3c:"Clubs + diamonds 55 GF" (5+d 5+c 18+hcp) ?1
+	3d:"$m single suited" (6+$m !s#64xx 19+hcp) ?1
+	3h:"Clubs + diamonds GF 64" (6$m 4$om 17+hcp s#64xx) ?1
+	3s:"Clubs + diamonds GF 22M" (5+$m 4+$om 19+hcp s#5422) ?1
+	3nt:"Clubs + diamonds GF Sing M" (5+$m 4+$om 19+hcp 1-s s#5521|5431, 5+$m 4+$om 19+hcp 1-h s#5521|5431) ?1
+}
+<$M=s>2nt:"GF 4+h" (p#2 4h s>h 6+hcp, 5+h s>=h 6+hcp) ?1
+{
+	3$m:"Single suited minor" (6+$m !s#64xx 19+hcp) ?1
+	<$m=c>3$om:"Clubs + diamonds" (5+$m 4+$om 19+hcp) ?1
+	<$m=d>3$om:"Clubs + diamonds" (5+$m 5+$om $m>=$om 19+hcp) ?1
+	3h:"Minor + hearts" (5+$m 4+h 17+hcp) ?1
+	3s:"Clubs + diamonds GF" (5+$m 4+$om 19+hcp 2s) ?1
+	3nt:"18-20 balanced" (5+$m 4+$om 17-18hcp) ?1
+}
+3$m:"to play" (p#3 5-hcp 3$m 4$M) ?1
+3$om:"GF 55M" (p#2 5+$M 5+$om 6+hcp) ?1
+<$M=s>3h:"GF 55M" (p#2 5+s 5+h 6+hcp) ?1
+3$M:"Natural GF" (p#2 6+hcp 6+$M)  ?1
+]
+
+Fragment f1DMajorStrongHands [
+<$M=h> 2s: "Artificial reverse" (18+hcp 3-s [$m=d, $om=c]) ->f1Minor1MajorStrongHandsResponses
+<$M=s> 2h: "Artificial reverse" (18+hcp [$m=d, $om=c]) ->f1Minor1MajorStrongHandsResponses
+]
+
+Fragment f1CMajorWeakNT [
+2c:"Signoff or weak invite" (p#5 9-hcp, 9-11hcp 6$M q#hh-$M)
+{
+	2d:"Forced"
+	{
+		pass:"Diamonds" (p#5 5+d 9-hcp) ?1
+		2$M:"To play 5M" (p#4 9-hcp 5$M) ?1
+		<$M=s> 2h:"54M weak" (p#3 5s 4h 9-hcp) ?1 
+		<$M=h> 2s:"Weak 5-6" (p#3 5s 6h 9-hcp) ?1
+		[3c-3d]:"Weak 55" (p#3 5$M 5% 9-hcp) ?1
+		<$M=s> 3h:"Weakly inv 55" (p#3 5s 5h 7-8hcp) ?1
+		3$M:"Poor 6 card suit inv" (p#3 9-11hcp 6$M q#hh-$M) ?1
+	}
+}
+2d:"Game force" (p#2 13+hcp)
+{
+	2h:"Weak balanced" (p#5 $weakbal)
+	{
+		2s:"various game going hands" (p#3 6+$M n#akq$M 16-hcp, s#54xx 16-hcp q#hhh+$M)
+		{
+			2nt:"forced"
+			{
+				3$M:"Solid suit little outside" (6+$M n#akq$M s#64xx|63xx|73xx|72xx con{$M}) ?1
+				3$OM:"Natural 54 suggest 5-2 fit" (5$M 4$OM q#hhh+$M) ?1
+				[3c-3d]:"Natural 54"(5$M 4%) ?1
+			}
+		}
+		2nt:"Various special hands" (p#3 17+hcp $bal, s#4441 17+hcp, s#54xx 16-hcp q#hhh-$M)
+		{
+			3c:"forced"
+			{
+				3d:"Balanced slam try" (17+hcp $bal [$amin=17-18hcp, $amax=19+hcp, $rmin=11-12hcp, $rmax=13-14hcp]) ->fBalancedRelaysWithoutMajor
+				3$M:"4144 best game or slam try" (s#4441 1$OM) ?1
+				3$OM:"4 cards no interested in 5-2" (4$OM) ?1
+				[4c-4d]:"Natural 4441 slam try" (s#4441 4$OM 4%) ?1
+			}
+		}
+		[3c,3d,3$OM]:"Natural slam try" (p#4 5$M 4+% 17+hcp) ?1
+		3$M:"Natural slam try" (p#4 6+$M 16+hcp) ?1
+		[4c,4d,4$OM]:"Auto splinter" (p#3 6+$M 1-% 16+hcp) ?1
+		4$M:"To play" (p#6 6+$M 15-hcp) ?2
+	}
+	2s:"(31)45" (p#3 5c 4d 1$M) ?1
+	2nt:"(41)44" (p#3 s#4441 1$M) ?1
+	3c:"Clubs" (p#3 s#6322 6c) ?2
+	3d:"2245" (p#3 d#2245) ?2
+}
+2$M:"Inv 5M" (p#3 10-11hcp 5$M) ?1
+<$M=s> 2h:"54M inv" (p#2 5s 4h 10-11hcp) ?1 
+<$M=h> 2s:"44M or 45M inv" (p#2 4s 4h 10-11hcp, 4s 5h 10-11hcp) ?1 
+2nt:"Inv" (p#3 10-11hcp 4$M) ?2
+[3c-3d]:"Inv 55" (p#2 5$M 5% 9-11hcp) ?1
+<$M=s> 3h:"Inv 55" (p#2 5s 5h 9-11hcp) ?1
+3$M:"Good 6 card suit inv" (p#2 9-11hcp 6$M q#hh+$M) ?1
+[3$OM,4c,4d]:"Weak auto splinter" (p#2 9-13hcp 1-% 6$M) ?2
+3nt:"To play" (p#3 12-14hcp) ?2
+]
+
+Fragment f1CMajorClubs [
+2d:"Artificial GF or Nat or Clubs or Unstopped suit" (p#3 13+hcp 4+d d<=$M, 13+hcp 4+c c<=$M, 13+hcp) ?1
+2$M:"Constructive to inv" (6+$M 8-11hcp) ?1
+2$OM:"Forcing" (p#5 12+hcp 4+$OM d<=$OM) ?1
+2nt:"Natural inv" (p#6 $bal 10-12hcp) ?1
+[3d,3$OM,4c]:"Splinter" (p#4 11+hcp 3+c 1-%) ?2
+]
+
+Fragment fAsptro [
+2c:"Hearts and another" (p#4 4+h s#54xx|55xx 8+hcp [$as=h, $OM=s, $sb=c])
+{ name fAsptroResponses
+	2$OM:"5M + 2nd suit" (5$OM s#54xx|55xx 2-$as) ?2
+	2nt:"GF" (p#2 14+hcp) 
+	{ name fAsptroGFResponses
+		3c:"Canape" (5+c 4$as, 5+d 4$as)
+		{
+			3d:"Enquiry"
+			{
+				3h:"4M 5+c" (5+c) ?2
+				3s:"4M 5+d" (5+d) ?2
+			}
+		}
+		3d:"5M 4+c" (4+c 5+$as) ?4
+		3h:"5M 4+d" (4+d 5+$as) ?2
+		3s:"5OM 4M" (5$OM 4$as) ?2
+		3nt:"5M 5OM" (5$OM 5$as) ?2
+	}
+	3c:"3 card inv raise" (p#3 3$as 9-13hcp) ?3
+	<$as=s>3h:"Natural GF" (p#3 6+h 13+hcp) ?2
+	<$as=h>3s:"Natural GF" (p#3 6+s 13+hcp) ?2
+	3$as:"4 card inv raise" (p#3 4+$as 9-12hcp) ?2
+	(dbl):"Values" (p#3 8+hcp)
+	{
+		pass:"To play opposite 4" (p#4 3+$sb 3-$as) ?2
+		rdbl:"Suit of my own" (p#4 s#6xxx|7xxx 3-$as) ?2
+		[1]:"Relay" (p#5) ?2
+		<$as=h>2$OM:"5M + 2nd suit" (p#4 5$OM s#54xx|55xx 2-$as) ?2
+		3c:"5c + 2nd suit" (p#4 5c s#54xx|55xx 2-$as) ?2
+	}
+	([2d-2$OM]):"Natural" (p#3 5+% 6+hcp [$oppos=%])
+	{
+		dbl:"Pass if your suit" (2+$oppos 13+hcp, 3+$oppos 10+hcp) ?2
+		<$oppos=d>2$OM:"Natural" (5+$OM 8+hcp) ?2
+		2nt:"GF" (p#2 14+hcp) ->fAsptroGFResponses
+	}
+	(2nt):"Lebensohl" (p#6 6+c 4-8hcp, 6+d 4-8hcp)
+	{
+		dbl:"Bid out your hand" (8+hcp) ?2
+	} 
+}
+2d:"Spades and another" (p#4 4+s s#54xx 8+hcp [$as=s, $OM=h, $sb=d]) ->fAsptroResponses
+[2h-2s]:"Natural" (2h:p#4 6+% 8+hcp [$M=h] ^ 2s:p#4 6+% 8+hcp [$M=s])
+{
+	2nt:"Shortage ask" (10+hcp 3+$M) ?1
+}
+]
+
+Fragment fMultiLandy [
+2c:"Both majors" (4+h 4+s 7+hcp s#54xx|55xx) ?1
+{
+	2d:"Asks for longest major"
+	{
+		2h:"Hearts longest or equal length" (h>=s)
+		{
+			3h:"Real invitation" (12-14 hcp 4+h) ?1
+		}
+		2s:"Spades longest" (s>h)
+		{
+			3s:"Real invitation" (12-14 hcp 4+s) ? 1
+		}
+	}
+	2h:"To play" (h>=s 8-hcp)
+	2s:"To play" (s>h 8-hcp)
+	2nt:"Natural invite" (12-14hcp 2-h 2-s) ?1
+	[3h,3s]:"Constructive" (4+% 9-11hcp) ?1
+}
+2d:"Single suited major" (6+s 7+hcp, 6+h 7+hcp) ?1
+{
+	2h:"Pass or correct"
+}
+2h:"Major minor 54+" (5h s#54xx|55xx 7+hcp 3-s) ?1
+2s:"Major minor 54+" (5s s#54xx|55xx 7+hcp 3-h) ?1
+]
+
+Fragment fBalancedRelays [
+3h:"4+ Hearts" (4+h) ?1
+{
+	3s:"4 Spades" (4s) ?1
+	3nt:"not 4M" (3-s 3-h $amin) ?1
+	4c:"real slam try 4c" (3-s 3-h 4c $amax) ?1
+	4d:"real slam try 4d" (3-s 3-h 3-c 4d $amax) ?1
+	4h:"4h min" ($amin 4h) ?1
+}
+3s:"4+ Spades" (4+s 3-h) ?2
+3nt:"Min no major" ($rmin 3-h 3-s) ?1
+4c:"Max 4+c" ($rmax 3-h 3-s 4+c) ?1
+4d:"Max 4+d" ($rmax 3-h 3-s 3-c 4+d) ?1
+]
+
+Fragment fBalancedRelaysWithoutMajor [
+<$M=s>3h:"4+ Hearts" (4+h) ?2
+{ name responderBids
+	3s:"4 Spades" (4s) ?2
+	3nt:"not 4M" (3-s 3-h $amin) ?2
+	4c:"real slam try 4c" (3-s 3-h 4c $amax) ?2
+	4d:"real slam try 4d" (3-s 3-h 3-c 4d $amax) ?2
+	4h:"4h min" ($amin 4h) ?2
+}
+<$M=h>3h:"3 Hearts" (p#2 3h q#hhh+h) ?1
+<$M=s>3s:"3 Spades" (3s q#hhh+s) ?1
+<$M=h>3s:"4+ Spades" (p#3 4+s) ?2
+3nt:"Min no major" ($rmin 3-h 3-s) ?2
+4c:"Max 4+c" ($rmax 3-h 4+c) ?2
+4d:"Max 4+d" ($rmax 3-h 3-c 4+d) ?2
+]
+
+Fragment f1NTResponsesInComp [
+2c:"4M inv+ raise or 1-suited major bad suit or 1 suited minor fg" (p#2 4h 3-s 8+hcp, 4s 3-h 8+hcp, 6+h 12+hcp q#hh-h, 6+s 12+hcp q#hh-s, 6+c 10+hcp 3-s 3-h, 6+d 10+hcp 3-s 3-h, s#5422 4+d 4+c 10+hcp) ?1
+2d:"Both M inv+ or Signoff H or inv+ 5H or 1 suited slam try good suit" (p#3 5+h 7-hcp, 5h s#5332 8-12hcp, 5h 3-s s#5422|5431 15+hcp, 5h 3-s s#5422|5431 9-14hcp q#hhh+h, 6h 12+hcp q#hhh+h, 4+h 4+s 8+hcp [$M=h, $OM=s]) ?1
+2h:"Signoff S or inv+ 5s or 1 suited slam try good suit" (p#4 5+s 7-hcp, 5s s#5332 8-12hcp, 5s 3-h s#5422|5431 15+hcp, 5s 3-h s#5422|5431 9-14hcp q#hhh+s, 6s 12+hcp q#hhh+s [$M=s, $OM=h]) ?1
+2s:"Inv bal or signoff clubs or bal slam try or fg 54/45 minors" (p#2 8-9hcp 3-h 3-s, 6+c 7-hcp, $14to15Bal, $16PlusBal) ?1
+]
+
+Fragment fRKCBResponses [
+[1]:"3 or 0" ?2
+[2]:"4 or 1" ?2
+[3]:"2" ?2
+[4]:"2 + q# of trumps" ?2
+]
+]
+

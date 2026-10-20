@@ -1,0 +1,323 @@
+library: "Kokish Weak 1NT"
+description: "Kokish-Kraft 11+-14 Weak 1NT opening structure with NF Stayman, 4-suit transfers, Smolen, CONFIT, and Texas transfers"
+version: "1.0"
+
+imports:
+  - "assets/libraries/conventions/smolen.yaml"
+  - "assets/libraries/conventions/rkcb_1430.yaml"
+
+fragments:
+  fKokishWeak1NTResponses:
+    desc: "1NT: Weak Notrump (11+-14 HCP balanced)"
+    rule: "p#1 11-14hcp $bal"
+    priority: 1
+    bids:
+      2c:
+        desc: "Stayman: Non-forcing, promises 4M or 5M"
+        rule: "p#2 11+hcp 4+M, p#2 11+hcp 5+M"
+        priority: 2
+        bids:
+          2d:
+            desc: "Opener denies 4-card major"
+            rule: "p#1 4-h 4-s"
+            priority: 1
+            bids:
+              2h:
+                desc: "Weak scramble, both majors (less than INV)"
+                rule: "p#1 4h 4s 7-hcp"
+                priority: 1
+              2s:
+                desc: "Invitational with 5/6 Spades"
+                rule: "p#1 5+s 11-12hcp"
+                priority: 1
+              2nt:
+                desc: "Invitational, usually balanced with 4-card major"
+                rule: "p#2 11-12hcp"
+                priority: 2
+              3c:
+                desc: "Natural FG, 5+ Clubs and 4-card major"
+                rule: "p#1 13+hcp 5+c 4+M"
+                priority: 1
+              3d:
+                desc: "Natural FG, 5+ Diamonds and 4-card major"
+                rule: "p#1 13+hcp 5+d 4+M"
+                priority: 1
+              3h:
+                desc: "Smolen: 5+ Spades, 4 Hearts, Game Forcing"
+                rule: "p#1 13+hcp 5+s 4h"
+                priority: 1
+                bids:
+                  3s:
+                    desc: "Opener fits 3 Spades"
+                    rule: "3s"
+                  3nt:
+                    desc: "Opener denies 3 Spades, to play"
+                    rule: "2-s"
+              3s:
+                desc: "Smolen: 5+ Hearts, 4 Spades, Game Forcing"
+                rule: "p#1 13+hcp 5+h 4s"
+                priority: 1
+                bids:
+                  4h:
+                    desc: "Opener fits 3 Hearts"
+                    rule: "3h"
+                  3nt:
+                    desc: "Opener denies 3 Hearts, to play"
+                    rule: "2-h"
+              3nt:
+                desc: "To play (limited with 4-card major)"
+                rule: "p#3 13-15hcp"
+                priority: 3
+
+          2h:
+            desc: "Opener shows 4+ Hearts (bids Hearts first with 4-4 majors)"
+            rule: "p#1 4+h"
+            priority: 1
+            bids:
+              2s:
+                desc: "Invitational with 4/5 Spades unbalanced"
+                rule: "p#1 11-12hcp 4+s"
+                priority: 1
+              2nt:
+                desc: "Invitational balanced with 5 Spades"
+                rule: "p#2 11-12hcp 5s"
+                priority: 2
+              3c:
+                desc: "Natural FG, 5+ Clubs, 4 Spades"
+                rule: "p#1 13+hcp 5+c 4s"
+                priority: 1
+              3d:
+                desc: "Natural FG, 5+ Diamonds, 4 Spades"
+                rule: "p#1 13+hcp 5+d 4s"
+                priority: 1
+              3h:
+                desc: "Invitational raise in Hearts"
+                rule: "p#2 11-12hcp 4+h"
+                priority: 2
+              3s:
+                desc: "Splinter slam try agreeing Hearts"
+                rule: "p#1 15+hcp 4+h 1-s"
+                priority: 1
+              3nt:
+                desc: "To play (guarantees 4 Spades)"
+                rule: "p#2 13-15hcp 4s"
+                priority: 2
+              4h:
+                desc: "Game signoff in Hearts"
+                rule: "p#1 13-16hcp 4+h"
+                priority: 1
+              4s:
+                ref: "fKickbackHearts"
+
+          2s:
+            desc: "Opener shows 4+ Spades (denies 4 Hearts)"
+            rule: "p#1 4+s 3-h"
+            priority: 1
+            bids:
+              2nt:
+                desc: "Invitational with 4/5 Hearts"
+                rule: "p#1 11-12hcp 4+h"
+                priority: 1
+              3m:
+                desc: "Natural FG, 5+ minor and 4 Hearts"
+                rule: "p#1 13+hcp 4h"
+                priority: 1
+              3h:
+                desc: "Slam try agreeing Spades"
+                rule: "p#1 15+hcp 4+s"
+                priority: 1
+              3s:
+                desc: "Invitational raise in Spades"
+                rule: "p#2 11-12hcp 4+s"
+                priority: 2
+              3nt:
+                desc: "To play (guarantees 4 Hearts)"
+                rule: "p#2 13-15hcp 4h"
+                priority: 2
+              4s:
+                desc: "Game signoff in Spades"
+                rule: "p#1 13-16hcp 4+s"
+                priority: 1
+              4nt:
+                ref: "fRKCBResponses"
+
+      2d:
+        desc: "Jacoby Transfer to Hearts (5+ Hearts or Walsh 3-suiter)"
+        rule: "p#1 5+h, p#1 4441"
+        priority: 1
+        bids:
+          2h:
+            desc: "Opener accepts transfer to Hearts"
+            rule: "p#1 2+h"
+            priority: 1
+            bids:
+              2nt:
+                desc: "Double transfer: 5+ Hearts, 4+ Clubs, Game Forcing"
+                rule: "p#1 13+hcp 5+h 4+c"
+                priority: 1
+              3c:
+                desc: "Double transfer: 5+ Hearts, 4+ Diamonds, Game Forcing"
+                rule: "p#1 13+hcp 5+h 4+d"
+                priority: 1
+              3d:
+                desc: "6+ Hearts, Invitational or mild slam try"
+                rule: "p#1 11-12hcp 6+h"
+                priority: 1
+              3h:
+                desc: "6+ Hearts, Game Forcing slam try"
+                rule: "p#1 14+hcp 6+h"
+                priority: 1
+              3nt:
+                desc: "Choice of games (5 Hearts, balanced)"
+                rule: "p#2 13-15hcp 5h $bal"
+                priority: 2
+              4h:
+                desc: "Signoff in Hearts"
+                rule: "p#1 10-14hcp 6+h"
+                priority: 1
+
+      2h:
+        desc: "Jacoby Transfer to Spades (5+ Spades)"
+        rule: "p#1 5+s"
+        priority: 1
+        bids:
+          2s:
+            desc: "Opener accepts transfer to Spades"
+            rule: "p#1 2+s"
+            priority: 1
+            bids:
+              2nt:
+                desc: "Double transfer: 5+ Spades, 4+ Clubs, Game Forcing"
+                rule: "p#1 13+hcp 5+s 4+c"
+                priority: 1
+              3c:
+                desc: "Double transfer: 5+ Spades, 4+ Diamonds, Game Forcing"
+                rule: "p#1 13+hcp 5+s 4+d"
+                priority: 1
+              3d:
+                desc: "5+ Spades, 5+ Hearts, Invitational+"
+                rule: "p#1 11+hcp 5+s 5+h"
+                priority: 1
+              3h:
+                desc: "6+ Spades, Invitational"
+                rule: "p#1 11-12hcp 6+s"
+                priority: 1
+              3s:
+                desc: "6+ Spades, Game Forcing slam try"
+                rule: "p#1 14+hcp 6+s"
+                priority: 1
+              3nt:
+                desc: "Choice of games (5 Spades, balanced)"
+                rule: "p#2 13-15hcp 5s $bal"
+                priority: 2
+              4s:
+                desc: "Signoff in Spades"
+                rule: "p#1 10-14hcp 6+s"
+                priority: 1
+
+      2s:
+        desc: "Transfer to Clubs OR balanced raise to 2NT"
+        rule: "p#1 6+c, p#2 11-12hcp $bal"
+        priority: 1
+        bids:
+          2nt:
+            desc: "Opener minimum for 1NT (11-12 HCP)"
+            rule: "p#1 11-12hcp"
+            priority: 1
+            bids:
+              pass:
+                desc: "Responder had balanced invitation, passes"
+                rule: "11-12hcp $bal"
+              3c:
+                desc: "Responder had long Clubs, signs off"
+                rule: "6+c"
+          3c:
+            desc: "Opener maximum for 1NT (13-14 HCP)"
+            rule: "p#1 13-14hcp"
+            priority: 1
+            bids:
+              pass:
+                desc: "Responder had weak Clubs, signs off"
+                rule: "6+c 7-hcp"
+              3nt:
+                desc: "Responder accepts game in 3NT"
+                rule: "11-12hcp $bal"
+
+      2nt:
+        desc: "Transfer to Diamonds OR weak 5+ Clubs / 5+ Diamonds"
+        rule: "p#1 6+d, p#1 5+c 5+d 8-hcp"
+        priority: 1
+        bids:
+          3c:
+            desc: "Opener minimum for Diamonds (11-12 HCP)"
+            rule: "p#1 11-12hcp"
+            priority: 1
+            bids:
+              pass:
+                desc: "Responder had weak 5-5 minors, passes 3C"
+                rule: "5+c 5+d"
+              3d:
+                desc: "Responder had long Diamonds, signs off"
+                rule: "6+d"
+          3d:
+            desc: "Opener maximum for Diamonds (13-14 HCP)"
+            rule: "p#1 13-14hcp"
+            priority: 1
+
+      3c:
+        desc: "Both minors (5+ Clubs, 5+ Diamonds), Invitational"
+        rule: "p#1 11-12hcp 5+c 5+d"
+        priority: 1
+        bids:
+          pass:
+            desc: "Opener prefers Clubs, declines invitation"
+            rule: "c>=d"
+          3d:
+            desc: "Opener prefers Diamonds, declines invitation"
+            rule: "d>c"
+          3nt:
+            desc: "Opener accepts game in 3NT"
+            rule: "13-14hcp"
+
+      3d:
+        desc: "CONFIT: Balanced slam try, asks for controls (3+)"
+        rule: "p#1 15+hcp $bal"
+        priority: 1
+
+      3h:
+        desc: "Splinter: Singleton Heart, 5-4 minors, Game Forcing"
+        rule: "p#1 13+hcp 1-h 5+d 4+c, p#1 13+hcp 1-h 5+c 4+d"
+        priority: 1
+
+      3s:
+        desc: "Splinter: Singleton Spade, 5-4 minors, Game Forcing"
+        rule: "p#1 13+hcp 1-s 5+d 4+c, p#1 13+hcp 1-s 5+c 4+d"
+        priority: 1
+
+      3nt:
+        desc: "Natural to play (balanced, no 4-card major)"
+        rule: "p#3 13-15hcp $bal 3-h 3-s"
+        priority: 3
+
+      4c:
+        desc: "Gerber Ace-asking"
+        rule: "p#1 15+hcp"
+        priority: 1
+
+      4d:
+        desc: "Texas Transfer to Hearts (6+ Hearts, to play)"
+        rule: "p#1 10-15hcp 6+h"
+        priority: 1
+        bids:
+          4h:
+            desc: "Opener accepts transfer to 4 Hearts"
+            rule: "2+h"
+
+      4h:
+        desc: "Texas Transfer to Spades (6+ Spades, to play)"
+        rule: "p#1 10-15hcp 6+s"
+        priority: 1
+        bids:
+          4s:
+            desc: "Opener accepts transfer to 4 Spades"
+            rule: "2+s"

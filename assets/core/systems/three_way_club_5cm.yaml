@@ -1,0 +1,91 @@
+system: "3-Way Club (5-Card Majors)"
+player: "John"
+partner: "Andy"
+style: "3_way_club_5cm"
+
+imports:
+  - "assets/libraries/conventions/one_club_walrus.yaml"
+  - "assets/libraries/conventions/five_card_majors_2over1.yaml"
+  - "assets/libraries/conventions/multi_landy.yaml"
+  - "assets/libraries/conventions/drury.yaml"
+  - "assets/libraries/conventions/rkcb_1430.yaml"
+  - "assets/libraries/conventions/one_nt_responses.yaml"
+
+definitions:
+  bal: "s#5332|4432|4333"
+  weakbal: "11-14hcp $bal 4-h 4-s"
+  strongnt: "15-17hcp $bal 4-h 4-s"
+  gf: "23+hcp $bal, 27+knr"
+
+OpeningBids:
+  pass:
+    desc: "No opening available"
+    rule: "10-hcp"
+    bids:
+      "[1h-1s]":
+        desc: "5 card major opening in 3rd/4th seat"
+        rule: "11+hcp, 5+h, 5+s"
+        ref: "fDrury"
+      "(50%Weak.1nt)":
+        desc: "Opposition Weak NT opening"
+        rule: "12-14hcp"
+        bids:
+          pass:
+            desc: "Pass"
+            ref: "fMultiLandy"
+
+  1c:
+    desc: "3-way club: weak NT, 11+ clubs, or game force"
+    rule: "p#2 $weakbal | p#2 5+c 11+hcp c>* !$bal | p#2 s#4441 4c 11-14hcp | p#2 $gf [$os=c]"
+    ref: "f1CWalrusResponses"
+
+  1d:
+    desc: "Unbalanced diamonds"
+    rule: "11+hcp, 4+d, d>=*"
+
+  1h:
+    desc: "5+ card Hearts opening"
+    rule: "10+hcp, 5+h"
+    ref: "fHeartResponses2Over1"
+
+  1s:
+    desc: "5+ card Spades opening"
+    rule: "10+hcp, 5+s"
+    ref: "fSpadeResponses2Over1"
+
+  1nt:
+    desc: "Strong balanced NT (15-17)"
+    rule: "p#1 15-17hcp, balanced, 4-h, 4-s"
+    priority: 1
+    ref: "f1NTResponses"
+
+  2c:
+    desc: "Both majors 8-13 or Precision style"
+    rule: "8-13hcp, 4+h, 4+s, s#54xx|55xx"
+
+  2nt:
+    desc: "Strong 20-22 balanced"
+    rule: "20-22hcp, balanced"
+
+OppositionOpeningBids:
+  "(1d)":
+    desc: "Opposition 1D opening"
+    rule: "11+hcp, 3+d"
+    bids:
+      dbl:
+        desc: "Takeout double of diamonds"
+        rule: "12+hcp, 3-d, 3+h, 3+s"
+      1h:
+        desc: "Overcall 5+ Hearts"
+        rule: "8-16hcp, 5+h"
+      1s:
+        desc: "Overcall 5+ Spades"
+        rule: "8-16hcp, 5+s"
+      1nt:
+        desc: "Strong 1NT overcall with stopper"
+        rule: "15-18hcp, balanced"
+
+  "(1nt)":
+    desc: "Opposition 1NT opening"
+    rule: "12-17hcp"
+    ref: "fMultiLandy"

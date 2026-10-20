@@ -1,0 +1,269 @@
+name: "1C 3-Way Club Walrus Transfer System"
+desc: "Comprehensive 1C transfer responses [1d-1h] and follow-up continuations (~>)"
+
+fragments:
+  f1CWalrusResponses:
+    desc: "Walrus Transfer Responses to 1C"
+    bids:
+      "[1d-1h]":
+        desc: "Transfer response showing 4+ Major"
+        rule: "1d:p#4 4+h h>s | 4h 4s [$M=h, $OM=s] ^ 1h:p#5 4+s [$M=s, $OM=h]"
+        bids:
+          "~>Initial gf":
+            rule: "p#1 $gf"
+            ref: "f1CMajorGameForcing"
+          "~>Support":
+            rule: "p#4 3+$M"
+            bids:
+              "~>Strong hand 3/4 card support":
+                rule: "17+hcp 5+c !s#5332"
+                ref: "f1CMajorStrongSupport"
+              "~>Limited hand 3/4 card support":
+                rule: "16-hcp"
+                ref: "f1CMajorLimitedSupport"
+          "~>No Support":
+            rule: "p#5 2-$M"
+            bids:
+              "~>Spades no support":
+                rule: "p#3 4+s"
+                ref: "f1CMajorSpadeHands"
+              "~>Strong hand no support":
+                rule: "p#3 17+hcp s#55xx|54xx|64xx, 18+hcp s#6322, 19+hcp 6+c"
+                ref: "f1CMajorStrongHands"
+              1nt:
+                desc: "Weak NT no support"
+                rule: "p#5 $weakbal, s#4441|5431 c>=* 11-14hcp 1$M"
+                ref: "f1CMajorWeakNT"
+              2c:
+                desc: "Clubs without support"
+                rule: "p#4 15-hcp 5+c !s#5332"
+                ref: "f1CMajorClubs"
+              3c:
+                desc: "Clubs natural inv"
+                rule: "p#3 16-17hcp 6+c"
+                priority: 1
+          3d:
+            desc: "Splinter (short diamonds)"
+            rule: "p#3 1-d 18-21hcp 4$M"
+            priority: 1
+          "3$OM":
+            desc: "Splinter (short other major)"
+            rule: "p#3 1-$OM 18-21hcp 4$M"
+            priority: 1
+          "<$M=h>(1s)":
+            desc: "Opponent overcall 1s"
+            rule: "5+s 7+hcp"
+            bids:
+              2d:
+                desc: "Reverse"
+                rule: "16+hcp 5+c 4+d c>d"
+                priority: 1
+              2s:
+                desc: "Initial GF"
+                rule: "p#1 $gf"
+                priority: 1
+      1s:
+        desc: "GF diamonds or balanced 8-10 without 4-card major"
+        rule: "p#3 13+hcp 5+d d>*, 10-hcp 3-h 3-s"
+        bids:
+          1nt:
+            desc: "11-14 Bal"
+            rule: "p#4 $weakbal"
+            bids:
+              2c:
+                desc: "Natural sign off"
+                rule: "5+c 9-hcp"
+                priority: 1
+              2d:
+                desc: "Natural sign off"
+                rule: "5+d 9-hcp"
+                priority: 1
+              "[2h,2s]":
+                desc: "Natural GF diamonds"
+                rule: "2h:12+hcp 5+d 4+h d>h ^ 2s:12+hcp 5+d 4+s d>s"
+                priority: 2
+              2nt:
+                desc: "Natural gf"
+                rule: "5+d 13+hcp s#5332|6322"
+                priority: 2
+              3c:
+                desc: "Natural gf"
+                rule: "12+hcp 5+d 4+c d>c"
+                priority: 2
+              3d:
+                desc: "Natural gf"
+                rule: "6+d 13+hcp 3-s 3-h 3-c"
+                priority: 2
+          2c:
+            desc: "Clubs to play opposite 0-10"
+            rule: "p#5 15-hcp 5+c"
+            bids:
+              3c:
+                desc: "Natural inv"
+                rule: "3-s 3-h 3+c 8-10hcp"
+                priority: 2
+              2d:
+                desc: "Natural gf diamonds"
+                rule: "6+d 13+hcp 3-s 3-h 3-c"
+                priority: 1
+          2d:
+            desc: "Initial gf"
+            rule: "p#1 $gf"
+
+  f1CMajorLimitedSupport:
+    desc: "Opener limited hand with 3/4 card support (16- HCP)"
+    bids:
+      "1$M":
+        desc: "3 card support"
+        rule: "p#3 11-16hcp 3$M"
+        bids:
+          pass:
+            desc: "Weak hand"
+            rule: "p#10 5-hcp"
+            priority: 2
+          "<$M=h>1s":
+            desc: "44 with 5h bid h"
+            rule: "p#2 7-16hcp 4h 4s"
+            priority: 1
+          1nt:
+            desc: "4M 6-10"
+            rule: "p#5 4$M 6-10hcp"
+            priority: 1
+          2c:
+            desc: "Artificial game try"
+            rule: "p#5 10-12hcp"
+          2d:
+            desc: "Artificial game force"
+            rule: "p#3 13+hcp"
+          "2$M":
+            desc: "2M 7-9 5 cards"
+            rule: "p#3 5+$M 6-9hcp"
+            priority: 2
+          2nt:
+            desc: "Game try balanced"
+            rule: "p#3 4$M 10-12hcp"
+            priority: 2
+          "3$M":
+            desc: "Invitational 5+ cards"
+            rule: "p#3 9-11hcp 5+$M"
+            priority: 2
+          "4$M":
+            desc: "To play"
+            rule: "p#5 5+$M"
+            priority: 2
+      "2$M":
+        desc: "Weak NT 4-card support"
+        rule: "p#2 $weakbal 4$M"
+        priority: 2
+      3d:
+        desc: "Unbalanced 15-16"
+        rule: "p#2 15-16hcp 5+c 4+$M"
+        priority: 1
+      "3$M":
+        desc: "Unbalanced <= 14"
+        rule: "p#2 14-hcp 5+c 4+$M"
+        priority: 2
+
+  f1CMajorStrongSupport:
+    desc: "Opener strong hand 3/4 card support (17+ HCP)"
+    bids:
+      2nt:
+        desc: "3/4 card support 17+"
+        rule: "17+hcp"
+        bids:
+          3c:
+            desc: "Sub-minimum"
+            rule: "5-hcp 3+c"
+          3d:
+            desc: "GF relay"
+            rule: "p#4 6+hcp"
+          "3$M":
+            desc: "Sub-minimum 5+ cards"
+            rule: "5-hcp 5+$M"
+            priority: 1
+          "4$M":
+            desc: "To play (no slam aspirations)"
+            rule: "p#3 4+$M 6-9hcp"
+            priority: 2
+
+  f1CMajorGameForcing:
+    desc: "Opener game force (23+ HCP or 27+ knr)"
+    bids:
+      2d:
+        desc: "Initial GF"
+        rule: "p#1 $gf"
+        bids:
+          2h:
+            desc: "Semi-positive (4+ HCP)"
+            rule: "p#4 4+hcp"
+          2s:
+            desc: "Double negative (3- HCP)"
+            rule: "p#5 3-hcp"
+          2nt:
+            desc: "5M positive"
+            rule: "p#3 7+hcp 5$M"
+            priority: 1
+
+  f1CMajorSpadeHands:
+    desc: "Spades and clubs without support"
+    bids:
+      "<$M=h>1s":
+        desc: "Spades and clubs"
+        rule: "5+c 4+s c>s"
+        priority: 1
+
+  f1CMajorStrongHands:
+    desc: "Opener 17+ strong hand without support"
+    bids:
+      "<$M=h>2s":
+        desc: "Artificial reverse (18+ HCP)"
+        rule: "18+hcp 3-s"
+      "<$M=s>2h":
+        desc: "Artificial reverse (18+ HCP)"
+        rule: "18+hcp"
+
+  f1CMajorWeakNT:
+    desc: "Weak NT without support (11-14 HCP)"
+    bids:
+      2c:
+        desc: "Signoff or weak invite"
+        rule: "p#5 9-hcp, 9-11hcp 6$M"
+      2d:
+        desc: "Game force (13+ HCP)"
+        rule: "p#2 13+hcp"
+      "2$M":
+        desc: "Invitational 5-card major"
+        rule: "p#3 10-11hcp 5$M"
+        priority: 1
+      2nt:
+        desc: "Invitational balanced"
+        rule: "p#3 10-11hcp 4$M"
+        priority: 2
+      3nt:
+        desc: "To play"
+        rule: "p#3 12-14hcp"
+        priority: 2
+
+  f1CMajorClubs:
+    desc: "Clubs without support (15- HCP 5+ Clubs)"
+    bids:
+      2d:
+        desc: "Artificial GF or natural"
+        rule: "p#3 13+hcp"
+        priority: 1
+      "2$M":
+        desc: "Constructive to inv"
+        rule: "6+$M 8-11hcp"
+        priority: 1
+      "2$OM":
+        desc: "Forcing other major"
+        rule: "p#5 12+hcp 4+$OM"
+        priority: 1
+      2nt:
+        desc: "Natural inv"
+        rule: "p#6 $bal 10-12hcp"
+        priority: 1
+      3c:
+        desc: "Signoff"
+        rule: "p#5 9-hcp 3+c"
+        priority: 2

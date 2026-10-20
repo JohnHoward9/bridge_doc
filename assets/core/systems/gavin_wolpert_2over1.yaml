@@ -1,0 +1,150 @@
+system: "Gavin Wolpert Master Series (2/1 Game Forcing)"
+style: "gavin_2over1"
+player: "North"
+partner: "South"
+
+imports:
+  - "assets/libraries/conventions/smolen.yaml"
+  - "assets/libraries/conventions/stayman.yaml"
+  - "assets/libraries/conventions/jacoby_transfers.yaml"
+  - "assets/libraries/conventions/gavin_1nt_responses.yaml"
+  - "assets/libraries/conventions/gavin_majors_2over1.yaml"
+  - "assets/libraries/conventions/walsh_minors.yaml"
+  - "assets/libraries/conventions/strong_two_clubs.yaml"
+  - "assets/libraries/conventions/kokish_relay.yaml"
+  - "assets/libraries/conventions/rkcb_1430.yaml"
+  - "assets/libraries/conventions/two_way_checkback.yaml"
+  - "assets/libraries/conventions/xyz.yaml"
+  - "assets/libraries/conventions/reversed_bart.yaml"
+  - "assets/libraries/conventions/gavin_defense_1nt.yaml"
+  - "assets/libraries/conventions/serious_3nt_and_kickback.yaml"
+  - "assets/libraries/conventions/transfer_lebensohl.yaml"
+  - "assets/libraries/conventions/puppet_stayman.yaml"
+  - "assets/libraries/conventions/drury.yaml"
+  - "assets/libraries/conventions/jacoby_2nt.yaml"
+  - "assets/libraries/conventions/defence_weak_two.yaml"
+  - "assets/libraries/conventions/weak_two_responses.yaml"
+  - "assets/libraries/conventions/preempt_responses.yaml"
+  - "assets/libraries/conventions/namyats.yaml"
+  - "assets/libraries/conventions/spiral_raises.yaml"
+  - "assets/libraries/conventions/support_doubles.yaml"
+  - "assets/libraries/conventions/suit_overcalls_and_michaels.yaml"
+  - "assets/libraries/conventions/defence_multi_two_diamonds.yaml"
+  - "assets/libraries/conventions/defence_ekren.yaml"
+  - "assets/libraries/conventions/defence_strong_club.yaml"
+  - "assets/libraries/conventions/defence_two_clubs_majors.yaml"
+
+definitions:
+  bal: "s#5332|4432|4333"
+  strongnt: "15-17hcp $bal 4-h 4-s"
+
+OpeningBids:
+  pass:
+    desc: "Pass (0-11 HCP)"
+    rule: "11-hcp"
+    bids:
+      1h:
+        ref: "fDrury"
+
+      1s:
+        ref: "fDrury"
+
+  1c:
+    ref: "WalshClubOpening"
+
+  1d:
+    ref: "WalshDiamondOpening"
+
+  1h:
+    ref: "GavinHeartOpening"
+
+  1s:
+    ref: "GavinSpadeOpening"
+
+  1nt:
+    ref: "Gavin1NTOpening"
+
+  2c:
+    ref: "StrongTwoClubsKokish"
+
+  2d:
+    ref: "WeakTwoDiamonds"
+
+  2h:
+    ref: "WeakTwoHearts"
+
+  2s:
+    ref: "WeakTwoSpades"
+
+  2nt:
+    ref: "Strong2NTOpening"
+
+  3c:
+    ref: "Preempt3Clubs"
+
+  3d:
+    ref: "Preempt3Diamonds"
+
+  3h:
+    ref: "Preempt3Hearts"
+
+  3s:
+    ref: "Preempt3Spades"
+
+  3nt:
+    ref: "SolidMinor3NT"
+
+  4c:
+    ref: "Namyats4Clubs"
+
+  4d:
+    ref: "Namyats4Diamonds"
+
+  4h:
+    ref: "Preempt4Hearts"
+
+  4s:
+    ref: "Preempt4Spades"
+
+  4nt:
+    ref: "Preempt4NT"
+
+OppositionOpeningBids:
+  "(1nt)":
+    ref: "fGavinDefenseStrong1NT"
+
+  "(50%Weak.1nt)":
+    ref: "fGavinDefenseWeak1NT"
+
+  "(2h)":
+    ref: "fWeakTwoDefense"
+
+  "(2s)":
+    ref: "fWeakTwoDefense"
+
+  "(2d)":
+    ref: "fWeakTwoDefense"
+
+  "(1c)":
+    ref: "fOneLevelMinorDefense"
+
+  "(1d)":
+    ref: "fOneLevelMinorDefense"
+
+  "(1h)":
+    ref: "fOneLevelMajorDefense"
+
+  "(1s)":
+    ref: "fOneLevelMajorDefense"
+
+  "(2d_multi)":
+    ref: "fMultiDefense"
+
+  "(2d_ekren)":
+    ref: "fEkrenDefense"
+
+  "(1c_strong)":
+    ref: "fStrongClubDefense"
+
+  "(2c_majors)":
+    ref: "fTwoClubMajorsDefense"

@@ -1,0 +1,5026 @@
+[
+  {
+    "event": "54th APBF Championships",
+    "match_count": 58,
+    "min_id": 82583,
+    "max_id": 82691,
+    "start_date": "2025-05-17",
+    "end_date": "2025-05-25"
+  },
+  {
+    "event": "HCL 22nd INTERNATIONAL BRIDGE CHAMPIONSHIP 2025",
+    "match_count": 55,
+    "min_id": 83987,
+    "max_id": 84097,
+    "start_date": "2025-10-08",
+    "end_date": "2025-10-13"
+  },
+  {
+    "event": "EA BRIDGE INTERNATIONAL BRIDGE CHAMPIONSHIP 2025",
+    "match_count": 50,
+    "min_id": 83770,
+    "max_id": 83873,
+    "start_date": "2025-09-15",
+    "end_date": "2025-09-20"
+  },
+  {
+    "event": "WBT Masters Copenhagen",
+    "match_count": 37,
+    "min_id": 83902,
+    "max_id": 83955,
+    "start_date": "2025-09-29",
+    "end_date": "2025-10-02"
+  },
+  {
+    "event": "BBO1-2025WBTC-Herning-BB",
+    "match_count": 36,
+    "min_id": 83532,
+    "max_id": 83683,
+    "start_date": "2025-08-21",
+    "end_date": "2025-08-31"
+  },
+  {
+    "event": "BBO1-2025EOC-Poznan-O",
+    "match_count": 32,
+    "min_id": 83026,
+    "max_id": 83117,
+    "start_date": "2025-06-28",
+    "end_date": "2025-07-05"
+  },
+  {
+    "event": "BBO1-2025WYTC-Salsomaggiore",
+    "match_count": 31,
+    "min_id": 83154,
+    "max_id": 83192,
+    "start_date": "2025-07-12",
+    "end_date": "2025-07-17"
+  },
+  {
+    "event": "23rd BFAME Trials",
+    "match_count": 30,
+    "min_id": 82197,
+    "max_id": 82271,
+    "start_date": "2025-04-11",
+    "end_date": "2025-04-15"
+  },
+  {
+    "event": "67th ASHOK RUIA MEMORIAL WINTER NATIONAL 2025",
+    "match_count": 28,
+    "min_id": 84688,
+    "max_id": 84866,
+    "start_date": "2025-12-06",
+    "end_date": "2025-12-20"
+  },
+  {
+    "event": "BBO2-2025EOC-Poznan-M",
+    "match_count": 26,
+    "min_id": 82935,
+    "max_id": 83019,
+    "start_date": "2025-06-21",
+    "end_date": "2025-06-26"
+  },
+  {
+    "event": "Indian Mixed Coaching Camp 2025",
+    "match_count": 24,
+    "min_id": 81911,
+    "max_id": 81963,
+    "start_date": "2025-03-13",
+    "end_date": "2025-03-17"
+  },
+  {
+    "event": "BBO4-2025EOC-Poznan-O",
+    "match_count": 24,
+    "min_id": 83025,
+    "max_id": 83097,
+    "start_date": "2025-06-28",
+    "end_date": "2025-07-03"
+  },
+  {
+    "event": "Indian Men Coaching Camp 2025",
+    "match_count": 22,
+    "min_id": 81867,
+    "max_id": 81909,
+    "start_date": "2025-03-06",
+    "end_date": "2025-03-12"
+  },
+  {
+    "event": "BBO3-2025EOC-Poznan-M",
+    "match_count": 22,
+    "min_id": 82934,
+    "max_id": 83004,
+    "start_date": "2025-06-21",
+    "end_date": "2025-06-25"
+  },
+  {
+    "event": "BBO4-2025WBTC-Herning-WU",
+    "match_count": 22,
+    "min_id": 83561,
+    "max_id": 83679,
+    "start_date": "2025-08-24",
+    "end_date": "2025-08-31"
+  },
+  {
+    "event": "2025 Swedish Premier League",
+    "match_count": 21,
+    "min_id": 83709,
+    "max_id": 84164,
+    "start_date": "2025-09-05",
+    "end_date": "2025-10-19"
+  },
+  {
+    "event": "8th SEABF",
+    "match_count": 21,
+    "min_id": 84653,
+    "max_id": 84681,
+    "start_date": "2025-12-02",
+    "end_date": "2025-12-05"
+  },
+  {
+    "event": "SIR PADMAPAT SINGHANIA MEMORIAL BRIDGE TOURNAMENT",
+    "match_count": 19,
+    "min_id": 81749,
+    "max_id": 81795,
+    "start_date": "2025-02-21",
+    "end_date": "2025-02-23"
+  },
+  {
+    "event": "WBT Masters Reykjavik",
+    "match_count": 18,
+    "min_id": 81553,
+    "max_id": 81580,
+    "start_date": "2025-01-27",
+    "end_date": "2025-01-30"
+  },
+  {
+    "event": "Kr Murli Manohar Memorial Bridge Tournament 2025",
+    "match_count": 18,
+    "min_id": 81810,
+    "max_id": 81856,
+    "start_date": "2025-02-27",
+    "end_date": "2025-03-02"
+  },
+  {
+    "event": "2025 Swedish Open Teams",
+    "match_count": 18,
+    "min_id": 82695,
+    "max_id": 82776,
+    "start_date": "2025-05-29",
+    "end_date": "2025-06-01"
+  },
+  {
+    "event": "2025 Buffett Cup Bridge Match",
+    "match_count": 18,
+    "min_id": 84118,
+    "max_id": 84181,
+    "start_date": "2025-10-17",
+    "end_date": "2025-10-21"
+  },
+  {
+    "event": "DIVISION NATIONALE_4 TOP 16",
+    "match_count": 17,
+    "min_id": 81880,
+    "max_id": 82129,
+    "start_date": "2025-03-08",
+    "end_date": "2025-03-30"
+  },
+  {
+    "event": "VANDERBILT2025BBO1",
+    "match_count": 17,
+    "min_id": 81994,
+    "max_id": 82067,
+    "start_date": "2025-03-19",
+    "end_date": "2025-03-23"
+  },
+  {
+    "event": "GANESHA BRIDGE OPEN TOURNAMENT 2025",
+    "match_count": 17,
+    "min_id": 83691,
+    "max_id": 83743,
+    "start_date": "2025-09-05",
+    "end_date": "2025-09-07"
+  },
+  {
+    "event": "Lederer 2025",
+    "match_count": 16,
+    "min_id": 81768,
+    "max_id": 81807,
+    "start_date": "2025-02-22",
+    "end_date": "2025-02-23"
+  },
+  {
+    "event": "CUPA CONTRA 2025",
+    "match_count": 16,
+    "min_id": 82537,
+    "max_id": 82628,
+    "start_date": "2025-05-14",
+    "end_date": "2025-05-18"
+  },
+  {
+    "event": "APEC 2025",
+    "match_count": 16,
+    "min_id": 82963,
+    "max_id": 82996,
+    "start_date": "2025-06-23",
+    "end_date": "2025-06-25"
+  },
+  {
+    "event": "Nordic Bridge Championships",
+    "match_count": 16,
+    "min_id": 82784,
+    "max_id": 82848,
+    "start_date": "2025-06-05",
+    "end_date": "2025-06-08"
+  },
+  {
+    "event": "Geely Automobile Inter-city Bridge Championships",
+    "match_count": 16,
+    "min_id": 83249,
+    "max_id": 83304,
+    "start_date": "2025-07-23",
+    "end_date": "2025-07-27"
+  },
+  {
+    "event": "Norwegian Swiss Teams Championship",
+    "match_count": 16,
+    "min_id": 83454,
+    "max_id": 83481,
+    "start_date": "2025-08-07",
+    "end_date": "2025-08-09"
+  },
+  {
+    "event": "FTBC - 2025 Rektor Cup University of Tanjungpura",
+    "match_count": 16,
+    "min_id": 84458,
+    "max_id": 84516,
+    "start_date": "2025-11-14",
+    "end_date": "2025-11-15"
+  },
+  {
+    "event": "17th ESFG",
+    "match_count": 15,
+    "min_id": 82517,
+    "max_id": 82535,
+    "start_date": "2025-05-11",
+    "end_date": "2025-05-13"
+  },
+  {
+    "event": "BBO3-2025WBTC-Herning-VC",
+    "match_count": 15,
+    "min_id": 83536,
+    "max_id": 83685,
+    "start_date": "2025-08-22",
+    "end_date": "2025-08-31"
+  },
+  {
+    "event": "DENNY SACUL MEMORIAL THROPHY 2025",
+    "match_count": 15,
+    "min_id": 83503,
+    "max_id": 83525,
+    "start_date": "2025-08-15",
+    "end_date": "2025-08-17"
+  },
+  {
+    "event": "63rd Pula Bridge Festival - Open Teams -",
+    "match_count": 15,
+    "min_id": 83763,
+    "max_id": 83829,
+    "start_date": "2025-09-14",
+    "end_date": "2025-09-18"
+  },
+  {
+    "event": "AMSF 2025 Pairs (Men&#039;s)",
+    "match_count": 15,
+    "min_id": 84402,
+    "max_id": 84438,
+    "start_date": "2025-11-13",
+    "end_date": "2025-11-13"
+  },
+  {
+    "event": "2025 Swedish Cup",
+    "match_count": 15,
+    "min_id": 84330,
+    "max_id": 84385,
+    "start_date": "2025-11-06",
+    "end_date": "2025-11-09"
+  },
+  {
+    "event": "Citt",
+    "match_count": 15,
+    "min_id": 84698,
+    "max_id": 84736,
+    "start_date": "2025-12-06",
+    "end_date": "2025-12-08"
+  },
+  {
+    "event": "50th University Games Team",
+    "match_count": 14,
+    "min_id": 81394,
+    "max_id": 81478,
+    "start_date": "2025-01-11",
+    "end_date": "2025-01-14"
+  },
+  {
+    "event": "PIALA BTC 2025",
+    "match_count": 14,
+    "min_id": 81712,
+    "max_id": 81744,
+    "start_date": "2025-02-14",
+    "end_date": "2025-02-16"
+  },
+  {
+    "event": "SILIWANGI INTERNATIONAL OPEN 2025",
+    "match_count": 14,
+    "min_id": 81640,
+    "max_id": 81690,
+    "start_date": "2025-02-07",
+    "end_date": "2025-02-09"
+  },
+  {
+    "event": "Thailand National Youth 40th",
+    "match_count": 14,
+    "min_id": 82086,
+    "max_id": 82109,
+    "start_date": "2025-03-26",
+    "end_date": "2025-03-29"
+  },
+  {
+    "event": "VANDERBILT2025BBO2",
+    "match_count": 14,
+    "min_id": 81988,
+    "max_id": 82051,
+    "start_date": "2025-03-19",
+    "end_date": "2025-03-22"
+  },
+  {
+    "event": "2025 TURKON YAZ ACIK SAMPIYONASI",
+    "match_count": 14,
+    "min_id": 82415,
+    "max_id": 82435,
+    "start_date": "2025-04-28",
+    "end_date": "2025-05-01"
+  },
+  {
+    "event": "ALL INDIA SHREE CEMENT BRIDGE CHAMPIONSHIP 2025",
+    "match_count": 14,
+    "min_id": 82441,
+    "max_id": 82483,
+    "start_date": "2025-05-02",
+    "end_date": "2025-05-04"
+  },
+  {
+    "event": "20TH Maharaja Yashwantrao Holkar Bridge Champions",
+    "match_count": 13,
+    "min_id": 81374,
+    "max_id": 81459,
+    "start_date": "2025-01-10",
+    "end_date": "2025-01-12"
+  },
+  {
+    "event": "2025WTPO-Canberra",
+    "match_count": 13,
+    "min_id": 81364,
+    "max_id": 81451,
+    "start_date": "2025-01-10",
+    "end_date": "2025-01-12"
+  },
+  {
+    "event": "MOHANLAL BHARTIA MEMORIAL BRIDGE CHAMPIONSHIP",
+    "match_count": 13,
+    "min_id": 82126,
+    "max_id": 82147,
+    "start_date": "2025-03-30",
+    "end_date": "2025-04-01"
+  },
+  {
+    "event": "ROMANIAN NATIONAL TEAMS",
+    "match_count": 13,
+    "min_id": 81872,
+    "max_id": 84611,
+    "start_date": "2025-03-07",
+    "end_date": "2025-11-23"
+  },
+  {
+    "event": "Norwegian Club Teams Final",
+    "match_count": 13,
+    "min_id": 82693,
+    "max_id": 82756,
+    "start_date": "2025-05-29",
+    "end_date": "2025-05-31"
+  },
+  {
+    "event": "International Bridge Festival Albena 2025",
+    "match_count": 13,
+    "min_id": 83100,
+    "max_id": 83124,
+    "start_date": "2025-07-04",
+    "end_date": "2025-07-06"
+  },
+  {
+    "event": "BBO3-2025WBTC-Herning-OT",
+    "match_count": 13,
+    "min_id": 83530,
+    "max_id": 83619,
+    "start_date": "2025-08-21",
+    "end_date": "2025-08-28"
+  },
+  {
+    "event": "DELHI GYMKHANA CLUB OPEN BRIDGE TOURNAMENT 2025",
+    "match_count": 13,
+    "min_id": 84542,
+    "max_id": 84618,
+    "start_date": "2025-11-21",
+    "end_date": "2025-11-23"
+  },
+  {
+    "event": "NORWEGIAN 1_ DIVISION",
+    "match_count": 12,
+    "min_id": 81587,
+    "max_id": 84273,
+    "start_date": "2025-01-31",
+    "end_date": "2025-10-26"
+  },
+  {
+    "event": "EBU Lady Milne Trial",
+    "match_count": 12,
+    "min_id": 81506,
+    "max_id": 84266,
+    "start_date": "2025-01-18",
+    "end_date": "2025-10-26"
+  },
+  {
+    "event": "BBO1-2025NOT-Canberra",
+    "match_count": 12,
+    "min_id": 81482,
+    "max_id": 81519,
+    "start_date": "2025-01-17",
+    "end_date": "2025-01-19"
+  },
+  {
+    "event": "2025STPO-Canberra",
+    "match_count": 12,
+    "min_id": 81363,
+    "max_id": 81446,
+    "start_date": "2025-01-10",
+    "end_date": "2025-01-12"
+  },
+  {
+    "event": "",
+    "match_count": 12,
+    "min_id": 82213,
+    "max_id": 82254,
+    "start_date": "2025-04-11",
+    "end_date": "2025-04-13"
+  },
+  {
+    "event": "2025 Chairman&#039;s Cup",
+    "match_count": 12,
+    "min_id": 83318,
+    "max_id": 83352,
+    "start_date": "2025-07-29",
+    "end_date": "2025-07-31"
+  },
+  {
+    "event": "Pesta Sukan 2025 Open Teams Qualifying",
+    "match_count": 12,
+    "min_id": 83198,
+    "max_id": 83217,
+    "start_date": "2025-07-19",
+    "end_date": "2025-07-20"
+  },
+  {
+    "event": "Danmark Pokalslutspil 2025",
+    "match_count": 12,
+    "min_id": 83721,
+    "max_id": 83751,
+    "start_date": "2025-09-06",
+    "end_date": "2025-09-07"
+  },
+  {
+    "event": "5th Thailand Open Masters Games",
+    "match_count": 11,
+    "min_id": 81530,
+    "max_id": 81544,
+    "start_date": "2025-01-25",
+    "end_date": "2025-01-26"
+  },
+  {
+    "event": "Denmark - Open Pairs Championship 2025",
+    "match_count": 11,
+    "min_id": 82464,
+    "max_id": 82488,
+    "start_date": "2025-05-03",
+    "end_date": "2025-05-04"
+  },
+  {
+    "event": "3rd MAVERICKS SUMMER NATIONAL 2025",
+    "match_count": 11,
+    "min_id": 82860,
+    "max_id": 82885,
+    "start_date": "2025-06-13",
+    "end_date": "2025-06-14"
+  },
+  {
+    "event": "2025VFB-Melbourne",
+    "match_count": 11,
+    "min_id": 82789,
+    "max_id": 82854,
+    "start_date": "2025-06-07",
+    "end_date": "2025-06-09"
+  },
+  {
+    "event": "Untitled match",
+    "match_count": 11,
+    "min_id": 83242,
+    "max_id": 84771,
+    "start_date": "2025-07-23",
+    "end_date": "2025-12-13"
+  },
+  {
+    "event": "TUGU MUDA CUP 2025",
+    "match_count": 11,
+    "min_id": 83633,
+    "max_id": 83674,
+    "start_date": "2025-08-29",
+    "end_date": "2025-08-31"
+  },
+  {
+    "event": "BBO2-2025WBTC-Herning-BB",
+    "match_count": 11,
+    "min_id": 83531,
+    "max_id": 83601,
+    "start_date": "2025-08-21",
+    "end_date": "2025-08-27"
+  },
+  {
+    "event": "49 Varna Bridge Festival Open Teams",
+    "match_count": 11,
+    "min_id": 83473,
+    "max_id": 83493,
+    "start_date": "2025-08-09",
+    "end_date": "2025-08-10"
+  },
+  {
+    "event": "2025 International Bridge Elite Invitational",
+    "match_count": 11,
+    "min_id": 84186,
+    "max_id": 84200,
+    "start_date": "2025-10-22",
+    "end_date": "2025-10-23"
+  },
+  {
+    "event": "TOP 16 - FF BRIDGE",
+    "match_count": 11,
+    "min_id": 84062,
+    "max_id": 84168,
+    "start_date": "2025-10-11",
+    "end_date": "2025-10-19"
+  },
+  {
+    "event": "AMSF 2025 Teams - Women",
+    "match_count": 11,
+    "min_id": 84453,
+    "max_id": 84509,
+    "start_date": "2025-11-14",
+    "end_date": "2025-11-15"
+  },
+  {
+    "event": "AMSF 2025 Pairs (Women&#039;s)",
+    "match_count": 11,
+    "min_id": 84406,
+    "max_id": 84437,
+    "start_date": "2025-11-13",
+    "end_date": "2025-11-13"
+  },
+  {
+    "event": "Greek Trials for National Team Selection",
+    "match_count": 11,
+    "min_id": 84849,
+    "max_id": 84906,
+    "start_date": "2025-12-19",
+    "end_date": "2025-12-21"
+  },
+  {
+    "event": "Grand Prix of Poland - finals round robin",
+    "match_count": 11,
+    "min_id": 84757,
+    "max_id": 84798,
+    "start_date": "2025-12-12",
+    "end_date": "2025-12-13"
+  },
+  {
+    "event": "TOLANI NATIONAL MASTERS 2025",
+    "match_count": 10,
+    "min_id": 81715,
+    "max_id": 81746,
+    "start_date": "2025-02-14",
+    "end_date": "2025-02-16"
+  },
+  {
+    "event": "Dutch Premier League",
+    "match_count": 10,
+    "min_id": 81672,
+    "max_id": 81701,
+    "start_date": "2025-02-08",
+    "end_date": "2025-02-09"
+  },
+  {
+    "event": "2025GCC-Broadbeach",
+    "match_count": 10,
+    "min_id": 81636,
+    "max_id": 81664,
+    "start_date": "2025-02-07",
+    "end_date": "2025-02-08"
+  },
+  {
+    "event": "Indian Seniors Selection Trials 2025",
+    "match_count": 10,
+    "min_id": 81972,
+    "max_id": 82035,
+    "start_date": "2025-03-18",
+    "end_date": "2025-03-21"
+  },
+  {
+    "event": "2 ND SHREE CEMENT INTER STATE BRIDGE CHAMPIONSHIP",
+    "match_count": 10,
+    "min_id": 83394,
+    "max_id": 83436,
+    "start_date": "2025-08-03",
+    "end_date": "2025-08-05"
+  },
+  {
+    "event": "DM i klubhold 2025",
+    "match_count": 10,
+    "min_id": 84234,
+    "max_id": 84278,
+    "start_date": "2025-10-25",
+    "end_date": "2025-10-26"
+  },
+  {
+    "event": "International Madeira Bridge Open Teams",
+    "match_count": 10,
+    "min_id": 84345,
+    "max_id": 84393,
+    "start_date": "2025-11-07",
+    "end_date": "2025-11-09"
+  },
+  {
+    "event": "2025 CLUB TEAM CHAMPIONSHIP BULGARIA",
+    "match_count": 10,
+    "min_id": 84752,
+    "max_id": 84822,
+    "start_date": "2025-12-12",
+    "end_date": "2025-12-14"
+  },
+  {
+    "event": "Danmark - Seniorhold finale 2025",
+    "match_count": 9,
+    "min_id": 81598,
+    "max_id": 81632,
+    "start_date": "2025-02-01",
+    "end_date": "2025-02-02"
+  },
+  {
+    "event": "U25women_trials",
+    "match_count": 9,
+    "min_id": 82044,
+    "max_id": 82073,
+    "start_date": "2025-03-21",
+    "end_date": "2025-03-23"
+  },
+  {
+    "event": "VANDERBILT2025BBO4",
+    "match_count": 9,
+    "min_id": 81987,
+    "max_id": 82030,
+    "start_date": "2025-03-19",
+    "end_date": "2025-03-21"
+  },
+  {
+    "event": "Iceland Teams Final",
+    "match_count": 9,
+    "min_id": 82351,
+    "max_id": 82411,
+    "start_date": "2025-04-24",
+    "end_date": "2025-04-27"
+  },
+  {
+    "event": "Qualifiers Contra Cup 2025",
+    "match_count": 9,
+    "min_id": 82544,
+    "max_id": 82557,
+    "start_date": "2025-05-15",
+    "end_date": "2025-05-15"
+  },
+  {
+    "event": "Geely Automobile Inter-city Bridge Championship",
+    "match_count": 9,
+    "min_id": 83267,
+    "max_id": 83287,
+    "start_date": "2025-07-24",
+    "end_date": "2025-07-26"
+  },
+  {
+    "event": "BBO2-2025WBTC-Herning-OT",
+    "match_count": 9,
+    "min_id": 83623,
+    "max_id": 83681,
+    "start_date": "2025-08-28",
+    "end_date": "2025-08-31"
+  },
+  {
+    "event": "Polish Teams Championships QUAL",
+    "match_count": 9,
+    "min_id": 83414,
+    "max_id": 83435,
+    "start_date": "2025-08-04",
+    "end_date": "2025-08-04"
+  },
+  {
+    "event": "2025 Spingold KO 1",
+    "match_count": 9,
+    "min_id": 83361,
+    "max_id": 83393,
+    "start_date": "2025-08-01",
+    "end_date": "2025-08-02"
+  },
+  {
+    "event": "Italian Men Teams Championships",
+    "match_count": 9,
+    "min_id": 83831,
+    "max_id": 83880,
+    "start_date": "2025-09-18",
+    "end_date": "2025-09-21"
+  },
+  {
+    "event": "EBU Lady Milne Trials",
+    "match_count": 9,
+    "min_id": 84214,
+    "max_id": 84276,
+    "start_date": "2025-10-24",
+    "end_date": "2025-10-26"
+  },
+  {
+    "event": "INTERNATIONAL MADEIRA BRIDGE OPEN TEAMS",
+    "match_count": 9,
+    "min_id": 84346,
+    "max_id": 84394,
+    "start_date": "2025-11-07",
+    "end_date": "2025-11-09"
+  },
+  {
+    "event": "Channel Trophy",
+    "match_count": 9,
+    "min_id": 84868,
+    "max_id": 84902,
+    "start_date": "2025-12-20",
+    "end_date": "2025-12-21"
+  },
+  {
+    "event": "BBO2-2025NOT-Canberra",
+    "match_count": 8,
+    "min_id": 81481,
+    "max_id": 81505,
+    "start_date": "2025-01-17",
+    "end_date": "2025-01-18"
+  },
+  {
+    "event": "FINALE NATIONALE MIXTE_4",
+    "match_count": 8,
+    "min_id": 81412,
+    "max_id": 81470,
+    "start_date": "2025-01-11",
+    "end_date": "2025-01-12"
+  },
+  {
+    "event": "Thailand National Selection 2025 : Mixed Team",
+    "match_count": 8,
+    "min_id": 81614,
+    "max_id": 81733,
+    "start_date": "2025-02-02",
+    "end_date": "2025-02-15"
+  },
+  {
+    "event": "Norwegian 1_ Division",
+    "match_count": 8,
+    "min_id": 81605,
+    "max_id": 84260,
+    "start_date": "2025-02-01",
+    "end_date": "2025-10-26"
+  },
+  {
+    "event": "Italian Open Teams Championships",
+    "match_count": 8,
+    "min_id": 82095,
+    "max_id": 82120,
+    "start_date": "2025-03-27",
+    "end_date": "2025-03-30"
+  },
+  {
+    "event": "VANDERBILT2025BBO3",
+    "match_count": 8,
+    "min_id": 81992,
+    "max_id": 82029,
+    "start_date": "2025-03-19",
+    "end_date": "2025-03-21"
+  },
+  {
+    "event": "NZ National Teams",
+    "match_count": 8,
+    "min_id": 81925,
+    "max_id": 81942,
+    "start_date": "2025-03-14",
+    "end_date": "2025-03-16"
+  },
+  {
+    "event": "ROMANIAN SUPERLEAGUE",
+    "match_count": 8,
+    "min_id": 82357,
+    "max_id": 82397,
+    "start_date": "2025-04-25",
+    "end_date": "2025-04-27"
+  },
+  {
+    "event": "CUPA CONTRA",
+    "match_count": 8,
+    "min_id": 82539,
+    "max_id": 82571,
+    "start_date": "2025-05-14",
+    "end_date": "2025-05-16"
+  },
+  {
+    "event": "BBO1-2025EOC-Poznan-M",
+    "match_count": 8,
+    "min_id": 83008,
+    "max_id": 83024,
+    "start_date": "2025-06-26",
+    "end_date": "2025-06-27"
+  },
+  {
+    "event": "3RD MAVERICKS SUMMER NATIONAL 2025",
+    "match_count": 8,
+    "min_id": 82862,
+    "max_id": 82906,
+    "start_date": "2025-06-13",
+    "end_date": "2025-06-15"
+  },
+  {
+    "event": "PORPROV IX JATIM 2025 - BEREGU CAMPURAN",
+    "match_count": 8,
+    "min_id": 83067,
+    "max_id": 83082,
+    "start_date": "2025-07-01",
+    "end_date": "2025-07-02"
+  },
+  {
+    "event": "NBF Swiss Mixed Teams Championship",
+    "match_count": 8,
+    "min_id": 83415,
+    "max_id": 83432,
+    "start_date": "2025-08-04",
+    "end_date": "2025-08-04"
+  },
+  {
+    "event": "2025 Spingold KO 2",
+    "match_count": 8,
+    "min_id": 83362,
+    "max_id": 83392,
+    "start_date": "2025-08-01",
+    "end_date": "2025-08-03"
+  },
+  {
+    "event": "Coppa Italia Over64",
+    "match_count": 8,
+    "min_id": 84210,
+    "max_id": 84268,
+    "start_date": "2025-10-24",
+    "end_date": "2025-10-26"
+  },
+  {
+    "event": "PORTUGUESE TRIALS",
+    "match_count": 8,
+    "min_id": 84034,
+    "max_id": 84095,
+    "start_date": "2025-10-10",
+    "end_date": "2025-10-13"
+  },
+  {
+    "event": "XVII Bridge Balkan Championship 2025",
+    "match_count": 8,
+    "min_id": 83994,
+    "max_id": 84025,
+    "start_date": "2025-10-08",
+    "end_date": "2025-10-09"
+  },
+  {
+    "event": "BBO2-2025ECC-Jurmala-WO",
+    "match_count": 8,
+    "min_id": 84428,
+    "max_id": 84508,
+    "start_date": "2025-11-13",
+    "end_date": "2025-11-15"
+  },
+  {
+    "event": "AMSF 2025 Teams - Men",
+    "match_count": 8,
+    "min_id": 84452,
+    "max_id": 84501,
+    "start_date": "2025-11-14",
+    "end_date": "2025-11-15"
+  },
+  {
+    "event": "Reykjav",
+    "match_count": 7,
+    "min_id": 81600,
+    "max_id": 81634,
+    "start_date": "2025-02-01",
+    "end_date": "2025-02-02"
+  },
+  {
+    "event": "TURKIYE KIS 4LU SAMPIYONASI",
+    "match_count": 7,
+    "min_id": 82075,
+    "max_id": 82082,
+    "start_date": "2025-03-24",
+    "end_date": "2025-03-25"
+  },
+  {
+    "event": "Polish U21 trials",
+    "match_count": 7,
+    "min_id": 82058,
+    "max_id": 82074,
+    "start_date": "2025-03-22",
+    "end_date": "2025-03-23"
+  },
+  {
+    "event": "JAPAN Intercollege championships",
+    "match_count": 7,
+    "min_id": 81941,
+    "max_id": 83581,
+    "start_date": "2025-03-16",
+    "end_date": "2025-08-26"
+  },
+  {
+    "event": "Italy Mixed Cup 25",
+    "match_count": 7,
+    "min_id": 82337,
+    "max_id": 82363,
+    "start_date": "2025-04-23",
+    "end_date": "2025-04-25"
+  },
+  {
+    "event": "CNTC Open Finals",
+    "match_count": 7,
+    "min_id": 82286,
+    "max_id": 82301,
+    "start_date": "2025-04-16",
+    "end_date": "2025-04-17"
+  },
+  {
+    "event": "Spring Fours",
+    "match_count": 7,
+    "min_id": 82498,
+    "max_id": 82505,
+    "start_date": "2025-05-06",
+    "end_date": "2025-05-06"
+  },
+  {
+    "event": "PORPROV IX JATIM 2025 - BEREGU PUTRA_PUTRI",
+    "match_count": 7,
+    "min_id": 83039,
+    "max_id": 83058,
+    "start_date": "2025-06-29",
+    "end_date": "2025-06-30"
+  },
+  {
+    "event": "INTERCLUBS D1",
+    "match_count": 7,
+    "min_id": 82893,
+    "max_id": 82917,
+    "start_date": "2025-06-14",
+    "end_date": "2025-06-15"
+  },
+  {
+    "event": "Championship GNT",
+    "match_count": 7,
+    "min_id": 83288,
+    "max_id": 83310,
+    "start_date": "2025-07-26",
+    "end_date": "2025-07-27"
+  },
+  {
+    "event": "Geely Automobile Inter-city Bridge Champ 2025",
+    "match_count": 7,
+    "min_id": 83248,
+    "max_id": 83264,
+    "start_date": "2025-07-23",
+    "end_date": "2025-07-24"
+  },
+  {
+    "event": "BBO2-2025WBTC-Herning-VC",
+    "match_count": 7,
+    "min_id": 83608,
+    "max_id": 83668,
+    "start_date": "2025-08-27",
+    "end_date": "2025-08-30"
+  },
+  {
+    "event": "2nd Super College Cup",
+    "match_count": 7,
+    "min_id": 83468,
+    "max_id": 83490,
+    "start_date": "2025-08-09",
+    "end_date": "2025-08-10"
+  },
+  {
+    "event": "EBU Premier League Division 1",
+    "match_count": 7,
+    "min_id": 83753,
+    "max_id": 84132,
+    "start_date": "2025-09-13",
+    "end_date": "2025-10-18"
+  },
+  {
+    "event": "4th EAST ZONE OPEN BRIDGE CHAMPIONSHIP 2025",
+    "match_count": 7,
+    "min_id": 84230,
+    "max_id": 84269,
+    "start_date": "2025-10-25",
+    "end_date": "2025-10-26"
+  },
+  {
+    "event": "PORTUGUESE TRIALS FINAL",
+    "match_count": 7,
+    "min_id": 84076,
+    "max_id": 84105,
+    "start_date": "2025-10-12",
+    "end_date": "2025-10-14"
+  },
+  {
+    "event": "BBO2-2025ECC-Jurmala-OT",
+    "match_count": 7,
+    "min_id": 84425,
+    "max_id": 84517,
+    "start_date": "2025-11-13",
+    "end_date": "2025-11-15"
+  },
+  {
+    "event": "Italian Mixed Championships",
+    "match_count": 7,
+    "min_id": 84334,
+    "max_id": 84383,
+    "start_date": "2025-11-06",
+    "end_date": "2025-11-09"
+  },
+  {
+    "event": "Coppa Italia MEN",
+    "match_count": 7,
+    "min_id": 84748,
+    "max_id": 84796,
+    "start_date": "2025-12-11",
+    "end_date": "2025-12-13"
+  },
+  {
+    "event": "Polish Teams Championships",
+    "match_count": 6,
+    "min_id": 81819,
+    "max_id": 81828,
+    "start_date": "2025-02-28",
+    "end_date": "2025-03-01"
+  },
+  {
+    "event": "Polish Premier League - play-off 1",
+    "match_count": 6,
+    "min_id": 81755,
+    "max_id": 81776,
+    "start_date": "2025-02-21",
+    "end_date": "2025-02-22"
+  },
+  {
+    "event": "Poland Trials U-21 Final",
+    "match_count": 6,
+    "min_id": 82039,
+    "max_id": 82057,
+    "start_date": "2025-03-21",
+    "end_date": "2025-03-22"
+  },
+  {
+    "event": "Indian Senior Selection Trials 2025",
+    "match_count": 6,
+    "min_id": 81966,
+    "max_id": 82016,
+    "start_date": "2025-03-18",
+    "end_date": "2025-03-20"
+  },
+  {
+    "event": "Polish IMPs Teams Championships Finals",
+    "match_count": 6,
+    "min_id": 81830,
+    "max_id": 81847,
+    "start_date": "2025-03-01",
+    "end_date": "2025-03-01"
+  },
+  {
+    "event": "TOP 16",
+    "match_count": 6,
+    "min_id": 82387,
+    "max_id": 82409,
+    "start_date": "2025-04-26",
+    "end_date": "2025-04-27"
+  },
+  {
+    "event": "Grand Prix of Poland SF",
+    "match_count": 6,
+    "min_id": 82219,
+    "max_id": 82394,
+    "start_date": "2025-04-12",
+    "end_date": "2025-04-26"
+  },
+  {
+    "event": "MATCH AMICAL FRANCE-BELGIQUE",
+    "match_count": 6,
+    "min_id": 82151,
+    "max_id": 82175,
+    "start_date": "2025-04-05",
+    "end_date": "2025-04-06"
+  },
+  {
+    "event": "Greek National Teams Championship - Grand Final",
+    "match_count": 6,
+    "min_id": 82727,
+    "max_id": 82778,
+    "start_date": "2025-05-30",
+    "end_date": "2025-06-01"
+  },
+  {
+    "event": "TOP 16 FINALE",
+    "match_count": 6,
+    "min_id": 82514,
+    "max_id": 82798,
+    "start_date": "2025-05-10",
+    "end_date": "2025-06-07"
+  },
+  {
+    "event": "Onstein Youth Tournament 2025",
+    "match_count": 6,
+    "min_id": 82882,
+    "max_id": 82918,
+    "start_date": "2025-06-14",
+    "end_date": "2025-06-15"
+  },
+  {
+    "event": "KULUPLER ISTANBUL SIRALAMA",
+    "match_count": 6,
+    "min_id": 82881,
+    "max_id": 82912,
+    "start_date": "2025-06-14",
+    "end_date": "2025-06-15"
+  },
+  {
+    "event": "3rd Mavericks Summer National 2025",
+    "match_count": 6,
+    "min_id": 82859,
+    "max_id": 82884,
+    "start_date": "2025-06-13",
+    "end_date": "2025-06-14"
+  },
+  {
+    "event": "Spingold 4",
+    "match_count": 6,
+    "min_id": 83336,
+    "max_id": 83353,
+    "start_date": "2025-07-30",
+    "end_date": "2025-07-31"
+  },
+  {
+    "event": "Spingold 1",
+    "match_count": 6,
+    "min_id": 83323,
+    "max_id": 83343,
+    "start_date": "2025-07-29",
+    "end_date": "2025-07-30"
+  },
+  {
+    "event": "BBO1-2025EYPC-Salsomaggiore-U26",
+    "match_count": 6,
+    "min_id": 83236,
+    "max_id": 83258,
+    "start_date": "2025-07-22",
+    "end_date": "2025-07-23"
+  },
+  {
+    "event": "BBO1-2025EYPC-Salsomaggiore-M",
+    "match_count": 6,
+    "min_id": 83207,
+    "max_id": 83228,
+    "start_date": "2025-07-19",
+    "end_date": "2025-07-20"
+  },
+  {
+    "event": "BBO2-2025EYPC-Salsomaggiore-M",
+    "match_count": 6,
+    "min_id": 83208,
+    "max_id": 83227,
+    "start_date": "2025-07-19",
+    "end_date": "2025-07-20"
+  },
+  {
+    "event": "ANC Youth Final",
+    "match_count": 6,
+    "min_id": 83131,
+    "max_id": 83150,
+    "start_date": "2025-07-10",
+    "end_date": "2025-07-11"
+  },
+  {
+    "event": "WBT Masters",
+    "match_count": 6,
+    "min_id": 83921,
+    "max_id": 83926,
+    "start_date": "2025-09-30",
+    "end_date": "2025-09-30"
+  },
+  {
+    "event": "Polish League Cup FINAL",
+    "match_count": 6,
+    "min_id": 83713,
+    "max_id": 83732,
+    "start_date": "2025-09-06",
+    "end_date": "2025-09-06"
+  },
+  {
+    "event": "3RD MAVERICKS PREMIER LEAGUE 2025",
+    "match_count": 6,
+    "min_id": 84293,
+    "max_id": 84324,
+    "start_date": "2025-10-31",
+    "end_date": "2025-11-02"
+  },
+  {
+    "event": "3RD MAVERICKS PREMIUM LEAGUE 2025",
+    "match_count": 6,
+    "min_id": 84287,
+    "max_id": 84303,
+    "start_date": "2025-10-30",
+    "end_date": "2025-11-01"
+  },
+  {
+    "event": "JSM Lag",
+    "match_count": 6,
+    "min_id": 84054,
+    "max_id": 84080,
+    "start_date": "2025-10-11",
+    "end_date": "2025-10-12"
+  },
+  {
+    "event": "Danmark 1_ Division 2025-2026",
+    "match_count": 6,
+    "min_id": 83970,
+    "max_id": 83975,
+    "start_date": "2025-10-04",
+    "end_date": "2025-10-05"
+  },
+  {
+    "event": "2025 CTCBA OPEN TEAM TRIAL",
+    "match_count": 6,
+    "min_id": 84565,
+    "max_id": 84610,
+    "start_date": "2025-11-22",
+    "end_date": "2025-11-23"
+  },
+  {
+    "event": "Interklub 2025",
+    "match_count": 6,
+    "min_id": 84306,
+    "max_id": 84325,
+    "start_date": "2025-11-01",
+    "end_date": "2025-11-02"
+  },
+  {
+    "event": "2025 CTCBA SENIOR TEAM TRIAL FINAL",
+    "match_count": 6,
+    "min_id": 84298,
+    "max_id": 84320,
+    "start_date": "2025-11-01",
+    "end_date": "2025-11-02"
+  },
+  {
+    "event": "FFB - TOP16 - Finale",
+    "match_count": 6,
+    "min_id": 84878,
+    "max_id": 84907,
+    "start_date": "2025-12-20",
+    "end_date": "2025-12-21"
+  },
+  {
+    "event": "BGB Gold Cup Final",
+    "match_count": 6,
+    "min_id": 84816,
+    "max_id": 84833,
+    "start_date": "2025-12-14",
+    "end_date": "2025-12-14"
+  },
+  {
+    "event": "THE WILLNGDONE CLUB OPEN BRIDGE CHAMPIONSHIP 2025",
+    "match_count": 5,
+    "min_id": 81547,
+    "max_id": 81562,
+    "start_date": "2025-01-26",
+    "end_date": "2025-01-28"
+  },
+  {
+    "event": "Sweden Open",
+    "match_count": 5,
+    "min_id": 81537,
+    "max_id": 81546,
+    "start_date": "2025-01-25",
+    "end_date": "2025-01-26"
+  },
+  {
+    "event": "IZMIR KIS TAKIMLAR",
+    "match_count": 5,
+    "min_id": 81788,
+    "max_id": 81805,
+    "start_date": "2025-02-23",
+    "end_date": "2025-02-23"
+  },
+  {
+    "event": "Polish Premier League QF",
+    "match_count": 5,
+    "min_id": 81781,
+    "max_id": 81802,
+    "start_date": "2025-02-22",
+    "end_date": "2025-02-23"
+  },
+  {
+    "event": "MOHANLAL BHARTIYA MEMORIAL BRIDGE CHAMPIONSHIP",
+    "match_count": 5,
+    "min_id": 82133,
+    "max_id": 82148,
+    "start_date": "2025-03-30",
+    "end_date": "2025-04-01"
+  },
+  {
+    "event": "Dutch Premier League 2024-2025 Final",
+    "match_count": 5,
+    "min_id": 81834,
+    "max_id": 81861,
+    "start_date": "2025-03-01",
+    "end_date": "2025-03-02"
+  },
+  {
+    "event": "Italy Mixed Pairs",
+    "match_count": 5,
+    "min_id": 82376,
+    "max_id": 82403,
+    "start_date": "2025-04-26",
+    "end_date": "2025-04-27"
+  },
+  {
+    "event": "Junior NM 2025",
+    "match_count": 5,
+    "min_id": 82316,
+    "max_id": 82327,
+    "start_date": "2025-04-19",
+    "end_date": "2025-04-19"
+  },
+  {
+    "event": "Late Narayan Chowdhury Bridge Championship",
+    "match_count": 5,
+    "min_id": 82234,
+    "max_id": 82252,
+    "start_date": "2025-04-13",
+    "end_date": "2025-04-13"
+  },
+  {
+    "event": "Polish Premier League PO",
+    "match_count": 5,
+    "min_id": 82757,
+    "max_id": 82779,
+    "start_date": "2025-05-31",
+    "end_date": "2025-06-01"
+  },
+  {
+    "event": "Polish Premier League - SEMIFINAL",
+    "match_count": 5,
+    "min_id": 82720,
+    "max_id": 82726,
+    "start_date": "2025-05-30",
+    "end_date": "2025-05-30"
+  },
+  {
+    "event": "BBO2-2025EYPC-Salsomaggiore-U21",
+    "match_count": 5,
+    "min_id": 83230,
+    "max_id": 83255,
+    "start_date": "2025-07-21",
+    "end_date": "2025-07-23"
+  },
+  {
+    "event": "ANC Open Final",
+    "match_count": 5,
+    "min_id": 83129,
+    "max_id": 83152,
+    "start_date": "2025-07-10",
+    "end_date": "2025-07-11"
+  },
+  {
+    "event": "ANC Seniors Final",
+    "match_count": 5,
+    "min_id": 83130,
+    "max_id": 83151,
+    "start_date": "2025-07-10",
+    "end_date": "2025-07-11"
+  },
+  {
+    "event": "ANC Women Final",
+    "match_count": 5,
+    "min_id": 83132,
+    "max_id": 83149,
+    "start_date": "2025-07-10",
+    "end_date": "2025-07-11"
+  },
+  {
+    "event": "FINAL CNEO PORTUGAL",
+    "match_count": 5,
+    "min_id": 83889,
+    "max_id": 83894,
+    "start_date": "2025-09-24",
+    "end_date": "2025-09-25"
+  },
+  {
+    "event": "Norwegian Pairs Championship",
+    "match_count": 5,
+    "min_id": 83845,
+    "max_id": 83881,
+    "start_date": "2025-09-19",
+    "end_date": "2025-09-21"
+  },
+  {
+    "event": "TURKIYE MIXED TAKIMLAR",
+    "match_count": 5,
+    "min_id": 84631,
+    "max_id": 84636,
+    "start_date": "2025-11-27",
+    "end_date": "2025-11-28"
+  },
+  {
+    "event": "GNOT2025-SF",
+    "match_count": 5,
+    "min_id": 84556,
+    "max_id": 84567,
+    "start_date": "2025-11-22",
+    "end_date": "2025-11-22"
+  },
+  {
+    "event": "Grand Prix of Poland - teams SEMI FINALS",
+    "match_count": 5,
+    "min_id": 84800,
+    "max_id": 84818,
+    "start_date": "2025-12-13",
+    "end_date": "2025-12-14"
+  },
+  {
+    "event": "BGB Gold Cup Semi-Final",
+    "match_count": 5,
+    "min_id": 84783,
+    "max_id": 84815,
+    "start_date": "2025-12-13",
+    "end_date": "2025-12-14"
+  },
+  {
+    "event": "2025 CTCBA MIXED TEAM TRIAL",
+    "match_count": 5,
+    "min_id": 84683,
+    "max_id": 84714,
+    "start_date": "2025-12-06",
+    "end_date": "2025-12-07"
+  },
+  {
+    "event": "67th ASHOK RUIA WINTER NATIONAL SENIOR 2025",
+    "match_count": 5,
+    "min_id": 84665,
+    "max_id": 84678,
+    "start_date": "2025-12-03",
+    "end_date": "2025-12-04"
+  },
+  {
+    "event": "Thailand National Selection 2025 : Open Team",
+    "match_count": 4,
+    "min_id": 81660,
+    "max_id": 81670,
+    "start_date": "2025-02-08",
+    "end_date": "2025-02-08"
+  },
+  {
+    "event": "BBO2-2025GCC-Broadbeach",
+    "match_count": 4,
+    "min_id": 81645,
+    "max_id": 82830,
+    "start_date": "2025-02-07",
+    "end_date": "2025-06-07"
+  },
+  {
+    "event": "ROMANIAN TEAMS TRIALS",
+    "match_count": 4,
+    "min_id": 81610,
+    "max_id": 81628,
+    "start_date": "2025-02-01",
+    "end_date": "2025-02-02"
+  },
+  {
+    "event": "JAPAN Intercollege championships Final",
+    "match_count": 4,
+    "min_id": 81979,
+    "max_id": 81984,
+    "start_date": "2025-03-19",
+    "end_date": "2025-03-19"
+  },
+  {
+    "event": "JAPAN Intercollege championships Semifinal",
+    "match_count": 4,
+    "min_id": 81964,
+    "max_id": 81969,
+    "start_date": "2025-03-18",
+    "end_date": "2025-03-18"
+  },
+  {
+    "event": "Danmark Damedivision 2025",
+    "match_count": 4,
+    "min_id": 81954,
+    "max_id": 81961,
+    "start_date": "2025-03-16",
+    "end_date": "2025-03-16"
+  },
+  {
+    "event": "KIS 4LU ISTANBUL SIRALAMA TURLARI",
+    "match_count": 4,
+    "min_id": 81827,
+    "max_id": 81843,
+    "start_date": "2025-03-01",
+    "end_date": "2025-03-01"
+  },
+  {
+    "event": "Iceland Team Finals",
+    "match_count": 4,
+    "min_id": 82343,
+    "max_id": 82410,
+    "start_date": "2025-04-24",
+    "end_date": "2025-04-27"
+  },
+  {
+    "event": "Grand Prix of Poland",
+    "match_count": 4,
+    "min_id": 82399,
+    "max_id": 82407,
+    "start_date": "2025-04-27",
+    "end_date": "2025-04-27"
+  },
+  {
+    "event": "23rd BFAME Trials Mixed",
+    "match_count": 4,
+    "min_id": 82279,
+    "max_id": 82309,
+    "start_date": "2025-04-16",
+    "end_date": "2025-04-18"
+  },
+  {
+    "event": "23rd BFAME Trials Seniors",
+    "match_count": 4,
+    "min_id": 82281,
+    "max_id": 82304,
+    "start_date": "2025-04-16",
+    "end_date": "2025-04-18"
+  },
+  {
+    "event": "Grand Prix of Poland Final",
+    "match_count": 4,
+    "min_id": 82236,
+    "max_id": 82246,
+    "start_date": "2025-04-13",
+    "end_date": "2025-04-13"
+  },
+  {
+    "event": "Grand Prix of Poland 1_4",
+    "match_count": 4,
+    "min_id": 82207,
+    "max_id": 82212,
+    "start_date": "2025-04-11",
+    "end_date": "2025-04-11"
+  },
+  {
+    "event": "Grand Prix of Poland 1_8",
+    "match_count": 4,
+    "min_id": 82196,
+    "max_id": 82203,
+    "start_date": "2025-04-11",
+    "end_date": "2025-04-11"
+  },
+  {
+    "event": "Interklub 2024-25 Semifinal",
+    "match_count": 4,
+    "min_id": 82152,
+    "max_id": 82163,
+    "start_date": "2025-04-05",
+    "end_date": "2025-04-05"
+  },
+  {
+    "event": "Polish Premier League SEMIFINAL",
+    "match_count": 4,
+    "min_id": 82736,
+    "max_id": 82744,
+    "start_date": "2025-05-31",
+    "end_date": "2025-05-31"
+  },
+  {
+    "event": "Polish Premier League 2024_2025 SEMIFINAL",
+    "match_count": 4,
+    "min_id": 82709,
+    "max_id": 82715,
+    "start_date": "2025-05-30",
+    "end_date": "2025-05-30"
+  },
+  {
+    "event": "Mixed Team Zone 6 Selection 2",
+    "match_count": 4,
+    "min_id": 82684,
+    "max_id": 82690,
+    "start_date": "2025-05-25",
+    "end_date": "2025-05-25"
+  },
+  {
+    "event": "TOP 16 DEMI FINALE",
+    "match_count": 4,
+    "min_id": 82510,
+    "max_id": 82513,
+    "start_date": "2025-05-09",
+    "end_date": "2025-05-09"
+  },
+  {
+    "event": "IMP&amp;Lombard Topcircuit Final",
+    "match_count": 4,
+    "min_id": 82454,
+    "max_id": 82489,
+    "start_date": "2025-05-03",
+    "end_date": "2025-05-04"
+  },
+  {
+    "event": "Italian Interclub 25",
+    "match_count": 4,
+    "min_id": 82436,
+    "max_id": 82447,
+    "start_date": "2025-05-01",
+    "end_date": "2025-05-02"
+  },
+  {
+    "event": "2025",
+    "match_count": 4,
+    "min_id": 82926,
+    "max_id": 82951,
+    "start_date": "2025-06-19",
+    "end_date": "2025-06-22"
+  },
+  {
+    "event": "Spingold 3",
+    "match_count": 4,
+    "min_id": 83347,
+    "max_id": 83359,
+    "start_date": "2025-07-31",
+    "end_date": "2025-08-01"
+  },
+  {
+    "event": "Spingold 2",
+    "match_count": 4,
+    "min_id": 83321,
+    "max_id": 83329,
+    "start_date": "2025-07-29",
+    "end_date": "2025-07-29"
+  },
+  {
+    "event": "BBO2-2025WYTC-Salsomaggiore",
+    "match_count": 4,
+    "min_id": 83159,
+    "max_id": 83166,
+    "start_date": "2025-07-12",
+    "end_date": "2025-07-12"
+  },
+  {
+    "event": "Japan Intercollege Championships Final",
+    "match_count": 4,
+    "min_id": 83614,
+    "max_id": 83620,
+    "start_date": "2025-08-28",
+    "end_date": "2025-08-28"
+  },
+  {
+    "event": "RigaInvites",
+    "match_count": 4,
+    "min_id": 83510,
+    "max_id": 83519,
+    "start_date": "2025-08-15",
+    "end_date": "2025-08-16"
+  },
+  {
+    "event": "Polish Teams Championships F",
+    "match_count": 4,
+    "min_id": 83449,
+    "max_id": 83453,
+    "start_date": "2025-08-06",
+    "end_date": "2025-08-06"
+  },
+  {
+    "event": "Polish Teams Championships SF",
+    "match_count": 4,
+    "min_id": 83443,
+    "max_id": 83448,
+    "start_date": "2025-08-05",
+    "end_date": "2025-08-05"
+  },
+  {
+    "event": "Polish Teams Championships QF",
+    "match_count": 4,
+    "min_id": 83438,
+    "max_id": 83442,
+    "start_date": "2025-08-05",
+    "end_date": "2025-08-05"
+  },
+  {
+    "event": "2025 Spingold KO",
+    "match_count": 4,
+    "min_id": 83402,
+    "max_id": 83409,
+    "start_date": "2025-08-03",
+    "end_date": "2025-08-04"
+  },
+  {
+    "event": "2025 Spingold KO 3",
+    "match_count": 4,
+    "min_id": 83363,
+    "max_id": 83376,
+    "start_date": "2025-08-01",
+    "end_date": "2025-08-02"
+  },
+  {
+    "event": "2025 Spingold KO 4",
+    "match_count": 4,
+    "min_id": 83364,
+    "max_id": 83375,
+    "start_date": "2025-08-01",
+    "end_date": "2025-08-02"
+  },
+  {
+    "event": "Qualification Germany Open Team",
+    "match_count": 4,
+    "min_id": 83896,
+    "max_id": 83899,
+    "start_date": "2025-09-27",
+    "end_date": "2025-09-28"
+  },
+  {
+    "event": "63rd Pula Bridge Festival - Mixed Teams -",
+    "match_count": 4,
+    "min_id": 83760,
+    "max_id": 83769,
+    "start_date": "2025-09-14",
+    "end_date": "2025-09-14"
+  },
+  {
+    "event": "Mutton Cup 2025",
+    "match_count": 4,
+    "min_id": 83701,
+    "max_id": 83734,
+    "start_date": "2025-09-05",
+    "end_date": "2025-09-06"
+  },
+  {
+    "event": "Polish League Cup SEMIFINAL",
+    "match_count": 4,
+    "min_id": 83698,
+    "max_id": 83706,
+    "start_date": "2025-09-05",
+    "end_date": "2025-09-05"
+  },
+  {
+    "event": "Polish Mixed Team Championships",
+    "match_count": 4,
+    "min_id": 84139,
+    "max_id": 84148,
+    "start_date": "2025-10-18",
+    "end_date": "2025-10-18"
+  },
+  {
+    "event": "TOP 16 - FF Bridge",
+    "match_count": 4,
+    "min_id": 84050,
+    "max_id": 84374,
+    "start_date": "2025-10-11",
+    "end_date": "2025-11-08"
+  },
+  {
+    "event": "HCL MIXED IMP PAIRS ELIM 2025",
+    "match_count": 4,
+    "min_id": 83977,
+    "max_id": 83982,
+    "start_date": "2025-10-06",
+    "end_date": "2025-10-06"
+  },
+  {
+    "event": "WBT Masters Copenhagen - SF",
+    "match_count": 4,
+    "min_id": 83956,
+    "max_id": 83959,
+    "start_date": "2025-10-03",
+    "end_date": "2025-10-03"
+  },
+  {
+    "event": "2025 3rd Seoul Cup",
+    "match_count": 4,
+    "min_id": 83928,
+    "max_id": 83931,
+    "start_date": "2025-10-01",
+    "end_date": "2025-10-01"
+  },
+  {
+    "event": "PORTUGUESE MIXED TEAMS TRIALS FINAL",
+    "match_count": 4,
+    "min_id": 84641,
+    "max_id": 84644,
+    "start_date": "2025-11-30",
+    "end_date": "2025-11-30"
+  },
+  {
+    "event": "TURKIYE MIXED",
+    "match_count": 4,
+    "min_id": 84625,
+    "max_id": 84628,
+    "start_date": "2025-11-26",
+    "end_date": "2025-11-26"
+  },
+  {
+    "event": "Brazilian Teams Championship",
+    "match_count": 4,
+    "min_id": 84548,
+    "max_id": 84592,
+    "start_date": "2025-11-21",
+    "end_date": "2025-11-22"
+  },
+  {
+    "event": "MINANGKABAU OPEN TOURNAMENT II _2025",
+    "match_count": 4,
+    "min_id": 84540,
+    "max_id": 84563,
+    "start_date": "2025-11-21",
+    "end_date": "2025-11-22"
+  },
+  {
+    "event": "2025 Bulgarian National Championship FINAL",
+    "match_count": 4,
+    "min_id": 84515,
+    "max_id": 84528,
+    "start_date": "2025-11-15",
+    "end_date": "2025-11-16"
+  },
+  {
+    "event": "2025 Taiwan University Bridge Championship",
+    "match_count": 4,
+    "min_id": 84519,
+    "max_id": 84524,
+    "start_date": "2025-11-16",
+    "end_date": "2025-11-16"
+  },
+  {
+    "event": "TOP 16 FFBridge",
+    "match_count": 4,
+    "min_id": 84384,
+    "max_id": 84388,
+    "start_date": "2025-11-09",
+    "end_date": "2025-11-09"
+  },
+  {
+    "event": "CCI SWISS PAIRS 2025",
+    "match_count": 4,
+    "min_id": 84867,
+    "max_id": 84891,
+    "start_date": "2025-12-20",
+    "end_date": "2025-12-21"
+  },
+  {
+    "event": "espagne france",
+    "match_count": 4,
+    "min_id": 84779,
+    "max_id": 84828,
+    "start_date": "2025-12-13",
+    "end_date": "2025-12-14"
+  },
+  {
+    "event": "Coppa Italia WOMEN",
+    "match_count": 4,
+    "min_id": 84759,
+    "max_id": 84821,
+    "start_date": "2025-12-12",
+    "end_date": "2025-12-14"
+  },
+  {
+    "event": "Thailand National Selection 2025-OPEN",
+    "match_count": 3,
+    "min_id": 81503,
+    "max_id": 81518,
+    "start_date": "2025-01-18",
+    "end_date": "2025-01-19"
+  },
+  {
+    "event": "Thailand National Selection 2025-MIXED",
+    "match_count": 3,
+    "min_id": 81512,
+    "max_id": 81517,
+    "start_date": "2025-01-19",
+    "end_date": "2025-01-19"
+  },
+  {
+    "event": "2025YTPO-Canberra",
+    "match_count": 3,
+    "min_id": 81438,
+    "max_id": 81448,
+    "start_date": "2025-01-12",
+    "end_date": "2025-01-12"
+  },
+  {
+    "event": "38_ Bundesliga Saison 2025 1_9",
+    "match_count": 3,
+    "min_id": 81415,
+    "max_id": 81424,
+    "start_date": "2025-01-11",
+    "end_date": "2025-01-11"
+  },
+  {
+    "event": "Israel National League Finals",
+    "match_count": 3,
+    "min_id": 81358,
+    "max_id": 81362,
+    "start_date": "2025-01-04",
+    "end_date": "2025-01-04"
+  },
+  {
+    "event": "38_ Bundesliga Saison 2025 5_9",
+    "match_count": 3,
+    "min_id": 81684,
+    "max_id": 81695,
+    "start_date": "2025-02-08",
+    "end_date": "2025-02-09"
+  },
+  {
+    "event": "Sweden nationalteam trials",
+    "match_count": 3,
+    "min_id": 81674,
+    "max_id": 81683,
+    "start_date": "2025-02-08",
+    "end_date": "2025-02-08"
+  },
+  {
+    "event": "38_ Bundesliga Saison 2025 4_9",
+    "match_count": 3,
+    "min_id": 81675,
+    "max_id": 81679,
+    "start_date": "2025-02-08",
+    "end_date": "2025-02-08"
+  },
+  {
+    "event": "C_N_ EQUIPOS MIXTOS",
+    "match_count": 3,
+    "min_id": 82412,
+    "max_id": 82414,
+    "start_date": "2025-04-27",
+    "end_date": "2025-04-28"
+  },
+  {
+    "event": "Grand Prix of Poland QF",
+    "match_count": 3,
+    "min_id": 82379,
+    "max_id": 82388,
+    "start_date": "2025-04-26",
+    "end_date": "2025-04-26"
+  },
+  {
+    "event": "Practice TeamNL White-France Blue",
+    "match_count": 3,
+    "min_id": 82310,
+    "max_id": 82326,
+    "start_date": "2025-04-18",
+    "end_date": "2025-04-19"
+  },
+  {
+    "event": "23rd BFAME Trials Open",
+    "match_count": 3,
+    "min_id": 82278,
+    "max_id": 82306,
+    "start_date": "2025-04-16",
+    "end_date": "2025-04-18"
+  },
+  {
+    "event": "23rd BFAME Trials Women",
+    "match_count": 3,
+    "min_id": 82284,
+    "max_id": 82302,
+    "start_date": "2025-04-16",
+    "end_date": "2025-04-18"
+  },
+  {
+    "event": "35th Cyprus bridge festival",
+    "match_count": 3,
+    "min_id": 82188,
+    "max_id": 82190,
+    "start_date": "2025-04-08",
+    "end_date": "2025-04-08"
+  },
+  {
+    "event": "Polish Premier League FINAL",
+    "match_count": 3,
+    "min_id": 82755,
+    "max_id": 82777,
+    "start_date": "2025-05-31",
+    "end_date": "2025-06-01"
+  },
+  {
+    "event": "Mixed Team Zone 6 Selection 1",
+    "match_count": 3,
+    "min_id": 82678,
+    "max_id": 82682,
+    "start_date": "2025-05-24",
+    "end_date": "2025-05-24"
+  },
+  {
+    "event": "Israel open team trials",
+    "match_count": 3,
+    "min_id": 82603,
+    "max_id": 82610,
+    "start_date": "2025-05-17",
+    "end_date": "2025-05-17"
+  },
+  {
+    "event": "2025 ANOT Final",
+    "match_count": 3,
+    "min_id": 82492,
+    "max_id": 82494,
+    "start_date": "2025-05-05",
+    "end_date": "2025-05-05"
+  },
+  {
+    "event": "ITALIAN INTERCLUB 25",
+    "match_count": 3,
+    "min_id": 82453,
+    "max_id": 82484,
+    "start_date": "2025-05-03",
+    "end_date": "2025-05-04"
+  },
+  {
+    "event": "Selection - 15th National Games - Men (Open) Team",
+    "match_count": 3,
+    "min_id": 83042,
+    "max_id": 83051,
+    "start_date": "2025-06-29",
+    "end_date": "2025-06-29"
+  },
+  {
+    "event": "2025 test",
+    "match_count": 3,
+    "min_id": 82946,
+    "max_id": 82962,
+    "start_date": "2025-06-22",
+    "end_date": "2025-06-22"
+  },
+  {
+    "event": "2025 apec",
+    "match_count": 3,
+    "min_id": 82925,
+    "max_id": 82928,
+    "start_date": "2025-06-19",
+    "end_date": "2025-06-19"
+  },
+  {
+    "event": "Coupe de France - Finale",
+    "match_count": 3,
+    "min_id": 82846,
+    "max_id": 82851,
+    "start_date": "2025-06-08",
+    "end_date": "2025-06-08"
+  },
+  {
+    "event": "Spingold A",
+    "match_count": 3,
+    "min_id": 83314,
+    "max_id": 83317,
+    "start_date": "2025-07-28",
+    "end_date": "2025-07-28"
+  },
+  {
+    "event": "Championship GNT 1",
+    "match_count": 3,
+    "min_id": 83291,
+    "max_id": 83296,
+    "start_date": "2025-07-26",
+    "end_date": "2025-07-27"
+  },
+  {
+    "event": "Championship GNT 2",
+    "match_count": 3,
+    "min_id": 83292,
+    "max_id": 83295,
+    "start_date": "2025-07-26",
+    "end_date": "2025-07-27"
+  },
+  {
+    "event": "TURKIYE KULUPLER SAMP1_32",
+    "match_count": 3,
+    "min_id": 83266,
+    "max_id": 83272,
+    "start_date": "2025-07-24",
+    "end_date": "2025-07-24"
+  },
+  {
+    "event": "BBO2-2025EYPC-Salsomaggiore-U26",
+    "match_count": 3,
+    "min_id": 83235,
+    "max_id": 83240,
+    "start_date": "2025-07-22",
+    "end_date": "2025-07-22"
+  },
+  {
+    "event": "BBO1-2025EYPC-Salsomaggiore-U21",
+    "match_count": 3,
+    "min_id": 83229,
+    "max_id": 83233,
+    "start_date": "2025-07-21",
+    "end_date": "2025-07-21"
+  },
+  {
+    "event": "Pesta Sukan 2025 Open Teams Finals",
+    "match_count": 3,
+    "min_id": 83218,
+    "max_id": 83221,
+    "start_date": "2025-07-20",
+    "end_date": "2025-07-20"
+  },
+  {
+    "event": "DM Mix 2025",
+    "match_count": 3,
+    "min_id": 83153,
+    "max_id": 83164,
+    "start_date": "2025-07-12",
+    "end_date": "2025-07-12"
+  },
+  {
+    "event": "NBF Swiss Pairs Championship",
+    "match_count": 3,
+    "min_id": 83440,
+    "max_id": 83447,
+    "start_date": "2025-08-05",
+    "end_date": "2025-08-05"
+  },
+  {
+    "event": "ROMANIA CHAMPIONSHIP DIVIZIA A2",
+    "match_count": 3,
+    "min_id": 84297,
+    "max_id": 84311,
+    "start_date": "2025-10-31",
+    "end_date": "2025-11-01"
+  },
+  {
+    "event": "ROMANIA CHAMPIONSHIP DIVIZIA A1",
+    "match_count": 3,
+    "min_id": 84296,
+    "max_id": 84313,
+    "start_date": "2025-10-31",
+    "end_date": "2025-11-01"
+  },
+  {
+    "event": "MAVERICKS PREMIUM LEAGUE 2025",
+    "match_count": 3,
+    "min_id": 84283,
+    "max_id": 84285,
+    "start_date": "2025-10-30",
+    "end_date": "2025-10-30"
+  },
+  {
+    "event": "Camrose Ireland Trials",
+    "match_count": 3,
+    "min_id": 84279,
+    "max_id": 84282,
+    "start_date": "2025-10-26",
+    "end_date": "2025-10-27"
+  },
+  {
+    "event": "Coppa Italia over64",
+    "match_count": 3,
+    "min_id": 84203,
+    "max_id": 84206,
+    "start_date": "2025-10-23",
+    "end_date": "2025-10-24"
+  },
+  {
+    "event": "SABC 2025",
+    "match_count": 3,
+    "min_id": 84184,
+    "max_id": 84195,
+    "start_date": "2025-10-21",
+    "end_date": "2025-10-23"
+  },
+  {
+    "event": "SAO PAULO CUP FINALS",
+    "match_count": 3,
+    "min_id": 84153,
+    "max_id": 84171,
+    "start_date": "2025-10-19",
+    "end_date": "2025-10-19"
+  },
+  {
+    "event": "Premier League Div 1",
+    "match_count": 3,
+    "min_id": 84141,
+    "max_id": 84167,
+    "start_date": "2025-10-18",
+    "end_date": "2025-10-19"
+  },
+  {
+    "event": "WBT Masters Copenhagen - Final",
+    "match_count": 3,
+    "min_id": 83960,
+    "max_id": 83964,
+    "start_date": "2025-10-03",
+    "end_date": "2025-10-03"
+  },
+  {
+    "event": "PORTUGUESE MIXED TEAMS TRIALS SF",
+    "match_count": 3,
+    "min_id": 84638,
+    "max_id": 84640,
+    "start_date": "2025-11-29",
+    "end_date": "2025-11-29"
+  },
+  {
+    "event": "English Premier League 2025",
+    "match_count": 3,
+    "min_id": 84619,
+    "max_id": 84624,
+    "start_date": "2025-11-23",
+    "end_date": "2025-11-23"
+  },
+  {
+    "event": "Danmark - 1_division 2025-2026",
+    "match_count": 3,
+    "min_id": 84586,
+    "max_id": 84621,
+    "start_date": "2025-11-22",
+    "end_date": "2025-11-23"
+  },
+  {
+    "event": "PCU Bridge Trophy 2025",
+    "match_count": 3,
+    "min_id": 84584,
+    "max_id": 84616,
+    "start_date": "2025-11-22",
+    "end_date": "2025-11-23"
+  },
+  {
+    "event": "GNOT 2025 Final",
+    "match_count": 3,
+    "min_id": 84596,
+    "max_id": 84604,
+    "start_date": "2025-11-23",
+    "end_date": "2025-11-23"
+  },
+  {
+    "event": "MINANGKABAU OPEN TOURNAMENT II_2025",
+    "match_count": 3,
+    "min_id": 84539,
+    "max_id": 84562,
+    "start_date": "2025-11-21",
+    "end_date": "2025-11-22"
+  },
+  {
+    "event": "Channel Trophy 2025",
+    "match_count": 3,
+    "min_id": 84851,
+    "max_id": 84890,
+    "start_date": "2025-12-19",
+    "end_date": "2025-12-20"
+  },
+  {
+    "event": "Grand Prix of Poland - teams FINAL",
+    "match_count": 3,
+    "min_id": 84820,
+    "max_id": 84831,
+    "start_date": "2025-12-14",
+    "end_date": "2025-12-14"
+  },
+  {
+    "event": "allemagne france",
+    "match_count": 3,
+    "min_id": 84782,
+    "max_id": 84817,
+    "start_date": "2025-12-13",
+    "end_date": "2025-12-14"
+  },
+  {
+    "event": "FRANCE ESPAGNE",
+    "match_count": 3,
+    "min_id": 84773,
+    "max_id": 84777,
+    "start_date": "2025-12-13",
+    "end_date": "2025-12-13"
+  },
+  {
+    "event": "Scottish Cup 2024-25",
+    "match_count": 3,
+    "min_id": 84696,
+    "max_id": 84703,
+    "start_date": "2025-12-06",
+    "end_date": "2025-12-06"
+  },
+  {
+    "event": "Reykjavik Rapyd Bridge Festival",
+    "match_count": 2,
+    "min_id": 81584,
+    "max_id": 81585,
+    "start_date": "2025-01-31",
+    "end_date": "2025-01-31"
+  },
+  {
+    "event": "Sweden Trials",
+    "match_count": 2,
+    "min_id": 81548,
+    "max_id": 81549,
+    "start_date": "2025-01-26",
+    "end_date": "2025-01-26"
+  },
+  {
+    "event": "Lady Milne Trials",
+    "match_count": 2,
+    "min_id": 81490,
+    "max_id": 81491,
+    "start_date": "2025-01-17",
+    "end_date": "2025-01-17"
+  },
+  {
+    "event": "50th University Games",
+    "match_count": 2,
+    "min_id": 81479,
+    "max_id": 81480,
+    "start_date": "2025-01-15",
+    "end_date": "2025-01-15"
+  },
+  {
+    "event": "Danmark - 1_division 2024-2025 - Runde 8",
+    "match_count": 2,
+    "min_id": 81467,
+    "max_id": 81472,
+    "start_date": "2025-01-12",
+    "end_date": "2025-01-12"
+  },
+  {
+    "event": "Polish Premier League RR15",
+    "match_count": 2,
+    "min_id": 81466,
+    "max_id": 81471,
+    "start_date": "2025-01-12",
+    "end_date": "2025-01-12"
+  },
+  {
+    "event": "38_ Bundesliga Saison 2025 3_9",
+    "match_count": 2,
+    "min_id": 81463,
+    "max_id": 81469,
+    "start_date": "2025-01-12",
+    "end_date": "2025-01-12"
+  },
+  {
+    "event": "Polish Premier League RR14",
+    "match_count": 2,
+    "min_id": 81454,
+    "max_id": 81460,
+    "start_date": "2025-01-12",
+    "end_date": "2025-01-12"
+  },
+  {
+    "event": "38_ Bundesliga Saison 2025 2_9",
+    "match_count": 2,
+    "min_id": 81430,
+    "max_id": 81458,
+    "start_date": "2025-01-11",
+    "end_date": "2025-01-12"
+  },
+  {
+    "event": "Danmark - 1_division 2024-2025 - Runde 7",
+    "match_count": 2,
+    "min_id": 81432,
+    "max_id": 81457,
+    "start_date": "2025-01-11",
+    "end_date": "2025-01-12"
+  },
+  {
+    "event": "Polish Premier League RR13",
+    "match_count": 2,
+    "min_id": 81431,
+    "max_id": 81435,
+    "start_date": "2025-01-11",
+    "end_date": "2025-01-11"
+  },
+  {
+    "event": "Polish Premier League RR12",
+    "match_count": 2,
+    "min_id": 81421,
+    "max_id": 81428,
+    "start_date": "2025-01-11",
+    "end_date": "2025-01-11"
+  },
+  {
+    "event": "Danmark - 1_division 2024-2025 - Runde 6",
+    "match_count": 2,
+    "min_id": 81417,
+    "max_id": 81426,
+    "start_date": "2025-01-11",
+    "end_date": "2025-01-11"
+  },
+  {
+    "event": "Polish Premier League RR11",
+    "match_count": 2,
+    "min_id": 81408,
+    "max_id": 81411,
+    "start_date": "2025-01-11",
+    "end_date": "2025-01-11"
+  },
+  {
+    "event": "EBU Teltscher Trophy Trial R5 of 11",
+    "match_count": 2,
+    "min_id": 81407,
+    "max_id": 81410,
+    "start_date": "2025-01-11",
+    "end_date": "2025-01-11"
+  },
+  {
+    "event": "Polish Premier League RR10",
+    "match_count": 2,
+    "min_id": 81386,
+    "max_id": 81388,
+    "start_date": "2025-01-10",
+    "end_date": "2025-01-10"
+  },
+  {
+    "event": "Teltscher",
+    "match_count": 2,
+    "min_id": 81381,
+    "max_id": 81385,
+    "start_date": "2025-01-10",
+    "end_date": "2025-01-10"
+  },
+  {
+    "event": "Polish Premier League RR9",
+    "match_count": 2,
+    "min_id": 81379,
+    "max_id": 81383,
+    "start_date": "2025-01-10",
+    "end_date": "2025-01-10"
+  },
+  {
+    "event": "Israel National league finals",
+    "match_count": 2,
+    "min_id": 81360,
+    "max_id": 81361,
+    "start_date": "2025-01-04",
+    "end_date": "2025-01-04"
+  },
+  {
+    "event": "VIJYA JAJOO MIXED PAIR FINAL",
+    "match_count": 2,
+    "min_id": 81705,
+    "max_id": 81706,
+    "start_date": "2025-02-12",
+    "end_date": "2025-02-12"
+  },
+  {
+    "event": "38_ Bundesliga Saison 2025 6_9",
+    "match_count": 2,
+    "min_id": 81699,
+    "max_id": 81702,
+    "start_date": "2025-02-09",
+    "end_date": "2025-02-09"
+  },
+  {
+    "event": "Swedish national teams",
+    "match_count": 2,
+    "min_id": 81691,
+    "max_id": 81692,
+    "start_date": "2025-02-09",
+    "end_date": "2025-02-09"
+  },
+  {
+    "event": "BBO1-2025GCC-Broadbeach",
+    "match_count": 2,
+    "min_id": 81644,
+    "max_id": 81647,
+    "start_date": "2025-02-07",
+    "end_date": "2025-02-07"
+  },
+  {
+    "event": "Thailand National Teams Selection 2025:Open Teams",
+    "match_count": 2,
+    "min_id": 81595,
+    "max_id": 81615,
+    "start_date": "2025-02-01",
+    "end_date": "2025-02-02"
+  },
+  {
+    "event": "National Youth 40th",
+    "match_count": 2,
+    "min_id": 82083,
+    "max_id": 82085,
+    "start_date": "2025-03-26",
+    "end_date": "2025-03-26"
+  },
+  {
+    "event": "38_ Bundesliga Saison 2025 9_9",
+    "match_count": 2,
+    "min_id": 81957,
+    "max_id": 81960,
+    "start_date": "2025-03-16",
+    "end_date": "2025-03-16"
+  },
+  {
+    "event": "38_ Bundesliga Saison 2025 8_9",
+    "match_count": 2,
+    "min_id": 81938,
+    "max_id": 81953,
+    "start_date": "2025-03-15",
+    "end_date": "2025-03-16"
+  },
+  {
+    "event": "38_ Bundesliga Saison 2025 7_9",
+    "match_count": 2,
+    "min_id": 81936,
+    "max_id": 81937,
+    "start_date": "2025-03-15",
+    "end_date": "2025-03-15"
+  },
+  {
+    "event": "Danmark 1_div - kamp 10",
+    "match_count": 2,
+    "min_id": 81848,
+    "max_id": 81855,
+    "start_date": "2025-03-01",
+    "end_date": "2025-03-02"
+  },
+  {
+    "event": "TURKIYE KIS TAKIMLAR ISTANBUL SIRALAMASI",
+    "match_count": 2,
+    "min_id": 81852,
+    "max_id": 81854,
+    "start_date": "2025-03-02",
+    "end_date": "2025-03-02"
+  },
+  {
+    "event": "##Danmark - 1div - runde 9",
+    "match_count": 2,
+    "min_id": 81840,
+    "max_id": 81846,
+    "start_date": "2025-03-01",
+    "end_date": "2025-03-01"
+  },
+  {
+    "event": "2025 TURKON YAZ ACIK SAMPIYONAS",
+    "match_count": 2,
+    "min_id": 82416,
+    "max_id": 82417,
+    "start_date": "2025-04-28",
+    "end_date": "2025-04-28"
+  },
+  {
+    "event": "Top16",
+    "match_count": 2,
+    "min_id": 82377,
+    "max_id": 82381,
+    "start_date": "2025-04-26",
+    "end_date": "2025-04-26"
+  },
+  {
+    "event": "Italy Mixed Cup",
+    "match_count": 2,
+    "min_id": 82335,
+    "max_id": 82366,
+    "start_date": "2025-04-23",
+    "end_date": "2025-04-25"
+  },
+  {
+    "event": "Practice TeamNL White- France Red",
+    "match_count": 2,
+    "min_id": 82331,
+    "max_id": 82332,
+    "start_date": "2025-04-20",
+    "end_date": "2025-04-20"
+  },
+  {
+    "event": "Practice match TeamNL Orange - France Red",
+    "match_count": 2,
+    "min_id": 82323,
+    "max_id": 82328,
+    "start_date": "2025-04-19",
+    "end_date": "2025-04-19"
+  },
+  {
+    "event": "Practice match TeamNL Orange - France Blue",
+    "match_count": 2,
+    "min_id": 82317,
+    "max_id": 82320,
+    "start_date": "2025-04-19",
+    "end_date": "2025-04-19"
+  },
+  {
+    "event": "23rd BFAME Trials Mix",
+    "match_count": 2,
+    "min_id": 82285,
+    "max_id": 82297,
+    "start_date": "2025-04-16",
+    "end_date": "2025-04-17"
+  },
+  {
+    "event": "35th Cyprus Bridge Festival",
+    "match_count": 2,
+    "min_id": 82183,
+    "max_id": 82186,
+    "start_date": "2025-04-07",
+    "end_date": "2025-04-07"
+  },
+  {
+    "event": "Danmark - Slutspil 2024-2025",
+    "match_count": 2,
+    "min_id": 82177,
+    "max_id": 82178,
+    "start_date": "2025-04-06",
+    "end_date": "2025-04-06"
+  },
+  {
+    "event": "Interklub 2024-25 Finale",
+    "match_count": 2,
+    "min_id": 82170,
+    "max_id": 82172,
+    "start_date": "2025-04-06",
+    "end_date": "2025-04-06"
+  },
+  {
+    "event": "Slutspil Danmark 2025",
+    "match_count": 2,
+    "min_id": 82161,
+    "max_id": 82167,
+    "start_date": "2025-04-05",
+    "end_date": "2025-04-05"
+  },
+  {
+    "event": "Danmark - Slutspil 2024-2025 semi 1",
+    "match_count": 2,
+    "min_id": 82164,
+    "max_id": 82166,
+    "start_date": "2025-04-05",
+    "end_date": "2025-04-05"
+  },
+  {
+    "event": "Danmark - Slutspil 2024-2025 - semi 1",
+    "match_count": 2,
+    "min_id": 82154,
+    "max_id": 82158,
+    "start_date": "2025-04-05",
+    "end_date": "2025-04-05"
+  },
+  {
+    "event": "Sao Paulo State Championship",
+    "match_count": 2,
+    "min_id": 82763,
+    "max_id": 82765,
+    "start_date": "2025-05-31",
+    "end_date": "2025-06-01"
+  },
+  {
+    "event": "Polish Premier League PLAY-OFF",
+    "match_count": 2,
+    "min_id": 82750,
+    "max_id": 82754,
+    "start_date": "2025-05-31",
+    "end_date": "2025-05-31"
+  },
+  {
+    "event": "Polish Premier League 2024_2025 FINAL",
+    "match_count": 2,
+    "min_id": 82749,
+    "max_id": 82753,
+    "start_date": "2025-05-31",
+    "end_date": "2025-05-31"
+  },
+  {
+    "event": "SABF Teams Championships Final",
+    "match_count": 2,
+    "min_id": 82664,
+    "max_id": 82668,
+    "start_date": "2025-05-22",
+    "end_date": "2025-05-22"
+  },
+  {
+    "event": "Portuguese Open Teams SF 1_3",
+    "match_count": 2,
+    "min_id": 82625,
+    "max_id": 82629,
+    "start_date": "2025-05-18",
+    "end_date": "2025-05-18"
+  },
+  {
+    "event": "Israel Open trials",
+    "match_count": 2,
+    "min_id": 82574,
+    "max_id": 82580,
+    "start_date": "2025-05-16",
+    "end_date": "2025-05-16"
+  },
+  {
+    "event": "CUPA CONTRA KO",
+    "match_count": 2,
+    "min_id": 82575,
+    "max_id": 82577,
+    "start_date": "2025-05-16",
+    "end_date": "2025-05-16"
+  },
+  {
+    "event": "Polish Pairs Championships",
+    "match_count": 2,
+    "min_id": 82457,
+    "max_id": 82471,
+    "start_date": "2025-05-03",
+    "end_date": "2025-05-03"
+  },
+  {
+    "event": "Italian Interclub 2025",
+    "match_count": 2,
+    "min_id": 82434,
+    "max_id": 82438,
+    "start_date": "2025-05-01",
+    "end_date": "2025-05-01"
+  },
+  {
+    "event": "test",
+    "match_count": 2,
+    "min_id": 82929,
+    "max_id": 83281,
+    "start_date": "2025-06-19",
+    "end_date": "2025-07-26"
+  },
+  {
+    "event": "KULUPLER ISTANBUL SIRALAMASI",
+    "match_count": 2,
+    "min_id": 82891,
+    "max_id": 82904,
+    "start_date": "2025-06-14",
+    "end_date": "2025-06-15"
+  },
+  {
+    "event": "Coupe de France Demi-Finale",
+    "match_count": 2,
+    "min_id": 82837,
+    "max_id": 82838,
+    "start_date": "2025-06-08",
+    "end_date": "2025-06-08"
+  },
+  {
+    "event": "Coupe de France 1_4 Finale",
+    "match_count": 2,
+    "min_id": 82826,
+    "max_id": 82829,
+    "start_date": "2025-06-07",
+    "end_date": "2025-06-07"
+  },
+  {
+    "event": "11_ German Bridge Trophy 2025 - Quali - 4_8",
+    "match_count": 2,
+    "min_id": 82812,
+    "max_id": 82815,
+    "start_date": "2025-06-07",
+    "end_date": "2025-06-07"
+  },
+  {
+    "event": "Coupe de France 8",
+    "match_count": 2,
+    "min_id": 82806,
+    "max_id": 82814,
+    "start_date": "2025-06-07",
+    "end_date": "2025-06-07"
+  },
+  {
+    "event": "Polish Premier League 2024_2025",
+    "match_count": 2,
+    "min_id": 82767,
+    "max_id": 82772,
+    "start_date": "2025-06-01",
+    "end_date": "2025-06-01"
+  },
+  {
+    "event": "Spingold 5",
+    "match_count": 2,
+    "min_id": 83355,
+    "max_id": 83358,
+    "start_date": "2025-07-31",
+    "end_date": "2025-08-01"
+  },
+  {
+    "event": "Spingold 6",
+    "match_count": 2,
+    "min_id": 83348,
+    "max_id": 83351,
+    "start_date": "2025-07-31",
+    "end_date": "2025-07-31"
+  },
+  {
+    "event": "Spingold 7",
+    "match_count": 2,
+    "min_id": 83335,
+    "max_id": 83337,
+    "start_date": "2025-07-30",
+    "end_date": "2025-07-30"
+  },
+  {
+    "event": "TURKIYE KULUPLER SAMP1_64",
+    "match_count": 2,
+    "min_id": 83254,
+    "max_id": 83259,
+    "start_date": "2025-07-23",
+    "end_date": "2025-07-23"
+  },
+  {
+    "event": "TURKIYE KULUPLER SAMP 1_64",
+    "match_count": 2,
+    "min_id": 83250,
+    "max_id": 83257,
+    "start_date": "2025-07-23",
+    "end_date": "2025-07-23"
+  },
+  {
+    "event": "Open Teams Final (Open)",
+    "match_count": 2,
+    "min_id": 83219,
+    "max_id": 83222,
+    "start_date": "2025-07-20",
+    "end_date": "2025-07-20"
+  },
+  {
+    "event": "JAPAN Intercollege Rookie Match",
+    "match_count": 2,
+    "min_id": 83637,
+    "max_id": 83644,
+    "start_date": "2025-08-29",
+    "end_date": "2025-08-29"
+  },
+  {
+    "event": "BBO3-2025WBTC-Herning-BB",
+    "match_count": 2,
+    "min_id": 83578,
+    "max_id": 83626,
+    "start_date": "2025-08-25",
+    "end_date": "2025-08-28"
+  },
+  {
+    "event": "JAPAN Intercollege Championships",
+    "match_count": 2,
+    "min_id": 83611,
+    "max_id": 83612,
+    "start_date": "2025-08-27",
+    "end_date": "2025-08-28"
+  },
+  {
+    "event": "HAROLD VANDERBELT BRIDGE CELEBRATION",
+    "match_count": 2,
+    "min_id": 83522,
+    "max_id": 83524,
+    "start_date": "2025-08-17",
+    "end_date": "2025-08-17"
+  },
+  {
+    "event": "2nd Jeonju Cup",
+    "match_count": 2,
+    "min_id": 83497,
+    "max_id": 83498,
+    "start_date": "2025-08-13",
+    "end_date": "2025-08-13"
+  },
+  {
+    "event": "2025 NBF Swiss Mixed Teams",
+    "match_count": 2,
+    "min_id": 83405,
+    "max_id": 83406,
+    "start_date": "2025-08-03",
+    "end_date": "2025-08-03"
+  },
+  {
+    "event": "2025 NBF Mixed Teams Championship",
+    "match_count": 2,
+    "min_id": 83401,
+    "max_id": 83404,
+    "start_date": "2025-08-03",
+    "end_date": "2025-08-03"
+  },
+  {
+    "event": "2025 NBF Mixed Pairs",
+    "match_count": 2,
+    "min_id": 83387,
+    "max_id": 83396,
+    "start_date": "2025-08-02",
+    "end_date": "2025-08-03"
+  },
+  {
+    "event": "2ND SHREE CEMENT INTER STATE CHAMPIONSHIP 2025",
+    "match_count": 2,
+    "min_id": 83378,
+    "max_id": 83384,
+    "start_date": "2025-08-02",
+    "end_date": "2025-08-02"
+  },
+  {
+    "event": "Iceland Cup Final",
+    "match_count": 2,
+    "min_id": 83882,
+    "max_id": 83886,
+    "start_date": "2025-09-21",
+    "end_date": "2025-09-21"
+  },
+  {
+    "event": "F Prince TAKAMATSU Memorial CUP",
+    "match_count": 2,
+    "min_id": 83863,
+    "max_id": 83870,
+    "start_date": "2025-09-20",
+    "end_date": "2025-09-20"
+  },
+  {
+    "event": "SF Prince TAKAMATSU Memorial CUP",
+    "match_count": 2,
+    "min_id": 83856,
+    "max_id": 83860,
+    "start_date": "2025-09-20",
+    "end_date": "2025-09-20"
+  },
+  {
+    "event": "63rd Pula Bridge Festival - Open Teams - Final",
+    "match_count": 2,
+    "min_id": 83839,
+    "max_id": 83846,
+    "start_date": "2025-09-19",
+    "end_date": "2025-09-19"
+  },
+  {
+    "event": "mutton cup 2025",
+    "match_count": 2,
+    "min_id": 83688,
+    "max_id": 83690,
+    "start_date": "2025-09-04",
+    "end_date": "2025-09-04"
+  },
+  {
+    "event": "Camrose Triala",
+    "match_count": 2,
+    "min_id": 84250,
+    "max_id": 84267,
+    "start_date": "2025-10-25",
+    "end_date": "2025-10-26"
+  },
+  {
+    "event": "Camrose Trials",
+    "match_count": 2,
+    "min_id": 84235,
+    "max_id": 84247,
+    "start_date": "2025-10-25",
+    "end_date": "2025-10-25"
+  },
+  {
+    "event": "4th EAST ZONE OPEN BRIDGE CHASMPIONSHIP 2025",
+    "match_count": 2,
+    "min_id": 84220,
+    "max_id": 84227,
+    "start_date": "2025-10-25",
+    "end_date": "2025-10-25"
+  },
+  {
+    "event": "Norwegian 1_ division",
+    "match_count": 2,
+    "min_id": 84216,
+    "max_id": 84224,
+    "start_date": "2025-10-24",
+    "end_date": "2025-10-25"
+  },
+  {
+    "event": "EBU Premier League Div 1",
+    "match_count": 2,
+    "min_id": 84137,
+    "max_id": 84163,
+    "start_date": "2025-10-18",
+    "end_date": "2025-10-19"
+  },
+  {
+    "event": "Practice",
+    "match_count": 2,
+    "min_id": 84107,
+    "max_id": 84116,
+    "start_date": "2025-10-15",
+    "end_date": "2025-10-16"
+  },
+  {
+    "event": "HCL 2025 Pro-Am IMP Pairs",
+    "match_count": 2,
+    "min_id": 84100,
+    "max_id": 84102,
+    "start_date": "2025-10-14",
+    "end_date": "2025-10-14"
+  },
+  {
+    "event": "top 16 - FF BRIDGE",
+    "match_count": 2,
+    "min_id": 84052,
+    "max_id": 84056,
+    "start_date": "2025-10-11",
+    "end_date": "2025-10-11"
+  },
+  {
+    "event": "TURKIYE MIXED TAKIM",
+    "match_count": 2,
+    "min_id": 84629,
+    "max_id": 84630,
+    "start_date": "2025-11-27",
+    "end_date": "2025-11-27"
+  },
+  {
+    "event": "GNOT 2025 Non-metro Final",
+    "match_count": 2,
+    "min_id": 84595,
+    "max_id": 84598,
+    "start_date": "2025-11-23",
+    "end_date": "2025-11-23"
+  },
+  {
+    "event": "MINANGKABAU OPEN TOURNAMENT II _ FINAL",
+    "match_count": 2,
+    "min_id": 84575,
+    "max_id": 84576,
+    "start_date": "2025-11-22",
+    "end_date": "2025-11-22"
+  },
+  {
+    "event": "2025 Bulgarian National Championship Semifinal",
+    "match_count": 2,
+    "min_id": 84482,
+    "max_id": 84504,
+    "start_date": "2025-11-14",
+    "end_date": "2025-11-15"
+  },
+  {
+    "event": "TOP 16 FF Bridge",
+    "match_count": 2,
+    "min_id": 84360,
+    "max_id": 84381,
+    "start_date": "2025-11-08",
+    "end_date": "2025-11-09"
+  },
+  {
+    "event": "Grand Prix of Poland - pairs FINALS",
+    "match_count": 2,
+    "min_id": 84872,
+    "max_id": 84876,
+    "start_date": "2025-12-20",
+    "end_date": "2025-12-20"
+  },
+  {
+    "event": "FFB - TOP16 - 1_2 Finale",
+    "match_count": 2,
+    "min_id": 84844,
+    "max_id": 84863,
+    "start_date": "2025-12-19",
+    "end_date": "2025-12-19"
+  },
+  {
+    "event": "FFB - TOP16 -1_2 Finale",
+    "match_count": 2,
+    "min_id": 84843,
+    "max_id": 84847,
+    "start_date": "2025-12-19",
+    "end_date": "2025-12-19"
+  },
+  {
+    "event": "CCI SWISS PAIRS R 1 TO 6",
+    "match_count": 2,
+    "min_id": 84838,
+    "max_id": 84842,
+    "start_date": "2025-12-19",
+    "end_date": "2025-12-19"
+  },
+  {
+    "event": "BGB Gold Cup",
+    "match_count": 2,
+    "min_id": 84835,
+    "max_id": 84836,
+    "start_date": "2025-12-14",
+    "end_date": "2025-12-14"
+  },
+  {
+    "event": "BGB Gold Cup Semi- Final",
+    "match_count": 2,
+    "min_id": 84801,
+    "max_id": 84805,
+    "start_date": "2025-12-13",
+    "end_date": "2025-12-13"
+  },
+  {
+    "event": "Reykjavik Rapyd bridgefestival pairs",
+    "match_count": 1,
+    "min_id": 81586,
+    "max_id": 81586,
+    "start_date": "2025-01-31",
+    "end_date": "2025-01-31"
+  },
+  {
+    "event": "Rapyd Bridge Festival Reykjav",
+    "match_count": 1,
+    "min_id": 81581,
+    "max_id": 81581,
+    "start_date": "2025-01-30",
+    "end_date": "2025-01-30"
+  },
+  {
+    "event": "Swedish Open Trials",
+    "match_count": 1,
+    "min_id": 81529,
+    "max_id": 81529,
+    "start_date": "2025-01-24",
+    "end_date": "2025-01-24"
+  },
+  {
+    "event": "Thailand National Selection 2025 - MIXED",
+    "match_count": 1,
+    "min_id": 81502,
+    "max_id": 81502,
+    "start_date": "2025-01-18",
+    "end_date": "2025-01-18"
+  },
+  {
+    "event": "Thailand National Selection 2025",
+    "match_count": 1,
+    "min_id": 81500,
+    "max_id": 81500,
+    "start_date": "2025-01-18",
+    "end_date": "2025-01-18"
+  },
+  {
+    "event": "47th Thailand National Games",
+    "match_count": 1,
+    "min_id": 81494,
+    "max_id": 81494,
+    "start_date": "2025-01-18",
+    "end_date": "2025-01-18"
+  },
+  {
+    "event": "Lady Milne Trial",
+    "match_count": 1,
+    "min_id": 81489,
+    "max_id": 81489,
+    "start_date": "2025-01-17",
+    "end_date": "2025-01-17"
+  },
+  {
+    "event": "EBU Teltscher Trophy Trial R11 of 11",
+    "match_count": 1,
+    "min_id": 81468,
+    "max_id": 81468,
+    "start_date": "2025-01-12",
+    "end_date": "2025-01-12"
+  },
+  {
+    "event": "EBU Teltscher Trophy Trials R10 of 11",
+    "match_count": 1,
+    "min_id": 81464,
+    "max_id": 81464,
+    "start_date": "2025-01-12",
+    "end_date": "2025-01-12"
+  },
+  {
+    "event": "EBU Teltscher Trophy Trial R9 of 11",
+    "match_count": 1,
+    "min_id": 81461,
+    "max_id": 81461,
+    "start_date": "2025-01-12",
+    "end_date": "2025-01-12"
+  },
+  {
+    "event": "EBU Teltscher Trophy Trial R8 of 11",
+    "match_count": 1,
+    "min_id": 81427,
+    "max_id": 81427,
+    "start_date": "2025-01-11",
+    "end_date": "2025-01-11"
+  },
+  {
+    "event": "EBU Teltscher Trophy Trials R7 of 11",
+    "match_count": 1,
+    "min_id": 81420,
+    "max_id": 81420,
+    "start_date": "2025-01-11",
+    "end_date": "2025-01-11"
+  },
+  {
+    "event": "50th University Games of Thailand",
+    "match_count": 1,
+    "min_id": 81395,
+    "max_id": 81395,
+    "start_date": "2025-01-11",
+    "end_date": "2025-01-11"
+  },
+  {
+    "event": "Tektscher",
+    "match_count": 1,
+    "min_id": 81384,
+    "max_id": 81384,
+    "start_date": "2025-01-10",
+    "end_date": "2025-01-10"
+  },
+  {
+    "event": "Teltscher Trial",
+    "match_count": 1,
+    "min_id": 81380,
+    "max_id": 81380,
+    "start_date": "2025-01-10",
+    "end_date": "2025-01-10"
+  },
+  {
+    "event": "Teltscher Trial 2025",
+    "match_count": 1,
+    "min_id": 81377,
+    "max_id": 81377,
+    "start_date": "2025-01-10",
+    "end_date": "2025-01-10"
+  },
+  {
+    "event": "Teltscher match 1",
+    "match_count": 1,
+    "min_id": 81376,
+    "max_id": 81376,
+    "start_date": "2025-01-10",
+    "end_date": "2025-01-10"
+  },
+  {
+    "event": "20TH MAHARAJA YASHWANTRAO HOLKAR BRIDGE CHAMPIONS",
+    "match_count": 1,
+    "min_id": 81373,
+    "max_id": 81373,
+    "start_date": "2025-01-10",
+    "end_date": "2025-01-10"
+  },
+  {
+    "event": "Lederer",
+    "match_count": 1,
+    "min_id": 81774,
+    "max_id": 81774,
+    "start_date": "2025-02-22",
+    "end_date": "2025-02-22"
+  },
+  {
+    "event": "NZ Mixed Trial - Final",
+    "match_count": 1,
+    "min_id": 81747,
+    "max_id": 81747,
+    "start_date": "2025-02-16",
+    "end_date": "2025-02-16"
+  },
+  {
+    "event": "NZ Mixed Trials - Final",
+    "match_count": 1,
+    "min_id": 81741,
+    "max_id": 81741,
+    "start_date": "2025-02-16",
+    "end_date": "2025-02-16"
+  },
+  {
+    "event": "TOLANI NATIONAL MASTER 2025",
+    "match_count": 1,
+    "min_id": 81727,
+    "max_id": 81727,
+    "start_date": "2025-02-15",
+    "end_date": "2025-02-15"
+  },
+  {
+    "event": "\u000fd Vugraph Event Online",
+    "match_count": 1,
+    "min_id": 81709,
+    "max_id": 81709,
+    "start_date": "2025-02-13",
+    "end_date": "2025-02-13"
+  },
+  {
+    "event": "VIJYA JAJOO MIXED PAIR ELIMINATION",
+    "match_count": 1,
+    "min_id": 81704,
+    "max_id": 81704,
+    "start_date": "2025-02-11",
+    "end_date": "2025-02-11"
+  },
+  {
+    "event": "swedish nationals trials",
+    "match_count": 1,
+    "min_id": 81703,
+    "max_id": 81703,
+    "start_date": "2025-02-09",
+    "end_date": "2025-02-09"
+  },
+  {
+    "event": "Swedish nationals trials",
+    "match_count": 1,
+    "min_id": 81698,
+    "max_id": 81698,
+    "start_date": "2025-02-09",
+    "end_date": "2025-02-09"
+  },
+  {
+    "event": "Sweden naionalteam trials",
+    "match_count": 1,
+    "min_id": 81668,
+    "max_id": 81668,
+    "start_date": "2025-02-08",
+    "end_date": "2025-02-08"
+  },
+  {
+    "event": "Sweden nationaltam trials",
+    "match_count": 1,
+    "min_id": 81655,
+    "max_id": 81655,
+    "start_date": "2025-02-07",
+    "end_date": "2025-02-07"
+  },
+  {
+    "event": "Swedan Nationalteam trials",
+    "match_count": 1,
+    "min_id": 81654,
+    "max_id": 81654,
+    "start_date": "2025-02-07",
+    "end_date": "2025-02-07"
+  },
+  {
+    "event": "Sweden Nationalteam trials",
+    "match_count": 1,
+    "min_id": 81652,
+    "max_id": 81652,
+    "start_date": "2025-02-07",
+    "end_date": "2025-02-07"
+  },
+  {
+    "event": "Reykjavik Rapyd Bridge Festival Teams",
+    "match_count": 1,
+    "min_id": 81627,
+    "max_id": 81627,
+    "start_date": "2025-02-02",
+    "end_date": "2025-02-02"
+  },
+  {
+    "event": "Thailand National Teams Selection 2025:Open Team",
+    "match_count": 1,
+    "min_id": 81617,
+    "max_id": 81617,
+    "start_date": "2025-02-02",
+    "end_date": "2025-02-02"
+  },
+  {
+    "event": "ROMANIAN TEAMS TRIAL",
+    "match_count": 1,
+    "min_id": 81607,
+    "max_id": 81607,
+    "start_date": "2025-02-01",
+    "end_date": "2025-02-01"
+  },
+  {
+    "event": "Reykjv",
+    "match_count": 1,
+    "min_id": 81597,
+    "max_id": 81597,
+    "start_date": "2025-02-01",
+    "end_date": "2025-02-01"
+  },
+  {
+    "event": "Thailand National Team Selection 2025: Mixed Team",
+    "match_count": 1,
+    "min_id": 81593,
+    "max_id": 81593,
+    "start_date": "2025-02-01",
+    "end_date": "2025-02-01"
+  },
+  {
+    "event": "Thailand National Selection 2025:Open team",
+    "match_count": 1,
+    "min_id": 81591,
+    "max_id": 81591,
+    "start_date": "2025-02-01",
+    "end_date": "2025-02-01"
+  },
+  {
+    "event": "Thailand National Team Selection2025 : Mixed Team",
+    "match_count": 1,
+    "min_id": 81590,
+    "max_id": 81590,
+    "start_date": "2025-02-01",
+    "end_date": "2025-02-01"
+  },
+  {
+    "event": "MOHANLAL BHARATIA MEMORIAL BRIDGE CHAMPIONSHIP_",
+    "match_count": 1,
+    "min_id": 82143,
+    "max_id": 82143,
+    "start_date": "2025-03-31",
+    "end_date": "2025-03-31"
+  },
+  {
+    "event": "MPOHANLAL BHARITIA MEMORIAL BRIDGE CHAMPIONSHIPI",
+    "match_count": 1,
+    "min_id": 82136,
+    "max_id": 82136,
+    "start_date": "2025-03-31",
+    "end_date": "2025-03-31"
+  },
+  {
+    "event": "MOHANLAL BHARTIA MEMORIAL BRIDGE CHAMPIONSHIP 202",
+    "match_count": 1,
+    "min_id": 82123,
+    "max_id": 82123,
+    "start_date": "2025-03-30",
+    "end_date": "2025-03-30"
+  },
+  {
+    "event": "MOHANLA BHARTIA MEMORIAL BRIDGE CHAMPIONSHIP",
+    "match_count": 1,
+    "min_id": 82121,
+    "max_id": 82121,
+    "start_date": "2025-03-30",
+    "end_date": "2025-03-30"
+  },
+  {
+    "event": "Italian OpenTeams Championships",
+    "match_count": 1,
+    "min_id": 82107,
+    "max_id": 82107,
+    "start_date": "2025-03-28",
+    "end_date": "2025-03-28"
+  },
+  {
+    "event": "National Youth 40",
+    "match_count": 1,
+    "min_id": 82084,
+    "max_id": 82084,
+    "start_date": "2025-03-26",
+    "end_date": "2025-03-26"
+  },
+  {
+    "event": "Indian seniors Selection Trials 2025",
+    "match_count": 1,
+    "min_id": 82036,
+    "max_id": 82036,
+    "start_date": "2025-03-21",
+    "end_date": "2025-03-21"
+  },
+  {
+    "event": "Indian Seniors Selection Camp 2025",
+    "match_count": 1,
+    "min_id": 82012,
+    "max_id": 82012,
+    "start_date": "2025-03-20",
+    "end_date": "2025-03-20"
+  },
+  {
+    "event": "A 2024 Soloway R16",
+    "match_count": 1,
+    "min_id": 81989,
+    "max_id": 81989,
+    "start_date": "2025-03-19",
+    "end_date": "2025-03-19"
+  },
+  {
+    "event": "Indian Mixed Coaching Camp",
+    "match_count": 1,
+    "min_id": 81956,
+    "max_id": 81956,
+    "start_date": "2025-03-16",
+    "end_date": "2025-03-16"
+  },
+  {
+    "event": "PRESIDENT&#039;S CUP",
+    "match_count": 1,
+    "min_id": 81945,
+    "max_id": 81945,
+    "start_date": "2025-03-16",
+    "end_date": "2025-03-16"
+  },
+  {
+    "event": "INDIAN MIXED COACHING CAMP 2025",
+    "match_count": 1,
+    "min_id": 81916,
+    "max_id": 81916,
+    "start_date": "2025-03-13",
+    "end_date": "2025-03-13"
+  },
+  {
+    "event": "Indian mixed Coaching Camp 2025",
+    "match_count": 1,
+    "min_id": 81912,
+    "max_id": 81912,
+    "start_date": "2025-03-13",
+    "end_date": "2025-03-13"
+  },
+  {
+    "event": "DIVISION NAIONALE_4 TOP 16",
+    "match_count": 1,
+    "min_id": 81893,
+    "max_id": 81893,
+    "start_date": "2025-03-09",
+    "end_date": "2025-03-09"
+  },
+  {
+    "event": "DIVISION NATIONALE TOP 16",
+    "match_count": 1,
+    "min_id": 81885,
+    "max_id": 81885,
+    "start_date": "2025-03-08",
+    "end_date": "2025-03-08"
+  },
+  {
+    "event": "2025 ROMANIA NATIONAL TEAMS",
+    "match_count": 1,
+    "min_id": 81884,
+    "max_id": 81884,
+    "start_date": "2025-03-08",
+    "end_date": "2025-03-08"
+  },
+  {
+    "event": "Indian Men Coaching Camp",
+    "match_count": 1,
+    "min_id": 81869,
+    "max_id": 81869,
+    "start_date": "2025-03-07",
+    "end_date": "2025-03-07"
+  },
+  {
+    "event": "MEN COACHING CAMP 2025",
+    "match_count": 1,
+    "min_id": 81866,
+    "max_id": 81866,
+    "start_date": "2025-03-06",
+    "end_date": "2025-03-06"
+  },
+  {
+    "event": "MEN NATIONAL CAMP 2025",
+    "match_count": 1,
+    "min_id": 81865,
+    "max_id": 81865,
+    "start_date": "2025-03-06",
+    "end_date": "2025-03-06"
+  },
+  {
+    "event": "Danmark 1_div runde 11",
+    "match_count": 1,
+    "min_id": 81863,
+    "max_id": 81863,
+    "start_date": "2025-03-02",
+    "end_date": "2025-03-02"
+  },
+  {
+    "event": "TURKIYE KIS 4LU",
+    "match_count": 1,
+    "min_id": 81862,
+    "max_id": 81862,
+    "start_date": "2025-03-02",
+    "end_date": "2025-03-02"
+  },
+  {
+    "event": "TURKIYE KIS 4LU ISATNBUL SIRALAMASI",
+    "match_count": 1,
+    "min_id": 81860,
+    "max_id": 81860,
+    "start_date": "2025-03-02",
+    "end_date": "2025-03-02"
+  },
+  {
+    "event": "TURKIYE KIS 4LU ISTANBUL SIRALAMASI",
+    "match_count": 1,
+    "min_id": 81857,
+    "max_id": 81857,
+    "start_date": "2025-03-02",
+    "end_date": "2025-03-02"
+  },
+  {
+    "event": "TURKIYE KIS 4 LU ISTANBUL SIRALAMA TURLARI",
+    "match_count": 1,
+    "min_id": 81845,
+    "max_id": 81845,
+    "start_date": "2025-03-01",
+    "end_date": "2025-03-01"
+  },
+  {
+    "event": "SHREE CEMENT",
+    "match_count": 1,
+    "min_id": 82424,
+    "max_id": 82424,
+    "start_date": "2025-04-29",
+    "end_date": "2025-04-29"
+  },
+  {
+    "event": "TOP16",
+    "match_count": 1,
+    "min_id": 82393,
+    "max_id": 82393,
+    "start_date": "2025-04-26",
+    "end_date": "2025-04-26"
+  },
+  {
+    "event": "ROMANIAN SUPERLEAGUE FINAL",
+    "match_count": 1,
+    "min_id": 82371,
+    "max_id": 82371,
+    "start_date": "2025-04-26",
+    "end_date": "2025-04-26"
+  },
+  {
+    "event": "Iceland Teams Finals",
+    "match_count": 1,
+    "min_id": 82353,
+    "max_id": 82353,
+    "start_date": "2025-04-24",
+    "end_date": "2025-04-24"
+  },
+  {
+    "event": "Italy Mi9xed Cup 25",
+    "match_count": 1,
+    "min_id": 82339,
+    "max_id": 82339,
+    "start_date": "2025-04-24",
+    "end_date": "2025-04-24"
+  },
+  {
+    "event": "Italy Mixed Cup 2025",
+    "match_count": 1,
+    "min_id": 82336,
+    "max_id": 82336,
+    "start_date": "2025-04-23",
+    "end_date": "2025-04-23"
+  },
+  {
+    "event": "Practice Martch TeamNL - France",
+    "match_count": 1,
+    "min_id": 82333,
+    "max_id": 82333,
+    "start_date": "2025-04-20",
+    "end_date": "2025-04-20"
+  },
+  {
+    "event": "Practice Matich TeamNL - France",
+    "match_count": 1,
+    "min_id": 82330,
+    "max_id": 82330,
+    "start_date": "2025-04-20",
+    "end_date": "2025-04-20"
+  },
+  {
+    "event": "Practice TeamNL White -France Red",
+    "match_count": 1,
+    "min_id": 82329,
+    "max_id": 82329,
+    "start_date": "2025-04-20",
+    "end_date": "2025-04-20"
+  },
+  {
+    "event": "Practice Match TeamNL White-France Blue",
+    "match_count": 1,
+    "min_id": 82325,
+    "max_id": 82325,
+    "start_date": "2025-04-19",
+    "end_date": "2025-04-19"
+  },
+  {
+    "event": "Practice TeamNL White-France Red",
+    "match_count": 1,
+    "min_id": 82321,
+    "max_id": 82321,
+    "start_date": "2025-04-19",
+    "end_date": "2025-04-19"
+  },
+  {
+    "event": "Practice Match TeamNLWhite-Fra Red",
+    "match_count": 1,
+    "min_id": 82318,
+    "max_id": 82318,
+    "start_date": "2025-04-19",
+    "end_date": "2025-04-19"
+  },
+  {
+    "event": "Practice Team NL Orange",
+    "match_count": 1,
+    "min_id": 82314,
+    "max_id": 82314,
+    "start_date": "2025-04-18",
+    "end_date": "2025-04-18"
+  },
+  {
+    "event": "Practice TeamNL Orange - France Red",
+    "match_count": 1,
+    "min_id": 82311,
+    "max_id": 82311,
+    "start_date": "2025-04-18",
+    "end_date": "2025-04-18"
+  },
+  {
+    "event": "Interklub 2024-25 Final",
+    "match_count": 1,
+    "min_id": 82176,
+    "max_id": 82176,
+    "start_date": "2025-04-06",
+    "end_date": "2025-04-06"
+  },
+  {
+    "event": "Danmark - Slutspil 2024",
+    "match_count": 1,
+    "min_id": 82174,
+    "max_id": 82174,
+    "start_date": "2025-04-06",
+    "end_date": "2025-04-06"
+  },
+  {
+    "event": "Danmark - Slutspil 2025 Finale",
+    "match_count": 1,
+    "min_id": 82171,
+    "max_id": 82171,
+    "start_date": "2025-04-06",
+    "end_date": "2025-04-06"
+  },
+  {
+    "event": "Danmark Slutspil 2025",
+    "match_count": 1,
+    "min_id": 82157,
+    "max_id": 82157,
+    "start_date": "2025-04-05",
+    "end_date": "2025-04-05"
+  },
+  {
+    "event": "Danmark Slutspil",
+    "match_count": 1,
+    "min_id": 82153,
+    "max_id": 82153,
+    "start_date": "2025-04-05",
+    "end_date": "2025-04-05"
+  },
+  {
+    "event": "Greek Teams Natioanal Championship - Grand Final",
+    "match_count": 1,
+    "min_id": 82746,
+    "max_id": 82746,
+    "start_date": "2025-05-31",
+    "end_date": "2025-05-31"
+  },
+  {
+    "event": "Greek Teams National Championship - Grand Final",
+    "match_count": 1,
+    "min_id": 82737,
+    "max_id": 82737,
+    "start_date": "2025-05-31",
+    "end_date": "2025-05-31"
+  },
+  {
+    "event": "Sao Paulo State Final",
+    "match_count": 1,
+    "min_id": 82734,
+    "max_id": 82734,
+    "start_date": "2025-05-31",
+    "end_date": "2025-05-31"
+  },
+  {
+    "event": "Final CPEL",
+    "match_count": 1,
+    "min_id": 82733,
+    "max_id": 82733,
+    "start_date": "2025-05-31",
+    "end_date": "2025-05-31"
+  },
+  {
+    "event": "Polish Open Trials",
+    "match_count": 1,
+    "min_id": 82676,
+    "max_id": 82676,
+    "start_date": "2025-05-23",
+    "end_date": "2025-05-23"
+  },
+  {
+    "event": "SABF Teams Championship Final 1_4",
+    "match_count": 1,
+    "min_id": 82658,
+    "max_id": 82658,
+    "start_date": "2025-05-21",
+    "end_date": "2025-05-21"
+  },
+  {
+    "event": "Portuguese Open Teams SF",
+    "match_count": 1,
+    "min_id": 82631,
+    "max_id": 82631,
+    "start_date": "2025-05-18",
+    "end_date": "2025-05-18"
+  },
+  {
+    "event": "Portuguses Open Teams SF",
+    "match_count": 1,
+    "min_id": 82630,
+    "max_id": 82630,
+    "start_date": "2025-05-18",
+    "end_date": "2025-05-18"
+  },
+  {
+    "event": "Israel open Team trials",
+    "match_count": 1,
+    "min_id": 82605,
+    "max_id": 82605,
+    "start_date": "2025-05-17",
+    "end_date": "2025-05-17"
+  },
+  {
+    "event": "Israel Open Team Trials",
+    "match_count": 1,
+    "min_id": 82598,
+    "max_id": 82598,
+    "start_date": "2025-05-17",
+    "end_date": "2025-05-17"
+  },
+  {
+    "event": "Israel Open team trials",
+    "match_count": 1,
+    "min_id": 82596,
+    "max_id": 82596,
+    "start_date": "2025-05-17",
+    "end_date": "2025-05-17"
+  },
+  {
+    "event": "Israel Open Team trials",
+    "match_count": 1,
+    "min_id": 82592,
+    "max_id": 82592,
+    "start_date": "2025-05-17",
+    "end_date": "2025-05-17"
+  },
+  {
+    "event": "upa Contra 2025 KO",
+    "match_count": 1,
+    "min_id": 82579,
+    "max_id": 82579,
+    "start_date": "2025-05-16",
+    "end_date": "2025-05-16"
+  },
+  {
+    "event": "54th APBF Chamionpships",
+    "match_count": 1,
+    "min_id": 82547,
+    "max_id": 82547,
+    "start_date": "2025-05-15",
+    "end_date": "2025-05-15"
+  },
+  {
+    "event": "CONTRA CUP 2025",
+    "match_count": 1,
+    "min_id": 82540,
+    "max_id": 82540,
+    "start_date": "2025-05-14",
+    "end_date": "2025-05-14"
+  },
+  {
+    "event": "TOP 16 finale",
+    "match_count": 1,
+    "min_id": 82516,
+    "max_id": 82516,
+    "start_date": "2025-05-10",
+    "end_date": "2025-05-10"
+  },
+  {
+    "event": "test for test",
+    "match_count": 1,
+    "min_id": 82508,
+    "max_id": 82508,
+    "start_date": "2025-05-08",
+    "end_date": "2025-05-08"
+  },
+  {
+    "event": "EBU Spring Fours",
+    "match_count": 1,
+    "min_id": 82496,
+    "max_id": 82496,
+    "start_date": "2025-05-06",
+    "end_date": "2025-05-06"
+  },
+  {
+    "event": "Denmark - Open Pairs Tournament 2025",
+    "match_count": 1,
+    "min_id": 82490,
+    "max_id": 82490,
+    "start_date": "2025-05-04",
+    "end_date": "2025-05-04"
+  },
+  {
+    "event": "ITALIAN ITERCLUB 25",
+    "match_count": 1,
+    "min_id": 82462,
+    "max_id": 82462,
+    "start_date": "2025-05-03",
+    "end_date": "2025-05-03"
+  },
+  {
+    "event": "Denmark - Open Pair Championship 2025",
+    "match_count": 1,
+    "min_id": 82461,
+    "max_id": 82461,
+    "start_date": "2025-05-03",
+    "end_date": "2025-05-03"
+  },
+  {
+    "event": "IMP en Lombard Topcircuit Final",
+    "match_count": 1,
+    "min_id": 82459,
+    "max_id": 82459,
+    "start_date": "2025-05-03",
+    "end_date": "2025-05-03"
+  },
+  {
+    "event": "ALL INDIA SHREE CEMENT CHAMPIONSHIP 2025",
+    "match_count": 1,
+    "min_id": 82456,
+    "max_id": 82456,
+    "start_date": "2025-05-03",
+    "end_date": "2025-05-03"
+  },
+  {
+    "event": "Denmark - Open Pairs 2025",
+    "match_count": 1,
+    "min_id": 82455,
+    "max_id": 82455,
+    "start_date": "2025-05-03",
+    "end_date": "2025-05-03"
+  },
+  {
+    "event": "Poznan Congress",
+    "match_count": 1,
+    "min_id": 82446,
+    "max_id": 82446,
+    "start_date": "2025-05-02",
+    "end_date": "2025-05-02"
+  },
+  {
+    "event": "ALL INDIA SHREE CEMENT OPEN BRIDGE CHAMPIONSHIP",
+    "match_count": 1,
+    "min_id": 82440,
+    "max_id": 82440,
+    "start_date": "2025-05-02",
+    "end_date": "2025-05-02"
+  },
+  {
+    "event": "PORPROV IX JATIM - BEREGU PUTRA_PUTRI",
+    "match_count": 1,
+    "min_id": 83038,
+    "max_id": 83038,
+    "start_date": "2025-06-29",
+    "end_date": "2025-06-29"
+  },
+  {
+    "event": "pas-lombard",
+    "match_count": 1,
+    "min_id": 83037,
+    "max_id": 83037,
+    "start_date": "2025-06-28",
+    "end_date": "2025-06-28"
+  },
+  {
+    "event": "PAS-Lombard",
+    "match_count": 1,
+    "min_id": 83036,
+    "max_id": 83036,
+    "start_date": "2025-06-28",
+    "end_date": "2025-06-28"
+  },
+  {
+    "event": "APEC TEST",
+    "match_count": 1,
+    "min_id": 82944,
+    "max_id": 82944,
+    "start_date": "2025-06-22",
+    "end_date": "2025-06-22"
+  },
+  {
+    "event": "apec test",
+    "match_count": 1,
+    "min_id": 82931,
+    "max_id": 82931,
+    "start_date": "2025-06-19",
+    "end_date": "2025-06-19"
+  },
+  {
+    "event": "test2",
+    "match_count": 1,
+    "min_id": 82930,
+    "max_id": 82930,
+    "start_date": "2025-06-19",
+    "end_date": "2025-06-19"
+  },
+  {
+    "event": "ISTANBUL KULUPLER CHAMP",
+    "match_count": 1,
+    "min_id": 82914,
+    "max_id": 82914,
+    "start_date": "2025-06-15",
+    "end_date": "2025-06-15"
+  },
+  {
+    "event": "11_ German Bridge Trophy 2025 - Finals - 7_7",
+    "match_count": 1,
+    "min_id": 82858,
+    "max_id": 82858,
+    "start_date": "2025-06-09",
+    "end_date": "2025-06-09"
+  },
+  {
+    "event": "11_ German Bridge Trophy 2025 - Finals - 6_7",
+    "match_count": 1,
+    "min_id": 82857,
+    "max_id": 82857,
+    "start_date": "2025-06-09",
+    "end_date": "2025-06-09"
+  },
+  {
+    "event": "11_ German Bridge Trophy 2025 - Finals - 5_7",
+    "match_count": 1,
+    "min_id": 82856,
+    "max_id": 82856,
+    "start_date": "2025-06-09",
+    "end_date": "2025-06-09"
+  },
+  {
+    "event": "11_ German Bridge Trophy 2025 - Finals - 4_7",
+    "match_count": 1,
+    "min_id": 82855,
+    "max_id": 82855,
+    "start_date": "2025-06-09",
+    "end_date": "2025-06-09"
+  },
+  {
+    "event": "11_ German Bridge Trophy 2025 - Finals - 3_7",
+    "match_count": 1,
+    "min_id": 82852,
+    "max_id": 82852,
+    "start_date": "2025-06-08",
+    "end_date": "2025-06-08"
+  },
+  {
+    "event": "11_ German Bridge Trophy 2025 - Finals - 2_7",
+    "match_count": 1,
+    "min_id": 82850,
+    "max_id": 82850,
+    "start_date": "2025-06-08",
+    "end_date": "2025-06-08"
+  },
+  {
+    "event": "11_ German Bridge Trophy 2025 - Finals 1_7",
+    "match_count": 1,
+    "min_id": 82845,
+    "max_id": 82845,
+    "start_date": "2025-06-08",
+    "end_date": "2025-06-08"
+  },
+  {
+    "event": "Coupe de France - Demi-Finale",
+    "match_count": 1,
+    "min_id": 82843,
+    "max_id": 82843,
+    "start_date": "2025-06-08",
+    "end_date": "2025-06-08"
+  },
+  {
+    "event": "11_ German Bridge Trophy 2025 - Quali - 8_8",
+    "match_count": 1,
+    "min_id": 82842,
+    "max_id": 82842,
+    "start_date": "2025-06-08",
+    "end_date": "2025-06-08"
+  },
+  {
+    "event": "11_ German Bridge Trophy 2025 - Quali - 7_8",
+    "match_count": 1,
+    "min_id": 82840,
+    "max_id": 82840,
+    "start_date": "2025-06-08",
+    "end_date": "2025-06-08"
+  },
+  {
+    "event": "11_ German Bridge Trophy 2025 - Quali - 6_8",
+    "match_count": 1,
+    "min_id": 82836,
+    "max_id": 82836,
+    "start_date": "2025-06-08",
+    "end_date": "2025-06-08"
+  },
+  {
+    "event": "COUPE DE FRANCE 1_4 FINALE",
+    "match_count": 1,
+    "min_id": 82822,
+    "max_id": 82822,
+    "start_date": "2025-06-07",
+    "end_date": "2025-06-07"
+  },
+  {
+    "event": "11_ German Bridge Trophy 2025 - Quali - 5_8",
+    "match_count": 1,
+    "min_id": 82821,
+    "max_id": 82821,
+    "start_date": "2025-06-07",
+    "end_date": "2025-06-07"
+  },
+  {
+    "event": "Coupe de France 1_4 de Finale",
+    "match_count": 1,
+    "min_id": 82820,
+    "max_id": 82820,
+    "start_date": "2025-06-07",
+    "end_date": "2025-06-07"
+  },
+  {
+    "event": "11_ German Bridge Trophy 2025 - Quali - 3_8",
+    "match_count": 1,
+    "min_id": 82807,
+    "max_id": 82807,
+    "start_date": "2025-06-07",
+    "end_date": "2025-06-07"
+  },
+  {
+    "event": "11_ German Bridge Trophy 2025 - Quali - 2_8",
+    "match_count": 1,
+    "min_id": 82800,
+    "max_id": 82800,
+    "start_date": "2025-06-07",
+    "end_date": "2025-06-07"
+  },
+  {
+    "event": "11_ German Bridge Trophy 2025 - Quali 1_8",
+    "match_count": 1,
+    "min_id": 82796,
+    "max_id": 82796,
+    "start_date": "2025-06-07",
+    "end_date": "2025-06-07"
+  },
+  {
+    "event": "OOM chlopcy IMPy",
+    "match_count": 1,
+    "min_id": 82783,
+    "max_id": 82783,
+    "start_date": "2025-06-05",
+    "end_date": "2025-06-05"
+  },
+  {
+    "event": "S",
+    "match_count": 1,
+    "min_id": 82780,
+    "max_id": 82780,
+    "start_date": "2025-06-01",
+    "end_date": "2025-06-01"
+  },
+  {
+    "event": "PRACTICE",
+    "match_count": 1,
+    "min_id": 83333,
+    "max_id": 83333,
+    "start_date": "2025-07-30",
+    "end_date": "2025-07-30"
+  },
+  {
+    "event": "Spingold B",
+    "match_count": 1,
+    "min_id": 83313,
+    "max_id": 83313,
+    "start_date": "2025-07-28",
+    "end_date": "2025-07-28"
+  },
+  {
+    "event": "TURKIYE KULUPLER SAMP 1_32",
+    "match_count": 1,
+    "min_id": 83271,
+    "max_id": 83271,
+    "start_date": "2025-07-24",
+    "end_date": "2025-07-24"
+  },
+  {
+    "event": "Pesta Sukan 2025",
+    "match_count": 1,
+    "min_id": 83196,
+    "max_id": 83196,
+    "start_date": "2025-07-19",
+    "end_date": "2025-07-19"
+  },
+  {
+    "event": "Pests Sukan Bridge Championships 2025 Open Teams",
+    "match_count": 1,
+    "min_id": 83195,
+    "max_id": 83195,
+    "start_date": "2025-07-19",
+    "end_date": "2025-07-19"
+  },
+  {
+    "event": "Swiss Cup segment 3",
+    "match_count": 1,
+    "min_id": 83128,
+    "max_id": 83128,
+    "start_date": "2025-07-07",
+    "end_date": "2025-07-07"
+  },
+  {
+    "event": "Swiss Cup Finale",
+    "match_count": 1,
+    "min_id": 83127,
+    "max_id": 83127,
+    "start_date": "2025-07-07",
+    "end_date": "2025-07-07"
+  },
+  {
+    "event": "Swiss Open Cup Final",
+    "match_count": 1,
+    "min_id": 83126,
+    "max_id": 83126,
+    "start_date": "2025-07-07",
+    "end_date": "2025-07-07"
+  },
+  {
+    "event": "TEST",
+    "match_count": 1,
+    "min_id": 83119,
+    "max_id": 83119,
+    "start_date": "2025-07-05",
+    "end_date": "2025-07-05"
+  },
+  {
+    "event": "BBO2-2025WBTC-Herning-TN",
+    "match_count": 1,
+    "min_id": 83684,
+    "max_id": 83684,
+    "start_date": "2025-08-31",
+    "end_date": "2025-08-31"
+  },
+  {
+    "event": "TUGU MUDA CUP 2023",
+    "match_count": 1,
+    "min_id": 83634,
+    "max_id": 83634,
+    "start_date": "2025-08-29",
+    "end_date": "2025-08-29"
+  },
+  {
+    "event": "Hauptteam",
+    "match_count": 1,
+    "min_id": 83610,
+    "max_id": 83610,
+    "start_date": "2025-08-27",
+    "end_date": "2025-08-27"
+  },
+  {
+    "event": "Japan Intercollege Championships SemiFinal",
+    "match_count": 1,
+    "min_id": 83596,
+    "max_id": 83596,
+    "start_date": "2025-08-27",
+    "end_date": "2025-08-27"
+  },
+  {
+    "event": "JAPAN Intercollege Championchips",
+    "match_count": 1,
+    "min_id": 83595,
+    "max_id": 83595,
+    "start_date": "2025-08-27",
+    "end_date": "2025-08-27"
+  },
+  {
+    "event": "BBO4-2025WBTC-Herning-OT",
+    "match_count": 1,
+    "min_id": 83580,
+    "max_id": 83580,
+    "start_date": "2025-08-25",
+    "end_date": "2025-08-25"
+  },
+  {
+    "event": "BBO1-2025WBTC-Herning",
+    "match_count": 1,
+    "min_id": 83529,
+    "max_id": 83529,
+    "start_date": "2025-08-21",
+    "end_date": "2025-08-21"
+  },
+  {
+    "event": "BBO3-2025WBTC-Herning",
+    "match_count": 1,
+    "min_id": 83528,
+    "max_id": 83528,
+    "start_date": "2025-08-21",
+    "end_date": "2025-08-21"
+  },
+  {
+    "event": "BBO2-2025WBTC-Herning",
+    "match_count": 1,
+    "min_id": 83527,
+    "max_id": 83527,
+    "start_date": "2025-08-21",
+    "end_date": "2025-08-21"
+  },
+  {
+    "event": "HAROLD VANDERBILT BRIDGE CELEBRATION",
+    "match_count": 1,
+    "min_id": 83526,
+    "max_id": 83526,
+    "start_date": "2025-08-17",
+    "end_date": "2025-08-17"
+  },
+  {
+    "event": "RIGANIVTES",
+    "match_count": 1,
+    "min_id": 83509,
+    "max_id": 83509,
+    "start_date": "2025-08-15",
+    "end_date": "2025-08-15"
+  },
+  {
+    "event": "DENNY SACUL MEMORIAL THROPHY",
+    "match_count": 1,
+    "min_id": 83502,
+    "max_id": 83502,
+    "start_date": "2025-08-15",
+    "end_date": "2025-08-15"
+  },
+  {
+    "event": "Riga Invites",
+    "match_count": 1,
+    "min_id": 83500,
+    "max_id": 83500,
+    "start_date": "2025-08-13",
+    "end_date": "2025-08-13"
+  },
+  {
+    "event": "2 Jeonju Cup",
+    "match_count": 1,
+    "min_id": 83496,
+    "max_id": 83496,
+    "start_date": "2025-08-13",
+    "end_date": "2025-08-13"
+  },
+  {
+    "event": "2 Jeonju cup",
+    "match_count": 1,
+    "min_id": 83495,
+    "max_id": 83495,
+    "start_date": "2025-08-13",
+    "end_date": "2025-08-13"
+  },
+  {
+    "event": "Norwegian Swiss Pairs Championship",
+    "match_count": 1,
+    "min_id": 83452,
+    "max_id": 83452,
+    "start_date": "2025-08-06",
+    "end_date": "2025-08-06"
+  },
+  {
+    "event": "2025 NBF Mixed Pairs Championship",
+    "match_count": 1,
+    "min_id": 83398,
+    "max_id": 83398,
+    "start_date": "2025-08-03",
+    "end_date": "2025-08-03"
+  },
+  {
+    "event": "2025 NBF MIxed Pairs",
+    "match_count": 1,
+    "min_id": 83383,
+    "max_id": 83383,
+    "start_date": "2025-08-02",
+    "end_date": "2025-08-02"
+  },
+  {
+    "event": "2ND SHREE CEMENT INTER STATE BRIDGE CHAMPIONSHIP",
+    "match_count": 1,
+    "min_id": 83381,
+    "max_id": 83381,
+    "start_date": "2025-08-02",
+    "end_date": "2025-08-02"
+  },
+  {
+    "event": "Qualifikation Open Team 2_2",
+    "match_count": 1,
+    "min_id": 83895,
+    "max_id": 83895,
+    "start_date": "2025-09-27",
+    "end_date": "2025-09-27"
+  },
+  {
+    "event": "CNEO PORTUGAL",
+    "match_count": 1,
+    "min_id": 83888,
+    "max_id": 83888,
+    "start_date": "2025-09-24",
+    "end_date": "2025-09-24"
+  },
+  {
+    "event": "Bikar urslit 2025",
+    "match_count": 1,
+    "min_id": 83884,
+    "max_id": 83884,
+    "start_date": "2025-09-21",
+    "end_date": "2025-09-21"
+  },
+  {
+    "event": "Italian Women Teams Championships",
+    "match_count": 1,
+    "min_id": 83850,
+    "max_id": 83850,
+    "start_date": "2025-09-19",
+    "end_date": "2025-09-19"
+  },
+  {
+    "event": "63rd Pula Bridge Festival - Open Teams - Fina",
+    "match_count": 1,
+    "min_id": 83844,
+    "max_id": 83844,
+    "start_date": "2025-09-19",
+    "end_date": "2025-09-19"
+  },
+  {
+    "event": "Italian Teams Championships",
+    "match_count": 1,
+    "min_id": 83827,
+    "max_id": 83827,
+    "start_date": "2025-09-18",
+    "end_date": "2025-09-18"
+  },
+  {
+    "event": "EA BRIDGE INTERNATIONAL CHAMPIONSHIP 2025",
+    "match_count": 1,
+    "min_id": 83780,
+    "max_id": 83780,
+    "start_date": "2025-09-15",
+    "end_date": "2025-09-15"
+  },
+  {
+    "event": "BBO2-2023ECC-WO",
+    "match_count": 1,
+    "min_id": 83755,
+    "max_id": 83755,
+    "start_date": "2025-09-13",
+    "end_date": "2025-09-13"
+  },
+  {
+    "event": "EBU Premier League",
+    "match_count": 1,
+    "min_id": 83752,
+    "max_id": 83752,
+    "start_date": "2025-09-13",
+    "end_date": "2025-09-13"
+  },
+  {
+    "event": "3RD MAVERICKS PREMIUM LEAGUE",
+    "match_count": 1,
+    "min_id": 84286,
+    "max_id": 84286,
+    "start_date": "2025-10-30",
+    "end_date": "2025-10-30"
+  },
+  {
+    "event": "Camrose Ireland",
+    "match_count": 1,
+    "min_id": 84281,
+    "max_id": 84281,
+    "start_date": "2025-10-27",
+    "end_date": "2025-10-27"
+  },
+  {
+    "event": "Ireland Camrose Trials",
+    "match_count": 1,
+    "min_id": 84277,
+    "max_id": 84277,
+    "start_date": "2025-10-26",
+    "end_date": "2025-10-26"
+  },
+  {
+    "event": "POLISH MIXED PAIRS CHAMPIONSHIP",
+    "match_count": 1,
+    "min_id": 84275,
+    "max_id": 84275,
+    "start_date": "2025-10-26",
+    "end_date": "2025-10-26"
+  },
+  {
+    "event": "DM for klubhold 2025",
+    "match_count": 1,
+    "min_id": 84229,
+    "max_id": 84229,
+    "start_date": "2025-10-25",
+    "end_date": "2025-10-25"
+  },
+  {
+    "event": "Coppa Italia over 64",
+    "match_count": 1,
+    "min_id": 84202,
+    "max_id": 84202,
+    "start_date": "2025-10-23",
+    "end_date": "2025-10-23"
+  },
+  {
+    "event": "Monday session",
+    "match_count": 1,
+    "min_id": 84178,
+    "max_id": 84178,
+    "start_date": "2025-10-20",
+    "end_date": "2025-10-20"
+  },
+  {
+    "event": "SAO PAULO CUP - FINALS",
+    "match_count": 1,
+    "min_id": 84172,
+    "max_id": 84172,
+    "start_date": "2025-10-19",
+    "end_date": "2025-10-19"
+  },
+  {
+    "event": "Prermier League Div 1",
+    "match_count": 1,
+    "min_id": 84169,
+    "max_id": 84169,
+    "start_date": "2025-10-19",
+    "end_date": "2025-10-19"
+  },
+  {
+    "event": "TC SAO PAULO - FINALS (SEG 1_6)",
+    "match_count": 1,
+    "min_id": 84149,
+    "max_id": 84149,
+    "start_date": "2025-10-18",
+    "end_date": "2025-10-18"
+  },
+  {
+    "event": "PORTUGUESE TRIALS fINAL",
+    "match_count": 1,
+    "min_id": 84098,
+    "max_id": 84098,
+    "start_date": "2025-10-13",
+    "end_date": "2025-10-13"
+  },
+  {
+    "event": "TOP 16 - FFB BRIDGE",
+    "match_count": 1,
+    "min_id": 84081,
+    "max_id": 84081,
+    "start_date": "2025-10-12",
+    "end_date": "2025-10-12"
+  },
+  {
+    "event": "TOP16 - FF Bridge",
+    "match_count": 1,
+    "min_id": 84059,
+    "max_id": 84059,
+    "start_date": "2025-10-11",
+    "end_date": "2025-10-11"
+  },
+  {
+    "event": "lmtrial1",
+    "match_count": 1,
+    "min_id": 84003,
+    "max_id": 84003,
+    "start_date": "2025-10-08",
+    "end_date": "2025-10-08"
+  },
+  {
+    "event": "HCL INTERNATIONAL BRIDGE CHAMPINOSHIP 2025",
+    "match_count": 1,
+    "min_id": 83988,
+    "max_id": 83988,
+    "start_date": "2025-10-08",
+    "end_date": "2025-10-08"
+  },
+  {
+    "event": "HCL MIXED IMP PAIRS GOLD 2025",
+    "match_count": 1,
+    "min_id": 83984,
+    "max_id": 83984,
+    "start_date": "2025-10-07",
+    "end_date": "2025-10-07"
+  },
+  {
+    "event": "22nd HCL INTERNATIONAL BRIDGE CHAMPIONSHIP 2025",
+    "match_count": 1,
+    "min_id": 83976,
+    "max_id": 83976,
+    "start_date": "2025-10-06",
+    "end_date": "2025-10-06"
+  },
+  {
+    "event": "EBU Teltscher Trophy Trial R10 of 11",
+    "match_count": 1,
+    "min_id": 83967,
+    "max_id": 83967,
+    "start_date": "2025-10-04",
+    "end_date": "2025-10-04"
+  },
+  {
+    "event": "WBT Masters Copenhagen - Bronze Final",
+    "match_count": 1,
+    "min_id": 83963,
+    "max_id": 83963,
+    "start_date": "2025-10-03",
+    "end_date": "2025-10-03"
+  },
+  {
+    "event": "COPA RAUL MEHECH",
+    "match_count": 1,
+    "min_id": 84648,
+    "max_id": 84648,
+    "start_date": "2025-11-30",
+    "end_date": "2025-11-30"
+  },
+  {
+    "event": "COPA RAUL MEHECH 2025",
+    "match_count": 1,
+    "min_id": 84647,
+    "max_id": 84647,
+    "start_date": "2025-11-30",
+    "end_date": "2025-11-30"
+  },
+  {
+    "event": "COPA RAUL MEHECH SF 2_2 DAMAS",
+    "match_count": 1,
+    "min_id": 84646,
+    "max_id": 84646,
+    "start_date": "2025-11-30",
+    "end_date": "2025-11-30"
+  },
+  {
+    "event": "Testing",
+    "match_count": 1,
+    "min_id": 84637,
+    "max_id": 84637,
+    "start_date": "2025-11-29",
+    "end_date": "2025-11-29"
+  },
+  {
+    "event": "TURKIYE MIXED TAKIMLAR SAMPIYONASI",
+    "match_count": 1,
+    "min_id": 84634,
+    "max_id": 84634,
+    "start_date": "2025-11-28",
+    "end_date": "2025-11-28"
+  },
+  {
+    "event": "Finnish pairs CH 2nd dy",
+    "match_count": 1,
+    "min_id": 84622,
+    "max_id": 84622,
+    "start_date": "2025-11-23",
+    "end_date": "2025-11-23"
+  },
+  {
+    "event": "Sm parikisa",
+    "match_count": 1,
+    "min_id": 84612,
+    "max_id": 84612,
+    "start_date": "2025-11-23",
+    "end_date": "2025-11-23"
+  },
+  {
+    "event": "MINANGKABAU OPEN TOURNAMENT II 2025 _ FINAL",
+    "match_count": 1,
+    "min_id": 84608,
+    "max_id": 84608,
+    "start_date": "2025-11-23",
+    "end_date": "2025-11-23"
+  },
+  {
+    "event": "MINANGKABAU OPEN TOURNAMENT",
+    "match_count": 1,
+    "min_id": 84603,
+    "max_id": 84603,
+    "start_date": "2025-11-23",
+    "end_date": "2025-11-23"
+  },
+  {
+    "event": "GNOT Non-metro Final",
+    "match_count": 1,
+    "min_id": 84602,
+    "max_id": 84602,
+    "start_date": "2025-11-23",
+    "end_date": "2025-11-23"
+  },
+  {
+    "event": "MINANGKABAU OPEN TOURNAMENT II 2025_FINAL",
+    "match_count": 1,
+    "min_id": 84597,
+    "max_id": 84597,
+    "start_date": "2025-11-23",
+    "end_date": "2025-11-23"
+  },
+  {
+    "event": "GNOT2025 Final",
+    "match_count": 1,
+    "min_id": 84594,
+    "max_id": 84594,
+    "start_date": "2025-11-23",
+    "end_date": "2025-11-23"
+  },
+  {
+    "event": "GNOT2025 Non-Metro Final",
+    "match_count": 1,
+    "min_id": 84593,
+    "max_id": 84593,
+    "start_date": "2025-11-23",
+    "end_date": "2025-11-23"
+  },
+  {
+    "event": "Danmark - 1_div 2025-2026",
+    "match_count": 1,
+    "min_id": 84582,
+    "max_id": 84582,
+    "start_date": "2025-11-22",
+    "end_date": "2025-11-22"
+  },
+  {
+    "event": "MINANGKABAU BRIDGE OPEN TOURNAMENT II_2025 -FINAL",
+    "match_count": 1,
+    "min_id": 84572,
+    "max_id": 84572,
+    "start_date": "2025-11-22",
+    "end_date": "2025-11-22"
+  },
+  {
+    "event": "MINANGKABAU BRIGE OPEN TOURNAMENT II _2025",
+    "match_count": 1,
+    "min_id": 84538,
+    "max_id": 84538,
+    "start_date": "2025-11-21",
+    "end_date": "2025-11-21"
+  },
+  {
+    "event": "MINANGKABAU BRIDGE OPEN TOURNAMENT II_2025",
+    "match_count": 1,
+    "min_id": 84537,
+    "max_id": 84537,
+    "start_date": "2025-11-21",
+    "end_date": "2025-11-21"
+  },
+  {
+    "event": "Red Sea Festival Invitational Pairs",
+    "match_count": 1,
+    "min_id": 84535,
+    "max_id": 84535,
+    "start_date": "2025-11-20",
+    "end_date": "2025-11-20"
+  },
+  {
+    "event": "BBF Bulgarian National Championship 2024",
+    "match_count": 1,
+    "min_id": 84529,
+    "max_id": 84529,
+    "start_date": "2025-11-16",
+    "end_date": "2025-11-16"
+  },
+  {
+    "event": "\u000fd\u00182025 Bulgarian National Championship FINAL",
+    "match_count": 1,
+    "min_id": 84518,
+    "max_id": 84518,
+    "start_date": "2025-11-15",
+    "end_date": "2025-11-15"
+  },
+  {
+    "event": "\u000fd 2025 Bulgarian National Championship FINAL",
+    "match_count": 1,
+    "min_id": 84510,
+    "max_id": 84510,
+    "start_date": "2025-11-15",
+    "end_date": "2025-11-15"
+  },
+  {
+    "event": "\u000fd 2025 Bulgarian National Championship Semifinal",
+    "match_count": 1,
+    "min_id": 84484,
+    "max_id": 84484,
+    "start_date": "2025-11-14",
+    "end_date": "2025-11-14"
+  },
+  {
+    "event": "\u000fd 2025 Bulgarian National Championship Semi-final",
+    "match_count": 1,
+    "min_id": 84476,
+    "max_id": 84476,
+    "start_date": "2025-11-14",
+    "end_date": "2025-11-14"
+  },
+  {
+    "event": "AMSF 2025 Teams (Men&#039;s)",
+    "match_count": 1,
+    "min_id": 84449,
+    "max_id": 84449,
+    "start_date": "2025-11-14",
+    "end_date": "2025-11-14"
+  },
+  {
+    "event": "AMSF Team - Women",
+    "match_count": 1,
+    "min_id": 84448,
+    "max_id": 84448,
+    "start_date": "2025-11-14",
+    "end_date": "2025-11-14"
+  },
+  {
+    "event": "\u000fd Experiment Vug 2024 Event",
+    "match_count": 1,
+    "min_id": 84429,
+    "max_id": 84429,
+    "start_date": "2025-11-13",
+    "end_date": "2025-11-13"
+  },
+  {
+    "event": "AMSF 2025 Pairs",
+    "match_count": 1,
+    "min_id": 84409,
+    "max_id": 84409,
+    "start_date": "2025-11-13",
+    "end_date": "2025-11-13"
+  },
+  {
+    "event": "AMSF 2025 Pairs (Women",
+    "match_count": 1,
+    "min_id": 84405,
+    "max_id": 84405,
+    "start_date": "2025-11-13",
+    "end_date": "2025-11-13"
+  },
+  {
+    "event": "TOP 16 - FFBridge",
+    "match_count": 1,
+    "min_id": 84370,
+    "max_id": 84370,
+    "start_date": "2025-11-08",
+    "end_date": "2025-11-08"
+  },
+  {
+    "event": "INTERNATIONAL MADEIRA BRIDGE OPEN",
+    "match_count": 1,
+    "min_id": 84369,
+    "max_id": 84369,
+    "start_date": "2025-11-08",
+    "end_date": "2025-11-08"
+  },
+  {
+    "event": "INTERNATIONAL MADEIRA OPEN BRIDGE TEAMS",
+    "match_count": 1,
+    "min_id": 84359,
+    "max_id": 84359,
+    "start_date": "2025-11-08",
+    "end_date": "2025-11-08"
+  },
+  {
+    "event": "Italian Mixed Champiomnships",
+    "match_count": 1,
+    "min_id": 84352,
+    "max_id": 84352,
+    "start_date": "2025-11-07",
+    "end_date": "2025-11-07"
+  },
+  {
+    "event": "INTERNATIONAL MADERIA BRIDGE OPEN TEAMS",
+    "match_count": 1,
+    "min_id": 84350,
+    "max_id": 84350,
+    "start_date": "2025-11-07",
+    "end_date": "2025-11-07"
+  },
+  {
+    "event": "Italian MIxed Championships",
+    "match_count": 1,
+    "min_id": 84337,
+    "max_id": 84337,
+    "start_date": "2025-11-06",
+    "end_date": "2025-11-06"
+  },
+  {
+    "event": "ROMANIA CHAMPIONSHIP DIVIZIA A6",
+    "match_count": 1,
+    "min_id": 84322,
+    "max_id": 84322,
+    "start_date": "2025-11-02",
+    "end_date": "2025-11-02"
+  },
+  {
+    "event": "3rd Mavericks Premier League 2025",
+    "match_count": 1,
+    "min_id": 84307,
+    "max_id": 84307,
+    "start_date": "2025-11-01",
+    "end_date": "2025-11-01"
+  },
+  {
+    "event": "3rd Mavericks Premier League",
+    "match_count": 1,
+    "min_id": 84299,
+    "max_id": 84299,
+    "start_date": "2025-11-01",
+    "end_date": "2025-11-01"
+  },
+  {
+    "event": "Greek Trials for National Team Selection - Women",
+    "match_count": 1,
+    "min_id": 84905,
+    "max_id": 84905,
+    "start_date": "2025-12-21",
+    "end_date": "2025-12-21"
+  },
+  {
+    "event": "GRAND PRIX OF POLAND - PAIRS FINAL",
+    "match_count": 1,
+    "min_id": 84894,
+    "max_id": 84894,
+    "start_date": "2025-12-21",
+    "end_date": "2025-12-21"
+  },
+  {
+    "event": "Grand Prix of Poland Pairs FINAL",
+    "match_count": 1,
+    "min_id": 84886,
+    "max_id": 84886,
+    "start_date": "2025-12-20",
+    "end_date": "2025-12-20"
+  },
+  {
+    "event": "Channel Trophy 2A",
+    "match_count": 1,
+    "min_id": 84865,
+    "max_id": 84865,
+    "start_date": "2025-12-19",
+    "end_date": "2025-12-19"
+  },
+  {
+    "event": "Grand Prix of Poland pairs finals round robin",
+    "match_count": 1,
+    "min_id": 84859,
+    "max_id": 84859,
+    "start_date": "2025-12-19",
+    "end_date": "2025-12-19"
+  },
+  {
+    "event": "PORTUGAL CUP 2025 FINAL",
+    "match_count": 1,
+    "min_id": 84834,
+    "max_id": 84834,
+    "start_date": "2025-12-14",
+    "end_date": "2025-12-14"
+  },
+  {
+    "event": "PORTUGAL CUP 2025 SF",
+    "match_count": 1,
+    "min_id": 84830,
+    "max_id": 84830,
+    "start_date": "2025-12-14",
+    "end_date": "2025-12-14"
+  },
+  {
+    "event": "Coppa Italia Men",
+    "match_count": 1,
+    "min_id": 84811,
+    "max_id": 84811,
+    "start_date": "2025-12-14",
+    "end_date": "2025-12-14"
+  },
+  {
+    "event": "BGB Semi-Final",
+    "match_count": 1,
+    "min_id": 84799,
+    "max_id": 84799,
+    "start_date": "2025-12-13",
+    "end_date": "2025-12-13"
+  },
+  {
+    "event": "Espagne - France",
+    "match_count": 1,
+    "min_id": 84753,
+    "max_id": 84753,
+    "start_date": "2025-12-12",
+    "end_date": "2025-12-12"
+  },
+  {
+    "event": "Ciitt",
+    "match_count": 1,
+    "min_id": 84697,
+    "max_id": 84697,
+    "start_date": "2025-12-06",
+    "end_date": "2025-12-06"
+  },
+  {
+    "event": "SCOTTISH CUP 2024-25",
+    "match_count": 1,
+    "min_id": 84693,
+    "max_id": 84693,
+    "start_date": "2025-12-06",
+    "end_date": "2025-12-06"
+  }
+]

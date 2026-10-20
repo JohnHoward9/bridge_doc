@@ -1,0 +1,113 @@
+library: "RKCB"
+description: "Roman Key Card Blackwood 1430 responses and captain rebids"
+version: "1.1"
+
+fragments:
+  fRKCBResponses:
+    desc: "4NT Key Card Responses (4 Aces + Trump King)"
+    rule: "p#1 14+hcp"
+    priority: 1
+    bids:
+      5c:
+        desc: "1 or 4 key cards"
+        rule: "p#1 kc=1|4 $M"
+        priority: 1
+        bids:
+          5$M:
+            desc: "Signoff (missing 2 key cards)"
+            rule: "p#2 kc<=2 $M"
+            priority: 2
+          5nt:
+            desc: "King ask / grand slam try"
+            rule: "p#2 kc>=3 $M"
+            priority: 2
+          6$M:
+            desc: "Small slam"
+            rule: "p#1 kc>=2 $M"
+            priority: 1
+          7$M:
+            desc: "Grand slam"
+            rule: "p#1 kc>=3 $M q$M"
+            priority: 1
+          pass:
+            desc: "Signoff"
+            rule: "kc<=1 $M"
+            priority: 3
+
+      5d:
+        desc: "0 or 3 key cards"
+        rule: "p#1 kc=0|3 $M"
+        priority: 1
+        bids:
+          5$M:
+            desc: "Signoff (missing 2 key cards)"
+            rule: "p#2 kc<=1 $M"
+            priority: 2
+          5nt:
+            desc: "King ask / grand slam try"
+            rule: "p#2 kc>=2 $M"
+            priority: 2
+          6$M:
+            desc: "Small slam"
+            rule: "p#1 kc>=2 $M"
+            priority: 1
+          7$M:
+            desc: "Grand slam"
+            rule: "p#1 kc>=2 $M q$M"
+            priority: 1
+          pass:
+            desc: "Signoff"
+            rule: "kc<=1 $M"
+            priority: 3
+
+      5h:
+        desc: "2 key cards without trump Queen"
+        rule: "p#1 kc=2-q $M"
+        priority: 1
+        bids:
+          5$M:
+            desc: "Signoff in $M"
+            rule: "p#2 kc<=1 $M"
+            priority: 2
+          5nt:
+            desc: "King ask"
+            rule: "p#2 kc>=3 $M"
+            priority: 2
+          6$M:
+            desc: "Small slam"
+            rule: "p#1 kc>=2 $M"
+            priority: 1
+          7$M:
+            desc: "Grand slam"
+            rule: "p#1 kc>=3 $M q$M"
+            priority: 1
+          pass:
+            desc: "Signoff in 5 Hearts"
+            rule: "kc<=1 $M"
+            priority: 2
+
+      5s:
+        desc: "2 key cards with trump Queen"
+        rule: "p#1 kc=2+q $M"
+        priority: 1
+        bids:
+          5$M:
+            desc: "Signoff in $M"
+            rule: "p#2 kc<=1 $M"
+            priority: 2
+          5nt:
+            desc: "King ask"
+            rule: "p#2 kc>=3 $M"
+            priority: 2
+          6$M:
+            desc: "Small slam"
+            rule: "p#1 kc>=2 $M"
+            priority: 1
+          7$M:
+            desc: "Grand slam"
+            rule: "p#1 kc>=3 $M"
+            priority: 1
+          pass:
+            desc: "Signoff in 5 Spades"
+            rule: "kc<=1 $M"
+            priority: 2

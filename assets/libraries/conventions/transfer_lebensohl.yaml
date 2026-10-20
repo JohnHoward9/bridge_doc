@@ -1,0 +1,374 @@
+library: "Transfer Lebensohl"
+description: "Transfer Lebensohl (Rubensohl) structure over natural 2-level interference (2D, 2H, 2S) over 1NT opening"
+version: "1.0"
+
+fragments:
+  fTransferLebensohl:
+    desc: "Transfer Lebensohl over natural 2-level overcalls (2D, 2H, 2S)"
+    bids:
+      "(2d)":
+        desc: "Opponent overcalls natural 2D"
+        ref: "fTransferLebensohlOver2D"
+
+      "(2h)":
+        desc: "Opponent overcalls natural 2H"
+        ref: "fTransferLebensohlOver2H"
+
+      "(2s)":
+        desc: "Opponent overcalls natural 2S"
+        ref: "fTransferLebensohlOver2S"
+
+  fTransferLebensohlOver2H:
+    desc: "Transfer Lebensohl responses over 1NT - (2H)"
+    bids:
+      pass:
+        desc: "Pass: weak hand without action"
+        rule: "p#10 0-7hcp"
+        priority: 10
+
+      dbl:
+        desc: "Negative double: Takeout showing 4 Spades (8+ HCP)"
+        rule: "p#1 8+hcp 4s"
+        priority: 1
+        bids:
+          2s:
+            desc: "Opener minimum with 4 Spades"
+            rule: "4+s 15-16hcp"
+            priority: 2
+          3s:
+            desc: "Opener maximum with 4 Spades invitational"
+            rule: "4+s 17hcp"
+            priority: 1
+          2nt:
+            desc: "Opener Heart stopper minimum without 4 Spades"
+            rule: "15-16hcp 3-s"
+            priority: 2
+          3nt:
+            desc: "Opener Heart stopper maximum to play"
+            rule: "17hcp 3-s"
+            priority: 1
+
+      2s:
+        desc: "Natural competitive: 5+ Spades to play (5-9 HCP, non-forcing)"
+        rule: "p#2 5-9hcp 5+s"
+        priority: 2
+        bids:
+          pass:
+            desc: "Opener passes"
+            rule: "15-16hcp"
+          3s:
+            desc: "Opener invites with 3-4 Spades maximum"
+            rule: "17hcp 3+s"
+          4s:
+            desc: "Opener raises to game"
+            rule: "17hcp 4+s"
+
+      2nt:
+        desc: "Transfer to Clubs (forces 3C): signoff in 3C or invitation"
+        rule: "p#2 5+c | p#2 8-9hcp"
+        priority: 2
+        bids:
+          3c:
+            desc: "Opener accepts transfer to Clubs"
+            rule: "15-17hcp"
+            bids:
+              pass:
+                desc: "Signoff in 3C (weak 6+ Clubs)"
+                rule: "p#1 0-7hcp 6+c"
+                priority: 1
+              3d:
+                desc: "Invitational with 5+ Diamonds"
+                rule: "p#2 8-9hcp 5+d"
+                priority: 2
+              3nt:
+                desc: "Invitational to 3NT with Heart stopper (Slow Shows)"
+                rule: "p#2 8-9hcp"
+                priority: 2
+
+      3c:
+        desc: "Transfer to Diamonds: 5+ Diamonds invitational or game-forcing"
+        rule: "p#2 8+hcp 5+d"
+        priority: 2
+        bids:
+          3d:
+            desc: "Opener accepts transfer to Diamonds"
+            rule: "15-17hcp"
+            bids:
+              pass:
+                desc: "To play (invitational hand declined by opener)"
+                rule: "8-9hcp"
+              3nt:
+                desc: "Game forcing with Heart stopper"
+                rule: "10+hcp"
+
+      3d:
+        desc: "Transfer to Hearts (Cuebid / Stayman): 4 Spades GF, asks for Heart stopper"
+        rule: "p#1 10+hcp 4s"
+        priority: 1
+        bids:
+          3s:
+            desc: "Opener fits Spades (4 Spades)"
+            rule: "4+s"
+            priority: 1
+            bids:
+              4s:
+                desc: "Raise to 4S game"
+                rule: "10+hcp"
+          3nt:
+            desc: "Opener holds Heart stopper (denies 4 Spades)"
+            rule: "3-s"
+            priority: 2
+            bids:
+              pass:
+                desc: "Pass to play 3NT"
+                rule: "p#10"
+
+      3h:
+        desc: "Transfer to Spades (3S): 5+ Spades game-forcing (right-sides contract)"
+        rule: "p#1 10+hcp 5+s"
+        priority: 1
+        bids:
+          3s:
+            desc: "Opener accepts transfer (waiting or 2-3 Spades)"
+            rule: "15-17hcp"
+            bids:
+              3nt:
+                desc: "Choice of games (5 Spades balanced)"
+                rule: "10-12hcp s#5332"
+              4s:
+                desc: "Commit to 4S game"
+                rule: "10+hcp"
+          4s:
+            desc: "Opener super-accepts to 4S with 4 Spades and maximum"
+            rule: "17hcp 4+s"
+
+      3nt:
+        desc: "To play, game values, but DENIES Heart stopper (Fast Denies)"
+        rule: "p#3 10-14hcp"
+        priority: 3
+        bids:
+          pass:
+            desc: "Opener passes with Heart stopper"
+            rule: "15-17hcp"
+          4c:
+            desc: "Opener runs to minor without Heart stopper"
+            rule: "15-17hcp 5+c"
+
+  fTransferLebensohlOver2S:
+    desc: "Transfer Lebensohl responses over 1NT - (2S)"
+    bids:
+      pass:
+        desc: "Pass: weak hand without action"
+        rule: "p#10 0-7hcp"
+        priority: 10
+
+      dbl:
+        desc: "Negative double: Takeout showing 4 Hearts (8+ HCP)"
+        rule: "p#1 8+hcp 4h"
+        priority: 1
+        bids:
+          3h:
+            desc: "Opener fits Hearts with 4 Hearts"
+            rule: "4+h"
+            priority: 1
+          2nt:
+            desc: "Opener Spade stopper minimum without 4 Hearts"
+            rule: "15-16hcp 3-h"
+            priority: 2
+          3nt:
+            desc: "Opener Spade stopper maximum to play"
+            rule: "17hcp 3-h"
+            priority: 1
+
+      2nt:
+        desc: "Transfer to Clubs (forces 3C): signoff in 3C or invitation"
+        rule: "p#2 5+c | p#2 8-9hcp"
+        priority: 2
+        bids:
+          3c:
+            desc: "Opener accepts transfer to Clubs"
+            rule: "15-17hcp"
+            bids:
+              pass:
+                desc: "Signoff in 3C (weak 6+ Clubs)"
+                rule: "p#1 0-7hcp 6+c"
+                priority: 1
+              3d:
+                desc: "Invitational with 5+ Diamonds"
+                rule: "p#2 8-9hcp 5+d"
+                priority: 2
+              3h:
+                desc: "Invitational with 5+ Hearts"
+                rule: "p#2 8-9hcp 5+h"
+                priority: 2
+              3nt:
+                desc: "Invitational to 3NT with Spade stopper (Slow Shows)"
+                rule: "p#2 8-9hcp"
+                priority: 2
+
+      3c:
+        desc: "Transfer to Diamonds: 5+ Diamonds invitational or game-forcing"
+        rule: "p#2 8+hcp 5+d"
+        priority: 2
+        bids:
+          3d:
+            desc: "Opener accepts transfer to Diamonds"
+            rule: "15-17hcp"
+
+      3d:
+        desc: "Transfer to Hearts (3H): 5+ Hearts game-forcing (right-sides contract)"
+        rule: "p#1 10+hcp 5+h"
+        priority: 1
+        bids:
+          3h:
+            desc: "Opener accepts transfer"
+            rule: "15-17hcp"
+            bids:
+              4h:
+                desc: "Commit to 4H game"
+                rule: "10+hcp"
+              3nt:
+                desc: "Choice of games (5 Hearts balanced)"
+                rule: "10-12hcp s#5332"
+          4h:
+            desc: "Opener super-accepts to 4H with 4 Hearts and maximum"
+            rule: "17hcp 4+h"
+
+      3h:
+        desc: "Transfer to Spades (Cuebid / Stayman): 4 Hearts GF, asks for Spade stopper"
+        rule: "p#1 10+hcp 4h"
+        priority: 1
+        bids:
+          4h:
+            desc: "Opener fits Hearts (4 Hearts)"
+            rule: "4+h"
+            priority: 1
+          3nt:
+            desc: "Opener holds Spade stopper (denies 4 Hearts)"
+            rule: "3-h"
+            priority: 2
+
+      3s:
+        desc: "Both minors 5-5 (slam interest or 3NT choice)"
+        rule: "p#2 10+hcp 5+c 5+d"
+        priority: 2
+
+      3nt:
+        desc: "To play, game values, but DENIES Spade stopper (Fast Denies)"
+        rule: "p#3 10-14hcp"
+        priority: 3
+
+  fTransferLebensohlOver2D:
+    desc: "Transfer Lebensohl responses over 1NT - (2D)"
+    bids:
+      pass:
+        desc: "Pass: weak hand without action"
+        rule: "p#10 0-7hcp"
+        priority: 10
+
+      dbl:
+        desc: "Negative double: Takeout showing 4-4 in Majors (8+ HCP)"
+        rule: "p#1 8+hcp 4h 4s"
+        priority: 1
+        bids:
+          2h:
+            desc: "Opener shows 4 Hearts minimum"
+            rule: "4+h 15-16hcp"
+          2s:
+            desc: "Opener shows 4 Spades minimum"
+            rule: "4+s 15-16hcp"
+          3h:
+            desc: "Opener invites with 4 Hearts maximum"
+            rule: "4+h 17hcp"
+          3s:
+            desc: "Opener invites with 4 Spades maximum"
+            rule: "4+s 17hcp"
+
+      2h:
+        desc: "Natural competitive: 5+ Hearts to play (5-9 HCP, non-forcing)"
+        rule: "p#2 5-9hcp 5+h"
+        priority: 2
+        bids:
+          pass:
+            desc: "Opener passes"
+            rule: "15-16hcp"
+          3h:
+            desc: "Opener invites with 3-4 Hearts maximum"
+            rule: "17hcp 3+h"
+
+      2s:
+        desc: "Natural competitive: 5+ Spades to play (5-9 HCP, non-forcing)"
+        rule: "p#2 5-9hcp 5+s"
+        priority: 2
+        bids:
+          pass:
+            desc: "Opener passes"
+            rule: "15-16hcp"
+          3s:
+            desc: "Opener invites with 3-4 Spades maximum"
+            rule: "17hcp 3+s"
+
+      2nt:
+        desc: "Transfer to Clubs (forces 3C): signoff in 3C or invitation"
+        rule: "p#2 5+c | p#2 8-9hcp"
+        priority: 2
+        bids:
+          3c:
+            desc: "Opener accepts transfer to Clubs"
+            rule: "15-17hcp"
+            bids:
+              pass:
+                desc: "Signoff in 3C (weak 6+ Clubs)"
+                rule: "p#1 0-7hcp 6+c"
+                priority: 1
+              3nt:
+                desc: "Invitational to 3NT with Diamond stopper (Slow Shows)"
+                rule: "p#2 8-9hcp"
+                priority: 2
+
+      3c:
+        desc: "Transfer to Diamonds (Cuebid / Stayman): GF major inquiry, asks for Diamond stopper"
+        rule: "p#1 10+hcp 4+h | p#1 10+hcp 4+s"
+        priority: 1
+        bids:
+          3h:
+            desc: "Opener shows 4 Hearts"
+            rule: "4+h"
+            priority: 1
+          3s:
+            desc: "Opener shows 4 Spades"
+            rule: "4+s"
+            priority: 1
+          3nt:
+            desc: "Opener holds Diamond stopper without 4-card major"
+            rule: "3-h 3-s"
+            priority: 2
+
+      3d:
+        desc: "Transfer to Hearts (3H): 5+ Hearts game-forcing (right-sides contract)"
+        rule: "p#1 10+hcp 5+h"
+        priority: 1
+        bids:
+          3h:
+            desc: "Opener accepts transfer"
+            rule: "15-17hcp"
+          4h:
+            desc: "Opener super-accepts to 4H"
+            rule: "17hcp 4+h"
+
+      3h:
+        desc: "Transfer to Spades (3S): 5+ Spades game-forcing (right-sides contract)"
+        rule: "p#1 10+hcp 5+s"
+        priority: 1
+        bids:
+          3s:
+            desc: "Opener accepts transfer"
+            rule: "15-17hcp"
+          4s:
+            desc: "Opener super-accepts to 4S"
+            rule: "17hcp 4+s"
+
+      3nt:
+        desc: "To play, game values, but DENIES Diamond stopper (Fast Denies)"
+        rule: "p#3 10-14hcp"
+        priority: 3

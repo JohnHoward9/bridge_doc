@@ -1,0 +1,242 @@
+library: "Puppet Stayman"
+description: "Gavin Wolpert definition of Puppet Stayman for investigating 5-3 and 4-4 major suit fits over 2NT and 1NT"
+version: "1.0"
+
+fragments:
+  Strong2NTOpening:
+    aliases: ["fPuppetStayman2NT"]
+    desc: "Strong balanced NT (20-21 HCP)"
+    rule: "20-21hcp, balanced, 4-h, 4-s"
+    bids:
+      pass:
+        desc: "Pass (0-3 HCP)"
+        rule: "p#10 3-hcp"
+        priority: 10
+
+      3c:
+        desc: "Puppet Stayman: asks opener for 5-card or 4-card major"
+        rule: "p#2 4+hcp 3+h | p#2 4+hcp 3+s | p#2 4+hcp 4+h | p#2 4+hcp 4+s"
+        priority: 2
+        bids:
+          3d:
+            desc: "Opener has at least one 4-card major (denies 5-card major)"
+            rule: "p#2 4-h 4-s 4+h | p#2 4-h 4-s 4+s"
+            priority: 2
+            bids:
+              3h:
+                desc: "Responder shows 4 Spades (bids other major so opener declares)"
+                rule: "p#1 4+s 3-h"
+                priority: 1
+                bids:
+                  3s:
+                    desc: "Opener accepts Spade fit"
+                    rule: "4+s"
+                    priority: 2
+                  4s:
+                    desc: "Opener raises to 4S game"
+                    rule: "4+s"
+                    priority: 1
+                  3nt:
+                    desc: "Opener has 4 Hearts (no Spade fit)"
+                    rule: "3-s 4+h"
+                    priority: 2
+              3s:
+                desc: "Responder shows 4 Hearts (bids other major so opener declares)"
+                rule: "p#1 4+h 3-s"
+                priority: 1
+                bids:
+                  4h:
+                    desc: "Opener accepts Heart fit to play"
+                    rule: "4+h"
+                    priority: 1
+                  3nt:
+                    desc: "Opener has 4 Spades (no Heart fit)"
+                    rule: "3-h 4+s"
+                    priority: 2
+              3nt:
+                desc: "Responder has no 4-card major (was looking for opener's 5-card major)"
+                rule: "p#3 3-h 3-s"
+                priority: 3
+                bids:
+                  pass:
+                    desc: "Opener passes to play 3NT"
+                    rule: "p#10 20-21hcp"
+                    priority: 10
+              4d:
+                desc: "Responder has both 4 Hearts and 4 Spades"
+                rule: "p#1 4+h 4+s"
+                priority: 1
+                bids:
+                  4h:
+                    desc: "Opener picks Hearts"
+                    rule: "4+h"
+                    priority: 1
+                  4s:
+                    desc: "Opener picks Spades"
+                    rule: "4+s"
+                    priority: 1
+
+          3h:
+            desc: "Opener shows exactly 5 Hearts"
+            rule: "p#1 5+h"
+            priority: 1
+            bids:
+              3nt:
+                desc: "Responder signs off in 3NT (denies 3-card Heart support)"
+                rule: "p#2 2-h"
+                priority: 2
+              4h:
+                desc: "Responder raises to 4H game (3+ card Heart support)"
+                rule: "p#1 3+h"
+                priority: 1
+
+          3s:
+            desc: "Opener shows exactly 5 Spades"
+            rule: "p#1 5+s"
+            priority: 1
+            bids:
+              3nt:
+                desc: "Responder signs off in 3NT (denies 3-card Spade support)"
+                rule: "p#2 2-s"
+                priority: 2
+              4s:
+                desc: "Responder raises to 4S game (3+ card Spade support)"
+                rule: "p#1 3+s"
+                priority: 1
+
+          3nt:
+            desc: "Opener denies any 4-card or 5-card major"
+            rule: "p#3 3-h 3-s"
+            priority: 3
+            bids:
+              pass:
+                desc: "To play"
+                rule: "p#10"
+                priority: 10
+
+      3d:
+        desc: "Jacoby Transfer to Hearts"
+        rule: "p#1 5+h"
+        priority: 1
+        bids:
+          3h:
+            desc: "Accept transfer"
+            rule: "2+h"
+
+      3h:
+        desc: "Jacoby Transfer to Spades"
+        rule: "p#1 5+s"
+        priority: 1
+        bids:
+          3s:
+            desc: "Accept transfer"
+            rule: "2+s"
+
+      3s:
+        desc: "Minor suit slam try or 5-5 minors"
+        rule: "p#3 5+c 5+d"
+        priority: 3
+
+      3nt:
+        desc: "To play (denies 4-card or 5-card major)"
+        rule: "p#4 3-h 3-s"
+        priority: 4
+
+  fPuppetStayman1NT:
+    desc: "Opener responses to 3C Puppet Stayman over 1NT opening"
+    bids:
+      3d:
+        desc: "Opener has at least one 4-card major (denies 5-card major)"
+        rule: "p#2 4-h 4-s 4+h | p#2 4-h 4-s 4+s"
+        priority: 2
+        bids:
+          3h:
+            desc: "Responder shows 4 Spades (bids other major so opener declares)"
+            rule: "p#1 4+s 3-h"
+            priority: 1
+            bids:
+              3s:
+                desc: "Opener accepts Spade fit"
+                rule: "4+s"
+                priority: 2
+              4s:
+                desc: "Opener raises to 4S game"
+                rule: "4+s"
+                priority: 1
+              3nt:
+                desc: "Opener has 4 Hearts (no Spade fit)"
+                rule: "3-s 4+h"
+                priority: 2
+          3s:
+            desc: "Responder shows 4 Hearts (bids other major so opener declares)"
+            rule: "p#1 4+h 3-s"
+            priority: 1
+            bids:
+              4h:
+                desc: "Opener accepts Heart fit to play"
+                rule: "4+h"
+                priority: 1
+              3nt:
+                desc: "Opener has 4 Spades (no Heart fit)"
+                rule: "3-h 4+s"
+                priority: 2
+          3nt:
+            desc: "Responder has no 4-card major (was looking for opener's 5-card major)"
+            rule: "p#3 3-h 3-s"
+            priority: 3
+            bids:
+              pass:
+                desc: "Opener passes to play 3NT"
+                rule: "p#10 15-17hcp"
+                priority: 10
+          4d:
+            desc: "Responder has both 4 Hearts and 4 Spades"
+            rule: "p#1 4+h 4+s"
+            priority: 1
+            bids:
+              4h:
+                desc: "Opener picks Hearts"
+                rule: "4+h"
+                priority: 1
+              4s:
+                desc: "Opener picks Spades"
+                rule: "4+s"
+                priority: 1
+
+      3h:
+        desc: "Opener shows exactly 5 Hearts"
+        rule: "p#1 5+h"
+        priority: 1
+        bids:
+          3nt:
+            desc: "Responder signs off in 3NT (denies 3-card Heart support)"
+            rule: "p#2 2-h"
+            priority: 2
+          4h:
+            desc: "Responder raises to 4H game (3+ card Heart support)"
+            rule: "p#1 3+h"
+            priority: 1
+
+      3s:
+        desc: "Opener shows exactly 5 Spades"
+        rule: "p#1 5+s"
+        priority: 1
+        bids:
+          3nt:
+            desc: "Responder signs off in 3NT (denies 3-card Spade support)"
+            rule: "p#2 2-s"
+            priority: 2
+          4s:
+            desc: "Responder raises to 4S game (3+ card Spade support)"
+            rule: "p#1 3+s"
+            priority: 1
+
+      3nt:
+        desc: "Opener denies any 4-card or 5-card major"
+        rule: "p#3 3-h 3-s"
+        priority: 3
+        bids:
+          pass:
+            desc: "To play"
+            rule: "p#10"
+            priority: 10

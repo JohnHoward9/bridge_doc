@@ -1,0 +1,119 @@
+name: "Five-Card Majors with 2/1 Game Forcing"
+desc: "Responses to 1H and 1S openings incorporating 2/1 Game Force, 1NT Semi-Forcing, and Jacoby 2NT"
+
+imports:
+  - "assets/libraries/conventions/jacoby_2nt.yaml"
+  - "assets/libraries/conventions/reversed_bart.yaml"
+
+fragments:
+  fHeartResponses2Over1:
+    desc: "Responses to 1H Opening in 2/1 GF"
+    bids:
+      pass:
+        desc: "Pass: weak hand (0-5 HCP)"
+        rule: "p#10 5-hcp"
+        priority: 10
+      1s:
+        desc: "Natural 4+ Spades (forcing 1 round)"
+        rule: "6+hcp, 4+s"
+        priority: 4
+      1nt:
+        desc: "Semi-forcing 1NT (denies 4s, denies 3h)"
+        rule: "6-11hcp, 3-s, 2-h"
+        priority: 5
+        bids:
+          pass:
+            desc: "Opener passes with 12-14 balanced"
+            rule: "12-14hcp, balanced"
+          2c:
+            desc: "Opener natural minor or minimum"
+            rule: "3+c, 12-15hcp"
+          2d:
+            desc: "Opener natural Diamonds"
+            rule: "3+d, 12-15hcp"
+          2h:
+            desc: "Opener rebids 6-card Hearts"
+            rule: "6+h, 12-15hcp"
+      2c:
+        desc: "2/1 Game Force in Clubs"
+        rule: "12+hcp, 4+c"
+        priority: 3
+      2d:
+        desc: "2/1 Game Force in Diamonds"
+        rule: "12+hcp, 4+d"
+        priority: 3
+      2h:
+        desc: "Constructive 3-card raise"
+        rule: "6-9hcp, 3+h"
+        priority: 3
+      2nt:
+        desc: "Jacoby 2NT: Game-forcing 4+ card Heart support"
+        rule: "13+hcp, 4+h [$M=h, $OM=s]"
+        priority: 2
+        ref: "fJacoby2NT"
+      3h:
+        desc: "Limit raise: 4+ Hearts invitational"
+        rule: "10-11hcp, 4+h"
+        priority: 3
+      4h:
+        desc: "Preemptive / shapely raise to game"
+        rule: "5-9hcp, 5+h"
+        priority: 4
+
+  fSpadeResponses2Over1:
+    desc: "Responses to 1S Opening in 2/1 GF"
+    bids:
+      pass:
+        desc: "Pass: weak hand (0-5 HCP)"
+        rule: "p#10 5-hcp"
+        priority: 10
+      1nt:
+        desc: "Semi-forcing 1NT (denies 3s)"
+        rule: "6-11hcp, 2-s"
+        priority: 5
+        bids:
+          pass:
+            desc: "Opener passes with 12-14 balanced"
+            rule: "12-14hcp, balanced"
+          2c:
+            desc: "Opener natural minor or minimum"
+            rule: "3+c, 12-15hcp"
+            ref: "fReversedBart"
+          2d:
+            desc: "Opener natural Diamonds"
+            rule: "3+d, 12-15hcp"
+          2h:
+            desc: "Opener secondary 4+ Hearts"
+            rule: "4+h, 12-15hcp"
+          2s:
+            desc: "Opener rebids 6-card Spades"
+            rule: "6+s, 12-15hcp"
+      2c:
+        desc: "2/1 Game Force in Clubs"
+        rule: "12+hcp, 4+c"
+        priority: 3
+      2d:
+        desc: "2/1 Game Force in Diamonds"
+        rule: "12+hcp, 5+d"
+        priority: 3
+      2h:
+        desc: "2/1 Game Force in Hearts (5+ Hearts)"
+        rule: "12+hcp, 5+h"
+        priority: 3
+      2s:
+        desc: "Constructive 3-card raise"
+        rule: "6-9hcp, 3+s"
+        priority: 3
+      2nt:
+        desc: "Jacoby 2NT: Game-forcing 4+ card Spade support"
+        rule: "13+hcp, 4+s [$M=s, $OM=h]"
+        priority: 2
+        ref: "fJacoby2NT"
+      3s:
+        desc: "Limit raise: 4+ Spades invitational"
+        rule: "10-11hcp, 4+s"
+        priority: 3
+      4s:
+        desc: "Preemptive / shapely raise to game"
+        rule: "5-9hcp, 5+s"
+        priority: 4

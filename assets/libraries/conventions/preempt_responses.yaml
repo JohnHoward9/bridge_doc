@@ -1,0 +1,178 @@
+library: "Preempt Responses & Namyats"
+description: "Unified parameterized 3-level and 4-level preempts, solid minor 3NT, and 4NT"
+version: "2.0"
+
+imports:
+  - "assets/libraries/conventions/namyats.yaml"
+
+fragments:
+  fPreempt3:
+    aliases:
+      - "Preempt3Clubs"
+      - "Preempt3Diamonds"
+      - "Preempt3Hearts"
+      - "Preempt3Spades"
+      - "fPreempt3ClubResponses"
+      - "fPreempt3DiamondResponses"
+      - "fPreempt3HeartResponses"
+      - "fPreempt3SpadeResponses"
+    desc: "Preemptive opening (7+ $suit_name, 6-10 HCP)"
+    rule: "6-10hcp 7+$suit 6+ltc controls<=2 outside_ctrl<=1"
+    bids:
+      pass:
+        desc: "Pass to play (0-15 HCP)"
+        rule: "p#10 0-15hcp"
+        priority: 10
+      "<$suit=c> 3d":
+        desc: "Natural new suit (5+ Diamonds, 16+ HCP, game forcing)"
+        rule: "p#1 16+hcp 5+d"
+        priority: 1
+      "<$suit!=h> 3h":
+        desc: "Natural new suit (5+ Hearts, 16+ HCP, game forcing)"
+        rule: "p#1 16+hcp 5+h"
+        priority: 1
+      "<$suit!=s> 3s":
+        desc: "Natural new suit (5+ Spades, 16+ HCP, game forcing)"
+        rule: "p#1 16+hcp 5+s"
+        priority: 1
+      3nt:
+        desc: "To play (16-19 HCP balanced with outside stoppers)"
+        rule: "p#2 16-19hcp balanced"
+        priority: 2
+      4$suit:
+        desc: "Raise in $suit_name (preemptive or to play)"
+        rule: "p#3 3+$suit"
+        priority: 3
+      "<$suit=c> 5c":
+        desc: "Game in Clubs to play"
+        rule: "p#2 12+hcp 3+c"
+        priority: 2
+      "<$suit=d> 5d":
+        desc: "Game in Diamonds to play"
+        rule: "p#2 12+hcp 3+d"
+        priority: 2
+      "<$suit=h> 4nt":
+        desc: "Roman Key Card Blackwood 1430 in Hearts"
+        rule: "p#1 16+hcp 3+h"
+        priority: 1
+      "<$suit=s> 4nt":
+        desc: "Roman Key Card Blackwood 1430 in Spades"
+        rule: "p#1 16+hcp 3+s"
+        priority: 1
+
+  SolidMinor3NT:
+    aliases:
+      - "Gambling3NT"
+      - "fGambling3NTResponses"
+    desc: "Solid minor opening (AKQxxxx or AKQJxxx minor, no outside A or K)"
+    rule: "p#2 solid_minor outside_ctrl=0"
+    priority: 2
+    bids:
+      pass:
+        desc: "To play (responder has outside stoppers in all three suits)"
+        rule: "p#2 10+hcp balanced"
+        priority: 2
+      4c:
+        desc: "Pass or correct: asks opener to pass with Clubs or bid 4D with Diamonds"
+        rule: "p#1 0-13hcp"
+        priority: 1
+        bids:
+          pass:
+            desc: "Opener passes holding solid Clubs"
+            rule: "7+c"
+            priority: 1
+          4d:
+            desc: "Opener corrects to Diamonds holding solid Diamonds"
+            rule: "7+d"
+            priority: 1
+      4d:
+        desc: "Shortness enquiry for slam investigation"
+        rule: "p#1 14+hcp"
+        priority: 1
+        bids:
+          4h:
+            desc: "Opener has Heart shortness (singleton or void)"
+            rule: "1-h"
+            priority: 1
+          4s:
+            desc: "Opener has Spade shortness (singleton or void)"
+            rule: "1-s"
+            priority: 1
+          4nt:
+            desc: "Opener has no shortness (7-2-2-2 shape)"
+            rule: "s#7222"
+            priority: 2
+      4h:
+        desc: "Natural to play (long Hearts, independent of opener's minor)"
+        rule: "p#2 6+h"
+        priority: 2
+      4s:
+        desc: "Natural to play (long Spades, independent of opener's minor)"
+        rule: "p#2 6+s"
+        priority: 2
+      5c:
+        desc: "Pass or correct to 5-level minor game"
+        rule: "p#1 13+hcp"
+        priority: 1
+        bids:
+          pass:
+            desc: "Opener passes holding Clubs"
+            rule: "7+c"
+          5d:
+            desc: "Opener corrects to 5D holding Diamonds"
+            rule: "7+d"
+
+  fPreempt4:
+    aliases:
+      - "Preempt4Clubs"
+      - "Preempt4Diamonds"
+      - "Preempt4Hearts"
+      - "Preempt4Spades"
+      - "fPreempt4HeartResponses"
+      - "fPreempt4SpadeResponses"
+    desc: "Preemptive opening to play (8+ $suit_name, 6-10 HCP)"
+    rule: "6-10hcp 8+$suit 6+ltc controls<=2 outside_ctrl<=1"
+    bids:
+      pass:
+        desc: "Pass to play"
+        rule: "p#10"
+        priority: 10
+      4nt:
+        desc: "Roman Key Card Blackwood 1430 in $suit_name"
+        rule: "p#1 16+hcp"
+        priority: 1
+      5$suit:
+        desc: "Extension of preempt"
+        rule: "p#2 3+$suit"
+        priority: 2
+
+  Preempt4NT:
+    aliases:
+      - "fPreempt4NTResponses"
+    desc: "Specific Minors opening (5-5 or 6-5 minors, 6-11 HCP)"
+    rule: "p#1 6-11hcp 5+c 5+d"
+    priority: 1
+    bids:
+      5c:
+        desc: "Pass or correct to opener's better minor"
+        rule: "p#1"
+        priority: 1
+        bids:
+          pass:
+            desc: "Opener passes with longer Clubs"
+            rule: "c>=d"
+          5d:
+            desc: "Opener corrects to Diamonds with longer Diamonds"
+            rule: "d>c"
+      5d:
+        desc: "Signoff in Diamonds"
+        rule: "p#2 4+d"
+        priority: 2
+      5h:
+        desc: "Extreme Hearts to play"
+        rule: "p#3 6+h"
+        priority: 3
+      5s:
+        desc: "Extreme Spades to play"
+        rule: "p#3 6+s"
+        priority: 3

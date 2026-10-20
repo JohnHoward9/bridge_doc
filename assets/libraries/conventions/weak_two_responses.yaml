@@ -1,0 +1,250 @@
+library: "Weak Two Responses"
+description: "Feature Ask (2NT), raises, and new suits over Weak Two openings (2D, 2H, 2S)"
+version: "1.0"
+
+fragments:
+  WeakTwoDiamonds:
+    aliases: ["fWeakTwoDiamondResponses"]
+    desc: "Weak Two in Diamonds (6-card suit, 5-10 HCP)"
+    rule: "5-10hcp, 6d"
+    bids:
+      pass:
+        desc: "Pass to play (0-13 HCP)"
+        rule: "p#10 0-13hcp"
+        priority: 10
+
+      2h:
+        desc: "Natural new suit (5+ Hearts, 14+ HCP, forcing 1 round)"
+        rule: "p#2 14+hcp 5+h"
+        priority: 2
+        bids:
+          pass:
+            desc: "Opener passes with minimum Heart fit (sub-minimum)"
+            rule: "3+h 5-7hcp"
+          2nt:
+            desc: "Opener balanced minimum without Heart fit"
+            rule: "5-7hcp 2-h"
+          3d:
+            desc: "Opener rebids Diamond suit without Heart fit"
+            rule: "6+d 2-h 5-7hcp"
+          3h:
+            desc: "Opener supports Hearts with maximum (8-10 HCP, 3+ Hearts)"
+            rule: "8-10hcp 3+h"
+          4h:
+            desc: "Opener raises to game in Hearts"
+            rule: "8-10hcp 4+h"
+
+      2s:
+        desc: "Natural new suit (5+ Spades, 14+ HCP, forcing 1 round)"
+        rule: "p#2 14+hcp 5+s"
+        priority: 2
+        bids:
+          pass:
+            desc: "Opener passes with minimum Spade fit"
+            rule: "3+s 5-7hcp"
+          2nt:
+            desc: "Opener balanced minimum without Spade fit"
+            rule: "5-7hcp 2-s"
+          3d:
+            desc: "Opener rebids Diamonds without Spade fit"
+            rule: "6+d 2-s 5-7hcp"
+          3s:
+            desc: "Opener supports Spades with maximum (8-10 HCP, 3+ Spades)"
+            rule: "8-10hcp 3+s"
+          4s:
+            desc: "Opener raises to game in Spades"
+            rule: "8-10hcp 4+s"
+
+      2nt:
+        desc: "Feature Ask (14+ HCP, forcing): asks opener for strength and outside Ace/King"
+        rule: "p#1 14+hcp"
+        priority: 1
+        bids:
+          3c:
+            desc: "Maximum (8-10 HCP) with Club Feature (Ace or King)"
+            rule: "8-10hcp 1+c n#a|kc"
+            priority: 1
+          3d:
+            desc: "Minimum (5-7 HCP), rebids Diamonds"
+            rule: "5-7hcp"
+            priority: 2
+          3h:
+            desc: "Maximum (8-10 HCP) with Heart Feature (Ace or King)"
+            rule: "8-10hcp 1+h n#a|kh"
+            priority: 1
+          3s:
+            desc: "Maximum (8-10 HCP) with Spade Feature (Ace or King)"
+            rule: "8-10hcp 1+s n#a|ks"
+            priority: 1
+          3nt:
+            desc: "Maximum (8-10 HCP) with solid Diamonds (AKQxxx)"
+            rule: "8-10hcp q#hhh+d"
+            priority: 1
+
+      3c:
+        desc: "Natural new suit (5+ Clubs, 14+ HCP, forcing 1 round)"
+        rule: "p#2 14+hcp 5+c"
+        priority: 2
+
+      3d:
+        desc: "Preemptive raise (extension of the preempt, 3-card support, 0-11 HCP)"
+        rule: "p#3 0-11hcp 3+d"
+        priority: 3
+
+      3nt:
+        desc: "Natural to play (15-17 HCP balanced with stoppers)"
+        rule: "p#2 15-17hcp balanced"
+        priority: 2
+
+      5d:
+        desc: "Preemptive game to play (5+ card support, extreme distribution)"
+        rule: "p#4 0-11hcp 5+d"
+        priority: 4
+
+  WeakTwoHearts:
+    aliases: ["fWeakTwoHeartResponses"]
+    desc: "Weak Two in Hearts (6-card suit, 5-10 HCP)"
+    rule: "5-10hcp, 6h"
+    bids:
+      pass:
+        desc: "Pass to play (0-13 HCP)"
+        rule: "p#10 0-13hcp"
+        priority: 10
+
+      2s:
+        desc: "Natural new suit (5+ Spades, 14+ HCP, forcing 1 round)"
+        rule: "p#2 14+hcp 5+s"
+        priority: 2
+        bids:
+          pass:
+            desc: "Opener passes with minimum Spade fit"
+            rule: "3+s 5-7hcp"
+          2nt:
+            desc: "Opener minimum without Spade fit"
+            rule: "5-7hcp 2-s"
+          3h:
+            desc: "Opener rebids Hearts without Spade fit"
+            rule: "6+h 2-s 5-7hcp"
+          3s:
+            desc: "Opener raises Spades with maximum (8-10 HCP, 3+ Spades)"
+            rule: "8-10hcp 3+s"
+          4s:
+            desc: "Opener raises to game in Spades"
+            rule: "8-10hcp 4+s"
+
+      2nt:
+        desc: "Feature Ask (14+ HCP, forcing): asks opener for strength and outside Ace/King"
+        rule: "p#1 14+hcp"
+        priority: 1
+        bids:
+          3c:
+            desc: "Maximum (8-10 HCP) with Club Feature (Ace or King)"
+            rule: "8-10hcp 1+c n#a|kc"
+            priority: 1
+          3d:
+            desc: "Maximum (8-10 HCP) with Diamond Feature (Ace or King)"
+            rule: "8-10hcp 1+d n#a|kd"
+            priority: 1
+          3h:
+            desc: "Minimum (5-7 HCP), rebids Hearts"
+            rule: "5-7hcp"
+            priority: 2
+          3s:
+            desc: "Maximum (8-10 HCP) with Spade Feature (Ace or King)"
+            rule: "8-10hcp 1+s n#a|ks"
+            priority: 1
+          3nt:
+            desc: "Maximum (8-10 HCP) with solid Hearts (AKQxxx)"
+            rule: "8-10hcp q#hhh+h"
+            priority: 1
+
+      3c:
+        desc: "Natural new suit (5+ Clubs, 14+ HCP, forcing 1 round)"
+        rule: "p#2 14+hcp 5+c"
+        priority: 2
+
+      3d:
+        desc: "Natural new suit (5+ Diamonds, 14+ HCP, forcing 1 round)"
+        rule: "p#2 14+hcp 5+d"
+        priority: 2
+
+      3h:
+        desc: "Preemptive raise (extension of the preempt, 3-card support, 6-10 HCP)"
+        rule: "p#3 6-10hcp 3+h"
+        priority: 3
+
+      3nt:
+        desc: "Natural to play (15-17 HCP balanced with stoppers)"
+        rule: "p#2 15-17hcp balanced"
+        priority: 2
+
+      4h:
+        desc: "Game raise to play (preemptive with 4+ Hearts or to play)"
+        rule: "p#3 0-14hcp 4+h"
+        priority: 3
+
+  WeakTwoSpades:
+    aliases: ["fWeakTwoSpadeResponses"]
+    desc: "Weak Two in Spades (6-card suit, 5-10 HCP)"
+    rule: "5-10hcp, 6s"
+    bids:
+      pass:
+        desc: "Pass to play (0-13 HCP)"
+        rule: "p#10 0-13hcp"
+        priority: 10
+
+      2nt:
+        desc: "Feature Ask (14+ HCP, forcing): asks opener for strength and outside Ace/King"
+        rule: "p#1 14+hcp"
+        priority: 1
+        bids:
+          3c:
+            desc: "Maximum (8-10 HCP) with Club Feature (Ace or King)"
+            rule: "8-10hcp 1+c n#a|kc"
+            priority: 1
+          3d:
+            desc: "Maximum (8-10 HCP) with Diamond Feature (Ace or King)"
+            rule: "8-10hcp 1+d n#a|kd"
+            priority: 1
+          3h:
+            desc: "Maximum (8-10 HCP) with Heart Feature (Ace or King)"
+            rule: "8-10hcp 1+h n#a|kh"
+            priority: 1
+          3s:
+            desc: "Minimum (5-7 HCP), rebids Spades"
+            rule: "5-7hcp"
+            priority: 2
+          3nt:
+            desc: "Maximum (8-10 HCP) with solid Spades (AKQxxx)"
+            rule: "8-10hcp q#hhh+s"
+            priority: 1
+
+      3c:
+        desc: "Natural new suit (5+ Clubs, 14+ HCP, forcing 1 round)"
+        rule: "p#2 14+hcp 5+c"
+        priority: 2
+
+      3d:
+        desc: "Natural new suit (5+ Diamonds, 14+ HCP, forcing 1 round)"
+        rule: "p#2 14+hcp 5+d"
+        priority: 2
+
+      3h:
+        desc: "Natural new suit (5+ Hearts, 14+ HCP, forcing 1 round)"
+        rule: "p#2 14+hcp 5+h"
+        priority: 2
+
+      3s:
+        desc: "Preemptive raise (extension of the preempt, 3-card support, 6-10 HCP)"
+        rule: "p#3 6-10hcp 3+s"
+        priority: 3
+
+      3nt:
+        desc: "Natural to play (15-17 HCP balanced with stoppers)"
+        rule: "p#2 15-17hcp balanced"
+        priority: 2
+
+      4s:
+        desc: "Game raise to play (preemptive with 4+ Spades or to play)"
+        rule: "p#3 0-14hcp 4+s"
+        priority: 3

@@ -1,0 +1,235 @@
+library: "Gavin Wolpert 1NT Responses"
+description: "4-Way Transfers, Range Ask/Clubs (2S), Diamond Transfer (2NT), Puppet Stayman (3C), 5-5 Minors (3D), and Major Shortness (3H/3S)"
+version: "1.0"
+
+imports:
+  - "assets/libraries/conventions/smolen.yaml"
+  - "assets/libraries/conventions/stayman.yaml"
+  - "assets/libraries/conventions/jacoby_transfers.yaml"
+
+fragments:
+  Gavin1NTOpening:
+    aliases: ["fGavin1NTResponses"]
+    desc: "Strong balanced NT (15-17 HCP)"
+    rule: "p#1 15-17hcp, balanced, 4-h, 4-s"
+    priority: 1
+    bids:
+      pass:
+        desc: "Pass to play (0-7 HCP balanced)"
+        rule: "p#10 7-hcp 4-h 4-s"
+        priority: 10
+
+      2c:
+        desc: "Regular Stayman: both 4-card majors (GF), invitational with 4-card major, or 5-4 majors GF for Smolen"
+        rule: "p#1 10+hcp 5h 4s | p#1 10+hcp 4h 5s | p#1 10+hcp 4+h 4+s | p#2 8-9hcp 4=h 3-s | p#2 8-9hcp 4=s 3-h | p#2 8-9hcp 4+h 4+s"
+        priority: 1
+        ref: "fStayman"
+
+      2d:
+        desc: "Jacoby Transfer to Hearts (5+ Hearts)"
+        rule: "p#1 5+h 3-s [$M=h] | p#1 0-9hcp 5+h [$M=h] | p#1 5+h [$M=h]"
+        priority: 1
+        bids:
+          3h:
+            desc: "Opener super-accepts transfer to Hearts (4+ Hearts, maximum 16-17 HCP)"
+            rule: "p#1 16-17hcp 4+h"
+            priority: 1
+            bids:
+              pass:
+                desc: "Signoff with weak hand (0-7 HCP)"
+                rule: "p#10 0-7hcp"
+                priority: 10
+              4h:
+                desc: "Game signoff in Hearts (8+ HCP)"
+                rule: "p#1 8+hcp"
+                priority: 1
+                bids:
+                  pass:
+                    desc: "To play"
+                    rule: "p#10"
+                    priority: 10
+          2h:
+            desc: "Opener accepts transfer to Hearts"
+            rule: "p#2 2+h [$M=h]"
+            priority: 2
+            ref: "fJacobyTransferAcceptance"
+
+      2h:
+        desc: "Jacoby Transfer to Spades (5+ Spades)"
+        rule: "p#1 5+s 3-h [$M=s] | p#1 0-9hcp 5+s [$M=s] | p#1 10+hcp 5+s 5+h [$M=s] | p#1 5+s [$M=s]"
+        priority: 1
+        bids:
+          3s:
+            desc: "Opener super-accepts transfer to Spades (4+ Spades, maximum 16-17 HCP)"
+            rule: "p#1 16-17hcp 4+s"
+            priority: 1
+            bids:
+              pass:
+                desc: "Signoff with weak hand (0-7 HCP)"
+                rule: "p#10 0-7hcp"
+                priority: 10
+              4s:
+                desc: "Game signoff in Spades (8+ HCP)"
+                rule: "p#1 8+hcp"
+                priority: 1
+                bids:
+                  pass:
+                    desc: "To play"
+                    rule: "p#10"
+                    priority: 10
+          2s:
+            desc: "Opener accepts transfer to Spades"
+            rule: "p#2 2+s [$M=s]"
+            priority: 2
+            ref: "fJacobyTransferAcceptance"
+
+      2s:
+        desc: "Range Ask or Clubs: forces 2NT (minimum) or 3C (maximum)"
+        rule: "p#2 8-9hcp 3-h 3-s | p#2 6+c"
+        priority: 2
+        bids:
+          2nt:
+            desc: "Opener minimum (14.5-15 HCP)"
+            rule: "14-15hcp"
+            priority: 2
+            bids:
+              pass:
+                desc: "Pass with balanced invitational hand (declined)"
+                rule: "8-9hcp"
+              3c:
+                desc: "Signoff in 6+ Clubs"
+                rule: "6+c 0-7hcp"
+              3nt:
+                desc: "Raise to 3NT with long running clubs"
+                rule: "6+c 10+hcp"
+          3c:
+            desc: "Opener maximum (16-17 HCP)"
+            rule: "16-17hcp"
+            priority: 1
+            bids:
+              pass:
+                desc: "Signoff in Clubs with weak hand"
+                rule: "6+c 0-7hcp"
+              3nt:
+                desc: "Accept game with invitational values"
+                rule: "8+hcp"
+
+      2nt:
+        desc: "Transfer to Diamonds (forces 3D): signoff or GF with diamonds"
+        rule: "p#2 6+d"
+        priority: 2
+        bids:
+          3d:
+            desc: "Opener accepts transfer to Diamonds"
+            rule: "15-17hcp"
+            bids:
+              pass:
+                desc: "Signoff in 3D (0-7 HCP, 6+ Diamonds)"
+                rule: "0-7hcp"
+              3nt:
+                desc: "Choice of games with long diamonds (10+ HCP)"
+                rule: "10+hcp"
+
+      3c:
+        desc: "Puppet Stayman: GF with exactly one 4-card major or 3-card major (bypassed with 4333)"
+        rule: "p#1 10+hcp 4+h 3-s !s#4333 | p#1 10+hcp 4+s 3-h !s#4333 | p#1 10+hcp 3h 3-s !s#4333 | p#1 10+hcp 3s 3-h !s#4333"
+        ref: "fPuppetStayman1NT"
+        priority: 1
+
+      3d:
+        desc: "5-5 Minors Game Forcing (10+ HCP, slam try or 3NT choice)"
+        rule: "p#1 10+hcp 5+c 5+d"
+        priority: 1
+        bids:
+          3nt:
+            desc: "Opener prefers 3NT"
+            rule: "15-17hcp"
+          4c:
+            desc: "Opener fits Clubs"
+            rule: "3+c"
+          4d:
+            desc: "Opener fits Diamonds"
+            rule: "3+d"
+
+      3h:
+        desc: "Heart shortness (singleton/void), 5-4 or 5-5 minors, slam try"
+        rule: "p#1 12+hcp 1-h 4+c 4+d"
+        priority: 1
+        bids:
+          3nt:
+            desc: "Opener signs off in 3NT with heart values"
+            rule: "15-17hcp"
+          4c:
+            desc: "Opener agrees Clubs"
+            rule: "4+c"
+          4d:
+            desc: "Opener agrees Diamonds"
+            rule: "4+d"
+
+      3s:
+        desc: "Spade shortness (singleton/void), 5-4 or 5-5 minors, slam try"
+        rule: "p#1 12+hcp 1-s 4+c 4+d"
+        priority: 1
+        bids:
+          3nt:
+            desc: "Opener signs off in 3NT with spade values"
+            rule: "15-17hcp"
+          4c:
+            desc: "Opener agrees Clubs"
+            rule: "4+c"
+          4d:
+            desc: "Opener agrees Diamonds"
+            rule: "4+d"
+
+      3nt:
+        desc: "To play (10-15 HCP balanced without 4-card major, or 4333 shape)"
+        rule: "p#3 10-15hcp 3-h 3-s | p#3 10-15hcp s#4333"
+        priority: 3
+
+      4c:
+        desc: "Gerber: Ace ask over 1NT"
+        rule: "p#1 16+hcp"
+        priority: 1
+        bids:
+          4d:
+            desc: "0 or 4 Aces"
+            rule: "15-17hcp"
+          4h:
+            desc: "1 Ace"
+            rule: "15-17hcp"
+          4s:
+            desc: "2 Aces"
+            rule: "15-17hcp"
+          4nt:
+            desc: "3 Aces"
+            rule: "15-17hcp"
+
+      4d:
+        desc: "Texas Transfer to Hearts (6+ Hearts to play)"
+        rule: "p#1 6+h 10+hcp"
+        priority: 1
+        bids:
+          4h:
+            desc: "Opener accepts transfer to 4H"
+            rule: "2+h"
+
+      4h:
+        desc: "Texas Transfer to Spades (6+ Spades to play)"
+        rule: "p#1 6+s 10+hcp"
+        priority: 1
+        bids:
+          4s:
+            desc: "Opener accepts transfer to 4S"
+            rule: "2+s"
+
+      "(2d)":
+        desc: "Opponent overcalls natural 2D"
+        ref: "fTransferLebensohlOver2D"
+
+      "(2h)":
+        desc: "Opponent overcalls natural 2H"
+        ref: "fTransferLebensohlOver2H"
+
+      "(2s)":
+        desc: "Opponent overcalls natural 2S"
+        ref: "fTransferLebensohlOver2S"

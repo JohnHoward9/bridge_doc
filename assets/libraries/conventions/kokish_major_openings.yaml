@@ -1,0 +1,284 @@
+library: "Kokish Major Openings"
+description: "Kokish-Kraft sound 5-card major openings (9-23 HCP) with 3C* balanced GF raise, 3M-1* artificial limit raise, two-tier splinters, and 1H-2S* special raise"
+version: "1.0"
+
+imports:
+  - "assets/libraries/conventions/serious_3nt_and_kickback.yaml"
+  - "assets/libraries/conventions/rkcb_1430.yaml"
+
+fragments:
+  fKokish1HResponses:
+    desc: "1H: Sound 5+ Hearts, 9-23 HCP (denies 11-14 balanced)"
+    rule: "p#1 9-23hcp 5+h"
+    priority: 1
+    bids:
+      1s:
+        desc: "4+ Spades, could be light (6+ HCP)"
+        rule: "p#1 6+hcp 4+s"
+        priority: 1
+        bids:
+          2s:
+            desc: "Opener single raise (15-18 support points, 3/4 trumps)"
+            rule: "p#1 15-18hcp 3+s"
+            priority: 1
+          1nt:
+            desc: "Opener balanced 15-18 HCP"
+            rule: "p#1 15-18hcp $bal"
+            priority: 1
+
+      1nt:
+        desc: "Semi-forcing (0-12 HCP), may contain 3-card Heart support"
+        rule: "p#2 6-12hcp"
+        priority: 2
+        bids:
+          pass:
+            desc: "Opener balanced minimum (12-14 HCP), no game in sight"
+            rule: "p#3 12-14hcp $bal"
+            priority: 3
+          2c:
+            desc: "Natural or minimum rebid (could be 2 clubs with 4522)"
+            rule: "p#2"
+            priority: 2
+          2d:
+            desc: "Natural 4+ Diamonds"
+            rule: "p#1 4+d"
+            priority: 1
+          2h:
+            desc: "6+ Hearts, non-forcing"
+            rule: "p#1 6+h"
+            priority: 1
+
+      2c:
+        desc: "2/1 Game Forcing (3+ Clubs, 13+ HCP)"
+        rule: "p#1 13+hcp 3+c"
+        priority: 1
+
+      2d:
+        desc: "2/1 Game Forcing (4+ Diamonds, 13+ HCP)"
+        rule: "p#1 13+hcp 4+d"
+        priority: 1
+
+      2h:
+        desc: "Semi-constructive raise (3+ Hearts, 4-11 HCP)"
+        rule: "p#2 4-11hcp 3+h"
+        priority: 2
+
+      2s:
+        desc: "Special raise: at least 5 Spades, exactly 3 Hearts, Game Forcing"
+        rule: "p#1 13+hcp 5+s 3h"
+        priority: 1
+
+      2nt:
+        desc: "Natural balanced, 13-15 or 18+ HCP, Game Forcing"
+        rule: "p#2 13-15hcp $bal, p#2 18+hcp $bal"
+        priority: 2
+
+      3c:
+        desc: "Artificial Game-Forcing Heart Raise (balanced, 13-16 HCP prime values)"
+        rule: "p#1 13-16hcp 3+h $bal"
+        priority: 1
+        bids:
+          3d:
+            desc: "Opener any minimum"
+            rule: "p#1 12-14hcp"
+            priority: 1
+          3h:
+            desc: "Opener extra values with any shortness"
+            rule: "p#1 15+hcp !balanced"
+            priority: 1
+          3s:
+            desc: "Opener extra values with any 5422"
+            rule: "p#1 15+hcp s#5422"
+            priority: 1
+          3nt:
+            desc: "Opener extra values, balanced, no shortness"
+            rule: "p#2 15+hcp $bal"
+            priority: 2
+          4h:
+            desc: "Minimum hand, no trump losers, signoff"
+            rule: "p#3 12-14hcp"
+            priority: 3
+
+      3d:
+        desc: "Artificial 4-trump Limit Raise (3M-1, 10-12 HCP, 4+ Hearts)"
+        rule: "p#1 10-12hcp 4+h"
+        priority: 1
+        bids:
+          3h:
+            desc: "Opener declines game invitation, signoff"
+            rule: "p#2 12-14hcp"
+            priority: 2
+          4h:
+            desc: "Opener accepts game invitation"
+            rule: "p#1 15+hcp"
+            priority: 1
+
+      3h:
+        desc: "Preemptive raise (4+ Hearts, 0-6 HCP, no side Ace)"
+        rule: "p#2 0-6hcp 4+h"
+        priority: 2
+
+      3s:
+        desc: "Strong Unknown Splinter Raise (3M+1, 12+-15 HCP, 4+ Hearts)"
+        rule: "p#1 12-15hcp 4+h 1-c, p#1 12-15hcp 4+h 1-d, p#1 12-15hcp 4+h 1-s"
+        priority: 1
+
+      3nt:
+        desc: "Light Spade Splinter (9-12 HCP, 4+ Hearts, singleton/void Spade)"
+        rule: "p#1 9-12hcp 4+h 1-s"
+        priority: 1
+
+      4c:
+        desc: "Light Club Splinter (9-12 HCP, 4+ Hearts, singleton/void Club)"
+        rule: "p#1 9-12hcp 4+h 1-c"
+        priority: 1
+
+      4d:
+        desc: "Light Diamond Splinter (9-12 HCP, 4+ Hearts, singleton/void Diamond)"
+        rule: "p#1 9-12hcp 4+h 1-d"
+        priority: 1
+
+      4h:
+        desc: "Preemptive game raise (5+ Hearts, 0-7 HCP)"
+        rule: "p#2 0-7hcp 5+h"
+        priority: 2
+
+      4s:
+        ref: "fKickbackHearts"
+
+      4nt:
+        ref: "fRKCBResponses"
+
+  fKokish1SResponses:
+    desc: "1S: Sound 5+ Spades, 9-23 HCP (denies 11-14 balanced)"
+    rule: "p#1 9-23hcp 5+s"
+    priority: 1
+    bids:
+      1nt:
+        desc: "Semi-forcing (0-12 HCP), may contain 3-card Spade support"
+        rule: "p#2 6-12hcp"
+        priority: 2
+        bids:
+          pass:
+            desc: "Opener balanced minimum (12-14 HCP), no game in sight"
+            rule: "p#3 12-14hcp $bal"
+            priority: 3
+          2c:
+            desc: "Natural or minimum rebid"
+            rule: "p#2"
+            priority: 2
+          2d:
+            desc: "Natural 4+ Diamonds"
+            rule: "p#1 4+d"
+            priority: 1
+          2h:
+            desc: "Natural 4+ Hearts"
+            rule: "p#1 4+h"
+            priority: 1
+          2s:
+            desc: "6+ Spades, non-forcing"
+            rule: "p#1 6+s"
+            priority: 1
+
+      2c:
+        desc: "2/1 Game Forcing (3+ Clubs, 13+ HCP)"
+        rule: "p#1 13+hcp 3+c"
+        priority: 1
+
+      2d:
+        desc: "2/1 Game Forcing (4+ Diamonds, 13+ HCP)"
+        rule: "p#1 13+hcp 4+d"
+        priority: 1
+
+      2h:
+        desc: "2/1 Game Forcing (5+ Hearts, 13+ HCP)"
+        rule: "p#1 13+hcp 5+h"
+        priority: 1
+
+      2s:
+        desc: "Semi-constructive raise (3+ Spades, 4-11 HCP)"
+        rule: "p#2 4-11hcp 3+s"
+        priority: 2
+
+      2nt:
+        desc: "Natural balanced, 13-15 or 18+ HCP, Game Forcing"
+        rule: "p#2 13-15hcp $bal, p#2 18+hcp $bal"
+        priority: 2
+
+      3c:
+        desc: "Artificial Game-Forcing Spade Raise (balanced, 13-16 HCP prime values)"
+        rule: "p#1 13-16hcp 3+s $bal"
+        priority: 1
+        bids:
+          3d:
+            desc: "Opener any minimum"
+            rule: "p#1 12-14hcp"
+            priority: 1
+          3h:
+            desc: "Opener extra values with any shortness"
+            rule: "p#1 15+hcp !balanced"
+            priority: 1
+          3s:
+            desc: "Opener extra values with any 5422"
+            rule: "p#1 15+hcp s#5422"
+            priority: 1
+          3nt:
+            desc: "Opener extra values, balanced, no shortness"
+            rule: "p#2 15+hcp $bal"
+            priority: 2
+          4s:
+            desc: "Minimum hand, no trump losers, signoff"
+            rule: "p#3 12-14hcp"
+            priority: 3
+
+      3d:
+        desc: "Dual weak / strong jump shift in Hearts"
+        rule: "p#1 6+h"
+        priority: 1
+
+      3h:
+        desc: "Artificial 4-trump Limit Raise (3M-1, 10-12 HCP, 4+ Spades)"
+        rule: "p#1 10-12hcp 4+s"
+        priority: 1
+        bids:
+          3s:
+            desc: "Opener declines game invitation, signoff"
+            rule: "p#2 12-14hcp"
+            priority: 2
+          4s:
+            desc: "Opener accepts game invitation"
+            rule: "p#1 15+hcp"
+            priority: 1
+
+      3s:
+        desc: "Preemptive raise (4+ Spades, 0-6 HCP, no side Ace)"
+        rule: "p#2 0-6hcp 4+s"
+        priority: 2
+
+      3nt:
+        desc: "Strong Unknown Splinter Raise (3M+1, 12+-15 HCP, 4+ Spades)"
+        rule: "p#1 12-15hcp 4+s 1-c, p#1 12-15hcp 4+s 1-d, p#1 12-15hcp 4+s 1-h"
+        priority: 1
+
+      4c:
+        desc: "Light Club Splinter (9-12 HCP, 4+ Spades, singleton/void Club)"
+        rule: "p#1 9-12hcp 4+s 1-c"
+        priority: 1
+
+      4d:
+        desc: "Light Diamond Splinter (9-12 HCP, 4+ Spades, singleton/void Diamond)"
+        rule: "p#1 9-12hcp 4+s 1-d"
+        priority: 1
+
+      4h:
+        desc: "Light Heart Splinter (9-12 HCP, 4+ Spades, singleton/void Heart)"
+        rule: "p#1 9-12hcp 4+s 1-h"
+        priority: 1
+
+      4s:
+        desc: "Preemptive game raise (5+ Spades, 0-7 HCP)"
+        rule: "p#2 0-7hcp 5+s"
+        priority: 2
+
+      4nt:
+        ref: "fRKCBResponses"

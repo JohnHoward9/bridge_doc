@@ -1,0 +1,143 @@
+system: "5-Card Majors, Strong NT & 2/1 Game Forcing"
+style: "us_2over1"
+player: "North"
+partner: "South"
+
+imports:
+  - "assets/libraries/conventions/smolen.yaml"
+  - "assets/libraries/conventions/stayman.yaml"
+  - "assets/libraries/conventions/jacoby_transfers.yaml"
+  - "assets/libraries/conventions/natural_minors.yaml"
+  - "assets/libraries/conventions/five_card_majors_2over1.yaml"
+  - "assets/libraries/conventions/one_nt_responses.yaml"
+  - "assets/libraries/conventions/drury.yaml"
+  - "assets/libraries/conventions/rkcb_1430.yaml"
+  - "assets/libraries/conventions/multi_landy.yaml"
+  - "assets/libraries/conventions/puppet_stayman.yaml"
+  - "assets/libraries/conventions/transfer_lebensohl.yaml"
+  - "assets/libraries/conventions/xyz.yaml"
+  - "assets/libraries/conventions/defence_weak_two.yaml"
+  - "assets/libraries/conventions/weak_two_responses.yaml"
+  - "assets/libraries/conventions/preempt_responses.yaml"
+  - "assets/libraries/conventions/serious_3nt_and_kickback.yaml"
+  - "assets/libraries/conventions/strong_two_clubs.yaml"
+
+definitions:
+  bal: "s#5332|4432|4333"
+  strongnt: "15-17hcp $bal 4-h 4-s"
+
+OpeningBids:
+  pass:
+    desc: "Pass (0-11 HCP)"
+    rule: "11-hcp"
+    bids:
+      1h:
+        ref: "fDrury"
+
+      1s:
+        ref: "fDrury"
+
+  1c:
+    desc: "Better minor opening (3+ Clubs, 12-21 HCP)"
+    rule: "12-21hcp, 3+c, c>=d"
+    ref: "fNaturalClubResponses"
+
+  1d:
+    desc: "Better minor opening (3+ Diamonds, 12-21 HCP)"
+    rule: "12-21hcp, 3+d, d>c"
+    ref: "fNaturalDiamondResponses"
+
+  1h:
+    desc: "5+ Hearts opening (12-21 HCP)"
+    rule: "12-21hcp, 5+h, h>=s"
+    ref: "fHeartResponses2Over1"
+
+  1s:
+    desc: "5+ Spades opening (12-21 HCP)"
+    rule: "12-21hcp, 5+s"
+    ref: "fSpadeResponses2Over1"
+
+  1nt:
+    desc: "Strong balanced NT (15-17 HCP)"
+    rule: "p#1 15-17hcp, balanced, 4-h, 4-s"
+    priority: 1
+    ref: "f1NTResponses"
+
+  2c:
+    desc: "Strong artificial opening: Game Force or 22+ balanced (Kokish)"
+    rule: "22+hcp $bal | gf | 20+hcp !balanced | 4-ltc 16+hcp | 22+hcp"
+    ref: "fStrongTwoClubsResponses"
+
+  2d:
+    desc: "Weak Two in Diamonds (6-card suit, 5-10 HCP)"
+    rule: "5-10hcp, 6d"
+    ref: "fWeakTwoDiamondResponses"
+
+  2h:
+    desc: "Weak Two in Hearts (6-card suit, 5-10 HCP)"
+    rule: "5-10hcp, 6h"
+    ref: "fWeakTwoHeartResponses"
+
+  2s:
+    desc: "Weak Two in Spades (6-card suit, 5-10 HCP)"
+    rule: "5-10hcp, 6s"
+    ref: "fWeakTwoSpadeResponses"
+
+  2nt:
+    desc: "Strong balanced NT (20-21 HCP)"
+    rule: "20-21hcp, balanced, 4-h, 4-s"
+    ref: "fPuppetStayman2NT"
+
+  3c:
+    ref: "Preempt3Clubs"
+
+  3d:
+    ref: "Preempt3Diamonds"
+
+  3h:
+    ref: "Preempt3Hearts"
+
+  3s:
+    ref: "Preempt3Spades"
+
+  3nt:
+    ref: "SolidMinor3NT"
+
+  4c:
+    ref: "Preempt4Clubs"
+
+  4d:
+    ref: "Preempt4Diamonds"
+
+  4h:
+    ref: "Preempt4Hearts"
+
+  4s:
+    ref: "Preempt4Spades"
+
+  4nt:
+    ref: "Preempt4NT"
+
+OppositionOpeningBids:
+  "(50%Weak.1nt)":
+    desc: "Opposition Weak NT"
+    rule: "12-14hcp"
+    bids:
+      pass:
+        desc: "Pass"
+        ref: "fMultiLandy"
+
+  "(2h)":
+    desc: "Opposition Weak Two in Hearts"
+    rule: "5-10hcp 6h [$os=h, $OM=s]"
+    ref: "fWeakTwoDefense"
+
+  "(2s)":
+    desc: "Opposition Weak Two in Spades"
+    rule: "5-10hcp 6s [$os=s, $OM=h]"
+    ref: "fWeakTwoDefense"
+
+  "(2d)":
+    desc: "Opposition Weak Two in Diamonds"
+    rule: "5-10hcp 6d [$os=d]"
+    ref: "fWeakTwoDefense"

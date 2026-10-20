@@ -1,0 +1,80 @@
+library: "1NT Responses"
+description: "Stayman 2C, Jacoby Transfers, and natural continuations over 1NT"
+version: "1.0"
+
+imports:
+  - "assets/libraries/conventions/smolen.yaml"
+  - "assets/libraries/conventions/stayman.yaml"
+  - "assets/libraries/conventions/jacoby_transfers.yaml"
+
+fragments:
+  f1NTResponses:
+    desc: "Responses to 1NT Opening (15-17 or 12-14)"
+    bids:
+      pass:
+        desc: "To play (0-7 HCP without 5-card major)"
+        rule: "p#10 7-hcp 4-h 4-s"
+        priority: 10
+
+      2c:
+        desc: "Stayman: asks for 4-card major (or 5-4 majors GF for Smolen)"
+        rule: "p#1 10+hcp 5h 4s | p#1 10+hcp 4h 5s | p#1 8+hcp 4+h 4+s | p#2 8+hcp 4h 4-h 3-s | p#2 8+hcp 4s 4-s 3-h"
+        priority: 1
+        ref: "fStayman"
+
+      2d:
+        desc: "Jacoby Transfer to Hearts"
+        rule: "p#1 5+h 3-s [$M=h] | p#1 0-9hcp 5+h [$M=h]"
+        priority: 1
+        bids:
+          2h:
+            desc: "Accept transfer"
+            rule: "2+h [$M=h]"
+            ref: "fJacobyTransferAcceptance"
+
+      2h:
+        desc: "Jacoby Transfer to Spades"
+        rule: "p#1 5+s 3-h [$M=s] | p#1 0-9hcp 5+s [$M=s] | p#1 10+hcp 5+s 5+h [$M=s]"
+        priority: 1
+        bids:
+          2s:
+            desc: "Accept transfer"
+            rule: "2+s [$M=s]"
+            ref: "fJacobyTransferAcceptance"
+
+      2s:
+        desc: "Minor suit enquiry or signoff in clubs"
+        rule: "6+c"
+        priority: 3
+
+      2nt:
+        desc: "Natural quantitative invitation"
+        rule: "p#3 8-9hcp 3-h 3-s"
+        priority: 3
+
+      3c:
+        desc: "Game forcing natural Clubs (6+ Clubs, slam interest)"
+        rule: "p#2 10+hcp 6+c"
+        priority: 2
+
+      3d:
+        desc: "Game forcing natural Diamonds (6+ Diamonds, slam interest)"
+        rule: "p#2 10+hcp 6+d"
+        priority: 2
+
+      3nt:
+        desc: "To play (10-15 HCP without 4-card major)"
+        rule: "p#3 10-15hcp 3-h 3-s"
+        priority: 3
+
+      "(2d)":
+        desc: "Opponent overcalls natural 2D"
+        ref: "fTransferLebensohlOver2D"
+
+      "(2h)":
+        desc: "Opponent overcalls natural 2H"
+        ref: "fTransferLebensohlOver2H"
+
+      "(2s)":
+        desc: "Opponent overcalls natural 2S"
+        ref: "fTransferLebensohlOver2S"

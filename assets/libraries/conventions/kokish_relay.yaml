@@ -1,0 +1,129 @@
+library: "Kokish Relay"
+description: "Kokish Relay structure over 2C opening: distinguishes 24+ balanced from Heart one-suiters via Kokish Flip (3C)"
+version: "1.0"
+
+fragments:
+  fKokishRelay:
+    desc: "Opener rebids after 2C - 2D waiting"
+    bids:
+      2h:
+        desc: "Kokish Relay: forces 2S (either 25+ balanced or Heart one-suiter GF)"
+        rule: "p#1 25+hcp balanced | p#1 24+hcp balanced | p#1 6+h gf | p#1 20+hcp 6+h | p#1 4-ltc 16+hcp 6+h | p#1 22+hcp 6+h"
+        priority: 1
+        bids:
+          2s:
+            desc: "Forced puppet response"
+            rule: "0+hcp"
+            bids:
+              2nt:
+                desc: "Opener shows 25+ balanced (relay to Puppet Stayman & transfers)"
+                rule: "p#1 25+hcp balanced | p#1 24+hcp balanced"
+                priority: 1
+                ref: "fPuppetStayman2NT"
+
+              3c:
+                desc: "Kokish Flip: Opener shows a game-forcing Heart one-suiter"
+                rule: "p#1 6+h gf | p#1 20+hcp 6+h | p#1 4-ltc 16+hcp 6+h | p#1 22+hcp 6+h"
+                priority: 1
+                bids:
+                  3h:
+                    desc: "Responder fits Hearts"
+                    rule: "2+h"
+                  3nt:
+                    desc: "Responder denies fit, choice of games"
+                    rule: "1-h"
+
+              3d:
+                desc: "Natural 5+ Hearts and 4+ Diamonds GF"
+                rule: "p#2 5+h 4+d gf | p#2 20+hcp 5+h 4+d | p#2 22+hcp 5+h 4+d"
+                priority: 2
+
+              3s:
+                desc: "Natural 5+ Hearts and 4+ Spades GF"
+                rule: "p#2 5+h 4+s gf | p#2 20+hcp 5+h 4+s | p#2 22+hcp 5+h 4+s"
+                priority: 2
+
+      2s:
+        desc: "Natural game force: 5+ Spades"
+        rule: "p#2 5+s gf | p#2 20+hcp 5+s | p#2 4-ltc 16+hcp 5+s | p#2 22+hcp 5+s"
+        priority: 2
+        bids:
+          3s:
+            desc: "Support for Spades"
+            rule: "p#2 3+s"
+            priority: 2
+            bids:
+              4s:
+                desc: "Game in Spades"
+                rule: "22+hcp"
+              4nt:
+                ref: "fRKCBResponses"
+          4s:
+            desc: "Game in Spades"
+            rule: "p#1 3+s"
+            priority: 1
+          2nt:
+            desc: "Stopper ask / waiting without Spade fit"
+            rule: "p#3 2-s"
+            priority: 3
+            bids:
+              3nt:
+                desc: "3NT to play"
+                rule: "22+hcp balanced"
+              4s:
+                desc: "Game in Spades"
+                rule: "6+s"
+          3nt:
+            desc: "To play"
+            rule: "p#2 balanced 2-s"
+            priority: 2
+
+      2nt:
+        desc: "Natural 22-24 balanced"
+        rule: "p#2 22-24hcp balanced | p#2 22-23hcp balanced"
+        priority: 2
+        ref: "fPuppetStayman2NT"
+
+      3c:
+        desc: "Natural game force: 5+ Clubs"
+        rule: "p#3 5+c gf | p#3 20+hcp 5+c | p#3 4-ltc 16+hcp 5+c | p#3 22+hcp 5+c"
+        priority: 3
+        bids:
+          3nt:
+            desc: "To play"
+            rule: "p#1 balanced | p#2"
+            priority: 1
+          4c:
+            desc: "Support for Clubs"
+            rule: "p#2 3+c"
+            priority: 2
+            bids:
+              5c:
+                desc: "Game in Clubs"
+                rule: "22+hcp"
+          5c:
+            desc: "Game in Clubs"
+            rule: "p#1 3+c"
+            priority: 1
+
+      3d:
+        desc: "Natural game force: 5+ Diamonds"
+        rule: "p#3 5+d gf | p#3 20+hcp 5+d | p#3 4-ltc 16+hcp 5+d | p#3 22+hcp 5+d"
+        priority: 3
+        bids:
+          3nt:
+            desc: "To play"
+            rule: "p#1 balanced | p#2"
+            priority: 1
+          4d:
+            desc: "Support for Diamonds"
+            rule: "p#2 3+d"
+            priority: 2
+            bids:
+              5d:
+                desc: "Game in Diamonds"
+                rule: "22+hcp"
+          5d:
+            desc: "Game in Diamonds"
+            rule: "p#1 3+d"
+            priority: 1

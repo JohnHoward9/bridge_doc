@@ -1,0 +1,182 @@
+library: "Defense Against Weak Two Bids"
+description: "Unified defense against opponent weak two openings (2D, 2H, 2S) featuring Takeout Doubles, Better Minor Lebensohl, Leaping Michaels, and 2NT overcalls using opposition suit variable $os."
+version: "1.0"
+
+fragments:
+  fWeakTwoDefense:
+    desc: "Opposition Weak Two in $os_name"
+    rule: "5-10hcp 6$os [$os=$os, $OM=$OM]"
+    priority: 1
+    aliases: ["fWeakTwoDefense2H", "fWeakTwoDefense2S", "fWeakTwoDefense2D", "fWeakTwoHeartDefense", "fWeakTwoSpadeDefense", "fWeakTwoDiamondDefense"]
+    bids:
+      pass:
+        desc: "Pass (not enough values or unsuitable shape)"
+        rule: "p#10 11-hcp"
+        priority: 10
+
+      # Natural 2-level major overcalls when available (e.g. 2H/2S over 2D, 2S over 2H)
+      "<$os=d> [2h,2s]":
+        desc: "Natural 5+ card major overcall (10-16 HCP)"
+        rule: "p#3 10-16hcp 5+%"
+        priority: 3
+
+      "<$os=h> 2s":
+        desc: "Natural 5+ card Spade overcall (10-16 HCP)"
+        rule: "p#3 10-16hcp 5+s"
+        priority: 3
+
+      # Takeout Double
+      dbl:
+        desc: "Takeout Double (12+ HCP with tolerance for unbid suits, or 17+ HCP any shape)"
+        rule: "p#4 12+hcp 2-$os | 17+hcp"
+        priority: 4
+        bids:
+          pass:
+            desc: "Penalty pass (holding length and strong honors in $os_sym)"
+            rule: "p#2 4+$os 8+hcp"
+            priority: 2
+
+          2nt:
+            desc: "Lebensohl 2NT: relay for weak signoffs (0-8 HCP) or game force with stopper"
+            rule: "p#5 8-hcp | 12+hcp"
+            priority: 5
+            bids:
+              3c:
+                desc: "Lebensohl relay to Clubs (or better minor)"
+                rule: "12-16hcp"
+                bids:
+                  pass:
+                    desc: "Signoff in Clubs (0-8 HCP)"
+                    rule: "p#4 0-8hcp 4+c"
+                    priority: 4
+
+                  3d:
+                    desc: "Signoff in Diamonds (0-8 HCP)"
+                    rule: "p#4 0-8hcp 4+d"
+                    priority: 4
+
+                  "<$os=s> 3h":
+                    desc: "Signoff in Hearts over 2S (0-8 HCP)"
+                    rule: "p#4 0-8hcp 4+h"
+                    priority: 4
+
+                  "3$os":
+                    desc: "Cue-bid of $os_sym via 2NT: Game Force with stopper (Slow Shows)"
+                    rule: "p#3 12+hcp 4+$OM n#a|k$os"
+                    priority: 3
+
+                  3nt:
+                    desc: "3NT via 2NT: Game to play with stopper (Slow Shows)"
+                    rule: "p#3 12-14hcp n#a|k$os"
+                    priority: 3
+
+                  "[4c-4d]":
+                    desc: "5-card other major ($OM_sym) and 4-card minor, Game Forcing"
+                    rule: "p#2 13+hcp 5+$OM 4+%"
+                    priority: 2
+
+                  "4$OM":
+                    desc: "4+ card in other major ($OM_sym) game / slam try"
+                    rule: "p#2 13+hcp 4+$OM"
+                    priority: 2
+
+          # Direct constructive 3-level responses to takeout double (8-11 HCP)
+          3c:
+            desc: "Constructive 5+ Clubs (8-11 HCP)"
+            rule: "p#4 8-11hcp 5+c"
+            priority: 4
+
+          3d:
+            desc: "Constructive 5+ Diamonds (8-11 HCP)"
+            rule: "p#4 8-11hcp 5+d"
+            priority: 4
+
+          "<$os=s> 3h":
+            desc: "Constructive 5+ Hearts over 2S (8-11 HCP)"
+            rule: "p#4 8-11hcp 5+h"
+            priority: 4
+
+          "3$OM":
+            desc: "Constructive 4+ card other major ($OM_sym) (8-11 HCP)"
+            rule: "p#3 8-11hcp 4+$OM"
+            priority: 3
+
+          "3$os":
+            desc: "Direct cue-bid of $os_sym: Game Force without stopper (Fast Denies)"
+            rule: "p#2 12+hcp 4+$OM !n#a|k$os"
+            priority: 2
+
+          3nt:
+            desc: "Direct 3NT to play with stopper, denies 4 in $OM_sym (Fast Denies)"
+            rule: "p#2 11-14hcp n#a|k$os 3-$OM"
+            priority: 2
+
+          "[4c-4d]":
+            desc: "Natural 6-card minor forcing (12+ HCP)"
+            rule: "p#3 12+hcp 6+%"
+            priority: 3
+
+          "4$OM":
+            desc: "Jump to game in other major ($OM_sym) to play"
+            rule: "p#2 10-13hcp 5+$OM"
+            priority: 2
+
+      # Direct 2NT Overcall (15-18 balanced with stopper)
+      2nt:
+        desc: "Natural 15-18 HCP balanced with stopper in $os_sym"
+        rule: "p#3 15-18hcp balanced n#a|k$os"
+        priority: 3
+
+      # Direct 3-level suit overcalls
+      "[3c-3d]":
+        desc: "Natural constructive overcall with good 6-card suit (11-15 HCP)"
+        rule: "p#4 11-15hcp 6+%"
+        priority: 4
+
+      "<$os=s> 3h":
+        desc: "Natural constructive overcall with good 6-card Hearts (11-15 HCP)"
+        rule: "p#4 11-15hcp 6+h"
+        priority: 4
+
+      # Cue-bid over 2D: Michaels both majors
+      "<$os=d> 3d":
+        desc: "Michaels cue-bid: 5+ Hearts and 5+ Spades (11+ HCP)"
+        rule: "p#2 11+hcp 5+h 5+s"
+        priority: 2
+
+      # Leaping Michaels over weak two
+      4c:
+        desc: "Leaping Michaels: 5+ Clubs and 5+ other major ($OM_sym), Game Forcing (15+ HCP)"
+        rule: "p#2 15+hcp 5+c 5+$OM"
+        priority: 2
+        bids:
+          "4$OM":
+            desc: "To play in other major ($OM_sym)"
+            rule: "4+$OM"
+          5c:
+            desc: "To play in Clubs"
+            rule: "3+c"
+
+      4d:
+        desc: "Leaping Michaels: 5+ Diamonds and 5+ other major ($OM_sym), Game Forcing (15+ HCP)"
+        rule: "p#2 15+hcp 5+d 5+$OM"
+        priority: 2
+        bids:
+          "4$OM":
+            desc: "To play in other major ($OM_sym)"
+            rule: "4+$OM"
+          5d:
+            desc: "To play in Diamonds"
+            rule: "3+d"
+
+      # Natural jump to game in other major
+      "4$OM":
+        desc: "Natural jump to 4 in other major ($OM_sym) to play (6+ cards)"
+        rule: "p#2 12-16hcp 6+$OM"
+        priority: 2
+
+      # Jump cue-bid of opponent's suit
+      "4$os":
+        desc: "Western cue-bid: asks partner for stopper in $os_sym for 3NT or slam try"
+        rule: "p#1 16+hcp 2-$os"
+        priority: 1

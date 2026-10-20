@@ -1,0 +1,73 @@
+library: "Kokish 1NT Escape"
+description: "Kokish-Kraft runout and escape system over penalty doubles of Weak 1NT"
+version: "1.0"
+
+fragments:
+  fKokish1NTEscape:
+    desc: "Responder actions over 1NT - (DBL)"
+    bids:
+      pass:
+        desc: "Forces Redouble: one-suiter, 4441, or 8+ HCP business"
+        rule: "p#2"
+        priority: 2
+        bids:
+          rdbl:
+            desc: "Opener forced redouble"
+            rule: "p#1"
+            priority: 1
+            bids:
+              pass:
+                desc: "Business: to play 1NT Redoubled (8+ HCP)"
+                rule: "p#1 8+hcp"
+                priority: 1
+              2c:
+                desc: "Clubs one-suiter or 4441 / (4)333 scramble"
+                rule: "p#2 5+c, p#2 4441"
+                priority: 2
+              2d:
+                desc: "Diamonds one-suiter escape"
+                rule: "p#1 5+d"
+                priority: 1
+              2h:
+                desc: "Hearts one-suiter escape"
+                rule: "p#1 5+h"
+                priority: 1
+              2s:
+                desc: "Spades one-suiter escape"
+                rule: "p#1 5+s"
+                priority: 1
+
+      rdbl:
+        desc: "Two-suiter: Diamonds + Clubs OR Diamonds + Spades"
+        rule: "p#1 4+d 4+c, p#1 4+d 4+s"
+        priority: 1
+
+      2c:
+        desc: "Two-suiter: Clubs + Hearts"
+        rule: "p#1 4+c 4+h"
+        priority: 1
+
+      2d:
+        desc: "Two-suiter: Diamonds + Hearts"
+        rule: "p#1 4+d 4+h"
+        priority: 1
+
+      2h:
+        desc: "Two-suiter: Spades + Hearts"
+        rule: "p#1 4+s 4+h"
+        priority: 1
+
+      2s:
+        desc: "Two-suiter: Spades + Clubs"
+        rule: "p#1 4+s 4+c"
+        priority: 1
+
+      2nt:
+        desc: "Weak with long Clubs OR strong without Clubs"
+        rule: "p#1 6+c"
+        priority: 1
+
+      3c:
+        desc: "Weak with long Diamonds OR strong without Diamonds"
+        rule: "p#1 6+d"
+        priority: 1

@@ -1,0 +1,64 @@
+library: "Multi-Landy"
+description: "Defense against 1NT opening"
+version: "1.0"
+
+fragments:
+  fMultiLandy:
+    desc: "Multi-Landy over 1NT"
+    bids:
+      2c:
+        desc: "Both majors 5-4 or 5-5"
+        rule: "7+hcp, 4+h, 4+s, s#54xx|55xx"
+        priority: 1
+        bids:
+          2d:
+            desc: "Relay asks for longer major"
+            bids:
+              2h:
+                desc: "Hearts longest or equal"
+                rule: "h>=s"
+                bids:
+                  3h:
+                    desc: "Real invitation"
+                    rule: "12-14hcp, 4+h"
+                    priority: 1
+              2s:
+                desc: "Spades longest"
+                rule: "s>h"
+                bids:
+                  3s:
+                    desc: "Real invitation"
+                    rule: "12-14hcp, 4+s"
+                    priority: 1
+          2h:
+            desc: "To play"
+            rule: "8-hcp, h>=s"
+          2s:
+            desc: "To play"
+            rule: "8-hcp, s>h"
+          2nt:
+            desc: "Natural invite"
+            rule: "12-14hcp, 2-h, 2-s"
+            priority: 1
+          "[3h,3s]":
+            desc: "Constructive major raise"
+            rule: "9-11hcp, 4+%"
+            priority: 1
+
+      2d:
+        desc: "Single suited 6+ card major"
+        rule: "7+hcp, 6+h, 6+s"
+        priority: 1
+        bids:
+          2h:
+            desc: "Pass or correct"
+
+      2h:
+        desc: "5 Hearts and 4+ Minor"
+        rule: "7+hcp, 5h, 3-s, s#54xx|55xx"
+        priority: 1
+
+      2s:
+        desc: "5 Spades and 4+ Minor"
+        rule: "7+hcp, 5s, 3-h, s#54xx|55xx"
+        priority: 1

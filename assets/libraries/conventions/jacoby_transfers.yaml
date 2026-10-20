@@ -1,0 +1,68 @@
+library: "Jacoby Transfers"
+description: "Jacoby Transfer responses over 1NT and continuation raises"
+version: "1.0"
+
+fragments:
+  fJacobyTransferAcceptance:
+    desc: "Responder follow-ups after opener accepts transfer"
+    bids:
+      pass:
+        desc: "Signoff with weak hand (0-7 HCP)"
+        rule: "p#10 0-7hcp"
+        priority: 10
+      2nt:
+        desc: "Invitational with 5-card major (8-9 HCP)"
+        rule: "p#2 8-9hcp 5$M"
+        priority: 2
+        bids:
+          pass:
+            desc: "Opener declines in NT (only 2 in major, minimum)"
+            rule: "p#10 15-hcp 2-$M"
+            priority: 10
+          3$M:
+            desc: "Opener declines in 3$M with 3-card fit"
+            rule: "p#2 15-hcp 3+$M"
+            priority: 2
+          3nt:
+            desc: "Opener accepts in 3NT"
+            rule: "p#1 16+hcp 2-$M"
+            priority: 1
+          4$M:
+            desc: "Opener accepts in 4$M with 3-card fit"
+            rule: "p#1 16+hcp 3+$M"
+            priority: 1
+      3$M:
+        desc: "Invitational with 6+ card major (8-9 HCP)"
+        rule: "p#2 8-9hcp 6+$M"
+        priority: 2
+        bids:
+          pass:
+            desc: "Opener declines with minimum"
+            rule: "p#10 15-hcp"
+            priority: 10
+          4$M:
+            desc: "Opener accepts game with maximum"
+            rule: "p#1 16+hcp"
+            priority: 1
+      3nt:
+        desc: "Choice of games (10-15 HCP)"
+        rule: "p#2 10-15hcp 5$M"
+        priority: 2
+        bids:
+          pass:
+            desc: "Opener passes with doubleton"
+            rule: "p#10 2-$M"
+            priority: 10
+          4$M:
+            desc: "Opener converts with 3-card fit"
+            rule: "p#1 3+$M"
+            priority: 1
+      4$M:
+        desc: "Game signoff with 6+ card major (10+ HCP)"
+        rule: "p#1 10+hcp 6+$M"
+        priority: 1
+        bids:
+          pass:
+            desc: "To play"
+            rule: "p#10"
+            priority: 10

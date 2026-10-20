@@ -1,0 +1,62 @@
+library: "Namyats"
+description: "Namyats 4C (Hearts) and 4D (Spades) showing 8.5 tricks with solid 7-8 card major"
+version: "1.0"
+
+fragments:
+  Namyats4Clubs:
+    aliases: ["fNamyatsClubResponses", "fNamyats4Clubs"]
+    desc: "Namyats (8.5 tricks with solid 7-8 Hearts, 10-15 HCP)"
+    rule: "p#1 10-15hcp 7+h controls>=3"
+    priority: 1
+    bids:
+      4d:
+        desc: "Control enquiry: asks opener for outside Ace/King"
+        rule: "p#1 12+hcp"
+        priority: 1
+        bids:
+          4h:
+            desc: "Opener has sub-minimum without outside Ace/King"
+            rule: "10-12hcp"
+          4s:
+            desc: "Opener has Spade Ace or King"
+            rule: "1+s +as, 1+s +ks"
+          4nt:
+            desc: "Opener has Diamond Ace or King"
+            rule: "1+d +ad, 1+d +kd"
+      4h:
+        desc: "Relay signoff to play 4H (opener declares)"
+        rule: "p#2"
+        priority: 2
+      4nt:
+        desc: "Roman Key Card Blackwood 1430 in Hearts"
+        rule: "p#1 14+hcp"
+        priority: 1
+
+  Namyats4Diamonds:
+    aliases: ["fNamyatsDiamondResponses", "fNamyats4Diamonds"]
+    desc: "Namyats (8.5 tricks with solid 7-8 Spades, 10-15 HCP)"
+    rule: "p#1 10-15hcp 7+s controls>=3"
+    priority: 1
+    bids:
+      4h:
+        desc: "Control enquiry: asks opener for outside Ace/King"
+        rule: "p#1 12+hcp"
+        priority: 1
+        bids:
+          4s:
+            desc: "Opener has sub-minimum without outside Ace/King"
+            rule: "10-12hcp"
+          4nt:
+            desc: "Opener has Heart Ace or King"
+            rule: "1+h +ah, 1+h +kh"
+          5c:
+            desc: "Opener has Club Ace or King"
+            rule: "1+c +ac, 1+c +kc"
+      4s:
+        desc: "Relay signoff to play 4S (opener declares)"
+        rule: "p#2"
+        priority: 2
+      4nt:
+        desc: "Roman Key Card Blackwood 1430 in Spades"
+        rule: "p#1 14+hcp"
+        priority: 1

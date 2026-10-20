@@ -1,0 +1,32 @@
+library: "Smolen Convention"
+description: "Smolen transfer after 1NT - 2C - 2D with 5-4 or 4-5 in the majors (10+ HCP GF)"
+version: "1.0"
+
+fragments:
+  fSmolen:
+    desc: "Smolen convention: responder jumps to 3 of the 4-card major ($M) so opener declares the 5-card major ($OM)"
+    bids:
+      "[3h,3s]":
+        desc: "Smolen: 4-card $M_sym, 5-card $OM_sym, Game Forcing"
+        rule: "p#1 10+hcp 4$M 5$OM [$OM=otherMajor($M)]"
+        priority: 1
+        bids:
+          "<$OM=s>3$OM":
+            desc: "Opener accepts Spades with 3-card fit (minimum 15 HCP)"
+            rule: "p#1 3+$OM 15-hcp"
+            priority: 1
+
+          3nt:
+            desc: "Opener signs off in 3NT (only 2 in $OM_sym)"
+            rule: "p#2 2-$OM"
+            priority: 2
+
+          "<$OM=s>4$OM":
+            desc: "Opener jumps to 4S game with 3-card fit and maximum"
+            rule: "p#1 3+$OM 16+hcp"
+            priority: 1
+
+          "<$OM=h>4$OM":
+            desc: "Opener accepts Hearts with 3-card fit"
+            rule: "p#1 3+$OM"
+            priority: 1

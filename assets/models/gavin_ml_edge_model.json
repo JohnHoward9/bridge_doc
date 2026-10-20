@@ -1,0 +1,265 @@
+{
+  "model_name": "GavinWolpertEdgeCaseDecisionTree",
+  "version": "2.0.0",
+  "target_metric": "Tricks Taken - Target Tricks",
+  "training_samples": 2976,
+  "validation_samples": 744,
+  "validation_mae": 1.1338,
+  "validation_accuracy": 0.7849,
+  "features": [
+    "comb_hcp",
+    "hcp_diff",
+    "max_major_fit",
+    "comb_controls",
+    "comb_ltc",
+    "contract_level",
+    "strain_code",
+    "is_game_target",
+    "is_vulnerable"
+  ],
+  "tree": {
+    "feature": "comb_hcp",
+    "threshold": 27.0,
+    "samples": 2976,
+    "left": {
+      "feature": "is_game_target",
+      "threshold": 0.5,
+      "samples": 2578,
+      "left": {
+        "feature": "comb_ltc",
+        "threshold": 14.5,
+        "samples": 1945,
+        "left": {
+          "feature": "max_major_fit",
+          "threshold": 8.5,
+          "samples": 1077,
+          "left": {
+            "feature": "comb_controls",
+            "threshold": 7.5,
+            "samples": 783,
+            "left": {
+              "value": 0.9412,
+              "prob_making": 0.8303,
+              "samples": 442
+            },
+            "right": {
+              "value": 1.4985,
+              "prob_making": 0.9091,
+              "samples": 341
+            }
+          },
+          "right": {
+            "feature": "contract_level",
+            "threshold": 1.5,
+            "samples": 294,
+            "left": {
+              "value": 3.5,
+              "prob_making": 1.0,
+              "samples": 48
+            },
+            "right": {
+              "value": 1.9065,
+              "prob_making": 0.9715,
+              "samples": 246
+            }
+          }
+        },
+        "right": {
+          "feature": "contract_level",
+          "threshold": 1.5,
+          "samples": 868,
+          "left": {
+            "feature": "max_major_fit",
+            "threshold": 7.5,
+            "samples": 232,
+            "left": {
+              "value": 0.5814,
+              "prob_making": 0.8062,
+              "samples": 129
+            },
+            "right": {
+              "value": 2.0485,
+              "prob_making": 0.9903,
+              "samples": 103
+            }
+          },
+          "right": {
+            "feature": "comb_controls",
+            "threshold": 8.5,
+            "samples": 636,
+            "left": {
+              "value": 0.326,
+              "prob_making": 0.7459,
+              "samples": 543
+            },
+            "right": {
+              "value": 1.1613,
+              "prob_making": 0.9355,
+              "samples": 93
+            }
+          }
+        }
+      },
+      "right": {
+        "feature": "max_major_fit",
+        "threshold": 8.5,
+        "samples": 633,
+        "left": {
+          "feature": "comb_ltc",
+          "threshold": 14.5,
+          "samples": 484,
+          "left": {
+            "feature": "contract_level",
+            "threshold": 3.5,
+            "samples": 254,
+            "left": {
+              "value": 0.2362,
+              "prob_making": 0.7323,
+              "samples": 127
+            },
+            "right": {
+              "value": -0.3071,
+              "prob_making": 0.6142,
+              "samples": 127
+            }
+          },
+          "right": {
+            "feature": "strain_code",
+            "threshold": 1.5,
+            "samples": 230,
+            "left": {
+              "value": -0.4463,
+              "prob_making": 0.5254,
+              "samples": 177
+            },
+            "right": {
+              "value": -1.4906,
+              "prob_making": 0.2453,
+              "samples": 53
+            }
+          }
+        },
+        "right": {
+          "feature": "comb_controls",
+          "threshold": 7.5,
+          "samples": 149,
+          "left": {
+            "feature": "hcp_diff",
+            "threshold": 1.5,
+            "samples": 73,
+            "left": {
+              "value": 0.6957,
+              "prob_making": 1.0,
+              "samples": 23
+            },
+            "right": {
+              "value": 0.24,
+              "prob_making": 0.8,
+              "samples": 50
+            }
+          },
+          "right": {
+            "feature": "max_major_fit",
+            "threshold": 9.5,
+            "samples": 76,
+            "left": {
+              "value": 0.7556,
+              "prob_making": 0.9111,
+              "samples": 45
+            },
+            "right": {
+              "value": 1.8065,
+              "prob_making": 1.0,
+              "samples": 31
+            }
+          }
+        }
+      }
+    },
+    "right": {
+      "feature": "contract_level",
+      "threshold": 2.5,
+      "samples": 398,
+      "left": {
+        "feature": "comb_ltc",
+        "threshold": 11.5,
+        "samples": 76,
+        "left": {
+          "value": 5.0455,
+          "prob_making": 1.0,
+          "samples": 22
+        },
+        "right": {
+          "feature": "comb_controls",
+          "threshold": 9.5,
+          "samples": 54,
+          "left": {
+            "value": 2.7333,
+            "prob_making": 0.9333,
+            "samples": 15
+          },
+          "right": {
+            "feature": "comb_ltc",
+            "threshold": 13.5,
+            "samples": 39,
+            "left": {
+              "value": 4.3913,
+              "prob_making": 1.0,
+              "samples": 23
+            },
+            "right": {
+              "value": 3.8125,
+              "prob_making": 1.0,
+              "samples": 16
+            }
+          }
+        }
+      },
+      "right": {
+        "feature": "contract_level",
+        "threshold": 5.0,
+        "samples": 322,
+        "left": {
+          "feature": "contract_level",
+          "threshold": 3.5,
+          "samples": 300,
+          "left": {
+            "feature": "comb_ltc",
+            "threshold": 13.5,
+            "samples": 183,
+            "left": {
+              "value": 2.4818,
+              "prob_making": 0.9635,
+              "samples": 137
+            },
+            "right": {
+              "value": 1.5217,
+              "prob_making": 0.9783,
+              "samples": 46
+            }
+          },
+          "right": {
+            "feature": "hcp_diff",
+            "threshold": 1.5,
+            "samples": 117,
+            "left": {
+              "value": 2.0357,
+              "prob_making": 0.9643,
+              "samples": 28
+            },
+            "right": {
+              "value": 1.4045,
+              "prob_making": 0.9326,
+              "samples": 89
+            }
+          }
+        },
+        "right": {
+          "value": -0.6364,
+          "prob_making": 0.4091,
+          "samples": 22
+        }
+      }
+    }
+  }
+}

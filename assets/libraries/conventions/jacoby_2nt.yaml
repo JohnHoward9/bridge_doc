@@ -1,0 +1,171 @@
+library: "Jacoby 2NT"
+description: "Invitational or game-forcing 4+ card major raise over 1M (system20120910.bbs definition) with minimum relay, shortage rebids, and splinters using variables."
+version: "1.2"
+
+imports:
+  - "assets/libraries/conventions/rkcb_1430.yaml"
+  - "assets/libraries/conventions/serious_3nt_and_kickback.yaml"
+
+fragments:
+  fJacoby2NT:
+    desc: "Opener responses to 2NT 4+ card raise over 1$M"
+    bids:
+      "<$M=h> 4s":
+        desc: "Kickback: 1430 RKCB for Hearts"
+        rule: "p#1 16+hcp"
+        priority: 1
+        ref: "fKickbackHearts"
+      4nt:
+        desc: "Roman Key Card Blackwood 1430 for $M"
+        rule: "p#1 16+hcp"
+        priority: 1
+        ref: "fRKCBResponses"
+      3c:
+        desc: "Any minimum"
+        rule: "14-hcp"
+        bids:
+          3d:
+            desc: "Enquiry"
+            rule: "p#2 16+hcp"
+            priority: 2
+            bids:
+              3h:
+                desc: "Balanced"
+                rule: "s#5332|5422"
+                priority: 2
+              3s:
+                desc: "Short clubs"
+                rule: "1-c"
+                priority: 2
+              3nt:
+                desc: "Short diamonds"
+                rule: "1-d"
+                priority: 2
+              4c:
+                desc: "Short other major ($OM_sym)"
+                rule: "1-$OM"
+                priority: 2
+          3$M:
+            desc: "Invitational"
+            rule: "p#5 10-11hcp"
+            priority: 2
+          "<$M=s> [4c,4d,4h]":
+            desc: "Splinter"
+            rule: "p#3 1-% 15+hcp"
+            priority: 1
+          "<$M=h> [3s,4c,4d]":
+            desc: "Splinter"
+            rule: "p#3 1-% 15+hcp"
+            priority: 2
+          4$M:
+            desc: "Invitational"
+            rule: "p#5 12-15hcp"
+            priority: 2
+
+      3d:
+        desc: "Non minimum no shortage"
+        rule: "15+hcp s#5332|5422|6322"
+        priority: 2
+        bids:
+          "<$M=h> 4s":
+            desc: "Kickback: 1430 RKCB for Hearts"
+            rule: "p#1 16+hcp"
+            priority: 1
+            ref: "fKickbackHearts"
+          4nt:
+            desc: "Roman Key Card Blackwood 1430 for $M"
+            rule: "p#1 16+hcp"
+            priority: 1
+            ref: "fRKCBResponses"
+          3$M:
+            desc: "FG 16+ HCP"
+            rule: "16+hcp"
+            priority: 1
+          3nt:
+            desc: "FG 13-15 HCP"
+            rule: "13-15hcp"
+            priority: 1
+          4$M:
+            desc: "Original invitational"
+            rule: "10-12hcp"
+            priority: 2
+          "<$M=s> [4c,4d,4h]":
+            desc: "Splinter"
+            rule: "1-% 13+hcp"
+            priority: 1
+          "<$M=h> [3s,4c,4d]":
+            desc: "Splinter"
+            rule: "1-% 13+hcp"
+            priority: 1
+
+      3h:
+        desc: "Short clubs"
+        rule: "1-c 15+hcp"
+        priority: 2
+        bids:
+          "<$M=s> 3s":
+            desc: "FG 16+ HCP"
+            rule: "16+hcp"
+            priority: 1
+          "<$M=h> 3s":
+            desc: "FG 16+ HCP naturalish"
+            rule: "16+hcp 4+s"
+            priority: 1
+          3nt:
+            desc: "FG 13-15 HCP"
+            rule: "13-15hcp"
+            priority: 1
+          "[4c-4d]":
+            desc: "16+ HCP naturalish"
+            rule: "16+hcp 4+%"
+            priority: 1
+          4$M:
+            desc: "Original invitational"
+            rule: "10-12hcp"
+            priority: 3
+
+      3s:
+        desc: "Short diamonds"
+        rule: "1-d 15+hcp"
+        priority: 2
+        bids:
+          3nt:
+            desc: "FG 13-15 HCP"
+            rule: "13-15hcp"
+            priority: 1
+          "[4c-4d]":
+            desc: "16+ HCP naturalish"
+            rule: "16+hcp 4+%"
+            priority: 1
+          4$M:
+            desc: "Original invitational"
+            rule: "10-12hcp"
+            priority: 2
+
+      3nt:
+        desc: "Short other major ($OM_sym)"
+        rule: "1-$OM 15+hcp"
+        priority: 2
+        bids:
+          4$M:
+            desc: "Original invitational"
+            rule: "10-12hcp"
+            priority: 2
+          "[4c-4d]":
+            desc: "13+ HCP cue"
+            rule: "13+hcp n#a|k%"
+            priority: 1
+          "<$M=s> 4h":
+            desc: "13+ HCP cue"
+            rule: "13+hcp n#a|kh"
+            priority: 1
+
+      "[4c-4d]":
+        desc: "5-5 non minimum"
+        rule: "15+hcp 5+$M 5%"
+        priority: 1
+
+      "<$M=s> 4h":
+        desc: "5-5 non minimum (Hearts)"
+        rule: "15+hcp 5+$M 5h"
+        priority: 1

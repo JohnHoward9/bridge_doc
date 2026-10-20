@@ -1,0 +1,75 @@
+library: "Kantar 3NT"
+description: "Kantar 3NT opening showing solid 7/8-card major with at most one outside King or two Queens"
+version: "1.0"
+
+fragments:
+  fKantar3NT:
+    desc: "Kantar 3NT: Solid 7/8-card major (8-8.5 tricks, at most 1 outside K or 2 Qs)"
+    rule: "p#1 7+h, p#1 7+s"
+    priority: 1
+    bids:
+      pass:
+        desc: "To play in 3NT"
+        rule: "p#2"
+        priority: 2
+
+      4c:
+        desc: "King Ask"
+        rule: "p#1"
+        priority: 1
+        bids:
+          4d:
+            desc: "Opener holds King of Diamonds"
+            rule: "p#1 kd"
+            priority: 1
+          4nt:
+            desc: "Opener holds King of Clubs"
+            rule: "p#1 kc"
+            priority: 1
+          4h:
+            desc: "Opener has solid Hearts, no outside King"
+            rule: "p#2 7+h !kd !kc !ks"
+            priority: 2
+          4s:
+            desc: "Opener has solid Spades, no outside King"
+            rule: "p#2 7+s !kd !kc !kh"
+            priority: 2
+
+      4d:
+        desc: "Bid your major"
+        rule: "p#1"
+        priority: 1
+        bids:
+          4h:
+            desc: "Opener's solid suit is Hearts"
+            rule: "7+h"
+          4s:
+            desc: "Opener's solid suit is Spades"
+            rule: "7+s"
+
+      4h:
+        desc: "Pass with Hearts, correct to 4S with Spades"
+        rule: "p#1"
+        priority: 1
+        bids:
+          pass:
+            desc: "Opener has Hearts, passes"
+            rule: "7+h"
+          4s:
+            desc: "Opener has Spades, corrects to 4S"
+            rule: "7+s"
+
+      4nt:
+        desc: "Queen Ask"
+        rule: "p#1"
+        priority: 1
+        bids:
+          5c:
+            desc: "Opener holds Queen of Clubs"
+            rule: "qc"
+          5d:
+            desc: "Opener holds Queen of Diamonds"
+            rule: "qd"
+          5nt:
+            desc: "Opener holds Club Queen plus Diamond Queen"
+            rule: "qc qd"

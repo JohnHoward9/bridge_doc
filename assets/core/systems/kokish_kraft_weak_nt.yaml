@@ -1,0 +1,90 @@
+system: "Kokish-Kraft Weak Notrump (Modified Kaplan-Sheinwold)"
+style: "kokish_kraft_weak_nt"
+player: "North"
+partner: "South"
+
+imports:
+  - "assets/libraries/conventions/kokish_weak_1nt.yaml"
+  - "assets/libraries/conventions/kokish_1nt_escape.yaml"
+  - "assets/libraries/conventions/kokish_minor_openings.yaml"
+  - "assets/libraries/conventions/kokish_major_openings.yaml"
+  - "assets/libraries/conventions/kokish_2c_controls.yaml"
+  - "assets/libraries/conventions/kokish_relay.yaml"
+  - "assets/libraries/conventions/kantar_3nt.yaml"
+  - "assets/libraries/conventions/weak_two_responses.yaml"
+  - "assets/libraries/conventions/preempt_responses.yaml"
+  - "assets/libraries/conventions/rkcb_1430.yaml"
+  - "assets/libraries/conventions/serious_3nt_and_kickback.yaml"
+  - "assets/libraries/conventions/smolen.yaml"
+  - "assets/libraries/conventions/drury.yaml"
+  - "assets/libraries/conventions/two_way_checkback.yaml"
+  - "assets/libraries/conventions/xyz.yaml"
+
+definitions:
+  bal: "s#5332|4432|4333|5422"
+  weaknt: "11-14hcp $bal"
+
+OpeningBids:
+  pass:
+    desc: "Pass (0-10 HCP)"
+    rule: "10-hcp"
+
+  1c:
+    ref: "fKokish1CResponses"
+
+  1d:
+    ref: "fKokish1DResponses"
+
+  1h:
+    ref: "fKokish1HResponses"
+
+  1s:
+    ref: "fKokish1SResponses"
+
+  1nt:
+    ref: "fKokishWeak1NTResponses"
+
+  2c:
+    ref: "fKokish2CControls"
+
+  2d:
+    ref: "fWeakTwoDiamondResponses"
+
+  2h:
+    ref: "fWeakTwoHeartResponses"
+
+  2s:
+    ref: "fWeakTwoSpadeResponses"
+
+  2nt:
+    ref: "fKokishWeak1NTResponses"
+
+  3c:
+    ref: "fPreempt3ClubResponses"
+
+  3d:
+    ref: "fPreempt3DiamondResponses"
+
+  3h:
+    ref: "fPreempt3HeartResponses"
+
+  3s:
+    ref: "fPreempt3SpadeResponses"
+
+  3nt:
+    ref: "fKantar3NT"
+
+  4c:
+    ref: "Preempt4Clubs"
+
+  4d:
+    ref: "Preempt4Diamonds"
+
+  4h:
+    ref: "Preempt4Hearts"
+
+  4s:
+    ref: "Preempt4Spades"
+
+  4nt:
+    ref: "Preempt4NT"

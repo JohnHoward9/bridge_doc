@@ -1,0 +1,30 @@
+system: "UK Acol (4-Card Majors, Weak NT)"
+style: "uk_acol"
+
+imports:
+  - "assets/libraries/conventions/rkcb_1430.yaml"
+  - "assets/libraries/conventions/one_nt_responses.yaml"
+  - "assets/libraries/conventions/five_card_majors_2over1.yaml"
+
+OpeningBids:
+  pass:
+    desc: "Pass (0-11 HCP)"
+    rule: "11-hcp"
+  1c:
+    desc: "Natural 4+ Clubs or 3-card preparation (12-19 HCP)"
+    rule: "12-19hcp, 4+c"
+  1d:
+    desc: "Natural 4+ Diamonds (12-19 HCP)"
+    rule: "12-19hcp, 4+d"
+  1h:
+    desc: "Acol 4-card Hearts opening (12-19 HCP)"
+    rule: "12-19hcp, 4+h, h>=s"
+    ref: "fHeartResponses2Over1"
+  1s:
+    desc: "Acol 4-card Spades opening (12-19 HCP)"
+    rule: "12-19hcp, 4+s"
+    ref: "fSpadeResponses2Over1"
+  1nt:
+    desc: "Acol Weak NT (12-14 HCP balanced)"
+    rule: "12-14hcp, balanced, 4-h, 4-s"
+    ref: "f1NTResponses"

@@ -1,0 +1,203 @@
+library: "XYZ Convention"
+description: "XYZ Two-Way Checkback after any three one-level bids (1x - 1y - 1z): 2C forces 2D (invitational hands and signoffs), 2D is Game-Forcing enquiry, direct 2-level bids are weak signoffs to play, direct 3-level bids are invitational with 6+ cards."
+version: "1.0"
+
+fragments:
+  # Master unified XYZ fragment for any 1x - 1y - 1z sequence
+  fXYZ:
+    desc: "XYZ Convention over three one-level bids (1x - 1y - 1z)"
+    bids:
+      pass:
+        desc: "Pass to play (0-7 HCP)"
+        rule: "p#10 7-hcp"
+        priority: 10
+
+      "<$fourth_suit=true> 1s":
+        desc: "Fourth suit, F1 - XYZ leaves it alone (4+ Spades, forcing 1 round)"
+        rule: "p#2 6+hcp 4+s"
+        priority: 2
+
+      2c:
+        desc: "Puppet to 2D: invitational hands (8-10 HCP) or weak signoff in diamonds/clubs"
+        rule: "p#1 8-10hcp | 0-7hcp"
+        priority: 1
+        bids:
+          2d:
+            desc: "Forced relay to 2D"
+            rule: "12-14hcp"
+            bids:
+              pass:
+                desc: "Signoff in Diamonds (weak, content in diamonds)"
+                rule: "0-7hcp 5+d"
+              2h:
+                desc: "Invitational with 5+ Hearts or 4-card Heart raise (8-10 HCP)"
+                rule: "8-10hcp 4+h | 8-10hcp 5+h"
+                bids:
+                  pass:
+                    desc: "Minimum, heart tolerance (12-13 HCP)"
+                    rule: "12-13hcp 2-3h"
+                  2nt:
+                    desc: "Maximum, only 2 hearts (14 HCP)"
+                    rule: "14hcp 2h"
+                  3h:
+                    desc: "Maximum, 3-card Heart support (14 HCP)"
+                    rule: "14hcp 3h"
+                    bids:
+                      4h:
+                        desc: "Accepting the invite to 4H"
+                        rule: "10hcp"
+                  4h:
+                    desc: "Maximum, 3 Hearts and a ruffing value (14 HCP)"
+                    rule: "14hcp 3h !balanced"
+              2s:
+                desc: "Invitational with 5+ Spades, 4-card Spade raise, or 5H+4S (8-10 HCP)"
+                rule: "8-10hcp 4+s | 8-10hcp 5+s"
+                bids:
+                  pass:
+                    desc: "Minimum, decline invite (12-13 HCP)"
+                    rule: "12-13hcp"
+                  3s:
+                    desc: "Constructive invite acceptance / try"
+                    rule: "13-14hcp 4+s"
+                  4s:
+                    desc: "Maximum, accepting the invite to 4S (14 HCP)"
+                    rule: "14hcp 4+s"
+              2nt:
+                desc: "Natural balanced invitation without 5-card major (8-10 HCP)"
+                rule: "8-10hcp balanced"
+                bids:
+                  pass:
+                    desc: "Minimum, decline invite (12-13 HCP)"
+                    rule: "12-13hcp"
+                  3nt:
+                    desc: "Maximum, accept invite to 3NT (14 HCP)"
+                    rule: "14hcp"
+              3c:
+                desc: "To play, 5+ Clubs - weak club escape (0-7 HCP)"
+                rule: "0-7hcp 5+c"
+              3d:
+                desc: "Invitational with 5+ Diamonds (8-10 HCP)"
+                rule: "8-10hcp 5+d"
+
+      2d:
+        desc: "Artificial Game-Forcing enquiry (11+ HCP, enquiry for 3-card support or unbid 4M)"
+        rule: "p#1 11+hcp 4+h | p#1 11+hcp 4+s | p#1 18+hcp"
+        priority: 1
+        bids:
+          2h:
+            desc: "Opener shows 3-card Heart support, 4 Hearts, or minimum"
+            rule: "3+h | 4h"
+            bids:
+              4h:
+                desc: "Game in Hearts with 3+ Heart fit"
+                rule: "p#1 3+h"
+                priority: 1
+              4s:
+                desc: "Game in Spades with 5+ Spades"
+                rule: "p#1 5+s"
+                priority: 1
+              3nt:
+                desc: "3NT to play without major fit"
+                rule: "p#2 11-15hcp"
+                priority: 2
+              3h:
+                desc: "Slam try in Hearts"
+                rule: "p#1 3+h 16+hcp"
+                priority: 1
+              3s:
+                desc: "Slam try in Spades"
+                rule: "p#1 5+s 16+hcp"
+                priority: 1
+              4nt:
+                desc: "RKCB 1430"
+                rule: "p#1 18+hcp"
+                priority: 1
+          2s:
+            desc: "Opener shows 3-card Spade support, unbid 4 Spades, or extra distribution (4-5 or better)"
+            rule: "3+s | 4s | 5+s"
+            bids:
+              4s:
+                desc: "Game in Spades with 3+ Spade fit"
+                rule: "p#1 3+s"
+                priority: 1
+              4h:
+                desc: "Game in Hearts with 5+ Hearts"
+                rule: "p#1 5+h"
+                priority: 1
+              3nt:
+                desc: "3NT to play without major fit"
+                rule: "p#2 11-15hcp"
+                priority: 2
+              3s:
+                desc: "Slam try in Spades"
+                rule: "p#1 3+s 16+hcp"
+                priority: 1
+              3h:
+                desc: "Slam try in Hearts"
+                rule: "p#1 5+h 16+hcp"
+                priority: 1
+              4nt:
+                desc: "RKCB 1430"
+                rule: "p#1 18+hcp"
+                priority: 1
+          2nt:
+            desc: "Opener denies major fit, balanced minimum / stoppers (12-13 HCP)"
+            rule: "12-13hcp 3-h 3-s | 12-13hcp balanced"
+            bids: &xyzGFDenyMajor
+              4s:
+                desc: "Game in Spades with 6+ Spades"
+                rule: "p#1 6+s"
+                priority: 1
+              4h:
+                desc: "Game in Hearts with 6+ Hearts"
+                rule: "p#1 6+h"
+                priority: 1
+              3nt:
+                desc: "3NT to play with balanced hand"
+                rule: "p#1 11-15hcp"
+                priority: 1
+              3s:
+                desc: "Slam try in Spades"
+                rule: "p#2 5+s 16+hcp"
+                priority: 2
+              3h:
+                desc: "Slam try in Hearts"
+                rule: "p#2 5+h 16+hcp"
+                priority: 2
+              4nt:
+                desc: "RKCB 1430"
+                rule: "p#1 18+hcp"
+                priority: 1
+          3c:
+            desc: "Opener shows real Clubs (5+ Clubs or 5-4 shape)"
+            rule: "4+c | 5+c"
+            bids: *xyzGFDenyMajor
+          3d:
+            desc: "Opener shows real Diamonds (5+ Diamonds)"
+            rule: "4+d | 5+d"
+            bids: *xyzGFDenyMajor
+
+      2h:
+        desc: "Weak signoff in Hearts to play, or weak raise (5-7 HCP)"
+        rule: "p#3 5-7hcp 4+h | p#3 5-7hcp 5+h"
+        priority: 3
+
+      2s:
+        desc: "Weak signoff in Spades to play, or weak raise (5-7 HCP)"
+        rule: "p#3 5-7hcp 4+s | p#3 5-7hcp 5+s"
+        priority: 3
+
+      2nt:
+        desc: "Natural quantitative invitation without 5-card major"
+        rule: "p#3 8-9hcp balanced"
+        priority: 3
+
+      3c:
+        desc: "Invitational with 6+ Clubs (direct 3-level = 6-card invite, 8-10 HCP)"
+        rule: "p#3 8-10hcp 6+c"
+        priority: 3
+
+      3nt:
+        desc: "To play with balanced hand and no 4-card major (10-17 HCP)"
+        rule: "p#1 10-17hcp balanced 3-h 3-s | p#2 10-15hcp balanced"
+        priority: 1

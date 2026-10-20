@@ -1,0 +1,83 @@
+library: "Defense Against Ekren 2 Diamonds"
+description: "Defense against opponent Ekren 2D opening (both majors 4-4, 5-4, or 5-5 with 5-10 HCP)."
+version: "1.0"
+
+fragments:
+  fEkrenDefense:
+    desc: "Opposition Ekren 2D Opening (Both Majors 4-4 or 5-4, 5-10 HCP)"
+    rule: "5-10hcp 4+h 4+s"
+    priority: 1
+    bids:
+      pass:
+        desc: "Pass"
+        rule: "p#10 0-11hcp"
+        priority: 10
+
+      # Double: general values (13+ HCP, cards/penalty oriented)
+      dbl:
+        desc: "Takeout / Values Double (13+ HCP, interested in penalizing or competing)"
+        rule: "p#2 13+hcp"
+        priority: 2
+        bids:
+          pass:
+            desc: "Penalty pass against 2D doubled"
+            rule: "p#1 4+d 8+hcp"
+            priority: 1
+          2h:
+            desc: "Compete / choose major if held"
+            rule: "0-8hcp"
+          2s:
+            desc: "Compete / choose major if held"
+            rule: "0-8hcp"
+          2nt:
+            desc: "Inquiry / Lebensohl (10+ HCP)"
+            rule: "10+hcp"
+          3c:
+            desc: "Natural Clubs (0-8 HCP, 4+ Clubs)"
+            rule: "0-8hcp 4+c"
+          3d:
+            desc: "Natural Diamonds (0-8 HCP, 4+ Diamonds)"
+            rule: "0-8hcp 4+d"
+
+      # Natural minor overcalls
+      3c:
+        desc: "Natural 5+ Club overcall (11-16 HCP)"
+        rule: "p#3 11-16hcp 5+c"
+        priority: 3
+        bids:
+          pass:
+            desc: "Pass"
+            rule: "0-8hcp"
+          3nt:
+            desc: "Game to play in 3NT"
+            rule: "12-14hcp"
+          5c:
+            desc: "Game to play in 5C"
+            rule: "11+hcp 4+c"
+
+      3d:
+        desc: "Natural 5+ Diamond overcall (11-16 HCP)"
+        rule: "p#3 11-16hcp 5+d"
+        priority: 3
+        bids:
+          pass:
+            desc: "Pass"
+            rule: "0-8hcp"
+          3nt:
+            desc: "Game to play in 3NT"
+            rule: "12-14hcp"
+          5d:
+            desc: "Game to play in 5D"
+            rule: "11+hcp 4+d"
+
+      # 2NT Overcall: 16-18 HCP balanced with major stoppers
+      2nt:
+        desc: "2NT Overcall: 16-18 HCP balanced with stoppers in both majors"
+        rule: "p#1 16-18hcp $bal 3+h 3+s"
+        priority: 1
+        ref: "fGavin1NTResponses"
+
+      3nt:
+        desc: "3NT to play (16-18 HCP running minor tricks)"
+        rule: "p#1 16-18hcp"
+        priority: 1

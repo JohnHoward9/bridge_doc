@@ -1,0 +1,85 @@
+library: "Drury"
+description: "Reverse Drury 3-4 card major enquiry by a passed hand"
+version: "1.0"
+
+fragments:
+  fDrury:
+    desc: "1$M_sym opening in 3rd/4th seat (11+ HCP, 5+ $M_name)"
+    rule: "11+hcp 5+$M [$M=$M, $OM=$OM]"
+    priority: 1
+    aliases: ["fDruryOpening", "fDrury1H", "fDrury1S", "fDruryHeartOpening", "fDrurySpadeOpening"]
+    bids:
+      2c:
+        desc: "Reverse Drury: 3+ card major support, invitational (9-11 HCP)"
+        rule: "p#1 9+hcp 3+$M"
+        priority: 1
+        bids:
+          2d:
+            desc: "Full opening enquiry (13+ HCP, game interest)"
+            rule: "13+hcp"
+            bids:
+              "2$M":
+                desc: "3-card support minimum (9-10 HCP)"
+                rule: "p#2 3$M 9-10hcp"
+                priority: 2
+              "3$M":
+                desc: "4-card support maximum (10-11 HCP)"
+                rule: "p#1 4$M 10-11hcp"
+                priority: 1
+              2nt:
+                desc: "Balanced maximum (11-12 HCP)"
+                rule: "p#3 11-12hcp balanced"
+                priority: 3
+              "4$M":
+                desc: "Maximum with fit to play (11-12 HCP, 4+ trumps)"
+                rule: "p#1 4+$M 11-12hcp"
+                priority: 1
+          "2$M":
+            desc: "Sub-minimum opening signoff (10-12 HCP, light 3rd-seat opening)"
+            rule: "12-hcp"
+            bids:
+              pass:
+                desc: "Pass sub-minimum signoff (to play)"
+                rule: "p#10 11-hcp"
+                priority: 10
+          "3$M":
+            desc: "Opener invitation with 6+ card major (14-15 HCP)"
+            rule: "6+$M 14-15hcp"
+          "4$M":
+            desc: "Opener game signoff (15+ HCP, 6+ card major)"
+            rule: "6+$M 15+hcp"
+
+      "2$M":
+        desc: "Simple major raise (3+ card support, 6-9 HCP)"
+        rule: "p#2 6-9hcp 3+$M"
+        priority: 2
+
+      1nt:
+        desc: "Semi-forcing 1NT by passed hand (6-11 HCP, 2 or fewer cards in major)"
+        rule: "p#3 6-11hcp 2-$M"
+        priority: 3
+
+      "3$M":
+        desc: "Mixed / Preemptive raise (4+ card support, 4-7 HCP)"
+        rule: "p#2 4-7hcp 4+$M"
+        priority: 2
+
+      "4$M":
+        desc: "Preemptive game raise (5+ card support, 5-9 HCP)"
+        rule: "p#1 5-9hcp 5+$M"
+        priority: 1
+
+      2d:
+        desc: "Natural Diamonds (5+ Diamonds, 8-11 HCP, non-forcing)"
+        rule: "p#4 8-11hcp 5+d 2-$M"
+        priority: 4
+
+      "<$M=s> 2h":
+        desc: "Natural Hearts (5+ Hearts, 8-11 HCP, non-forcing)"
+        rule: "p#4 8-11hcp 5+h 2-s"
+        priority: 4
+
+      pass:
+        desc: "Pass (0-5 HCP)"
+        rule: "p#10 5-hcp"
+        priority: 10

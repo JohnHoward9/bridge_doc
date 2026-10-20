@@ -1,0 +1,363 @@
+library: "Serious 3NT, Kickback, & 1430 RKCB"
+description: "Gavin Wolpert slam methods: Serious 3NT over major fit, Kickback (One Over Keycard) for minors and hearts, and 1430 RKCB"
+version: "1.1"
+
+imports:
+  - "assets/libraries/conventions/rkcb_1430.yaml"
+
+fragments:
+  fSerious3NT:
+    desc: "Serious 3NT over agreed major suit game-forcing auction"
+    bids:
+      3nt:
+        desc: "Serious 3NT: Strong slam interest, demands first-round cuebidding"
+        rule: "p#1 15+hcp"
+        priority: 1
+        bids:
+          4c:
+            desc: "Cuebid showing 1st or 2nd round Club control (Ace or King)"
+            rule: "11+hcp"
+          4d:
+            desc: "Cuebid showing 1st or 2nd round Diamond control (Ace or King)"
+            rule: "11+hcp"
+          4h:
+            desc: "Signoff in agreed Hearts (no slam interest)"
+            rule: "11-13hcp"
+          4s:
+            desc: "Signoff in agreed Spades (no slam interest)"
+            rule: "11-13hcp"
+
+  fKickbackAsk:
+    desc: "Kickback RKCB Ask (One Over Keycard) based on agreed trump"
+    bids:
+      "<$M=h> 4s":
+        ref: "fKickbackHearts"
+      "<$M=s> 4nt":
+        ref: "fRKCBResponses"
+      "<$trump=d> 4h":
+        ref: "fKickbackDiamonds"
+      "<$trump=c> 4d":
+        ref: "fKickbackClubs"
+
+  fKickbackHearts:
+    desc: "Kickback: 1430 RKCB for Hearts"
+    rule: "p#1 14+hcp"
+    priority: 1
+    bids:
+      4nt:
+        desc: "Step 1: 1 or 4 Keycards"
+        rule: "p#1 kc=1|4 h"
+        priority: 1
+        bids:
+          5h:
+            desc: "Signoff in Hearts (missing 2 keycards)"
+            rule: "p#1 kc<=2 h"
+            priority: 1
+          5s:
+            desc: "Queen ask"
+            rule: "p#2 kc>=3 h"
+            priority: 2
+          5nt:
+            desc: "King ask"
+            rule: "p#2 kc>=3 h"
+            priority: 2
+          6h:
+            desc: "Small slam in Hearts"
+            rule: "p#1 kc>=3 h"
+            priority: 1
+          7h:
+            desc: "Grand slam in Hearts"
+            rule: "p#1 kc>=3 h qh"
+            priority: 1
+          pass:
+            desc: "Signoff"
+            rule: "kc<=1 h"
+            priority: 3
+
+      5c:
+        desc: "Step 2: 0 or 3 Keycards"
+        rule: "p#1 kc=0|3 h"
+        priority: 1
+        bids:
+          5h:
+            desc: "Signoff in Hearts (missing 2 keycards)"
+            rule: "p#2 kc<=1 h"
+            priority: 2
+          5s:
+            desc: "Queen ask"
+            rule: "p#2 kc>=2 h"
+            priority: 2
+          5nt:
+            desc: "King ask"
+            rule: "p#2 kc>=2 h"
+            priority: 2
+          6h:
+            desc: "Small slam in Hearts (5 keycards combined)"
+            rule: "p#1 kc>=2 h"
+            priority: 1
+          7h:
+            desc: "Grand slam in Hearts"
+            rule: "p#1 kc>=2 h qh"
+            priority: 1
+          pass:
+            desc: "Signoff"
+            rule: "kc<=1 h"
+            priority: 3
+
+      5d:
+        desc: "Step 3: 2 Keycards without Queen of Hearts"
+        rule: "p#1 kc=2-q h"
+        priority: 1
+        bids:
+          5h:
+            desc: "Signoff in Hearts"
+            rule: "p#2 kc<=1 h"
+            priority: 2
+          5nt:
+            desc: "King ask"
+            rule: "p#2 kc>=3 h"
+            priority: 2
+          6h:
+            desc: "Small slam in Hearts"
+            rule: "p#1 kc>=2 h"
+            priority: 1
+          7h:
+            desc: "Grand slam in Hearts"
+            rule: "p#1 kc>=3 h qh"
+            priority: 1
+          pass:
+            desc: "Signoff"
+            rule: "kc<=1 h"
+            priority: 3
+
+      5h:
+        desc: "Step 4: 2 Keycards with Queen of Hearts"
+        rule: "p#1 kc=2+q h"
+        priority: 1
+        bids:
+          pass:
+            desc: "Signoff in 5 Hearts"
+            rule: "kc<=1 h"
+            priority: 2
+          5nt:
+            desc: "King ask"
+            rule: "p#2 kc>=3 h"
+            priority: 2
+          6h:
+            desc: "Small slam in Hearts"
+            rule: "p#1 kc>=2 h"
+            priority: 1
+          7h:
+            desc: "Grand slam in Hearts"
+            rule: "p#1 kc>=3 h"
+            priority: 1
+
+  fKickbackDiamonds:
+    desc: "Kickback for Diamonds: 4H is 1430 RKCB for Diamonds"
+    rule: "p#1 14+hcp"
+    priority: 1
+    bids:
+      4s:
+        desc: "Step 1: 1 or 4 Keycards"
+        rule: "p#1 kc=1|4 d"
+        priority: 1
+        bids:
+          5d:
+            desc: "Signoff in Diamonds (missing 2 keycards)"
+            rule: "p#1 kc<=2 d"
+            priority: 1
+          5nt:
+            desc: "King ask"
+            rule: "p#2 kc>=3 d"
+            priority: 2
+          6d:
+            desc: "Small slam in Diamonds"
+            rule: "p#1 kc>=3 d"
+            priority: 1
+          7d:
+            desc: "Grand slam in Diamonds"
+            rule: "p#1 kc>=3 d qd"
+            priority: 1
+          pass:
+            desc: "Signoff"
+            rule: "kc<=1 d"
+            priority: 3
+
+      4nt:
+        desc: "Step 2: 0 or 3 Keycards"
+        rule: "p#1 kc=0|3 d"
+        priority: 1
+        bids:
+          5d:
+            desc: "Signoff in Diamonds (missing 2 keycards)"
+            rule: "p#2 kc<=1 d"
+            priority: 2
+          5nt:
+            desc: "King ask"
+            rule: "p#2 kc>=2 d"
+            priority: 2
+          6d:
+            desc: "Small slam in Diamonds (5 keycards combined)"
+            rule: "p#1 kc>=2 d"
+            priority: 1
+          7d:
+            desc: "Grand slam in Diamonds"
+            rule: "p#1 kc>=2 d qd"
+            priority: 1
+          pass:
+            desc: "Signoff"
+            rule: "kc<=1 d"
+            priority: 3
+
+      5c:
+        desc: "Step 3: 2 Keycards without Queen of Diamonds"
+        rule: "p#1 kc=2-q d"
+        priority: 1
+        bids:
+          5d:
+            desc: "Signoff in Diamonds"
+            rule: "p#2 kc<=1 d"
+            priority: 2
+          5nt:
+            desc: "King ask"
+            rule: "p#2 kc>=3 d"
+            priority: 2
+          6d:
+            desc: "Small slam in Diamonds"
+            rule: "p#1 kc>=2 d"
+            priority: 1
+          7d:
+            desc: "Grand slam in Diamonds"
+            rule: "p#1 kc>=3 d qd"
+            priority: 1
+          pass:
+            desc: "Signoff"
+            rule: "kc<=1 d"
+            priority: 3
+
+      5d:
+        desc: "Step 4: 2 Keycards with Queen of Diamonds"
+        rule: "p#1 kc=2+q d"
+        priority: 1
+        bids:
+          pass:
+            desc: "Signoff in 5 Diamonds"
+            rule: "kc<=1 d"
+            priority: 2
+          5nt:
+            desc: "King ask"
+            rule: "p#2 kc>=3 d"
+            priority: 2
+          6d:
+            desc: "Small slam in Diamonds"
+            rule: "p#1 kc>=2 d"
+            priority: 1
+          7d:
+            desc: "Grand slam in Diamonds"
+            rule: "p#1 kc>=3 d"
+            priority: 1
+
+  fKickbackClubs:
+    desc: "Kickback for Clubs: 4D is 1430 RKCB for Clubs"
+    rule: "p#1 14+hcp"
+    priority: 1
+    bids:
+      4h:
+        desc: "Step 1: 1 or 4 Keycards"
+        rule: "p#1 kc=1|4 c"
+        priority: 1
+        bids:
+          5c:
+            desc: "Signoff in Clubs (missing 2 keycards)"
+            rule: "p#1 kc<=2 c"
+            priority: 1
+          5nt:
+            desc: "King ask"
+            rule: "p#2 kc>=3 c"
+            priority: 2
+          6c:
+            desc: "Small slam in Clubs"
+            rule: "p#1 kc>=3 c"
+            priority: 1
+          7c:
+            desc: "Grand slam in Clubs"
+            rule: "p#1 kc>=3 c qc"
+            priority: 1
+          pass:
+            desc: "Signoff"
+            rule: "kc<=1 c"
+            priority: 3
+
+      4s:
+        desc: "Step 2: 0 or 3 Keycards"
+        rule: "p#1 kc=0|3 c"
+        priority: 1
+        bids:
+          5c:
+            desc: "Signoff in Clubs (missing 2 keycards)"
+            rule: "p#2 kc<=1 c"
+            priority: 2
+          5nt:
+            desc: "King ask"
+            rule: "p#2 kc>=2 c"
+            priority: 2
+          6c:
+            desc: "Small slam in Clubs (5 keycards combined)"
+            rule: "p#1 kc>=2 c"
+            priority: 1
+          7c:
+            desc: "Grand slam in Clubs"
+            rule: "p#1 kc>=2 c qc"
+            priority: 1
+          pass:
+            desc: "Signoff"
+            rule: "kc<=1 c"
+            priority: 3
+
+      4nt:
+        desc: "Step 3: 2 Keycards without Queen of Clubs"
+        rule: "p#1 kc=2-q c"
+        priority: 1
+        bids:
+          5c:
+            desc: "Signoff in Clubs"
+            rule: "p#2 kc<=1 c"
+            priority: 2
+          5nt:
+            desc: "King ask"
+            rule: "p#2 kc>=3 c"
+            priority: 2
+          6c:
+            desc: "Small slam in Clubs"
+            rule: "p#1 kc>=2 c"
+            priority: 1
+          7c:
+            desc: "Grand slam in Clubs"
+            rule: "p#1 kc>=3 c qc"
+            priority: 1
+          pass:
+            desc: "Signoff"
+            rule: "kc<=1 c"
+            priority: 3
+
+      5c:
+        desc: "Step 4: 2 Keycards with Queen of Clubs"
+        rule: "p#1 kc=2+q c"
+        priority: 1
+        bids:
+          pass:
+            desc: "Signoff in 5 Clubs"
+            rule: "kc<=1 c"
+            priority: 2
+          5nt:
+            desc: "King ask"
+            rule: "p#2 kc>=3 c"
+            priority: 2
+          6c:
+            desc: "Small slam in Clubs"
+            rule: "p#1 kc>=2 c"
+            priority: 1
+          7c:
+            desc: "Grand slam in Clubs"
+            rule: "p#1 kc>=3 c"
+            priority: 1

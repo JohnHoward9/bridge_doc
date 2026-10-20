@@ -1,0 +1,205 @@
+library: "Strong Two Clubs"
+description: "Strong artificial 2C opening structure (GF or 22+ balanced) with 2D waiting (Kokish Relay) and positive natural responses"
+version: "1.0"
+
+imports:
+  - "assets/libraries/conventions/kokish_relay.yaml"
+  - "assets/libraries/conventions/rkcb_1430.yaml"
+
+fragments:
+  StrongTwoClubsKokish:
+    aliases: ["fStrongTwoClubsResponses"]
+    desc: "Strong artificial opening: Game Force or 22+ balanced (Kokish)"
+    rule: "22+hcp $bal | gf | 20+hcp !balanced | 4-ltc 16+hcp | 22+hcp"
+    bids:
+      2d:
+        desc: "Waiting / artificial negative (0-7 HCP or general positive)"
+        rule: "0+hcp"
+        ref: "fKokishRelay"
+      2h:
+        desc: "Positive natural (5+ Hearts, 8+ HCP, game forcing)"
+        rule: "p#2 8+hcp 5+h"
+        priority: 2
+        bids:
+          3h:
+            desc: "Fit Hearts"
+            rule: "3+h"
+            bids:
+              4h:
+                desc: "Game in Hearts"
+                rule: "8+hcp"
+              4nt:
+                ref: "fRKCBResponses"
+          4h:
+            desc: "Game in Hearts"
+            rule: "3+h"
+          3nt:
+            desc: "3NT to play"
+            rule: "balanced 2-h"
+      2s:
+        desc: "Positive natural (5+ Spades, 8+ HCP, game forcing)"
+        rule: "p#2 8+hcp 5+s"
+        priority: 2
+        bids:
+          3s:
+            desc: "Fit Spades"
+            rule: "3+s"
+            bids:
+              4s:
+                desc: "Game in Spades"
+                rule: "8+hcp"
+              4nt:
+                ref: "fRKCBResponses"
+          4s:
+            desc: "Game in Spades"
+            rule: "3+s"
+          3nt:
+            desc: "3NT to play"
+            rule: "balanced 2-s"
+      2nt:
+        desc: "Positive balanced (8+ HCP, balanced)"
+        rule: "p#2 8+hcp balanced"
+        priority: 2
+        bids:
+          3nt:
+            desc: "3NT to play"
+            rule: "22-24hcp"
+          6nt:
+            desc: "Small Slam in NT"
+            rule: "25+hcp"
+      3c:
+        desc: "Positive natural (5+ Clubs, 8+ HCP, game forcing)"
+        rule: "p#2 8+hcp 5+c"
+        priority: 2
+        bids:
+          3h:
+            desc: "Natural Hearts (5+ Hearts)"
+            rule: "5+h"
+            bids:
+              4h:
+                desc: "Game in Hearts"
+                rule: "p#1 3+h"
+                priority: 1
+              3nt:
+                desc: "3NT to play"
+                rule: "p#2"
+                priority: 2
+          3s:
+            desc: "Natural Spades (5+ Spades)"
+            rule: "5+s"
+            bids:
+              4s:
+                desc: "Game in Spades"
+                rule: "p#1 3+s"
+                priority: 1
+              3nt:
+                desc: "3NT to play"
+                rule: "p#2"
+                priority: 2
+          3nt:
+            desc: "3NT to play or forward going"
+            rule: "balanced | 22+hcp"
+            priority: 2
+            bids:
+              pass:
+                desc: "Signoff with minimum 8 HCP"
+                rule: "p#10 8hcp"
+                priority: 10
+              4nt:
+                desc: "Quantitative slam invite"
+                rule: "p#2 9-10hcp"
+                priority: 2
+                bids:
+                  6nt:
+                    desc: "Accept slam invite"
+                    rule: "24+hcp"
+                    priority: 1
+              6nt:
+                desc: "Small Slam in NT"
+                rule: "p#1 10+hcp"
+                priority: 1
+              6c:
+                desc: "Small Slam in Clubs"
+                rule: "p#1 6+c 10+hcp"
+                priority: 1
+          4c:
+            desc: "Fit Clubs"
+            rule: "3+c"
+            bids:
+              5c:
+                desc: "Game in Clubs"
+                rule: "8+hcp"
+              6c:
+                desc: "Small Slam in Clubs"
+                rule: "11+hcp"
+          5c:
+            desc: "Game in Clubs"
+            rule: "3+c"
+      3d:
+        desc: "Positive natural (5+ Diamonds, 8+ HCP, game forcing)"
+        rule: "p#2 8+hcp 5+d"
+        priority: 2
+        bids:
+          3h:
+            desc: "Natural Hearts (5+ Hearts)"
+            rule: "5+h"
+            bids:
+              4h:
+                desc: "Game in Hearts"
+                rule: "p#1 3+h"
+                priority: 1
+              3nt:
+                desc: "3NT to play"
+                rule: "p#2"
+                priority: 2
+          3s:
+            desc: "Natural Spades (5+ Spades)"
+            rule: "5+s"
+            bids:
+              4s:
+                desc: "Game in Spades"
+                rule: "p#1 3+s"
+                priority: 1
+              3nt:
+                desc: "3NT to play"
+                rule: "p#2"
+                priority: 2
+          3nt:
+            desc: "3NT to play or forward going"
+            rule: "balanced | 22+hcp"
+            priority: 2
+            bids:
+              pass:
+                desc: "Signoff with minimum 8 HCP"
+                rule: "p#10 8hcp"
+                priority: 10
+              4nt:
+                desc: "Quantitative slam invite"
+                rule: "p#2 9-10hcp"
+                priority: 2
+                bids:
+                  6nt:
+                    desc: "Accept slam invite"
+                    rule: "24+hcp"
+                    priority: 1
+              6nt:
+                desc: "Small Slam in NT"
+                rule: "p#1 10+hcp"
+                priority: 1
+              6d:
+                desc: "Small Slam in Diamonds"
+                rule: "p#1 6+d 10+hcp"
+                priority: 1
+          4d:
+            desc: "Fit Diamonds"
+            rule: "3+d"
+            bids:
+              5d:
+                desc: "Game in Diamonds"
+                rule: "8+hcp"
+              6d:
+                desc: "Small Slam in Diamonds"
+                rule: "11+hcp"
+          5d:
+            desc: "Game in Diamonds"
+            rule: "3+d"

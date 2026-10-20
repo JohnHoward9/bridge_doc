@@ -1,0 +1,49 @@
+library: "Reversed Bart"
+description: "Reversed Bart after 1M - 1NT - 2x: 2M-1 is a relay showing weak preference in M or a solid invite"
+version: "1.0"
+
+fragments:
+  fReversedBart:
+    desc: "Reversed Bart continuations after 1M - 1NT - 2C"
+    bids:
+      pass:
+        desc: "Pass to play in Clubs (weak clubs)"
+        rule: "p#10 5+c 5-8hcp"
+        priority: 10
+
+      2d:
+        desc: "Natural signoff in Diamonds (weak diamonds)"
+        rule: "p#3 5+d 5-8hcp"
+        priority: 3
+
+      2h:
+        desc: "Reversed Bart Relay: weak doubleton preference to Spades or solid invite"
+        rule: "p#1 2s 6-9hcp | p#1 10-11hcp"
+        priority: 1
+        bids:
+          2s:
+            desc: "Opener forced rebid to 2S"
+            rule: "12-15hcp"
+            bids:
+              pass:
+                desc: "Pass: weak doubleton preference to Spades"
+                rule: "6-8hcp 2s"
+              2nt:
+                desc: "Solid invitation to 2NT/3NT"
+                rule: "10-11hcp"
+              3c:
+                desc: "Invitational with Club fit"
+                rule: "10-11hcp 4+c"
+              3s:
+                desc: "Invitational 3-card Spade limit raise"
+                rule: "10-11hcp 3s"
+
+      2s:
+        desc: "Constructive preference to 2S (8-10 HCP, 2+ Spades)"
+        rule: "p#2 2+s 8-10hcp"
+        priority: 2
+
+      2nt:
+        desc: "Natural invitation without Spade fit"
+        rule: "p#3 9-10hcp balanced"
+        priority: 3

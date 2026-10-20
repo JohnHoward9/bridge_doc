@@ -1,0 +1,180 @@
+library: "Spiral Raises"
+description: "Gavin Wolpert Spiral Raises over 1m - 1M - 2M (2S ask over 2H, 2NT ask over 2S)"
+version: "1.0"
+
+fragments:
+  fSpiralRaises_Heart:
+    desc: "Responder Continuations over 1m - 1H - 2H"
+    bids:
+      pass:
+        desc: "Pass with minimum hand (6-9 HCP)"
+        rule: "p#10 6-9hcp"
+        priority: 10
+
+      2s:
+        desc: "Spiral Asking Bid (10+ HCP, 5+ Hearts or Game Forcing inquiry)"
+        rule: "p#1 10+hcp 5+h | p#1 12+hcp"
+        priority: 1
+        bids:
+          2nt:
+            desc: "Opener 3-card Heart support, minimum (12-13 HCP)"
+            rule: "p#2 12-13hcp 3=h"
+            priority: 2
+            bids:
+              3h:
+                desc: "Signoff in 3H with invitational values (10-11 HCP)"
+                rule: "p#2 10-11hcp"
+                priority: 2
+              3nt:
+                desc: "Game in 3NT with balanced game values"
+                rule: "p#1 12+hcp balanced"
+                priority: 1
+              4h:
+                desc: "Game in 4H with 6+ Hearts"
+                rule: "p#1 12+hcp 6+h"
+                priority: 1
+
+          3c:
+            desc: "Opener 3-card Heart support, maximum (14-15 HCP)"
+            rule: "p#2 14-15hcp 3=h"
+            priority: 2
+            bids:
+              3h:
+                desc: "Signoff in 3H"
+                rule: "p#2 10-11hcp"
+                priority: 2
+              4h:
+                desc: "Accept game in 4H"
+                rule: "p#1 10+hcp"
+                priority: 1
+
+          3d:
+            desc: "Opener 4-card Heart support, maximum (14-15 HCP)"
+            rule: "p#1 14-15hcp 4+h"
+            priority: 1
+            bids:
+              4h:
+                desc: "Game in 4H"
+                rule: "p#1 10+hcp"
+                priority: 1
+
+          3h:
+            desc: "Opener 4-card Heart support, minimum (12-13 HCP)"
+            rule: "p#2 12-13hcp 4+h"
+            priority: 2
+            bids:
+              pass:
+                desc: "Pass with 10-11 HCP"
+                rule: "p#10 10-11hcp"
+                priority: 10
+              4h:
+                desc: "Game in 4H with 12+ HCP"
+                rule: "p#1 12+hcp"
+                priority: 1
+
+      3h:
+        desc: "Direct invitational raise (10-11 HCP, 4-card Heart raise)"
+        rule: "p#3 10-11hcp 4=h"
+        priority: 3
+        bids:
+          pass:
+            desc: "Decline invitation with 12-13 HCP"
+            rule: "p#10 12-13hcp"
+            priority: 10
+          4h:
+            desc: "Accept invitation with 14-15 HCP"
+            rule: "p#1 14-15hcp"
+            priority: 1
+
+      4h:
+        desc: "Direct signoff in 4H Game (12+ HCP, 5+ Hearts)"
+        rule: "p#2 12+hcp 5+h"
+        priority: 2
+
+  fSpiralRaises_Spade:
+    desc: "Responder Continuations over 1m - 1S - 2S"
+    bids:
+      pass:
+        desc: "Pass with minimum hand (6-9 HCP)"
+        rule: "p#10 6-9hcp"
+        priority: 10
+
+      2nt:
+        desc: "Spiral Asking Bid (10+ HCP, 5+ Spades or Game Forcing inquiry)"
+        rule: "p#1 10+hcp 5+s | p#1 12+hcp"
+        priority: 1
+        bids:
+          3c:
+            desc: "Opener 3-card Spade support, minimum (12-13 HCP)"
+            rule: "p#2 12-13hcp 3=s"
+            priority: 2
+            bids:
+              3s:
+                desc: "Signoff in 3S with invitational values (10-11 HCP)"
+                rule: "p#2 10-11hcp"
+                priority: 2
+              3nt:
+                desc: "Game in 3NT with balanced game values"
+                rule: "p#1 12+hcp balanced"
+                priority: 1
+              4s:
+                desc: "Game in 4S with 6+ Spades"
+                rule: "p#1 12+hcp 6+s"
+                priority: 1
+
+          3d:
+            desc: "Opener 3-card Spade support, maximum (14-15 HCP)"
+            rule: "p#2 14-15hcp 3=s"
+            priority: 2
+            bids:
+              3s:
+                desc: "Signoff in 3S"
+                rule: "p#2 10-11hcp"
+                priority: 2
+              4s:
+                desc: "Accept game in 4S"
+                rule: "p#1 10+hcp"
+                priority: 1
+
+          3h:
+            desc: "Opener 4-card Spade support, maximum (14-15 HCP)"
+            rule: "p#1 14-15hcp 4+s"
+            priority: 1
+            bids:
+              4s:
+                desc: "Game in 4S"
+                rule: "p#1 10+hcp"
+                priority: 1
+
+          3s:
+            desc: "Opener 4-card Spade support, minimum (12-13 HCP)"
+            rule: "p#2 12-13hcp 4+s"
+            priority: 2
+            bids:
+              pass:
+                desc: "Pass with 10-11 HCP"
+                rule: "p#10 10-11hcp"
+                priority: 10
+              4s:
+                desc: "Game in 4S with 12+ HCP"
+                rule: "p#1 12+hcp"
+                priority: 1
+
+      3s:
+        desc: "Direct invitational raise (10-11 HCP, 4-card Spade raise)"
+        rule: "p#3 10-11hcp 4=s"
+        priority: 3
+        bids:
+          pass:
+            desc: "Decline invitation with 12-13 HCP"
+            rule: "p#10 12-13hcp"
+            priority: 10
+          4s:
+            desc: "Accept invitation with 14-15 HCP"
+            rule: "p#1 14-15hcp"
+            priority: 1
+
+      4s:
+        desc: "Direct signoff in 4S Game (12+ HCP, 5+ Spades)"
+        rule: "p#2 12+hcp 5+s"
+        priority: 2

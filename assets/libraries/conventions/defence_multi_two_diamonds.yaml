@@ -1,0 +1,104 @@
+library: "Defense Against Multi 2 Diamonds"
+description: "Comprehensive defense against opponent Multi 2D opening (weak two in an unspecified major, or strong variants)."
+version: "1.0"
+
+fragments:
+  fMultiDefense:
+    desc: "Opposition Multi 2D Opening (Weak Major or Strong)"
+    rule: "5-10hcp 6h | 5-10hcp 6s | 20+hcp"
+    priority: 1
+    bids:
+      pass:
+        desc: "Pass"
+        rule: "p#10 0-11hcp"
+        priority: 10
+
+      # Double: 13-15 HCP balanced or 16+ any
+      dbl:
+        desc: "Double: 13-15 HCP balanced or 16+ HCP any distribution"
+        rule: "p#2 13-15hcp $bal | p#2 16+hcp"
+        priority: 2
+        bids:
+          pass:
+            desc: "Penalty pass against 2D doubled"
+            rule: "p#1 4+d 8+hcp"
+            priority: 1
+          2h:
+            desc: "Pass or correct: preference for major or competing (0-8 HCP)"
+            rule: "p#3 0-8hcp"
+            priority: 3
+          2s:
+            desc: "Natural Spades (to play, 5+ Spades, 0-8 HCP)"
+            rule: "p#3 0-8hcp 5+s"
+            priority: 3
+          2nt:
+            desc: "Lebensohl / inquiry: asks doubler's hand type (10+ HCP)"
+            rule: "p#2 10+hcp"
+            priority: 2
+            bids:
+              3c:
+                desc: "Minimum balanced or clubs"
+                rule: "13-15hcp"
+              3d:
+                desc: "Diamonds / strong values"
+                rule: "16+hcp 5+d"
+              3h:
+                desc: "16+ HCP with 5+ Hearts"
+                rule: "16+hcp 5+h"
+              3s:
+                desc: "16+ HCP with 5+ Spades"
+                rule: "16+hcp 5+s"
+
+      # Natural major overcalls
+      2h:
+        desc: "Natural 5+ Heart overcall (11-16 HCP)"
+        rule: "p#3 11-16hcp 5+h"
+        priority: 3
+        bids:
+          pass:
+            desc: "Pass"
+            rule: "0-8hcp"
+          3h:
+            desc: "Constructive raise in Hearts (8-10 HCP, 3+ Hearts)"
+            rule: "8-10hcp 3+h"
+          4h:
+            desc: "Game in Hearts to play"
+            rule: "10+hcp 4+h"
+
+      2s:
+        desc: "Natural 5+ Spade overcall (11-16 HCP)"
+        rule: "p#3 11-16hcp 5+s"
+        priority: 3
+        bids:
+          pass:
+            desc: "Pass"
+            rule: "0-8hcp"
+          3s:
+            desc: "Constructive raise in Spades (8-10 HCP, 3+ Spades)"
+            rule: "8-10hcp 3+s"
+          4s:
+            desc: "Game in Spades to play"
+            rule: "10+hcp 4+s"
+
+      # 2NT Overcall: 16-18 HCP balanced with major stoppers
+      2nt:
+        desc: "2NT Overcall: 16-18 HCP balanced with stoppers in both majors"
+        rule: "p#1 16-18hcp $bal 3+h 3+s"
+        priority: 1
+        ref: "fGavin1NTResponses"
+
+      # Natural minor overcalls
+      3c:
+        desc: "Natural 5+ Club overcall (11-16 HCP)"
+        rule: "p#3 11-16hcp 5+c"
+        priority: 3
+
+      3d:
+        desc: "Natural 5+ Diamond overcall (11-16 HCP)"
+        rule: "p#3 11-16hcp 5+d"
+        priority: 3
+
+      3nt:
+        desc: "3NT to play (16-18 HCP with running tricks and major stoppers)"
+        rule: "p#1 16-18hcp"
+        priority: 1

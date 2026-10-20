@@ -1,0 +1,83 @@
+name: "Natural Minor Openings with Inverted Minors"
+desc: "Standard 1C and 1D responses incorporating inverted minor raises and Walsh/natural major suit priority"
+
+fragments:
+  fNaturalClubResponses:
+    desc: "Responses to Natural 1C Opening"
+    bids:
+      pass:
+        desc: "Pass (0-5 HCP)"
+        rule: "p#10 5-hcp"
+        priority: 10
+      1d:
+        desc: "Natural 4+ Diamonds (6+ HCP)"
+        rule: "6+hcp, 4+d"
+        priority: 4
+      1h:
+        desc: "Natural 4+ Hearts (6+ HCP)"
+        rule: "6+hcp, 4+h"
+        priority: 3
+      1s:
+        desc: "Natural 4+ Spades (6+ HCP)"
+        rule: "6+hcp, 4+s"
+        priority: 3
+      1nt:
+        desc: "Balanced 6-10 without 4-card major"
+        rule: "6-10hcp, balanced, 3-h, 3-s"
+        priority: 5
+      2c:
+        desc: "Inverted Minor: 10+ HCP 4+ Clubs, forcing 1 round"
+        rule: "10+hcp, 4+c, 3-h, 3-s"
+        priority: 2
+      2nt:
+        desc: "Invitational 11-12 balanced without 4-card major"
+        rule: "11-12hcp, balanced, 3-h, 3-s"
+        priority: 3
+      3c:
+        desc: "Preemptive / weak 5+ Club raise (4-9 HCP)"
+        rule: "4-9hcp, 5+c, 3-h, 3-s"
+        priority: 3
+      3nt:
+        desc: "To play (13-15 HCP balanced)"
+        rule: "13-15hcp, balanced, 3-h, 3-s"
+        priority: 2
+
+  fNaturalDiamondResponses:
+    desc: "Responses to Natural 1D Opening"
+    bids:
+      pass:
+        desc: "Pass (0-5 HCP)"
+        rule: "p#10 5-hcp"
+        priority: 10
+      1h:
+        desc: "Natural 4+ Hearts (6+ HCP)"
+        rule: "6+hcp, 4+h"
+        priority: 3
+      1s:
+        desc: "Natural 4+ Spades (6+ HCP)"
+        rule: "6+hcp, 4+s"
+        priority: 3
+      1nt:
+        desc: "Balanced 6-10 without 4-card major"
+        rule: "6-10hcp, balanced, 3-h, 3-s"
+        priority: 5
+      2c:
+        desc: "2/1 Game Force in Clubs (12+ HCP, 4+ Clubs)"
+        rule: "12+hcp, 4+c"
+        priority: 2
+      2d:
+        desc: "Inverted Minor: 10+ HCP 4+ Diamonds, forcing 1 round"
+        rule: "10+hcp, 4+d, 3-h, 3-s"
+        priority: 2
+      2nt:
+        desc: "Invitational 11-12 balanced without 4-card major"
+        rule: "11-12hcp, balanced, 3-h, 3-s"
+        priority: 3
+      3d:
+        desc: "Preemptive / weak 5+ Diamond raise (4-9 HCP)"
+        rule: "4-9hcp, 5+d, 3-h, 3-s"
+        priority: 3
+      3nt:
+        desc: "To play (13-15 HCP balanced)"
+        rule: "13-15hcp, balanced, 3-h, 3-s"
+        priority: 2

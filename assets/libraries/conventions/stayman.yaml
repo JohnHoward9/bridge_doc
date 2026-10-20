@@ -1,0 +1,104 @@
+library: "Stayman Convention"
+description: "Standard Stayman 2C and continuations including denial responses, Smolen, and major fit raises"
+version: "1.0"
+
+imports:
+  - "assets/libraries/conventions/smolen.yaml"
+
+fragments:
+  fStayman:
+    desc: "Stayman 2C: asks opener for 4-card major"
+    bids:
+      2d:
+        desc: "No 4-card major"
+        rule: "3-h, 3-s"
+        priority: 3
+        ref: "fStaymanDenial"
+
+      2h:
+        desc: "4 or 5 Hearts"
+        rule: "4+h [$M=h, $OM=s]"
+        priority: 2
+        ref: "fStaymanMajorResponses"
+
+      2s:
+        desc: "4 or 5 Spades"
+        rule: "4+s, 3-h [$M=s, $OM=h]"
+        priority: 1
+        ref: "fStaymanMajorResponses"
+
+  fStaymanDenial:
+    desc: "Responder rebids after opener bids 2D (no 4-card major), incorporating Smolen"
+    bids:
+      2nt:
+        desc: "Invitational to 3NT (8-9 HCP), no 4-4 major fit"
+        rule: "p#2 8-9hcp"
+        priority: 2
+        bids:
+          pass:
+            desc: "Opener declines invitation with minimum"
+            rule: "p#10 15-hcp"
+            priority: 10
+          3nt:
+            desc: "Opener accepts game with maximum"
+            rule: "p#1 16+hcp"
+            priority: 1
+      3nt:
+        desc: "Signoff in 3NT with both 4-card majors (10-15 HCP)"
+        rule: "p#2 10-15hcp 4+h 4+s"
+        priority: 2
+        bids:
+          pass:
+            desc: "To play"
+            rule: "p#10"
+            priority: 10
+      ~>smolen:
+        ref: "fSmolen"
+
+  fStaymanMajorResponses:
+    desc: "Responder follow-ups after opener shows 4-card major"
+    bids:
+      2nt:
+        desc: "Invitational to 3NT (8-9 HCP), had 4 in other major"
+        rule: "p#2 8-9hcp 3-$M"
+        priority: 2
+        bids:
+          pass:
+            desc: "Opener declines invitation with minimum"
+            rule: "p#10 15-hcp"
+            priority: 10
+          3nt:
+            desc: "Opener accepts game with maximum"
+            rule: "p#1 16+hcp"
+            priority: 1
+      3$M:
+        desc: "Invitational raise in major (8-9 HCP)"
+        rule: "p#2 8-9hcp 4+$M"
+        priority: 2
+        bids:
+          pass:
+            desc: "Opener declines invitation with minimum"
+            rule: "p#10 15-hcp"
+            priority: 10
+          4$M:
+            desc: "Opener accepts with maximum"
+            rule: "p#1 16+hcp"
+            priority: 1
+      3nt:
+        desc: "Game signoff in 3NT, denies 4-card fit (10-15 HCP)"
+        rule: "p#2 10-15hcp 3-$M"
+        priority: 2
+        bids:
+          pass:
+            desc: "To play"
+            rule: "p#10"
+            priority: 10
+      4$M:
+        desc: "Game signoff in major (10+ HCP)"
+        rule: "p#1 10+hcp 4+$M"
+        priority: 1
+        bids:
+          pass:
+            desc: "To play"
+            rule: "p#10"
+            priority: 10

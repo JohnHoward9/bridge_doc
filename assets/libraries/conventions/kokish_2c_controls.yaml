@@ -1,0 +1,64 @@
+library: "Kokish 2C Step Controls"
+description: "Kokish-Kraft strong 2C opening with step control responses (2D=0-1, 2H=2, 2S=3+) and Kokish Relay"
+version: "1.0"
+
+imports:
+  - "assets/libraries/conventions/kokish_relay.yaml"
+
+fragments:
+  fKokish2CControls:
+    desc: "2C: Strong artificial, 23+ balanced or Game Force unbalanced"
+    rule: "p#1 23+hcp $bal, p#1 22+hcp !balanced"
+    priority: 1
+    bids:
+      2d:
+        desc: "0 or 1 control (Ace=2, King=1)"
+        rule: "p#1"
+        priority: 1
+        bids:
+          2h:
+            desc: "Kokish Relay: either natural Hearts or 24+ balanced"
+            rule: "p#1"
+            priority: 1
+            ref: "fKokishRelay"
+          2s:
+            desc: "Natural Game Force in Spades (9+ tricks)"
+            rule: "p#1 5+s"
+            priority: 1
+          2nt:
+            desc: "23-24 HCP balanced"
+            rule: "p#1 23-24hcp $bal"
+            priority: 1
+          3c:
+            desc: "Natural Clubs, 10+ tricks"
+            rule: "p#1 5+c"
+            priority: 1
+          3d:
+            desc: "Natural Diamonds, 10+ tricks"
+            rule: "p#1 5+d"
+            priority: 1
+
+      2h:
+        desc: "Exactly 2 controls (1 Ace or 2 Kings)"
+        rule: "p#1"
+        priority: 1
+        bids:
+          2nt:
+            desc: "23+ balanced, game forcing"
+            rule: "p#1 23+hcp $bal"
+            priority: 1
+
+      2s:
+        desc: "3 or more controls (e.g. Ace + King, or 3 Kings)"
+        rule: "p#1"
+        priority: 1
+        bids:
+          2nt:
+            desc: "23+ balanced, game forcing"
+            rule: "p#1 23+hcp $bal"
+            priority: 1
+
+      2nt:
+        desc: "Solid or semi-solid suit (AKQ10xx or AQJ10xx)"
+        rule: "p#1 6+c, p#1 6+d, p#1 6+h, p#1 6+s"
+        priority: 1

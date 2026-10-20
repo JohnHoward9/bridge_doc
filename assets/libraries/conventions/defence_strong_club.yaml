@@ -1,0 +1,86 @@
+library: "Defense Against Strong Club (Precision 1C)"
+description: "Mathe / Crash style defense against opponent artificial strong 1C opening (16+ HCP)."
+version: "1.0"
+
+fragments:
+  fStrongClubDefense:
+    desc: "Opposition Strong / Precision 1C Opening (16+ HCP)"
+    rule: "16+hcp"
+    priority: 1
+    bids:
+      pass:
+        desc: "Pass"
+        rule: "p#10 0-7hcp"
+        priority: 10
+
+      # Double: Both Majors (5-4 or 5-5 in Hearts and Spades, 8-15 HCP)
+      dbl:
+        desc: "Mathe Double: 5-4 or 5-5 in both Majors (Hearts and Spades, 8-15 HCP)"
+        rule: "p#1 8-15hcp 4+h 4+s"
+        priority: 1
+        bids:
+          2h:
+            desc: "Preference for Hearts (to play)"
+            rule: "0-9hcp h>=s"
+          2s:
+            desc: "Preference for Spades (to play)"
+            rule: "0-9hcp s>h"
+          3h:
+            desc: "Invitational raise in Hearts (10-12 HCP, 4+ Hearts)"
+            rule: "10-12hcp 4+h"
+          3s:
+            desc: "Invitational raise in Spades (10-12 HCP, 4+ Spades)"
+            rule: "10-12hcp 4+s"
+          4h:
+            desc: "Game in Hearts to play"
+            rule: "10+hcp 4+h"
+          4s:
+            desc: "Game in Spades to play"
+            rule: "10+hcp 4+s"
+
+      # 1NT: Both Minors (5-5 in Clubs and Diamonds, 8-15 HCP)
+      1nt:
+        desc: "Mathe 1NT: 5-5 in both Minors (Clubs and Diamonds, 8-15 HCP)"
+        rule: "p#1 8-15hcp 5+c 5+d"
+        priority: 1
+        bids:
+          2c:
+            desc: "Preference for Clubs (to play)"
+            rule: "c>=d"
+          2d:
+            desc: "Preference for Diamonds (to play)"
+            rule: "d>c"
+          3c:
+            desc: "Preemptive / competitive Club raise"
+            rule: "4+c 6-9hcp"
+          3d:
+            desc: "Preemptive / competitive Diamond raise"
+            rule: "4+d 6-9hcp"
+
+      # Natural 1-level suit overcalls
+      1d:
+        desc: "Natural Diamond overcall (8-15 HCP, 5+ Diamonds)"
+        rule: "p#3 8-15hcp 5+d"
+        priority: 3
+
+      1h:
+        desc: "Natural Heart overcall (8-15 HCP, 5+ Hearts)"
+        rule: "p#3 8-15hcp 5+h"
+        priority: 3
+
+      1s:
+        desc: "Natural Spade overcall (8-15 HCP, 5+ Spades)"
+        rule: "p#3 8-15hcp 5+s"
+        priority: 3
+
+      # Natural 2C overcall (holding long clubs)
+      2c:
+        desc: "Natural Club overcall (8-15 HCP, 6+ Clubs)"
+        rule: "p#3 8-15hcp 6+c"
+        priority: 3
+
+      # Preemptive jump overcalls
+      "[2d,2h,2s]":
+        desc: "Preemptive jump overcall (4-8 HCP, 6+ suit)"
+        rule: "p#2 4-8hcp 6+%"
+        priority: 2

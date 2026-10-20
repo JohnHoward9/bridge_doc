@@ -1,0 +1,100 @@
+library: "Support Doubles & Redoubles"
+description: "Support Doubles and Redoubles in competition through 2 of Responder's major to show exactly 3-card support"
+version: "1.0"
+
+fragments:
+  fSupportDoubles_Heart:
+    desc: "Competitive continuations after 1m - (P) - 1H - (Interference)"
+    bids:
+      "(1s)":
+        desc: "Overcall 1S by opponent"
+        bids:
+          dbl:
+            desc: "Support Double: Exactly 3-card Heart support (12-18 HCP)"
+            rule: "p#1 12-18hcp 3=h"
+            priority: 1
+          2h:
+            desc: "Raise Hearts: 4-card support (12-15 HCP)"
+            rule: "p#2 12-15hcp 4+h"
+            priority: 2
+      "(2c)":
+        desc: "Overcall 2C by opponent"
+        bids:
+          dbl:
+            desc: "Support Double: Exactly 3-card Heart support (12-18 HCP)"
+            rule: "p#1 12-18hcp 3=h"
+            priority: 1
+          2h:
+            desc: "Raise Hearts: 4-card support (12-15 HCP)"
+            rule: "p#2 12-15hcp 4+h"
+            priority: 2
+      "(2d)":
+        desc: "Overcall 2D by opponent"
+        bids:
+          dbl:
+            desc: "Support Double: Exactly 3-card Heart support (12-18 HCP)"
+            rule: "p#1 12-18hcp 3=h"
+            priority: 1
+          2h:
+            desc: "Raise Hearts: 4-card support (12-15 HCP)"
+            rule: "p#2 12-15hcp 4+h"
+            priority: 2
+      "(x)":
+        desc: "Takeout Double by opponent"
+        bids:
+          rdbl:
+            desc: "Support Redouble: Exactly 3-card Heart support (12+ HCP)"
+            rule: "p#1 12+hcp 3=h"
+            priority: 1
+          2h:
+            desc: "Raise Hearts: 4-card support (12-15 HCP)"
+            rule: "p#2 12-15hcp 4+h"
+            priority: 2
+
+  fSupportDoubles_Spade:
+    desc: "Competitive continuations after 1m - (P) - 1S - (Interference)"
+    bids:
+      "(2c)":
+        desc: "Overcall 2C by opponent"
+        bids:
+          dbl:
+            desc: "Support Double: Exactly 3-card Spade support (12-18 HCP)"
+            rule: "p#1 12-18hcp 3=s"
+            priority: 1
+          2s:
+            desc: "Raise Spades: 4-card support (12-15 HCP)"
+            rule: "p#2 12-15hcp 4+s"
+            priority: 2
+      "(2d)":
+        desc: "Overcall 2D by opponent"
+        bids:
+          dbl:
+            desc: "Support Double: Exactly 3-card Spade support (12-18 HCP)"
+            rule: "p#1 12-18hcp 3=s"
+            priority: 1
+          2s:
+            desc: "Raise Spades: 4-card support (12-15 HCP)"
+            rule: "p#2 12-15hcp 4+s"
+            priority: 2
+      "(2h)":
+        desc: "Overcall 2H by opponent"
+        bids:
+          dbl:
+            desc: "Support Double: Exactly 3-card Spade support (12-18 HCP)"
+            rule: "p#1 12-18hcp 3=s"
+            priority: 1
+          2s:
+            desc: "Raise Spades: 4-card support (12-15 HCP)"
+            rule: "p#2 12-15hcp 4+s"
+            priority: 2
+      "(x)":
+        desc: "Takeout Double by opponent"
+        bids:
+          rdbl:
+            desc: "Support Redouble: Exactly 3-card Spade support (12+ HCP)"
+            rule: "p#1 12+hcp 3=s"
+            priority: 1
+          2s:
+            desc: "Raise Spades: 4-card support (12-15 HCP)"
+            rule: "p#2 12-15hcp 4+s"
+            priority: 2

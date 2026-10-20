@@ -1,0 +1,156 @@
+library: "Three-Way Checkback"
+description: "Three-Way / Two-Way Checkback over 1x - 1y - 1NT: 2C forces 2D (invitational checkback), 2D is Game-Forcing checkback"
+version: "1.0"
+
+fragments:
+  fThreeWayCheckback:
+    desc: "Checkback structure over 1NT rebid by opener"
+    bids:
+      pass:
+        desc: "Pass to play (0-7 HCP)"
+        rule: "p#10 7-hcp"
+        priority: 10
+
+      2c:
+        desc: "Invitational Checkback (forces 2D): 8-10 HCP"
+        rule: "p#1 8-10hcp"
+        priority: 1
+        bids:
+          2d:
+            desc: "Forced relay to 2D"
+            rule: "12-14hcp"
+            bids:
+              pass:
+                desc: "Signoff in Diamonds with weak diamonds"
+                rule: "0-7hcp 5+d"
+              2h:
+                desc: "Invitational with 5+ Hearts"
+                rule: "8-10hcp 5+h"
+              2s:
+                desc: "Invitational with 5+ Spades"
+                rule: "8-10hcp 5+s"
+              2nt:
+                desc: "Natural invitation without 5-card major"
+                rule: "8-10hcp"
+
+      2d:
+        desc: "Game-Forcing Checkback: 11+ HCP, artificial enquiry for 3-card support or unbid 4-card major"
+        rule: "p#1 11+hcp 4+h | p#1 11+hcp 4+s | p#1 18+hcp"
+        priority: 1
+        bids:
+          2h:
+            desc: "Opener shows 3-card Heart support or 4 Hearts"
+            rule: "3+h | 4h"
+            bids:
+              4h:
+                desc: "Game in Hearts with 3+ Heart fit"
+                rule: "p#1 3+h"
+                priority: 1
+              4s:
+                desc: "Game in Spades with 5+ Spades"
+                rule: "p#1 5+s"
+                priority: 1
+              3nt:
+                desc: "3NT to play without major fit"
+                rule: "p#2 11-15hcp"
+                priority: 2
+              3h:
+                desc: "Slam try in Hearts"
+                rule: "p#1 3+h 16+hcp"
+                priority: 1
+              3s:
+                desc: "Slam try in Spades"
+                rule: "p#1 5+s 16+hcp"
+                priority: 1
+              4nt:
+                desc: "RKCB 1430"
+                rule: "p#1 18+hcp"
+                priority: 1
+          2s:
+            desc: "Opener shows 3-card Spade support or 4 Spades"
+            rule: "3+s | 4s"
+            bids:
+              4s:
+                desc: "Game in Spades with 3+ Spade fit"
+                rule: "p#1 3+s"
+                priority: 1
+              4h:
+                desc: "Game in Hearts with 5+ Hearts"
+                rule: "p#1 5+h"
+                priority: 1
+              3nt:
+                desc: "3NT to play without major fit"
+                rule: "p#2 11-15hcp"
+                priority: 2
+              3s:
+                desc: "Slam try in Spades"
+                rule: "p#1 3+s 16+hcp"
+                priority: 1
+              3h:
+                desc: "Slam try in Hearts"
+                rule: "p#1 5+h 16+hcp"
+                priority: 1
+              4nt:
+                desc: "RKCB 1430"
+                rule: "p#1 18+hcp"
+                priority: 1
+          2nt:
+            desc: "Opener denies major support, balanced stopper"
+            rule: "3-h 3-s"
+            ref: "fThreeWayGameContinuations"
+          3c:
+            desc: "Opener 5+ Clubs"
+            rule: "5+c"
+            ref: "fThreeWayGameContinuations"
+          3d:
+            desc: "Opener 5+ Diamonds"
+            rule: "5+d"
+            ref: "fThreeWayGameContinuations"
+
+      2h:
+        desc: "Signoff in Hearts to play (weak, 5+ Hearts)"
+        rule: "p#3 5-7hcp 5+h"
+        priority: 3
+
+      2s:
+        desc: "Signoff in Spades to play (weak, 5+ Spades)"
+        rule: "p#3 5-7hcp 5+s"
+        priority: 3
+
+      2nt:
+        desc: "Natural quantitative invitation"
+        rule: "p#3 8-9hcp balanced"
+        priority: 3
+
+      3nt:
+        desc: "To play with balanced hand and no 4-card major (10-17 HCP)"
+        rule: "p#1 10-17hcp balanced 3-h 3-s | p#2 10-15hcp balanced"
+        priority: 1
+
+  fThreeWayGameContinuations:
+    desc: "Responder game-reaching continuations in Three-Way Checkback"
+    bids:
+      4s:
+        desc: "Game in Spades with 6+ Spades"
+        rule: "p#1 6+s"
+        priority: 1
+      4h:
+        desc: "Game in Hearts with 6+ Hearts"
+        rule: "p#1 6+h"
+        priority: 1
+      3nt:
+        desc: "3NT to play with balanced hand"
+        rule: "p#1 11-15hcp"
+        priority: 1
+      3s:
+        desc: "Slam try in Spades"
+        rule: "p#2 5+s 15+hcp"
+        priority: 2
+      3h:
+        desc: "Slam try in Hearts"
+        rule: "p#2 5+h 15+hcp"
+        priority: 2
+      4nt:
+        desc: "RKCB 1430"
+        rule: "p#1 16+hcp"
+        priority: 1

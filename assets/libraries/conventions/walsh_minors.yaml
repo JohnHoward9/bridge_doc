@@ -1,0 +1,820 @@
+library: "Walsh Minors & Inverted Minors"
+description: "Gavin Wolpert Walsh Club responses, Inverted Minors, 1m-2NT Game Force, and Transfers over 2NT rebid"
+version: "1.0"
+
+fragments:
+  WalshClubOpening:
+    aliases: ["fWalshClubResponses"]
+    desc: "Better minor opening (3+ Clubs, 12-21 HCP)"
+    rule: "12-21hcp, 3+c, c>=d"
+    bids:
+      pass:
+        desc: "Pass (0-5 HCP)"
+        rule: "p#10 5-hcp"
+        priority: 10
+
+      1d:
+        desc: "Walsh 1D: 4+ Diamonds (bypasses 4M unless GF or 4441)"
+        rule: "p#2 6+hcp 4+d"
+        priority: 2
+        bids:
+          1h:
+            desc: "Opener 4+ Hearts UNBALANCED (5+ Clubs or 15+ HCP)"
+            rule: "4+h !balanced [$fourth_suit=true]"
+            priority: 1
+            ref: "fXYZ"
+          1s:
+            desc: "Opener 4+ Spades UNBALANCED (5+ Clubs or 15+ HCP)"
+            rule: "4+s !balanced"
+            priority: 1
+            ref: "fXYZ"
+          1nt:
+            desc: "Opener 12-14 balanced (does NOT deny 4-card major)"
+            rule: "12-14hcp balanced"
+            priority: 2
+            ref: "fThreeWayCheckback"
+          2c:
+            desc: "Opener 6+ Clubs minimum"
+            rule: "6+c 12-15hcp"
+            priority: 3
+          2nt:
+            desc: "Opener 18-19 balanced"
+            rule: "18-19hcp balanced"
+            priority: 1
+            ref: "fTransfersOver2NT"
+
+      1h:
+        desc: "Natural 4+ Hearts (6+ HCP, Hearts longer than Spades or 4-4 majors)"
+        rule: "p#2 6+hcp 4+h h>=s 4-s | p#2 6+hcp 5+h h>s"
+        priority: 2
+        bids:
+          1s:
+            desc: "Natural 4+ Spades"
+            rule: "p#1 4+s"
+            priority: 1
+            ref: "fXYZ"
+          1nt:
+            desc: "12-14 balanced minimum"
+            rule: "12-14hcp balanced"
+            ref: "fThreeWayCheckback"
+          2c:
+            desc: "Natural 5+ Clubs"
+            rule: "5+c 12-15hcp"
+            ref: "fResponderRebidsOverMinor_H"
+          2h:
+            desc: "Raise Hearts with 4-card support"
+            rule: "4+h 12-15hcp"
+            ref: "fSpiralRaises_Heart"
+          "(1s)":
+            desc: "Interference 1S"
+            bids:
+              dbl:
+                desc: "Support Double: Exactly 3-card Heart support"
+                rule: "p#1 12-18hcp 3=h"
+                priority: 1
+              2h:
+                desc: "Raise Hearts: 4-card support"
+                rule: "p#2 12-15hcp 4+h"
+                priority: 2
+          "(2c)":
+            desc: "Interference 2C"
+            bids:
+              dbl:
+                desc: "Support Double: Exactly 3-card Heart support"
+                rule: "p#1 12-18hcp 3=h"
+                priority: 1
+              2h:
+                desc: "Raise Hearts: 4-card support"
+                rule: "p#2 12-15hcp 4+h"
+                priority: 2
+          "(2d)":
+            desc: "Interference 2D"
+            bids:
+              dbl:
+                desc: "Support Double: Exactly 3-card Heart support"
+                rule: "p#1 12-18hcp 3=h"
+                priority: 1
+              2h:
+                desc: "Raise Hearts: 4-card support"
+                rule: "p#2 12-15hcp 4+h"
+                priority: 2
+          "(x)":
+            desc: "Interference Takeout Double"
+            bids:
+              rdbl:
+                desc: "Support Redouble: Exactly 3-card Heart support"
+                rule: "p#1 12+hcp 3=h"
+                priority: 1
+              2h:
+                desc: "Raise Hearts: 4-card support"
+                rule: "p#2 12-15hcp 4+h"
+                priority: 2
+          2nt:
+            desc: "18-19 balanced"
+            rule: "18-19hcp balanced"
+            ref: "fTransfersOver2NT"
+          3d:
+            desc: "Game Forcing Club one-suiter with a stopper missing"
+            rule: "16+hcp 6+c !balanced"
+            bids:
+              3h:
+                desc: "Rebid 5+ Hearts"
+                rule: "p#2 5+h"
+                priority: 2
+              3nt:
+                desc: "To play with stoppers in unbid suits"
+                rule: "p#1 10+hcp balanced"
+                priority: 1
+              4c:
+                desc: "Support for Clubs"
+                rule: "p#2 3+c"
+                priority: 2
+              4h:
+                desc: "Game in Hearts"
+                rule: "p#1 6+h"
+                priority: 1
+              5c:
+                desc: "Game in Clubs"
+                rule: "p#2 4+c !balanced"
+                priority: 2
+
+      1s:
+        desc: "Natural 4+ Spades (6+ HCP, Spades longer than Hearts or 5-5 majors)"
+        rule: "p#2 6+hcp 4+s s>h | p#2 6+hcp 5+s s>=h"
+        priority: 2
+        bids:
+          1nt:
+            desc: "12-14 balanced minimum"
+            rule: "12-14hcp balanced"
+            ref: "fThreeWayCheckback"
+          2c:
+            desc: "Natural 5+ Clubs"
+            rule: "5+c 12-15hcp"
+            ref: "fResponderRebidsOverMinor_S"
+          2s:
+            desc: "Raise Spades with 4-card support"
+            rule: "4+s 12-15hcp"
+            ref: "fSpiralRaises_Spade"
+          "(2c)":
+            desc: "Interference 2C"
+            bids:
+              dbl:
+                desc: "Support Double: Exactly 3-card Spade support"
+                rule: "p#1 12-18hcp 3=s"
+                priority: 1
+              2s:
+                desc: "Raise Spades: 4-card support"
+                rule: "p#2 12-15hcp 4+s"
+                priority: 2
+          "(2d)":
+            desc: "Interference 2D"
+            bids:
+              dbl:
+                desc: "Support Double: Exactly 3-card Spade support"
+                rule: "p#1 12-18hcp 3=s"
+                priority: 1
+              2s:
+                desc: "Raise Spades: 4-card support"
+                rule: "p#2 12-15hcp 4+s"
+                priority: 2
+          "(2h)":
+            desc: "Interference 2H"
+            bids:
+              dbl:
+                desc: "Support Double: Exactly 3-card Spade support"
+                rule: "p#1 12-18hcp 3=s"
+                priority: 1
+              2s:
+                desc: "Raise Spades: 4-card support"
+                rule: "p#2 12-15hcp 4+s"
+                priority: 2
+          "(x)":
+            desc: "Interference Takeout Double"
+            bids:
+              rdbl:
+                desc: "Support Redouble: Exactly 3-card Spade support"
+                rule: "p#1 12+hcp 3=s"
+                priority: 1
+              2s:
+                desc: "Raise Spades: 4-card support"
+                rule: "p#2 12-15hcp 4+s"
+                priority: 2
+          2nt:
+            desc: "18-19 balanced"
+            rule: "18-19hcp balanced"
+            ref: "fTransfersOver2NT"
+          3d:
+            desc: "Game Forcing Club one-suiter"
+            rule: "16+hcp 6+c !balanced"
+            bids:
+              3s:
+                desc: "Rebid 5+ Spades"
+                rule: "p#2 5+s"
+                priority: 2
+              3nt:
+                desc: "To play with stoppers in unbid suits"
+                rule: "p#1 10+hcp balanced"
+                priority: 1
+              4c:
+                desc: "Support for Clubs"
+                rule: "p#2 3+c"
+                priority: 2
+              4s:
+                desc: "Game in Spades"
+                rule: "p#1 6+s"
+                priority: 1
+              5c:
+                desc: "Game in Clubs"
+                rule: "p#2 4+c !balanced"
+                priority: 2
+
+      1nt:
+        desc: "Natural balanced 6-9 HCP without 4-card major"
+        rule: "p#3 6-9hcp 3-h 3-s"
+        priority: 3
+
+      2c:
+        desc: "Inverted Minor: 10+ HCP, 4+ Clubs, denies 4-card major (GF or invitational)"
+        rule: "p#1 10+hcp 4+c 3-h 3-s"
+        priority: 1
+        bids:
+          2d:
+            desc: "Stopper showing (Diamonds)"
+            rule: "12+hcp"
+            ref: "fInvertedClubContinuations"
+          2h:
+            desc: "Stopper showing (Hearts)"
+            rule: "12+hcp"
+            ref: "fInvertedClubContinuations"
+          2s:
+            desc: "Stopper showing (Spades)"
+            rule: "12+hcp"
+            ref: "fInvertedClubContinuations"
+          2nt:
+            desc: "Balanced minimum 12-14 stopper inquiry"
+            rule: "12-14hcp balanced"
+            ref: "fInvertedClubContinuations"
+          3c:
+            desc: "Minimum 12-14 unbalanced"
+            rule: "12-14hcp"
+            ref: "fInvertedClubContinuations"
+
+      2nt:
+        desc: "Game Forcing 12-15 or 18+ HCP (may contain 4-card major)"
+        rule: "p#2 12+hcp balanced"
+        priority: 2
+        bids:
+          3nt:
+            desc: "3NT to play"
+            rule: "p#1 12-17hcp"
+            priority: 1
+          4nt:
+            desc: "Quantitative slam invite"
+            rule: "p#1 18-19hcp"
+            priority: 1
+          6nt:
+            desc: "Small Slam in NT"
+            rule: "p#1 20+hcp"
+            priority: 1
+
+      3c:
+        desc: "Preemptive Inverted Minor: 0-6 HCP, 5+ Clubs"
+        rule: "p#2 0-6hcp 5+c"
+        priority: 2
+
+  WalshDiamondOpening:
+    aliases: ["fWalshDiamondResponses"]
+    desc: "Better minor opening (3+ Diamonds, 12-21 HCP)"
+    rule: "12-21hcp, 3+d, d>c"
+    bids:
+      pass:
+        desc: "Pass (0-5 HCP)"
+        rule: "p#10 5-hcp"
+        priority: 10
+
+      1h:
+        desc: "Natural 4+ Hearts (6+ HCP, Hearts longer than Spades or 4-4 majors)"
+        rule: "p#2 6+hcp 4+h h>=s 4-s | p#2 6+hcp 5+h h>s"
+        priority: 2
+        bids:
+          1s:
+            desc: "Natural 4+ Spades"
+            rule: "p#1 4+s"
+            priority: 1
+            ref: "fXYZ"
+          1nt:
+            desc: "12-14 balanced"
+            rule: "12-14hcp balanced"
+            ref: "fThreeWayCheckback"
+          2c:
+            desc: "Natural secondary Clubs"
+            rule: "4+c 12-18hcp"
+            ref: "fResponderRebidsOverMinor_H"
+          2d:
+            desc: "Natural 5+ Diamonds"
+            rule: "5+d 12-18hcp"
+            ref: "fResponderRebidsOverMinor_H"
+          2h:
+            desc: "Raise Hearts with 4-card support"
+            rule: "4+h 12-15hcp"
+            ref: "fSpiralRaises_Heart"
+          "(1s)":
+            desc: "Interference 1S"
+            bids:
+              dbl:
+                desc: "Support Double: Exactly 3-card Heart support"
+                rule: "p#1 12-18hcp 3=h"
+                priority: 1
+              2h:
+                desc: "Raise Hearts: 4-card support"
+                rule: "p#2 12-15hcp 4+h"
+                priority: 2
+          "(2c)":
+            desc: "Interference 2C"
+            bids:
+              dbl:
+                desc: "Support Double: Exactly 3-card Heart support"
+                rule: "p#1 12-18hcp 3=h"
+                priority: 1
+              2h:
+                desc: "Raise Hearts: 4-card support"
+                rule: "p#2 12-15hcp 4+h"
+                priority: 2
+          "(2d)":
+            desc: "Interference 2D"
+            bids:
+              dbl:
+                desc: "Support Double: Exactly 3-card Heart support"
+                rule: "p#1 12-18hcp 3=h"
+                priority: 1
+              2h:
+                desc: "Raise Hearts: 4-card support"
+                rule: "p#2 12-15hcp 4+h"
+                priority: 2
+          "(x)":
+            desc: "Interference Takeout Double"
+            bids:
+              rdbl:
+                desc: "Support Redouble: Exactly 3-card Heart support"
+                rule: "p#1 12+hcp 3=h"
+                priority: 1
+              2h:
+                desc: "Raise Hearts: 4-card support"
+                rule: "p#2 12-15hcp 4+h"
+                priority: 2
+          2nt:
+            desc: "18-19 balanced"
+            rule: "18-19hcp balanced"
+            ref: "fTransfersOver2NT"
+          3d:
+            desc: "Jump rebid 6+ Diamonds (16-18 HCP)"
+            rule: "6+d 16-18hcp"
+            bids:
+              3nt:
+                desc: "3NT to play"
+                rule: "p#1 10+hcp balanced"
+                priority: 1
+              4d:
+                desc: "Diamond raise"
+                rule: "p#2 3+d"
+                priority: 2
+              5d:
+                desc: "Game in Diamonds"
+                rule: "p#1 4+d 12+hcp"
+                priority: 1
+          3h:
+            desc: "Jump raise 4+ Hearts (16-18 HCP)"
+            rule: "4+h 16-18hcp"
+            bids:
+              pass:
+                desc: "Decline with 6-7 HCP"
+                rule: "p#10 6-7hcp"
+                priority: 10
+              4h:
+                desc: "Accept game with 8+ HCP"
+                rule: "p#1 8+hcp"
+                priority: 1
+
+      1s:
+        desc: "Natural 4+ Spades (6+ HCP, Spades longer than Hearts or 5-5 majors)"
+        rule: "p#2 6+hcp 4+s s>h | p#2 6+hcp 5+s s>=h"
+        priority: 2
+        bids:
+          1nt:
+            desc: "12-14 balanced"
+            rule: "12-14hcp balanced"
+            ref: "fThreeWayCheckback"
+          2c:
+            desc: "Natural secondary Clubs"
+            rule: "4+c 12-18hcp"
+            ref: "fResponderRebidsOverMinor_S"
+          2d:
+            desc: "Natural 5+ Diamonds"
+            rule: "5+d 12-18hcp"
+            ref: "fResponderRebidsOverMinor_S"
+          2h:
+            desc: "Reverse 4+ Hearts (16+ HCP)"
+            rule: "4+h 16+hcp"
+          2s:
+            desc: "Raise Spades with 4-card support"
+            rule: "4+s 12-15hcp"
+            ref: "fSpiralRaises_Spade"
+          "(2c)":
+            desc: "Interference 2C"
+            bids:
+              dbl:
+                desc: "Support Double: Exactly 3-card Spade support"
+                rule: "p#1 12-18hcp 3=s"
+                priority: 1
+              2s:
+                desc: "Raise Spades: 4-card support"
+                rule: "p#2 12-15hcp 4+s"
+                priority: 2
+          "(2d)":
+            desc: "Interference 2D"
+            bids:
+              dbl:
+                desc: "Support Double: Exactly 3-card Spade support"
+                rule: "p#1 12-18hcp 3=s"
+                priority: 1
+              2s:
+                desc: "Raise Spades: 4-card support"
+                rule: "p#2 12-15hcp 4+s"
+                priority: 2
+          "(2h)":
+            desc: "Interference 2H"
+            bids:
+              dbl:
+                desc: "Support Double: Exactly 3-card Spade support"
+                rule: "p#1 12-18hcp 3=s"
+                priority: 1
+              2s:
+                desc: "Raise Spades: 4-card support"
+                rule: "p#2 12-15hcp 4+s"
+                priority: 2
+          "(x)":
+            desc: "Interference Takeout Double"
+            bids:
+              rdbl:
+                desc: "Support Redouble: Exactly 3-card Spade support"
+                rule: "p#1 12+hcp 3=s"
+                priority: 1
+              2s:
+                desc: "Raise Spades: 4-card support"
+                rule: "p#2 12-15hcp 4+s"
+                priority: 2
+          2nt:
+            desc: "18-19 balanced"
+            rule: "18-19hcp balanced"
+            ref: "fTransfersOver2NT"
+          3d:
+            desc: "Jump rebid 6+ Diamonds (16-18 HCP)"
+            rule: "6+d 16-18hcp"
+            bids:
+              3nt:
+                desc: "3NT to play"
+                rule: "p#1 10+hcp balanced"
+                priority: 1
+              4d:
+                desc: "Diamond raise"
+                rule: "p#2 3+d"
+                priority: 2
+              5d:
+                desc: "Game in Diamonds"
+                rule: "p#1 4+d 12+hcp"
+                priority: 1
+          3s:
+            desc: "Jump raise 4+ Spades (16-18 HCP)"
+            rule: "4+s 16-18hcp"
+            bids:
+              pass:
+                desc: "Decline with 6-7 HCP"
+                rule: "p#10 6-7hcp"
+                priority: 10
+              4s:
+                desc: "Accept game with 8+ HCP"
+                rule: "p#1 8+hcp"
+                priority: 1
+
+      1nt:
+        desc: "Natural balanced 6-9 HCP without 4-card major"
+        rule: "p#3 6-9hcp 3-h 3-s"
+        priority: 3
+
+      2c:
+        desc: "Nebulous 2C / 2/1 GF in Clubs (10+ HCP, 2+ Clubs or 4+ Clubs, denies 4M)"
+        rule: "p#2 10+hcp 2+c 3-h 3-s"
+        priority: 2
+        bids:
+          2d:
+            desc: "Waiting / 5+ Diamonds"
+            rule: "12+hcp"
+            ref: "fInvertedClubContinuations"
+          2h:
+            desc: "Stopper showing (Hearts)"
+            rule: "12+hcp"
+            ref: "fInvertedClubContinuations"
+          2s:
+            desc: "Stopper showing (Spades)"
+            rule: "12+hcp"
+            ref: "fInvertedClubContinuations"
+          2nt:
+            desc: "Balanced 12-14 stopper inquiry"
+            rule: "12-14hcp balanced"
+            ref: "fInvertedClubContinuations"
+          3c:
+            desc: "Club support (4+ Clubs)"
+            rule: "12+hcp 4+c"
+            ref: "fInvertedClubContinuations"
+          3nt:
+            desc: "15-17 balanced to play"
+            rule: "15-17hcp balanced"
+
+      2d:
+        desc: "Inverted Minor: 10+ HCP, 4+ Diamonds, denies 4-card major"
+        rule: "p#1 10+hcp 4+d 3-h 3-s"
+        priority: 1
+        bids:
+          2h:
+            desc: "Stopper showing (Hearts)"
+            rule: "12+hcp"
+            ref: "fInvertedDiamondContinuations"
+          2s:
+            desc: "Stopper showing (Spades)"
+            rule: "12+hcp"
+            ref: "fInvertedDiamondContinuations"
+          2nt:
+            desc: "12-14 balanced stopper enquiry"
+            rule: "12-14hcp balanced"
+            ref: "fInvertedDiamondContinuations"
+          3d:
+            desc: "Minimum 12-14 unbalanced"
+            rule: "12-14hcp"
+            ref: "fInvertedDiamondContinuations"
+
+      2nt:
+        desc: "Game Forcing 12-15 or 18+ HCP balanced (alternative to 2C)"
+        rule: "p#3 12+hcp balanced"
+        priority: 3
+        bids:
+          3nt:
+            desc: "3NT to play"
+            rule: "p#1 12-17hcp"
+            priority: 1
+          4nt:
+            desc: "Quantitative slam invite"
+            rule: "p#1 18-19hcp"
+            priority: 1
+          6nt:
+            desc: "Small Slam in NT"
+            rule: "p#1 20+hcp"
+            priority: 1
+
+      3d:
+        desc: "Preemptive Inverted Minor: 0-6 HCP, 5+ Diamonds"
+        rule: "p#2 0-6hcp 5+d"
+        priority: 2
+
+  fTransfersOver2NT:
+    desc: "Transfers by responder after 1x - 1y - 2NT rebid"
+    bids:
+      3c:
+        desc: "Transfer to Diamonds (5+ Diamonds)"
+        rule: "p#1 5+d"
+        priority: 1
+        bids:
+          3d:
+            desc: "Opener accepts transfer to Diamonds"
+            rule: "18-19hcp"
+      3d:
+        desc: "Transfer to Hearts (5+ Hearts)"
+        rule: "p#1 5+h"
+        priority: 1
+        bids:
+          3h:
+            desc: "Opener accepts transfer to Hearts"
+            rule: "18-19hcp"
+            bids:
+              pass:
+                desc: "Pass with 6-7 HCP"
+                rule: "p#10 6-7hcp"
+                priority: 10
+              4h:
+                desc: "Game in Hearts (8+ HCP)"
+                rule: "p#1 8+hcp"
+                priority: 1
+              3nt:
+                desc: "Choice of games (8+ HCP balanced 5 Hearts)"
+                rule: "p#2 8+hcp balanced 5h"
+                priority: 2
+      3h:
+        desc: "Transfer to Spades (5+ Spades)"
+        rule: "p#1 5+s"
+        priority: 1
+        bids:
+          3s:
+            desc: "Opener accepts transfer to Spades"
+            rule: "18-19hcp"
+            bids:
+              pass:
+                desc: "Pass with 6-7 HCP"
+                rule: "p#10 6-7hcp"
+                priority: 10
+              4s:
+                desc: "Game in Spades (8+ HCP)"
+                rule: "p#1 8+hcp"
+                priority: 1
+              3nt:
+                desc: "Choice of games (8+ HCP balanced 5 Spades)"
+                rule: "p#2 8+hcp balanced 5s"
+                priority: 2
+      3nt:
+        desc: "To play"
+        rule: "p#2 balanced"
+        priority: 2
+
+  fInvertedClubContinuations:
+    desc: "Responder continuations over Opener's Inverted Club rebid"
+    bids:
+      3nt:
+        desc: "3NT to play with stoppers and balanced"
+        rule: "p#1 12+hcp"
+        priority: 1
+      2nt:
+        desc: "Natural balanced invitation"
+        rule: "p#2 10-11hcp balanced"
+        priority: 2
+        bids:
+          pass:
+            desc: "Pass with 12-13 HCP"
+            rule: "12-13hcp"
+          3nt:
+            desc: "Accept game with 14+ HCP"
+            rule: "14+hcp"
+            priority: 1
+      3c:
+        desc: "Signoff in Clubs with minimum 10-11 HCP"
+        rule: "p#3 10-11hcp"
+        priority: 3
+        bids:
+          3nt:
+            desc: "3NT to play with extra values"
+            rule: "15+hcp"
+            priority: 1
+          5c:
+            desc: "Game in Clubs"
+            rule: "16+hcp 4+c"
+            priority: 2
+      5c:
+        desc: "Game in Clubs"
+        rule: "p#2 13+hcp !balanced"
+        priority: 2
+
+  fInvertedDiamondContinuations:
+    desc: "Responder continuations over Opener's Inverted Diamond rebid"
+    bids:
+      3nt:
+        desc: "3NT to play with stoppers and balanced"
+        rule: "p#1 12+hcp"
+        priority: 1
+      2nt:
+        desc: "Natural balanced invitation"
+        rule: "p#2 10-11hcp balanced"
+        priority: 2
+        bids:
+          pass:
+            desc: "Pass with 12-13 HCP"
+            rule: "12-13hcp"
+          3nt:
+            desc: "Accept game with 14+ HCP"
+            rule: "14+hcp"
+            priority: 1
+      3d:
+        desc: "Signoff in Diamonds with minimum 10-11 HCP"
+        rule: "p#3 10-11hcp"
+        priority: 3
+        bids:
+          3nt:
+            desc: "3NT to play with extra values"
+            rule: "15+hcp"
+            priority: 1
+          5d:
+            desc: "Game in Diamonds"
+            rule: "16+hcp 4+d"
+            priority: 2
+      5d:
+        desc: "Game in Diamonds"
+        rule: "p#2 13+hcp !balanced"
+        priority: 2
+
+  fResponderRebidsOverMinor_H:
+    desc: "Responder continuations after 1m - 1H - 2m"
+    bids:
+      pass:
+        desc: "Pass with minimum and minor tolerance"
+        rule: "p#10 6-9hcp"
+        priority: 10
+      2h:
+        desc: "Rebid 5+ Hearts (6-11 HCP)"
+        rule: "p#2 10-11hcp 5+h | p#3 6-9hcp 5+h"
+        priority: 2
+        bids:
+          pass:
+            desc: "Pass with minimum 12-13 HCP"
+            rule: "12-13hcp"
+          3h:
+            desc: "Raise Hearts with 3+ Hearts (13-15 HCP)"
+            rule: "13-15hcp 3+h"
+            priority: 1
+          4h:
+            desc: "Game in Hearts with 14+ HCP and 4+ Hearts"
+            rule: "14+hcp 4+h"
+            priority: 1
+      2nt:
+        desc: "Natural balanced invitation (10-11 HCP)"
+        rule: "p#2 10-11hcp"
+        priority: 2
+        bids:
+          pass:
+            desc: "Pass with minimum 12-13 HCP"
+            rule: "12-13hcp"
+          3nt:
+            desc: "Accept invite with 14+ HCP"
+            rule: "14+hcp"
+            priority: 1
+      3h:
+        desc: "Invitational with 6+ Hearts (10-11 HCP)"
+        rule: "p#2 10-11hcp 6+h"
+        priority: 2
+        bids:
+          pass:
+            desc: "Pass with minimum 12-13 HCP"
+            rule: "12-13hcp"
+          4h:
+            desc: "Accept invite with 14+ HCP"
+            rule: "14+hcp"
+            priority: 1
+      4h:
+        desc: "Game in Hearts (12+ HCP, 5+ Hearts)"
+        rule: "p#1 12+hcp 5+h"
+        priority: 1
+      3nt:
+        desc: "3NT to play (12+ HCP)"
+        rule: "p#2 12+hcp"
+        priority: 2
+
+  fResponderRebidsOverMinor_S:
+    desc: "Responder continuations after 1m - 1S - 2m"
+    bids:
+      pass:
+        desc: "Pass with minimum and minor tolerance"
+        rule: "p#10 6-9hcp"
+        priority: 10
+      2s:
+        desc: "Rebid 5+ Spades (6-11 HCP)"
+        rule: "p#2 10-11hcp 5+s | p#3 6-9hcp 5+s"
+        priority: 2
+        bids:
+          pass:
+            desc: "Pass with minimum 12-13 HCP"
+            rule: "12-13hcp"
+          3s:
+            desc: "Raise Spades with 3+ Spades (13-15 HCP)"
+            rule: "13-15hcp 3+s"
+            priority: 1
+          4s:
+            desc: "Game in Spades with 14+ HCP and 4+ Spades"
+            rule: "14+hcp 4+s"
+            priority: 1
+      2nt:
+        desc: "Natural balanced invitation (10-11 HCP)"
+        rule: "p#2 10-11hcp"
+        priority: 2
+        bids:
+          pass:
+            desc: "Pass with minimum 12-13 HCP"
+            rule: "12-13hcp"
+          3nt:
+            desc: "Accept invite with 14+ HCP"
+            rule: "14+hcp"
+            priority: 1
+      3s:
+        desc: "Invitational with 6+ Spades (10-11 HCP)"
+        rule: "p#2 10-11hcp 6+s"
+        priority: 2
+        bids:
+          pass:
+            desc: "Pass with minimum 12-13 HCP"
+            rule: "12-13hcp"
+          4s:
+            desc: "Accept invite with 14+ HCP"
+            rule: "14+hcp"
+            priority: 1
+      4s:
+        desc: "Game in Spades (12+ HCP, 5+ Spades)"
+        rule: "p#1 12+hcp 5+s"
+        priority: 1
+      3nt:
+        desc: "3NT to play (12+ HCP)"
+        rule: "p#2 12+hcp"
+        priority: 2

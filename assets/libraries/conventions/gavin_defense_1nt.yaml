@@ -1,0 +1,169 @@
+library: "Gavin Wolpert Defense vs 1NT"
+description: "Gavin Wolpert defense against 1NT: X = 5m+4M, 2C = Landy (both majors), 2D = Multi (single major), 2M = 5M+4m"
+version: "1.0"
+
+fragments:
+  fGavinDefense1NT:
+    desc: "Opposition Strong NT (15-17 HCP)"
+    rule: "15-17hcp"
+    priority: 1
+    aliases: ["fGavinDefenseStrong1NT"]
+    bids:
+      pass:
+        desc: "Pass"
+        rule: "p#10 0+hcp"
+        priority: 10
+
+      dbl:
+        desc: "5-card minor and 4-card major (10+ HCP constructive)"
+        rule: "p#1 10+hcp 5+c 4+h | p#1 10+hcp 5+c 4+s | p#1 10+hcp 5+d 4+h | p#1 10+hcp 5+d 4+s"
+        priority: 1
+        bids:
+          2c:
+            desc: "Pass or correct (asks doubler to bid 4-card major or minor)"
+            rule: "0+hcp"
+            bids:
+              2d:
+                desc: "Diamonds and a major"
+                rule: "5+d"
+              2h:
+                desc: "Clubs and 4 Hearts"
+                rule: "5+c 4h"
+              2s:
+                desc: "Clubs and 4 Spades"
+                rule: "5+c 4s"
+
+      2c:
+        desc: "Landy: both majors (5-4 or 5-5 in Hearts and Spades, 8+ HCP)"
+        rule: "p#1 8+hcp 4+h 4+s"
+        priority: 1
+        bids:
+          2d:
+            desc: "Equal length or asks partner to pick best major"
+            rule: "0+hcp"
+            bids:
+              2h:
+                desc: "Better Hearts"
+                rule: "h>=s"
+              2s:
+                desc: "Better Spades"
+                rule: "s>h"
+          2h:
+            desc: "Preference for Hearts (to play)"
+            rule: "h>=s"
+          2s:
+            desc: "Preference for Spades (to play)"
+            rule: "s>h"
+
+      2d:
+        desc: "Multi: one 6-card major (6+ Hearts or 6+ Spades, 8-15 HCP)"
+        rule: "p#1 8-15hcp 6+h | p#1 8-15hcp 6+s"
+        priority: 1
+        bids:
+          2h:
+            desc: "Pass or correct to 2S"
+            rule: "0+hcp"
+            bids:
+              pass:
+                desc: "Overcaller has Hearts"
+                rule: "6+h"
+              2s:
+                desc: "Overcaller has Spades"
+                rule: "6+s"
+
+      2h:
+        desc: "5+ Hearts and a 4+ minor (8-15 HCP)"
+        rule: "p#2 8-15hcp 5+h 4+c | p#2 8-15hcp 5+h 4+d"
+        priority: 2
+
+      2s:
+        desc: "5+ Spades and a 4+ minor (8-15 HCP)"
+        rule: "p#2 8-15hcp 5+s 4+c | p#2 8-15hcp 5+s 4+d"
+        priority: 2
+
+      2nt:
+        desc: "Two lowest suits (5-5 in minors)"
+        rule: "p#2 8-15hcp 5+c 5+d"
+        priority: 2
+
+  fGavinDefenseWeak1NT:
+    desc: "Opposition Weak NT (12-14 HCP)"
+    rule: "12-14hcp"
+    priority: 1
+    bids:
+      pass:
+        desc: "Pass"
+        rule: "p#10 0+hcp"
+        priority: 10
+
+      dbl:
+        desc: "5-card minor and 4-card major (10+ HCP constructive)"
+        rule: "p#1 10+hcp 5+c 4+h | p#1 10+hcp 5+c 4+s | p#1 10+hcp 5+d 4+h | p#1 10+hcp 5+d 4+s"
+        priority: 1
+        bids:
+          2c:
+            desc: "Pass or correct (asks doubler to bid 4-card major or minor)"
+            rule: "0+hcp"
+            bids:
+              2d:
+                desc: "Diamonds and a major"
+                rule: "5+d"
+              2h:
+                desc: "Clubs and 4 Hearts"
+                rule: "5+c 4h"
+              2s:
+                desc: "Clubs and 4 Spades"
+                rule: "5+c 4s"
+
+      2c:
+        desc: "Landy: both majors (5-4 or 5-5 in Hearts and Spades, 8+ HCP)"
+        rule: "p#1 8+hcp 4+h 4+s"
+        priority: 1
+        bids:
+          2d:
+            desc: "Equal length or asks partner to pick best major"
+            rule: "0+hcp"
+            bids:
+              2h:
+                desc: "Better Hearts"
+                rule: "h>=s"
+              2s:
+                desc: "Better Spades"
+                rule: "s>h"
+          2h:
+            desc: "Preference for Hearts (to play)"
+            rule: "h>=s"
+          2s:
+            desc: "Preference for Spades (to play)"
+            rule: "s>h"
+
+      2d:
+        desc: "Multi: one 6-card major (6+ Hearts or 6+ Spades, 8-15 HCP)"
+        rule: "p#1 8-15hcp 6+h | p#1 8-15hcp 6+s"
+        priority: 1
+        bids:
+          2h:
+            desc: "Pass or correct to 2S"
+            rule: "0+hcp"
+            bids:
+              pass:
+                desc: "Overcaller has Hearts"
+                rule: "6+h"
+              2s:
+                desc: "Overcaller has Spades"
+                rule: "6+s"
+
+      2h:
+        desc: "5+ Hearts and a 4+ minor (8-15 HCP)"
+        rule: "p#2 8-15hcp 5+h 4+c | p#2 8-15hcp 5+h 4+d"
+        priority: 2
+
+      2s:
+        desc: "5+ Spades and a 4+ minor (8-15 HCP)"
+        rule: "p#2 8-15hcp 5+s 4+c | p#2 8-15hcp 5+s 4+d"
+        priority: 2
+
+      2nt:
+        desc: "Two lowest suits (5-5 in minors)"
+        rule: "p#2 8-15hcp 5+c 5+d"
+        priority: 2

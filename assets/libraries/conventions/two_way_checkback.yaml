@@ -1,41 +1,97 @@
-library: "Three-Way Checkback"
-description: "Three-Way / Two-Way Checkback over 1x - 1y - 1NT: 2C forces 2D (invitational checkback), 2D is Game-Forcing checkback"
-version: "1.0"
+library: "Two-Way Checkback (xy-1NT)"
+description: "Two-Way / Three-Way Checkback over 1x - 1y - 1NT: 2C forces 2D (invitational checkback), 2D is Game-Forcing checkback. Parameterized with $1ntRebidInviteRange, $1ntRebidGfRange, $1ntRebidRange, etc."
+version: "2.0"
+
+definitions:
+  1ntRebidRange: "12-14hcp"
+  1ntRebidInviteRange: "10-11hcp"
+  1ntRebidGfRange: "12+hcp"
+  1ntRebidPassRange: "7-hcp"
+  1ntRebidMinRange: "12-13hcp"
+  1ntRebidMaxRange: "14hcp"
 
 fragments:
   fThreeWayCheckback:
-    desc: "Checkback structure over 1NT rebid by opener"
+    desc: "Checkback structure over 1NT rebid by opener (xy-1NT)"
+    aliases:
+      - "fTwoWayCheckback"
+      - "fXY_1NT"
     bids:
       pass:
-        desc: "Pass to play (0-7 HCP)"
-        rule: "p#10 7-hcp"
+        desc: "Pass to play ($1ntRebidPassRange)"
+        rule: "p#10 $1ntRebidPassRange"
         priority: 10
 
       2c:
-        desc: "Invitational Checkback (forces 2D): 8-10 HCP"
-        rule: "p#1 8-10hcp"
+        desc: "Puppet to 2D: invitational hands ($1ntRebidInviteRange) or weak signoff in diamonds/clubs"
+        rule: "p#1 $1ntRebidInviteRange | 0-7hcp"
         priority: 1
         bids:
           2d:
             desc: "Forced relay to 2D"
-            rule: "12-14hcp"
+            rule: "$1ntRebidRange"
             bids:
               pass:
-                desc: "Signoff in Diamonds with weak diamonds"
+                desc: "Signoff in Diamonds with weak diamonds (0-7 HCP)"
                 rule: "0-7hcp 5+d"
               2h:
-                desc: "Invitational with 5+ Hearts"
-                rule: "8-10hcp 5+h"
+                desc: "Invitational with 5+ Hearts ($1ntRebidInviteRange)"
+                rule: "$1ntRebidInviteRange 5+h"
+                bids:
+                  pass:
+                    desc: "Decline invite, minimum ($1ntRebidMinRange)"
+                    rule: "$1ntRebidMinRange 2-3h"
+                  2nt:
+                    desc: "Maximum, only 2 hearts ($1ntRebidMaxRange)"
+                    rule: "$1ntRebidMaxRange 2h"
+                  3h:
+                    desc: "Maximum, 3-card Heart support ($1ntRebidMaxRange)"
+                    rule: "$1ntRebidMaxRange 3h"
+                  4h:
+                    desc: "Maximum, accept invite to 4H ($1ntRebidMaxRange)"
+                    rule: "$1ntRebidMaxRange 3h !balanced"
               2s:
-                desc: "Invitational with 5+ Spades"
-                rule: "8-10hcp 5+s"
+                desc: "Invitational with 5+ Spades ($1ntRebidInviteRange)"
+                rule: "$1ntRebidInviteRange 5+s"
+                bids:
+                  pass:
+                    desc: "Decline invite, minimum ($1ntRebidMinRange)"
+                    rule: "$1ntRebidMinRange"
+                  3s:
+                    desc: "Constructive invite acceptance ($1ntRebidMaxRange)"
+                    rule: "$1ntRebidMaxRange 3+s"
+                  4s:
+                    desc: "Maximum, accept invite to 4S ($1ntRebidMaxRange)"
+                    rule: "$1ntRebidMaxRange 3+s"
               2nt:
-                desc: "Natural invitation without 5-card major"
-                rule: "8-10hcp"
+                desc: "Natural balanced invitation ($1ntRebidInviteRange)"
+                rule: "$1ntRebidInviteRange balanced"
+                bids:
+                  pass:
+                    desc: "Decline invite, minimum ($1ntRebidMinRange)"
+                    rule: "$1ntRebidMinRange"
+                  3nt:
+                    desc: "Accept invite to 3NT ($1ntRebidMaxRange)"
+                    rule: "$1ntRebidMaxRange"
+              3c:
+                desc: "To play, 5+ Clubs - weak club escape (0-7 HCP)"
+                rule: "0-7hcp 5+c"
+              3d:
+                desc: "Invitational with 5+ Diamonds ($1ntRebidInviteRange)"
+                rule: "$1ntRebidInviteRange 5+d"
+              3h:
+                desc: "Strong invitation with 6+ Hearts ($1ntRebidInviteRange)"
+                rule: "$1ntRebidInviteRange 6+h"
+              3s:
+                desc: "Strong invitation with 6+ Spades ($1ntRebidInviteRange)"
+                rule: "$1ntRebidInviteRange 6+s"
+              3nt:
+                desc: "Choice of games (5M 332, $1ntRebidInviteRange)"
+                rule: "$1ntRebidInviteRange 5h | $1ntRebidInviteRange 5s"
 
       2d:
-        desc: "Game-Forcing Checkback: 11+ HCP, artificial enquiry for 3-card support or unbid 4-card major"
-        rule: "p#1 11+hcp 4+h | p#1 11+hcp 4+s | p#1 18+hcp"
+        desc: "Game-Forcing Checkback ($1ntRebidGfRange): artificial enquiry for 3-card support or unbid 4M"
+        rule: "p#1 $1ntRebidGfRange 4+h | p#1 $1ntRebidGfRange 4+s | p#1 18+hcp"
         priority: 1
         bids:
           2h:
@@ -119,7 +175,7 @@ fragments:
 
       2nt:
         desc: "Natural quantitative invitation"
-        rule: "p#3 8-9hcp balanced"
+        rule: "p#3 $1ntRebidInviteRange balanced"
         priority: 3
 
       3nt:

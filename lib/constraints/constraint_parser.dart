@@ -96,6 +96,9 @@ class ConstraintParser {
     var s = text.replaceAll(RegExp(r'\[[^\]]*\]'), '').trim();
     if (s.isEmpty) return const CompositeConstraint(children: []);
 
+    // Expand macro references like $bal, $weakbal, $strongnt before splitting alternatives
+    s = _expandMacros(s);
+
     // If there are comma-separated alternatives (OR in BBS format, e.g. "p#6 2+c $weakbal, 4+c 12+hcp")
     // Check if the comma separates independent alternatives
     final alternatives = _splitTopLevelOr(s);
@@ -107,6 +110,26 @@ class ConstraintParser {
     }
 
     return _parseSingleClause(s);
+  }
+
+  String _expandMacros(String text) {
+    var expanded = text;
+    if (definitions.isNotEmpty && expanded.contains(r'$')) {
+      // Sort keys by descending length so $1ntInviteRange matches before a prefix
+      final sortedKeys = definitions.keys.toList()..sort((a, b) => b.length.compareTo(a.length));
+      for (int pass = 0; pass < 5; pass++) {
+        bool changed = false;
+        for (final macroKey in sortedKeys) {
+          final target = '\$$macroKey';
+          if (expanded.contains(target)) {
+            expanded = expanded.replaceAll(target, definitions[macroKey]!);
+            changed = true;
+          }
+        }
+        if (!changed || !expanded.contains(r'$')) break;
+      }
+    }
+    return expanded;
   }
 
   List<String> _splitTopLevelOr(String text) {
@@ -131,13 +154,8 @@ class ConstraintParser {
   }
 
   HandConstraint _parseSingleClause(String clause) {
-    // Expand macro references like $bal, $weakbal
-    var expanded = clause;
-    definitions.forEach((macroKey, macroVal) {
-      if (expanded.contains('\$$macroKey')) {
-        expanded = expanded.replaceAll('\$$macroKey', macroVal);
-      }
-    });
+    // Expand macro references like $bal, $weakbal, $1ntInviteRange, etc.
+    final expanded = _expandMacros(clause);
 
     final List<HandConstraint> constraints = [];
     final tokens = expanded.split(RegExp(r'[\s,]+')).where((t) => t.isNotEmpty).toList();
@@ -287,6 +305,14 @@ class ConstraintParser {
         final patterns = patternStr.split('|');
         final isBal = patternStr == '5332|4432|4333';
         constraints.add(ShapeConstraint(patterns: patterns, requiresBalanced: isBal));
+        continue;
+      }
+
+      // Exact distribution patterns (S-H-D-C): dist#2452|2425|2245
+      if (t.startsWith('dist#')) {
+        final patternStr = t.substring(5);
+        final patterns = patternStr.split('|').map((e) => e.replaceAll('-', '').trim()).toList();
+        constraints.add(ShapeConstraint(exactPatterns: patterns));
         continue;
       }
 

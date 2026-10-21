@@ -7,11 +7,15 @@ imports:
   - "assets/libraries/conventions/stayman.yaml"
   - "assets/libraries/conventions/jacoby_transfers.yaml"
 
+definitions:
+  bal: "s#5332|4432|4333"
+  strongnt: "15-17hcp s#5332|4432|4333 | 15-17hcp s#5422|6322 4-h 4-s | 15-17hcp dist#2452|2425|2245|2254"
+
 fragments:
   Gavin1NTOpening:
     aliases: ["fGavin1NTResponses"]
     desc: "Strong balanced NT (15-17 HCP)"
-    rule: "p#1 15-17hcp, balanced, 4-h, 4-s"
+    rule: "p#1 $strongnt"
     priority: 1
     bids:
       pass:

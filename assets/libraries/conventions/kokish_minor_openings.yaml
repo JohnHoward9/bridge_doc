@@ -67,21 +67,9 @@ fragments:
         bids:
           1nt:
             desc: "Opener balanced 15 to bad 18 HCP"
-            rule: "p#1 15-18hcp $bal"
+            rule: "p#1 $1ntRebidRange $bal"
             priority: 1
-            bids:
-              2c:
-                desc: "Puppet to 2D"
-                rule: "p#1"
-                priority: 1
-              2d:
-                desc: "Artificial Game-Forcing inquiry"
-                rule: "p#1 13+hcp"
-                priority: 1
-              2h:
-                desc: "Signoff in 2 Hearts (weak 5+ Hearts)"
-                rule: "p#2 6-9hcp 5+h"
-                priority: 2
+            ref: "fThreeWayCheckback"
           2h:
             desc: "Opener single raise (15-17 support points, 4 trumps)"
             rule: "p#1 15-17hcp 4h"
@@ -94,17 +82,9 @@ fragments:
         bids:
           1nt:
             desc: "Opener balanced 15 to bad 18 HCP"
-            rule: "p#1 15-18hcp $bal"
+            rule: "p#1 $1ntRebidRange $bal"
             priority: 1
-            bids:
-              2c:
-                desc: "Puppet to 2D"
-                rule: "p#1"
-                priority: 1
-              2d:
-                desc: "Artificial Game-Forcing inquiry"
-                rule: "p#1 13+hcp"
-                priority: 1
+            ref: "fThreeWayCheckback"
           2s:
             desc: "Opener single raise (15-17 support points, 4 trumps)"
             rule: "p#1 15-17hcp 4s"
@@ -189,8 +169,9 @@ fragments:
         bids:
           1nt:
             desc: "Opener balanced 15 to bad 18 HCP"
-            rule: "p#1 15-18hcp $bal"
+            rule: "p#1 $1ntRebidRange $bal"
             priority: 1
+            ref: "fThreeWayCheckback"
           2h:
             desc: "Opener single raise (15-17 support points, 4 trumps)"
             rule: "p#1 15-17hcp 4h"
@@ -203,8 +184,9 @@ fragments:
         bids:
           1nt:
             desc: "Opener balanced 15 to bad 18 HCP"
-            rule: "p#1 15-18hcp $bal"
+            rule: "p#1 $1ntRebidRange $bal"
             priority: 1
+            ref: "fThreeWayCheckback"
           2s:
             desc: "Opener single raise (15-17 support points, 4 trumps)"
             rule: "p#1 15-17hcp 4s"

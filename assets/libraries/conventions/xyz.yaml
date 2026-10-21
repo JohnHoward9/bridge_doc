@@ -24,7 +24,7 @@ fragments:
         bids:
           2d:
             desc: "Forced relay to 2D"
-            rule: "12-14hcp"
+            rule: "11-18hcp"
             bids:
               pass:
                 desc: "Signoff in Diamonds (weak, content in diamonds)"

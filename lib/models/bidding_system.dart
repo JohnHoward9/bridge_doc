@@ -280,7 +280,9 @@ class BiddingNode {
 
     String subText(String text) {
       var result = text;
-      activeVariables.forEach((k, v) {
+      final sortedKeys = activeVariables.keys.toList()..sort((a, b) => b.length.compareTo(a.length));
+      for (final k in sortedKeys) {
+        final v = activeVariables[k]!;
         if (k == 'M' || k == 'OM' || k == 'os' || k == 'oppos' || k == 'om' || k == 'm') {
           final sym = v == 'h' ? '♥' : (v == 's' ? '♠' : (v == 'd' ? '♦' : (v == 'c' ? '♣' : v)));
           result = result.replaceAll('\$${k}_sym', sym);
@@ -288,7 +290,7 @@ class BiddingNode {
           result = result.replaceAll('\$${k}_name', name);
         }
         result = result.replaceAll('\$$k', v);
-      });
+      }
       return result;
     }
 
@@ -529,11 +531,11 @@ class BiddingNode {
         vars['m_sym'] = suit == 'c' ? '♣' : '♦';
       }
 
-      vars['os'] = suit;
-      vars['oppos'] = suit;
-      vars['os_name'] = suitName;
-      vars['os_sym'] = suitSym;
       if (isOpp) {
+        vars['os'] = suit;
+        vars['oppos'] = suit;
+        vars['os_name'] = suitName;
+        vars['os_sym'] = suitSym;
         vars['om'] = suit;
         vars['om_name'] = suitName;
         vars['om_sym'] = suitSym;

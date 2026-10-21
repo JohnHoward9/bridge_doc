@@ -348,6 +348,9 @@ class DealGenerator {
       openerFilter = (h) => h.hcp >= 12 && h.diamondsLength >= 3;
     } else if (c0 == '2c') {
       openerFilter = (h) => (h.isBalanced && h.hcp >= 22) || h.hcp >= 20 || (h.losingTrickCount <= 4 && h.hcp >= 16);
+    } else if (c0 == '2h' || c0 == '2s' || c0 == '2d') {
+      final suitLength = (c0 == '2h') ? (Hand h) => h.heartsLength : (c0 == '2s' ? (Hand h) => h.spadesLength : (Hand h) => h.diamondsLength);
+      openerFilter = (h) => h.hcp >= 5 && h.hcp <= 10 && suitLength(h) >= 6;
     } else {
       openerFilter = (h) => h.hcp >= 11;
     }
@@ -366,6 +369,16 @@ class DealGenerator {
         responderFilter = (h) => h.spadesLength >= 5;
       } else if (c0 == '1c' && c1 == '1d') {
         responderFilter = (h) => h.hcp >= 6 && h.diamondsLength >= 4;
+      } else if ((c0 == '1c' || c0 == '1d') && c1 == '1h') {
+        responderFilter = (h) => h.hcp >= 6 && h.heartsLength >= 4;
+      } else if ((c0 == '1c' || c0 == '1d') && c1 == '1s') {
+        responderFilter = (h) => h.hcp >= 6 && h.spadesLength >= 4;
+      } else if ((c0 == '1h' || c0 == '1s') && c1 == '2c') {
+        responderFilter = (h) => h.hcp >= 12 && h.clubsLength >= 3;
+      } else if ((c0 == '1h' || c0 == '1s') && c1 == '2d') {
+        responderFilter = (h) => h.hcp >= 12 && h.diamondsLength >= 4;
+      } else if (c0 == '1s' && c1 == '2h') {
+        responderFilter = (h) => h.hcp >= 12 && h.heartsLength >= 5;
       } else if ((c0 == '1h' || c0 == '1s') && c1 == '3d') {
         // 4-card limit raise (10-11 HCP) over major opening: ML edge case (22-25 combined HCP)
         final majorSuitLength = (c0 == '1s') ? (Hand h) => h.spadesLength : (Hand h) => h.heartsLength;
@@ -373,6 +386,14 @@ class DealGenerator {
         responderFilter = (h) => h.hcp >= 10 && h.hcp <= 11 && majorSuitLength(h) >= 4;
       } else if (c0 == '1s' && c1 == '1nt') {
         responderFilter = (h) => h.hcp >= 6 && h.hcp <= 12 && h.spadesLength <= 2;
+      }
+    }
+
+    // Check third bid (e.g. 1m - 1x - 1NT checkback)
+    if (systemSequence.length > 2) {
+      final c2 = systemSequence[2].toLowerCase().replaceAll(RegExp(r'[^0-9a-z]'), '');
+      if (c2 == '1nt') {
+        openerFilter = (h) => h.hcp >= 12 && h.hcp <= 14 && h.isBalanced;
       }
     }
 

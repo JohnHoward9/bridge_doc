@@ -5,6 +5,12 @@ imports:
   - "assets/libraries/conventions/rkcb_1430.yaml"
   - "assets/libraries/conventions/one_nt_responses.yaml"
   - "assets/libraries/conventions/five_card_majors_2over1.yaml"
+  - "assets/libraries/conventions/two_way_checkback.yaml"
+  - "assets/libraries/conventions/xyz.yaml"
+
+definitions:
+  1NTOpening: "12-14"
+  bal: "s#5332|4432|4333"
 
 OpeningBids:
   pass:

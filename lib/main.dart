@@ -711,6 +711,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                   system: nsSystem,
                   ewSystem: ewSystem,
                   initialAuctionPath: _practiceAuctionPath,
+                  onClearPracticeAuction: () => setState(() => _practiceAuctionPath = null),
                 ),
 
                 // Tab 2: YAML Editor

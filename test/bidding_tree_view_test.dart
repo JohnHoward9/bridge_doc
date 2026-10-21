@@ -138,10 +138,10 @@ void main() {
       // Verify Inspector panel is shown
       expect(find.text('Bid Inspector'), findsOneWidget);
       expect(find.text('Hand Criteria Rule:'), findsOneWidget);
-      expect(find.text('Practice Auction from Here 🎯'), findsOneWidget);
+      expect(find.text('Practice Against This Bid 🎯'), findsOneWidget);
 
       // Ensure visible in the scrollable inspector and tap the practice button
-      final practiceBtnFinder = find.text('Practice Auction from Here 🎯');
+      final practiceBtnFinder = find.text('Practice Against This Bid 🎯');
       await tester.ensureVisible(practiceBtnFinder);
       await tester.pumpAndSettle();
       await tester.tap(practiceBtnFinder);

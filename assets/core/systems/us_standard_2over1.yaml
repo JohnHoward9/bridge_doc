@@ -16,6 +16,7 @@ imports:
   - "assets/libraries/conventions/puppet_stayman.yaml"
   - "assets/libraries/conventions/transfer_lebensohl.yaml"
   - "assets/libraries/conventions/xyz.yaml"
+  - "assets/libraries/conventions/two_way_checkback.yaml"
   - "assets/libraries/conventions/defence_weak_two.yaml"
   - "assets/libraries/conventions/weak_two_responses.yaml"
   - "assets/libraries/conventions/preempt_responses.yaml"
@@ -23,6 +24,7 @@ imports:
   - "assets/libraries/conventions/strong_two_clubs.yaml"
 
 definitions:
+  1NTOpening: "15-17"
   bal: "s#5332|4432|4333"
   strongnt: "15-17hcp $bal 4-h 4-s"
 

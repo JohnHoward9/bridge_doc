@@ -16,34 +16,40 @@ class BiddingGraphCompiler {
   CompiledBiddingGraph compile() {
     final Map<String, CompiledAuctionState> sequenceIndex = {};
 
+    final initialVars = Map<String, String>.from(system.definitions);
+
     // 1. Expand opening bids (both our side and opposition openings)
     final List<BiddingNode> rootCandidates = [];
     for (final b in system.openingBids) {
       final resolved = b.withResolvedFragmentMetadata(system.fragments);
-      rootCandidates.addAll(resolved.expandCompoundBid());
+      for (final exp in resolved.expandCompoundBid()) {
+        rootCandidates.add(exp.substituted(initialVars));
+      }
     }
     for (final b in system.oppositionOpeningBids) {
       final resolved = b.withResolvedFragmentMetadata(system.fragments);
-      rootCandidates.addAll(resolved.expandCompoundBid());
+      for (final exp in resolved.expandCompoundBid()) {
+        rootCandidates.add(exp.substituted(initialVars));
+      }
     }
 
     final rootState = CompiledAuctionState(
       sequenceKey: '',
       sequence: const [],
-      activeVariables: const {},
+      activeVariables: initialVars,
       candidateNodes: rootCandidates,
     );
     sequenceIndex[''] = rootState;
 
     // 2. Recursively compile sequence tree
-    final flattenedRoot = _flattenCandidates(rootCandidates, const {});
+    final flattenedRoot = _flattenCandidates(rootCandidates, initialVars);
     rootState.candidateNodes.clear();
     rootState.candidateNodes.addAll(flattenedRoot);
 
     _compileTransitions(
       parentState: rootState,
       candidates: flattenedRoot,
-      activeVars: const {},
+      activeVars: initialVars,
       sequenceIndex: sequenceIndex,
       depth: 1,
     );
@@ -89,6 +95,18 @@ class BiddingGraphCompiler {
       if (callKey.isEmpty) continue;
 
       final deduced = BiddingNode.deduceVariablesFromCall(callKey);
+      if (activeVars.containsKey('M') && !node.variables.containsKey('M')) {
+        deduced.remove('M');
+        deduced.remove('OM');
+        deduced.remove('M_name');
+        deduced.remove('M_sym');
+      }
+      if (activeVars.containsKey('os') && !node.isOpponent && !node.variables.containsKey('os')) {
+        deduced.remove('os');
+        deduced.remove('oppos');
+        deduced.remove('os_name');
+        deduced.remove('os_sym');
+      }
       final mergedVars = Map<String, String>.from(activeVars)
         ..addAll(deduced)
         ..addAll(node.variables);

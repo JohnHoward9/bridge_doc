@@ -67,7 +67,7 @@ class HcpConstraint extends HandConstraint {
             failed.add('ML Downgraded HCP $pts is below minimum $min');
           }
         } else if (breakdown.isUpgraded) {
-          if (pts < min!) {
+          if (pts < min! || rawHcp < min! - 1) {
             passed = false;
             failed.add('HCP $rawHcp ($pts effective) is below minimum $min');
           }
@@ -213,11 +213,13 @@ class SuitLengthConstraint extends HandConstraint {
 /// Distribution shape constraint, e.g. balanced (5332, 4432, 4333) or specific patterns.
 class ShapeConstraint extends HandConstraint {
   final List<String> patterns;
+  final List<String> exactPatterns;
   final bool requiresBalanced;
   final bool isNegated;
 
   const ShapeConstraint({
     this.patterns = const [],
+    this.exactPatterns = const [],
     this.requiresBalanced = false,
     this.isNegated = false,
   });
@@ -226,9 +228,12 @@ class ShapeConstraint extends HandConstraint {
   MatchResult evaluate(Hand hand, HandValuationEngine valuation) {
     bool passed = false;
     final shape = hand.sortedShapePattern;
+    final exact = '${hand.spadesLength}${hand.heartsLength}${hand.diamondsLength}${hand.clubsLength}';
 
     if (requiresBalanced) {
       passed = hand.isBalanced;
+    } else if (exactPatterns.isNotEmpty) {
+      passed = exactPatterns.contains(exact);
     } else if (patterns.isNotEmpty) {
       passed = patterns.any((p) {
         if (p.contains('x')) {
@@ -246,7 +251,9 @@ class ShapeConstraint extends HandConstraint {
       passed = !passed;
     }
 
-    final patternDesc = requiresBalanced ? 'balanced' : patterns.join('/');
+    final patternDesc = requiresBalanced
+        ? 'balanced'
+        : (exactPatterns.isNotEmpty ? 'dist:${exactPatterns.join("/")}' : patterns.join('/'));
     final prefix = isNegated ? 'not ' : '';
 
     return MatchResult(
@@ -260,6 +267,7 @@ class ShapeConstraint extends HandConstraint {
   @override
   double get baseSpecificity {
     if (isNegated) return 5.0;
+    if (exactPatterns.isNotEmpty) return 30.0;
     return requiresBalanced ? 15.0 : 25.0;
   }
 }

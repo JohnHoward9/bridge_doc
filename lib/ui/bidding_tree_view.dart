@@ -477,6 +477,44 @@ class _BiddingTreeViewState extends State<BiddingTreeView> {
 
                     const SizedBox(width: 8),
 
+                    // Direct Practice Action Button
+                    Tooltip(
+                      message: 'Practice against this bid in Test My Memory 🎯',
+                      child: InkWell(
+                        onTap: () {
+                          if (widget.onPracticeFromNode != null) {
+                            widget.onPracticeFromNode!(path);
+                          }
+                        },
+                        borderRadius: BorderRadius.circular(12),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF1B5E20).withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(color: const Color(0xFF1B5E20).withValues(alpha: 0.3)),
+                          ),
+                          child: const Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.psychology, size: 14, color: Color(0xFF1B5E20)),
+                              SizedBox(width: 4),
+                              Text(
+                                'Practice',
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF1B5E20),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    if (hasContinuations) const SizedBox(width: 6),
+
                     // Continuations indicator pill
                     if (hasContinuations)
                       InkWell(
@@ -652,9 +690,18 @@ class _BiddingTreeViewState extends State<BiddingTreeView> {
 
           SizedBox(
             width: double.infinity,
-            child: FilledButton.tonalIcon(
-              icon: const Icon(Icons.psychology),
-              label: const Text('Practice Auction from Here 🎯'),
+            child: FilledButton.icon(
+              style: FilledButton.styleFrom(
+                backgroundColor: const Color(0xFF1B5E20),
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                elevation: 1,
+              ),
+              icon: const Icon(Icons.psychology, size: 20),
+              label: const Text(
+                'Practice Against This Bid 🎯',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13.5),
+              ),
               onPressed: () {
                 if (widget.onPracticeFromNode != null) {
                   widget.onPracticeFromNode!(path);

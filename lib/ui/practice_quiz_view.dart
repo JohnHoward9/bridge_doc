@@ -47,12 +47,14 @@ class PracticeQuizView extends StatefulWidget {
   final BridgeSystem system;
   final BridgeSystem? ewSystem;
   final List<BiddingNode>? initialAuctionPath;
+  final VoidCallback? onClearPracticeAuction;
 
   const PracticeQuizView({
     super.key,
     required this.system,
     this.ewSystem,
     this.initialAuctionPath,
+    this.onClearPracticeAuction,
   });
 
   @override
@@ -313,13 +315,21 @@ class _PracticeQuizViewState extends State<PracticeQuizView> {
   void initState() {
     super.initState();
     _initEngine();
-    _startNewDeal();
+    if (widget.initialAuctionPath != null && widget.initialAuctionPath!.isNotEmpty) {
+      _loadAuctionFromPath(widget.initialAuctionPath!);
+    } else {
+      _startNewDeal();
+    }
   }
 
   @override
   void didUpdateWidget(covariant PracticeQuizView oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.system != widget.system || oldWidget.ewSystem != widget.ewSystem) {
+    if (widget.initialAuctionPath != oldWidget.initialAuctionPath &&
+        widget.initialAuctionPath != null &&
+        widget.initialAuctionPath!.isNotEmpty) {
+      _loadAuctionFromPath(widget.initialAuctionPath!);
+    } else if (oldWidget.system != widget.system || oldWidget.ewSystem != widget.ewSystem) {
       _initEngine();
       if (_selectedNorthOpening != null && !_availableOpeningBids.contains(_selectedNorthOpening)) {
         _selectedNorthOpening = null;
@@ -647,6 +657,7 @@ class _PracticeQuizViewState extends State<PracticeQuizView> {
       _lastMlUpgradeBreakdown = null;
       _inspectedHistoryIndex = null;
     });
+    widget.onClearPracticeAuction?.call();
     if (!_isSetupMode) {
       _startNewDeal();
     }
@@ -766,6 +777,156 @@ class _PracticeQuizViewState extends State<PracticeQuizView> {
       );
       _isAuctionComplete = _availableCandidates.isEmpty && seq.isNotEmpty;
       _lastCorrectFeedback = 'Loaded preset: ${preset.label}. Bidding for $_activeTurnSeat.';
+    });
+  }
+
+  void _loadAuctionFromPath(List<BiddingNode> path) {
+    if (path.isEmpty) return;
+
+    final List<AuctionEntry> entries = [];
+    DealerSeat calculatedDealer = DealerSeat.north;
+
+    final firstIsOpp = path.first.isOpponent || path.first.call.startsWith('(');
+    if (firstIsOpp) {
+      calculatedDealer = DealerSeat.east;
+      entries.add(AuctionEntry(
+        seat: 'E',
+        call: _formatCallForDisplay(path.first.displayCall),
+        desc: path.first.desc.isNotEmpty ? path.first.desc : 'Opponent opening',
+        rule: path.first.rule,
+        isAutomatic: true,
+      ));
+      String currentSeat = 'S';
+      for (int i = 1; i < path.length; i++) {
+        final node = path[i];
+        entries.add(AuctionEntry(
+          seat: currentSeat,
+          call: _formatCallForDisplay(node.displayCall),
+          desc: node.desc,
+          rule: node.rule,
+          isAutomatic: false,
+        ));
+        currentSeat = _seatOrder[(_seatOrder.indexOf(currentSeat) + 1) % 4];
+      }
+    } else {
+      calculatedDealer = DealerSeat.north;
+      int pathIdx = 0;
+      String currentSeat = 'N';
+
+      while (pathIdx < path.length) {
+        final node = path[pathIdx];
+
+        if (currentSeat == 'N') {
+          entries.add(AuctionEntry(
+            seat: 'N',
+            call: _formatCallForDisplay(node.displayCall),
+            desc: node.desc.isNotEmpty ? node.desc : 'Opening bid',
+            rule: node.rule,
+            isAutomatic: false,
+          ));
+          pathIdx++;
+          currentSeat = 'E';
+        } else if (currentSeat == 'E') {
+          if (pathIdx < path.length && (path[pathIdx].isOpponent || path[pathIdx].call.startsWith('('))) {
+            final oppNode = path[pathIdx];
+            entries.add(AuctionEntry(
+              seat: 'E',
+              call: _formatCallForDisplay(oppNode.displayCall),
+              desc: oppNode.desc.isNotEmpty ? oppNode.desc : 'Opposition intervention',
+              rule: oppNode.rule,
+              isAutomatic: true,
+            ));
+            pathIdx++;
+          } else {
+            entries.add(const AuctionEntry(
+              seat: 'E',
+              call: 'Pass',
+              desc: 'Pass',
+              isAutomatic: true,
+            ));
+          }
+          currentSeat = 'S';
+        } else if (currentSeat == 'S') {
+          entries.add(AuctionEntry(
+            seat: 'S',
+            call: _formatCallForDisplay(node.displayCall),
+            desc: node.desc,
+            rule: node.rule,
+            isAutomatic: false,
+          ));
+          pathIdx++;
+          currentSeat = 'W';
+        } else if (currentSeat == 'W') {
+          if (pathIdx < path.length && (path[pathIdx].isOpponent || path[pathIdx].call.startsWith('('))) {
+            final oppNode = path[pathIdx];
+            entries.add(AuctionEntry(
+              seat: 'W',
+              call: _formatCallForDisplay(oppNode.displayCall),
+              desc: oppNode.desc.isNotEmpty ? oppNode.desc : 'Opposition intervention',
+              rule: oppNode.rule,
+              isAutomatic: true,
+            ));
+            pathIdx++;
+          } else {
+            entries.add(const AuctionEntry(
+              seat: 'W',
+              call: 'Pass',
+              desc: 'Pass',
+              isAutomatic: true,
+            ));
+          }
+          currentSeat = 'N';
+        }
+      }
+
+      if (entries.isNotEmpty && entries.last.seat == 'N') {
+        entries.add(const AuctionEntry(
+          seat: 'E',
+          call: 'Pass',
+          desc: 'Pass',
+          isAutomatic: true,
+        ));
+      } else if (entries.isNotEmpty && entries.last.seat == 'S') {
+        entries.add(const AuctionEntry(
+          seat: 'W',
+          call: 'Pass',
+          desc: 'Pass',
+          isAutomatic: true,
+        ));
+      }
+    }
+
+    setState(() {
+      _dealer = calculatedDealer;
+      _auctionHistory.clear();
+      _auctionHistory.addAll(entries);
+      _lockedSetupAuction = List<AuctionEntry>.from(entries);
+      _selectedCellIndex = null;
+      _isSetupMode = false;
+      _submittedBid = null;
+      _expectedBestBid = null;
+      _allMatches = null;
+      _isCorrect = null;
+      _lastMlPrediction = null;
+      _lastMlUpgradeBreakdown = null;
+      _inspectedHistoryIndex = null;
+
+      final seq = _engine.extractSystemSequence(_auctionHistory);
+      _currentDeal = _generator.dealBoardForSequence(
+        seq,
+        isNorthDealer: _dealer == DealerSeat.north,
+      );
+
+      final activeHand = _activeTurnSeat == 'N' ? _currentDeal.north : _currentDeal.south;
+      final state = _engine.graph.getState(seq) ?? _engine.graph.rootState;
+      _availableCandidates = state.evaluateCandidates(
+        activeHand,
+        _resolver,
+        fragments: _engine.graph.system.fragments,
+      );
+      _isAuctionComplete = _availableCandidates.isEmpty && seq.isNotEmpty;
+      final lastFriendly = entries.lastWhere((e) => e.call.toLowerCase() != 'pass', orElse: () => entries.last);
+      _lastCorrectFeedback = 'Practice auction from Explorer loaded. Bidding for $_activeTurnSeat over ${lastFriendly.call}.';
     });
   }
 
@@ -1395,6 +1556,51 @@ class _PracticeQuizViewState extends State<PracticeQuizView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            if (_lockedSetupAuction != null) ...[
+              Builder(
+                builder: (context) {
+                  final activeSeatName = _activeTurnSeat == 'S'
+                      ? 'South'
+                      : (_activeTurnSeat == 'N'
+                          ? 'North'
+                          : (_activeTurnSeat == 'E' ? 'East' : 'West'));
+                  return Container(
+                    margin: const EdgeInsets.only(bottom: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF0FDF4),
+                      borderRadius: BorderRadius.circular(6),
+                      border: Border.all(color: const Color(0xFF86EFAC)),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.explore, size: 16, color: Color(0xFF16A34A)),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            'Practicing from Bidding Explorer: ${_lockedSetupAuction!.map((e) => "${e.seat}: ${e.call}").join(" → ")} ($activeSeatName to bid)',
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF15803D),
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        const SizedBox(width: 6),
+                        InkWell(
+                          onTap: _clearAuction,
+                          child: const Tooltip(
+                            message: 'Exit Explorer Practice & Reset Auction',
+                            child: Icon(Icons.close, size: 16, color: Color(0xFF16A34A)),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ],
             Row(
               children: [
                 const Icon(Icons.flash_on, size: 16, color: Color(0xFF0284C7)),

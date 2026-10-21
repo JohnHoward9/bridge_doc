@@ -21,6 +21,7 @@ imports:
   - "assets/libraries/conventions/xyz.yaml"
 
 definitions:
+  1NTOpening: "11-14"
   bal: "s#5332|4432|4333|5422"
   weaknt: "11-14hcp $bal"
 

@@ -35,8 +35,11 @@ imports:
   - "assets/libraries/conventions/defence_two_clubs_majors.yaml"
 
 definitions:
+  1NTOpening: "15-17"
   bal: "s#5332|4432|4333"
-  strongnt: "15-17hcp $bal 4-h 4-s"
+  # Any balanced shape (4333, 4432, 5332 including 5-card majors)
+  # Plus semi-balanced 5422 minor hands (2452, 2425, 2245, 2254) and 6322 with a minor suit
+  strongnt: "15-17hcp s#5332|4432|4333 | 15-17hcp s#5422|6322 4-h 4-s | 15-17hcp dist#2452|2425|2245|2254"
 
 OpeningBids:
   pass:

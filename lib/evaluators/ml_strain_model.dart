@@ -5,6 +5,7 @@ import '../models/card.dart';
 import '../models/hand.dart';
 import '../models/seat_belief_state.dart';
 import '../models/bidding_system.dart';
+import 'ml_game_selector.dart';
 
 /// Single-hand power evaluation across all 5 strains (NT, Spades, Hearts, Diamonds, Clubs).
 class MLStrainHandResult {
@@ -497,23 +498,31 @@ class MLStrainBiddingModel {
       recCall = '4S';
       reasons.add('8+ Spade fit confirmed (${myHand.spadesLength} in hand + ${partnerBelief.minSuitLength[Suit.spades]}+ shown)');
     } else {
-      // No 8-card major fit: consider 3NT vs minor fit
-      if (combinedNT >= 24.5 && stoppers >= 3) {
+      // No 8-card major fit: evaluate game strain arbitration (3NT vs 5m) via MLGameSelector
+      final candidateMinor = partnerBelief.hasGoldenFit(myHand, Suit.diamonds)
+          ? Suit.diamonds
+          : (partnerBelief.hasGoldenFit(myHand, Suit.clubs) ? Suit.clubs : null);
+      final gameDecision = MLGameSelector.selectOptimalGame(
+        myHand: myHand,
+        partnerBelief: partnerBelief,
+        candidateMinor: candidateMinor,
+        isOpponentActive: isOpponentActive,
+      );
+
+      if (gameDecision.recommendedGame == '3NT' && combinedNT >= 24.5) {
         bestStrain = null; // NT
         bestPower = combinedNT;
         targetLevel = 3;
         recCall = '3NT';
-        reasons.add('No major fit found; 3NT chosen with stoppers across unbid suits');
-      } else if (partnerBelief.hasGoldenFit(myHand, Suit.diamonds) && combinedD >= 28.0) {
-        bestStrain = Suit.diamonds;
-        bestPower = combinedD;
+        reasons.add(gameDecision.reasoning);
+      } else if (gameDecision.recommendedStrain != null &&
+          ((gameDecision.recommendedStrain == Suit.diamonds && combinedD >= 27.5) ||
+              (gameDecision.recommendedStrain == Suit.clubs && combinedC >= 27.5))) {
+        bestStrain = gameDecision.recommendedStrain;
+        bestPower = bestStrain == Suit.diamonds ? combinedD : combinedC;
         targetLevel = 5;
-        recCall = '5D';
-      } else if (partnerBelief.hasGoldenFit(myHand, Suit.clubs) && combinedC >= 28.0) {
-        bestStrain = Suit.clubs;
-        bestPower = combinedC;
-        targetLevel = 5;
-        recCall = '5C';
+        recCall = gameDecision.recommendedGame;
+        reasons.add(gameDecision.reasoning);
       } else if (forcingLevel == ForcingLevel.game) {
         // Under Game Force, partscore signoff is forbidden.
         // Determine the best game contract: 4H, 4S, 3NT, 5D, or 5C.

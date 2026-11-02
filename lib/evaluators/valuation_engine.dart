@@ -6,6 +6,7 @@ import '../models/ml_hand_feature_vector.dart';
 import '../models/seat_belief_state.dart';
 import '../models/ml_perspective_feature_extractor.dart';
 import 'ml_bid_evaluator.dart';
+import 'ml_game_selector.dart';
 
 /// Pluggable engine for evaluating bridge hands.
 
@@ -245,6 +246,26 @@ class MLHandValuation extends HandValuationEngine {
       vulnerability: vulnerability,
     );
     return vector.playingStrength;
+  }
+
+  /// Arbitrates optimal game contract (3NT vs 5-Minor) based on stopper integrity,
+  /// candidate minor fit, opponent bidding activity, and trick-taking potential.
+  MLGameDecision selectOptimalGame(
+    Hand hand, {
+    required SeatBeliefState partnerBelief,
+    SeatBeliefState? lhoBelief,
+    SeatBeliefState? rhoBelief,
+    Suit? candidateMinor,
+    bool isOpponentActive = false,
+  }) {
+    return MLGameSelector.selectOptimalGame(
+      myHand: hand,
+      partnerBelief: partnerBelief,
+      lhoBelief: lhoBelief,
+      rhoBelief: rhoBelief,
+      candidateMinor: candidateMinor,
+      isOpponentActive: isOpponentActive,
+    );
   }
 
   MLHandBreakdown evaluateBreakdown(

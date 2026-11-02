@@ -179,6 +179,12 @@ class SeatBeliefState {
         // Exact length known (e.g. 4=h or dist#)
         expected[s] = minL.toDouble();
         allocatedCards += minL;
+      } else if (minL >= 8) {
+        expected[s] = 8.12;
+        allocatedCards += 8.12;
+      } else if (minL >= 7) {
+        expected[s] = 7.18;
+        allocatedCards += 7.18;
       } else if (minL >= 6) {
         // Preempt / strong 6+ card suit: empirical mean 6.22 cards
         expected[s] = 6.22;
@@ -405,6 +411,28 @@ class AuctionBeliefState {
       case 'E': return get('W');
       case 'W': return get('E');
       default: return get('S');
+    }
+  }
+
+  /// Left-Hand Opponent (LHO) sitting immediately clockwise.
+  SeatBeliefState lhoOf(String seat) {
+    switch (seat.toUpperCase()) {
+      case 'N': return get('E');
+      case 'E': return get('S');
+      case 'S': return get('W');
+      case 'W': return get('N');
+      default: return get('E');
+    }
+  }
+
+  /// Right-Hand Opponent (RHO) sitting immediately counter-clockwise.
+  SeatBeliefState rhoOf(String seat) {
+    switch (seat.toUpperCase()) {
+      case 'N': return get('W');
+      case 'E': return get('N');
+      case 'S': return get('E');
+      case 'W': return get('S');
+      default: return get('W');
     }
   }
 

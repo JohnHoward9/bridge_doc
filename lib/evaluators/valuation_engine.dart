@@ -1,12 +1,11 @@
 import '../models/card.dart';
-
 import '../models/hand.dart';
-
 import '../models/bidding_state_context.dart';
-
 import '../models/ml_hand_valuation_model.dart';
-
 import '../models/ml_hand_feature_vector.dart';
+import '../models/seat_belief_state.dart';
+import '../models/ml_perspective_feature_extractor.dart';
+import 'ml_bid_evaluator.dart';
 
 /// Pluggable engine for evaluating bridge hands.
 
@@ -223,6 +222,29 @@ class MLHandValuation extends HandValuationEngine {
 
     ).mpi;
 
+  }
+
+  /// Evaluates pure multi-channel Playing Strength (SPS) without hardcoded shape strings.
+  /// Combines the fully known [hand] with the consolidated rules of [partnerBelief].
+  double evaluatePlayingStrength(
+    Hand hand, {
+    SeatBeliefState? partnerBelief,
+    SeatBeliefState? lhoBelief,
+    SeatBeliefState? rhoBelief,
+    Suit? candidateStrain,
+    int candidateLevel = 4,
+    Vulnerability vulnerability = Vulnerability.none,
+  }) {
+    final vector = MLPerspectiveFeatureExtractor.extract(
+      myHand: hand,
+      partnerBelief: partnerBelief ?? SeatBeliefState(seat: 'Partner'),
+      lhoBelief: lhoBelief ?? SeatBeliefState(seat: 'LHO'),
+      rhoBelief: rhoBelief ?? SeatBeliefState(seat: 'RHO'),
+      candidateStrain: candidateStrain,
+      candidateLevel: candidateLevel,
+      vulnerability: vulnerability,
+    );
+    return vector.playingStrength;
   }
 
   MLHandBreakdown evaluateBreakdown(

@@ -192,6 +192,9 @@ void main() {
 
       final spadeFit = north.spadesLength + south.spadesLength;
       final heartFit = north.heartsLength + south.heartsLength;
+      final diaFit = north.diamondsLength + south.diamondsLength;
+      final clubFit = north.clubsLength + south.clubsLength;
+      final maxFit = [spadeFit, heartFit, diaFit, clubFit].reduce((a, b) => a > b ? a : b);
       final hasMajorFit = (spadeFit >= 8 || heartFit >= 8);
       final bestMajor = spadeFit >= heartFit ? 'S' : 'H';
       final bestFitLen = spadeFit >= heartFit ? spadeFit : heartFit;
@@ -247,9 +250,12 @@ void main() {
 
       // 5. Cat 5: Overbid Runaway
       if (cat == null) {
-        if (combHcp <= 21 && autoLevel >= 4 && autoContract != 'Pass') {
+        final tricks = (tricksMade is num) ? tricksMade.toInt() : (tricksMade != null ? int.tryParse(tricksMade.toString()) : null);
+        final makesContract = tricks != null && tricks >= (autoLevel + 6);
+        final isDistributionalFit = (maxFit >= 10 || (north.losingTrickCount + south.losingTrickCount <= 13));
+        if (!makesContract && !isDistributionalFit && combHcp <= 21 && autoLevel >= 4 && autoContract != 'Pass') {
           cat = 'Cat 5: Overbid Runaway';
-          diag = 'Overbid to $autoContract on only $combHcp combined HCP (N=${north.hcp}, S=${south.hcp})';
+          diag = 'Overbid to $autoContract on only $combHcp combined HCP without distribution or tricks (N=${north.hcp}, S=${south.hcp})';
         }
       }
 

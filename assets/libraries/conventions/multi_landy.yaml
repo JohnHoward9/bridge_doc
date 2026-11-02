@@ -1,64 +1,450 @@
 library: "Multi-Landy"
-description: "Defense against 1NT opening"
-version: "1.0"
+description: "Multi-Landy defense against opponent 1NT openings: 2C = both majors (5-4+), 2D = Multi (single 6+ major), 2H/2S = 5M + 4m, 2NT = both minors (5-5), X = Penalty / strong"
+version: "2.0"
 
 fragments:
   fMultiLandy:
-    desc: "Multi-Landy over 1NT"
+    desc: "Multi-Landy defense over 1NT"
+    aliases:
+      - "fGavinDefenseStrong1NT"
+      - "fGavinDefenseWeak1NT"
     bids:
       2c:
-        desc: "Both majors 5-4 or 5-5"
-        rule: "7+hcp, 4+h, 4+s, s#54xx|55xx"
+        desc: "Multi-Landy: both majors (5-4 or 5-5 in Hearts and Spades, 8+ HCP)"
+        rule: "8+hcp 4+h 4+s"
         priority: 1
         bids:
           2d:
-            desc: "Relay asks for longer major"
+            desc: "Relay: asks overcaller to bid longer major (or equal length)"
+            rule: "0+hcp"
             bids:
               2h:
                 desc: "Hearts longest or equal"
                 rule: "h>=s"
                 bids:
                   3h:
-                    desc: "Real invitation"
-                    rule: "12-14hcp, 4+h"
+                    desc: "Invitational major raise (10-12 HCP)"
+                    rule: "10-12hcp 4+h"
+                    priority: 1
+                  4h:
+                    desc: "Game to play (13+ HCP)"
+                    rule: "13+hcp 4+h"
                     priority: 1
               2s:
                 desc: "Spades longest"
                 rule: "s>h"
                 bids:
                   3s:
-                    desc: "Real invitation"
-                    rule: "12-14hcp, 4+s"
+                    desc: "Invitational major raise (10-12 HCP)"
+                    rule: "10-12hcp 4+s"
+                    priority: 1
+                  4s:
+                    desc: "Game to play (13+ HCP)"
+                    rule: "13+hcp 4+s"
                     priority: 1
           2h:
-            desc: "To play"
-            rule: "8-hcp, h>=s"
+            desc: "Signoff in Hearts (to play)"
+            rule: "8-hcp h>=s"
+            priority: 2
           2s:
-            desc: "To play"
-            rule: "8-hcp, s>h"
+            desc: "Signoff in Spades (to play)"
+            rule: "8-hcp s>h"
+            priority: 2
           2nt:
-            desc: "Natural invite"
-            rule: "12-14hcp, 2-h, 2-s"
+            desc: "Natural invite (11-12 HCP balanced)"
+            rule: "11-12hcp 2-h 2-s"
             priority: 1
           "[3h,3s]":
-            desc: "Constructive major raise"
-            rule: "9-11hcp, 4+%"
+            desc: "Constructive major raise (9-11 HCP, 4+ cards)"
+            rule: "9-11hcp 4+%"
             priority: 1
 
       2d:
-        desc: "Single suited 6+ card major"
-        rule: "7+hcp, 6+h, 6+s"
+        desc: "Multi: single-suited 6+ card major (6+ Hearts or 6+ Spades, 8-15 HCP)"
+        rule: "8-15hcp 6+h | 8-15hcp 6+s"
         priority: 1
         bids:
           2h:
-            desc: "Pass or correct"
+            desc: "Pass or correct to 2S"
+            rule: "0+hcp"
+            bids:
+              pass:
+                desc: "Overcaller passes holding Hearts"
+                rule: "6+h"
+              2s:
+                desc: "Overcaller corrects to 2S holding Spades"
+                rule: "6+s"
+              3h:
+                desc: "Overcaller invites with maximum Hearts (13-15 HCP)"
+                rule: "13-15hcp 6+h"
+              4h:
+                desc: "Overcaller game with maximum Hearts (14-15 HCP)"
+                rule: "14-15hcp 6+h"
+          2s:
+            desc: "Pass or correct with Spade preference / constructive"
+            rule: "4+s"
+            priority: 2
+            bids:
+              pass:
+                desc: "Overcaller passes holding Spades"
+                rule: "6+s"
+              3h:
+                desc: "Overcaller corrects to 3H holding Hearts"
+                rule: "6+h"
+          2nt:
+            desc: "Inquiry asking for overcaller's major & strength (11+ HCP)"
+            rule: "11+hcp"
+            priority: 1
+            bids:
+              3c:
+                desc: "Overcaller has Hearts, minimum (8-11 HCP)"
+                rule: "8-11hcp 6+h"
+              3d:
+                desc: "Overcaller has Spades, minimum (8-11 HCP)"
+                rule: "8-11hcp 6+s"
+              3h:
+                desc: "Overcaller has Hearts, maximum (12-15 HCP)"
+                rule: "12-15hcp 6+h"
+              3s:
+                desc: "Overcaller has Spades, maximum (12-15 HCP)"
+                rule: "12-15hcp 6+s"
+          3h:
+            desc: "Invitational / preemptive raise in Hearts (4+ Hearts)"
+            rule: "4+h"
+            priority: 2
+          3s:
+            desc: "Invitational / preemptive raise in Spades (4+ Spades)"
+            rule: "4+s"
+            priority: 2
+          4h:
+            desc: "Game to play in Hearts"
+            rule: "4+h"
+            priority: 1
+          4s:
+            desc: "Game to play in Spades"
+            rule: "4+s"
+            priority: 1
 
       2h:
-        desc: "5 Hearts and 4+ Minor"
-        rule: "7+hcp, 5h, 3-s, s#54xx|55xx"
+        desc: "5+ Hearts and a 4+ minor (8-15 HCP)"
+        rule: "8-15hcp 5+h 4+c | 8-15hcp 5+h 4+d"
         priority: 1
+        bids:
+          2nt:
+            desc: "Relay asks for overcaller's minor"
+            rule: "0+hcp"
+            bids:
+              3c:
+                desc: "Clubs is secondary minor"
+                rule: "4+c"
+              3d:
+                desc: "Diamonds is secondary minor"
+                rule: "4+d"
+          3h:
+            desc: "Invitational raise in Hearts (9-11 HCP, 3+ Hearts)"
+            rule: "9-11hcp 3+h"
+            priority: 1
+          4h:
+            desc: "Game to play in Hearts (12+ HCP, 3+ Hearts)"
+            rule: "12+hcp 3+h"
+            priority: 1
 
       2s:
-        desc: "5 Spades and 4+ Minor"
-        rule: "7+hcp, 5s, 3-h, s#54xx|55xx"
+        desc: "5+ Spades and a 4+ minor (8-15 HCP)"
+        rule: "8-15hcp 5+s 4+c | 8-15hcp 5+s 4+d"
+        priority: 1
+        bids:
+          2nt:
+            desc: "Relay asks for overcaller's minor"
+            rule: "0+hcp"
+            bids:
+              3c:
+                desc: "Clubs is secondary minor"
+                rule: "4+c"
+              3d:
+                desc: "Diamonds is secondary minor"
+                rule: "4+d"
+          3s:
+            desc: "Invitational raise in Spades (9-11 HCP, 3+ Spades)"
+            rule: "9-11hcp 3+s"
+            priority: 1
+          4s:
+            desc: "Game to play in Spades (12+ HCP, 3+ Spades)"
+            rule: "12+hcp 3+s"
+            priority: 1
+
+      2nt:
+        desc: "Both minors (5-5 or 6-5 in Clubs and Diamonds, 8-15 HCP)"
+        rule: "8-15hcp 5+c 5+d"
+        priority: 1
+        bids:
+          3c:
+            desc: "Preference for Clubs"
+            rule: "c>=d"
+          3d:
+            desc: "Preference for Diamonds"
+            rule: "d>c"
+
+      dbl:
+        desc: "Penalty Double (15+ HCP) or constructive minor/major two-suiter (10+ HCP)"
+        rule: "15+hcp | 10+hcp 5+c 4+h | 10+hcp 5+c 4+s | 10+hcp 5+d 4+h | 10+hcp 5+d 4+s"
+        priority: 1
+        bids:
+          2c:
+            desc: "Pass or correct (asks doubler to bid 4-card major or minor)"
+            rule: "0+hcp"
+            bids:
+              2d:
+                desc: "Diamonds and a major"
+                rule: "5+d"
+              2h:
+                desc: "Clubs and 4 Hearts"
+                rule: "5+c 4h"
+              2s:
+                desc: "Clubs and 4 Spades"
+                rule: "5+c 4s"
+
+  fMultiLandyAdvancerOver2D:
+    desc: "Advancer responses to opponent Multi-Landy 2D (single-suited major)"
+    bids:
+      "(2h)":
+        desc: "Advancer: pass or correct to 2S (holds equal or longer Hearts)"
+        rule: "0+hcp"
+        priority: 1
+        bids:
+          pass:
+            desc: "Overcaller passes holding Hearts"
+            rule: "6+h"
+            priority: 1
+          "(2s)":
+            desc: "Overcaller corrects to 2S holding Spades"
+            rule: "6+s"
+            priority: 1
+            bids:
+              pass:
+                desc: "To play in 2S"
+                priority: 10
+              "(3s)":
+                desc: "Advancer invites in Spades"
+                rule: "3+s"
+                priority: 2
+              "(4s)":
+                desc: "Advancer game in Spades"
+                rule: "3+s"
+                priority: 1
+          "(3h)":
+            desc: "Overcaller invites with maximum Hearts"
+            rule: "13-15hcp 6+h"
+            priority: 2
+          "(4h)":
+            desc: "Overcaller game with maximum Hearts"
+            rule: "14-15hcp 6+h"
+            priority: 1
+
+      "(2s)":
+        desc: "Advancer: pass or correct with Spade preference / constructive"
+        rule: "4+s"
+        priority: 2
+        bids:
+          pass:
+            desc: "Overcaller passes holding Spades"
+            rule: "6+s"
+            priority: 1
+          "(3h)":
+            desc: "Overcaller corrects to 3H holding Hearts"
+            rule: "6+h"
+            priority: 1
+
+      "(2nt)":
+        desc: "Advancer: strong inquiry asking for major & strength (11+ HCP)"
+        rule: "11+hcp"
+        priority: 1
+        bids:
+          "(3c)":
+            desc: "Overcaller has Hearts, minimum"
+            rule: "8-11hcp 6+h"
+            priority: 1
+          "(3d)":
+            desc: "Overcaller has Spades, minimum"
+            rule: "8-11hcp 6+s"
+            priority: 1
+          "(3h)":
+            desc: "Overcaller has Hearts, maximum"
+            rule: "12-15hcp 6+h"
+            priority: 1
+          "(3s)":
+            desc: "Overcaller has Spades, maximum"
+            rule: "12-15hcp 6+s"
+            priority: 1
+
+      "(3h)":
+        desc: "Advancer: invitational / preemptive raise in Hearts"
+        rule: "4+h"
+        priority: 2
+
+      "(3s)":
+        desc: "Advancer: invitational / preemptive raise in Spades"
+        rule: "4+s"
+        priority: 2
+
+      "(4h)":
+        desc: "Advancer: game to play in Hearts"
+        rule: "4+h"
+        priority: 1
+
+      "(4s)":
+        desc: "Advancer: game to play in Spades"
+        rule: "4+s"
+        priority: 1
+
+  fMultiLandyAdvancerOver2C:
+    desc: "Advancer responses to opponent Multi-Landy 2C (both majors)"
+    bids:
+      "(2d)":
+        desc: "Advancer relay: asks overcaller to bid longer major (or equal length)"
+        rule: "0+hcp"
+        priority: 1
+        bids:
+          "(2h)":
+            desc: "Overcaller shows Hearts longer or equal"
+            rule: "h>=s"
+            priority: 1
+            bids:
+              pass:
+                desc: "Advancer signs off in Hearts"
+                priority: 10
+              "(3h)":
+                desc: "Advancer invitational raise"
+                rule: "10-12hcp 4+h"
+                priority: 2
+              "(4h)":
+                desc: "Advancer game to play"
+                rule: "13+hcp 4+h"
+                priority: 1
+          "(2s)":
+            desc: "Overcaller shows Spades longer"
+            rule: "s>h"
+            priority: 1
+            bids:
+              pass:
+                desc: "Advancer signs off in Spades"
+                priority: 10
+              "(3s)":
+                desc: "Advancer invitational raise"
+                rule: "10-12hcp 4+s"
+                priority: 2
+              "(4s)":
+                desc: "Advancer game to play"
+                rule: "13+hcp 4+s"
+                priority: 1
+
+      "(2h)":
+        desc: "Advancer: signoff in Hearts (to play)"
+        rule: "8-hcp h>=s"
+        priority: 2
+
+      "(2s)":
+        desc: "Advancer: signoff in Spades (to play)"
+        rule: "8-hcp s>h"
+        priority: 2
+
+      "(2nt)":
+        desc: "Advancer: natural invite (11-12 HCP)"
+        rule: "11-12hcp"
+        priority: 1
+
+      "(3h)":
+        desc: "Advancer: constructive raise in Hearts (9-11 HCP, 4+ Hearts)"
+        rule: "9-11hcp 4+h"
+        priority: 2
+
+      "(3s)":
+        desc: "Advancer: constructive raise in Spades (9-11 HCP, 4+ Spades)"
+        rule: "9-11hcp 4+s"
+        priority: 2
+
+      "(4h)":
+        desc: "Advancer: game to play in Hearts"
+        rule: "12+hcp 4+h"
+        priority: 1
+
+      "(4s)":
+        desc: "Advancer: game to play in Spades"
+        rule: "12+hcp 4+s"
+        priority: 1
+
+  fMultiLandyAdvancerOver2H:
+    desc: "Advancer responses to opponent Multi-Landy 2H (5H + 4m)"
+    bids:
+      pass:
+        desc: "Advancer passes to play in 2H"
+        priority: 10
+      "(2s)":
+        desc: "Advancer natural to play in Spades"
+        rule: "5+s"
+        priority: 2
+      "(2nt)":
+        desc: "Advancer relay asking for overcaller's minor"
+        rule: "0+hcp"
+        priority: 1
+        bids:
+          "(3c)":
+            desc: "Overcaller holds Clubs"
+            rule: "4+c"
+            priority: 1
+          "(3d)":
+            desc: "Overcaller holds Diamonds"
+            rule: "4+d"
+            priority: 1
+      "(3h)":
+        desc: "Advancer invitational raise in Hearts"
+        rule: "9-11hcp 3+h"
+        priority: 2
+      "(4h)":
+        desc: "Advancer game to play in Hearts"
+        rule: "12+hcp 3+h"
+        priority: 1
+
+  fMultiLandyAdvancerOver2S:
+    desc: "Advancer responses to opponent Multi-Landy 2S (5S + 4m)"
+    bids:
+      pass:
+        desc: "Advancer passes to play in 2S"
+        priority: 10
+      "(2nt)":
+        desc: "Advancer relay asking for overcaller's minor"
+        rule: "0+hcp"
+        priority: 1
+        bids:
+          "(3c)":
+            desc: "Overcaller holds Clubs"
+            rule: "4+c"
+            priority: 1
+          "(3d)":
+            desc: "Overcaller holds Diamonds"
+            rule: "4+d"
+            priority: 1
+      "(3s)":
+        desc: "Advancer invitational raise in Spades"
+        rule: "9-11hcp 3+s"
+        priority: 2
+      "(4s)":
+        desc: "Advancer game to play in Spades"
+        rule: "12+hcp 3+s"
+        priority: 1
+
+  fMultiLandyAdvancerOver2NT:
+    desc: "Advancer responses to opponent Multi-Landy 2NT (5-5 minors)"
+    bids:
+      "(3c)":
+        desc: "Advancer preference for Clubs"
+        rule: "c>=d"
+        priority: 1
+      "(3d)":
+        desc: "Advancer preference for Diamonds"
+        rule: "d>c"
+        priority: 1
+      "(3nt)":
+        desc: "Advancer to play with major stoppers"
+        rule: "10-14hcp"
         priority: 1

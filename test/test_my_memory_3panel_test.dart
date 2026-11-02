@@ -633,12 +633,21 @@ opening_bids:
 
     // Make an incorrect bid to inspect Diagnostic Card: North bids 2NT
     final level2 = find.descendant(of: find.byType(BiddingBoxWidget), matching: find.text('2'));
+    await tester.ensureVisible(level2);
     await tester.tap(level2);
     await tester.pumpAndSettle();
 
     final ntBtn = find.descendant(of: find.byType(BiddingBoxWidget), matching: find.text('NT'));
+    await tester.ensureVisible(ntBtn);
     await tester.tap(ntBtn);
     await tester.pumpAndSettle();
+
+    final confirmBtn = find.textContaining('Confirm Bid');
+    if (confirmBtn.evaluate().isNotEmpty) {
+      await tester.ensureVisible(confirmBtn.first);
+      await tester.tap(confirmBtn.first);
+      await tester.pumpAndSettle();
+    }
 
     // Verify error feedback card is shown with required Drury bid
     expect(find.textContaining('You bid "2nt", but the system requires "2c"'), findsOneWidget);

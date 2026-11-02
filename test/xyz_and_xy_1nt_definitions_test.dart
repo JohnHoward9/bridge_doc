@@ -176,8 +176,12 @@ void main() {
       expect(constraint.evaluate(hand2452, valuation).isMatch, isTrue);
 
       // 5. Semi-balanced 2-4-2-5 with 16 HCP (2S, 4H, 2D, 5C)
-      final hand2425 = HandParser.parseSingleHand('AK.QJ98.82.AK765');
+      final hand2425 = HandParser.parseSingleHand('AQ.QJ98.82.AK765');
       expect(constraint.evaluate(hand2425, valuation).isMatch, isTrue);
+
+      // 5b. Semi-balanced 2-4-2-5 with 17 HCP (reverses into 2H, so does NOT open 1NT)
+      final hand2425Rev = HandParser.parseSingleHand('AK.QJ98.82.AK765');
+      expect(constraint.evaluate(hand2425Rev, valuation).isMatch, isFalse);
 
       // 6. Semi-balanced 2-2-4-5 with 16 HCP (2S, 2H, 4D, 5C)
       final hand2245 = HandParser.parseSingleHand('AK.82.QJ98.AK765');

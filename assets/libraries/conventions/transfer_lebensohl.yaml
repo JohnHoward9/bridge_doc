@@ -2,6 +2,9 @@ library: "Transfer Lebensohl"
 description: "Transfer Lebensohl (Rubensohl) structure over natural 2-level interference (2D, 2H, 2S) over 1NT opening"
 version: "1.0"
 
+imports:
+  - "assets/libraries/conventions/gavin_1nt_runouts.yaml"
+
 fragments:
   fTransferLebensohl:
     desc: "Transfer Lebensohl over natural 2-level overcalls (2D, 2H, 2S)"
@@ -23,12 +26,13 @@ fragments:
     bids:
       pass:
         desc: "Pass: weak hand without action"
-        rule: "p#10 0-7hcp"
+        rule: "0-7hcp"
         priority: 10
+        ref: "fMultiLandyAdvancerOver2H"
 
       dbl:
         desc: "Negative double: Takeout showing 4 Spades (8+ HCP)"
-        rule: "p#1 8+hcp 4s"
+        rule: "8+hcp 4s"
         priority: 1
         bids:
           2s:
@@ -50,7 +54,7 @@ fragments:
 
       2s:
         desc: "Natural competitive: 5+ Spades to play (5-9 HCP, non-forcing)"
-        rule: "p#2 5-9hcp 5+s"
+        rule: "5-9hcp 5+s"
         priority: 2
         bids:
           pass:
@@ -65,7 +69,7 @@ fragments:
 
       2nt:
         desc: "Transfer to Clubs (forces 3C): signoff in 3C or invitation"
-        rule: "p#2 5+c | p#2 8-9hcp"
+        rule: "5+c | 8-9hcp"
         priority: 2
         bids:
           3c:
@@ -74,20 +78,20 @@ fragments:
             bids:
               pass:
                 desc: "Signoff in 3C (weak 6+ Clubs)"
-                rule: "p#1 0-7hcp 6+c"
+                rule: "0-7hcp 6+c"
                 priority: 1
               3d:
                 desc: "Invitational with 5+ Diamonds"
-                rule: "p#2 8-9hcp 5+d"
+                rule: "8-9hcp 5+d"
                 priority: 2
               3nt:
                 desc: "Invitational to 3NT with Heart stopper (Slow Shows)"
-                rule: "p#2 8-9hcp"
+                rule: "8-9hcp"
                 priority: 2
 
       3c:
         desc: "Transfer to Diamonds: 5+ Diamonds invitational or game-forcing"
-        rule: "p#2 8+hcp 5+d"
+        rule: "8+hcp 5+d"
         priority: 2
         bids:
           3d:
@@ -103,7 +107,7 @@ fragments:
 
       3d:
         desc: "Transfer to Hearts (Cuebid / Stayman): 4 Spades GF, asks for Heart stopper"
-        rule: "p#1 10+hcp 4s"
+        rule: "10+hcp 4s"
         priority: 1
         bids:
           3s:
@@ -121,11 +125,11 @@ fragments:
             bids:
               pass:
                 desc: "Pass to play 3NT"
-                rule: "p#10"
+                priority: 10
 
       3h:
         desc: "Transfer to Spades (3S): 5+ Spades game-forcing (right-sides contract)"
-        rule: "p#1 10+hcp 5+s"
+        rule: "10+hcp 5+s"
         priority: 1
         bids:
           3s:
@@ -144,7 +148,7 @@ fragments:
 
       3nt:
         desc: "To play, game values, but DENIES Heart stopper (Fast Denies)"
-        rule: "p#3 10-14hcp"
+        rule: "10-14hcp"
         priority: 3
         bids:
           pass:
@@ -159,12 +163,13 @@ fragments:
     bids:
       pass:
         desc: "Pass: weak hand without action"
-        rule: "p#10 0-7hcp"
+        rule: "0-7hcp"
         priority: 10
+        ref: "fMultiLandyAdvancerOver2S"
 
       dbl:
         desc: "Negative double: Takeout showing 4 Hearts (8+ HCP)"
-        rule: "p#1 8+hcp 4h"
+        rule: "8+hcp 4h"
         priority: 1
         bids:
           3h:
@@ -182,7 +187,7 @@ fragments:
 
       2nt:
         desc: "Transfer to Clubs (forces 3C): signoff in 3C or invitation"
-        rule: "p#2 5+c | p#2 8-9hcp"
+        rule: "5+c | 8-9hcp"
         priority: 2
         bids:
           3c:
@@ -191,24 +196,24 @@ fragments:
             bids:
               pass:
                 desc: "Signoff in 3C (weak 6+ Clubs)"
-                rule: "p#1 0-7hcp 6+c"
+                rule: "0-7hcp 6+c"
                 priority: 1
               3d:
                 desc: "Invitational with 5+ Diamonds"
-                rule: "p#2 8-9hcp 5+d"
+                rule: "8-9hcp 5+d"
                 priority: 2
               3h:
                 desc: "Invitational with 5+ Hearts"
-                rule: "p#2 8-9hcp 5+h"
+                rule: "8-9hcp 5+h"
                 priority: 2
               3nt:
                 desc: "Invitational to 3NT with Spade stopper (Slow Shows)"
-                rule: "p#2 8-9hcp"
+                rule: "8-9hcp"
                 priority: 2
 
       3c:
         desc: "Transfer to Diamonds: 5+ Diamonds invitational or game-forcing"
-        rule: "p#2 8+hcp 5+d"
+        rule: "8+hcp 5+d"
         priority: 2
         bids:
           3d:
@@ -217,7 +222,7 @@ fragments:
 
       3d:
         desc: "Transfer to Hearts (3H): 5+ Hearts game-forcing (right-sides contract)"
-        rule: "p#1 10+hcp 5+h"
+        rule: "10+hcp 5+h"
         priority: 1
         bids:
           3h:
@@ -236,7 +241,7 @@ fragments:
 
       3h:
         desc: "Transfer to Spades (Cuebid / Stayman): 4 Hearts GF, asks for Spade stopper"
-        rule: "p#1 10+hcp 4h"
+        rule: "10+hcp 4h"
         priority: 1
         bids:
           4h:
@@ -250,12 +255,12 @@ fragments:
 
       3s:
         desc: "Both minors 5-5 (slam interest or 3NT choice)"
-        rule: "p#2 10+hcp 5+c 5+d"
+        rule: "10+hcp 5+c 5+d"
         priority: 2
 
       3nt:
         desc: "To play, game values, but DENIES Spade stopper (Fast Denies)"
-        rule: "p#3 10-14hcp"
+        rule: "10-14hcp"
         priority: 3
 
   fTransferLebensohlOver2D:
@@ -263,12 +268,13 @@ fragments:
     bids:
       pass:
         desc: "Pass: weak hand without action"
-        rule: "p#10 0-7hcp"
+        rule: "0-7hcp"
         priority: 10
+        ref: "fMultiLandyAdvancerOver2D"
 
       dbl:
         desc: "Negative double: Takeout showing 4-4 in Majors (8+ HCP)"
-        rule: "p#1 8+hcp 4h 4s"
+        rule: "8+hcp 4h 4s"
         priority: 1
         bids:
           2h:
@@ -286,7 +292,7 @@ fragments:
 
       2h:
         desc: "Natural competitive: 5+ Hearts to play (5-9 HCP, non-forcing)"
-        rule: "p#2 5-9hcp 5+h"
+        rule: "5-9hcp 5+h"
         priority: 2
         bids:
           pass:
@@ -298,7 +304,7 @@ fragments:
 
       2s:
         desc: "Natural competitive: 5+ Spades to play (5-9 HCP, non-forcing)"
-        rule: "p#2 5-9hcp 5+s"
+        rule: "5-9hcp 5+s"
         priority: 2
         bids:
           pass:
@@ -310,7 +316,7 @@ fragments:
 
       2nt:
         desc: "Transfer to Clubs (forces 3C): signoff in 3C or invitation"
-        rule: "p#2 5+c | p#2 8-9hcp"
+        rule: "5+c | 8-9hcp"
         priority: 2
         bids:
           3c:
@@ -319,16 +325,16 @@ fragments:
             bids:
               pass:
                 desc: "Signoff in 3C (weak 6+ Clubs)"
-                rule: "p#1 0-7hcp 6+c"
+                rule: "0-7hcp 6+c"
                 priority: 1
               3nt:
                 desc: "Invitational to 3NT with Diamond stopper (Slow Shows)"
-                rule: "p#2 8-9hcp"
+                rule: "8-9hcp"
                 priority: 2
 
       3c:
         desc: "Transfer to Diamonds (Cuebid / Stayman): GF major inquiry, asks for Diamond stopper"
-        rule: "p#1 10+hcp 4+h | p#1 10+hcp 4+s"
+        rule: "10+hcp 4+h | 10+hcp 4+s"
         priority: 1
         bids:
           3h:
@@ -346,7 +352,7 @@ fragments:
 
       3d:
         desc: "Transfer to Hearts (3H): 5+ Hearts game-forcing (right-sides contract)"
-        rule: "p#1 10+hcp 5+h"
+        rule: "10+hcp 5+h"
         priority: 1
         bids:
           3h:
@@ -358,7 +364,7 @@ fragments:
 
       3h:
         desc: "Transfer to Spades (3S): 5+ Spades game-forcing (right-sides contract)"
-        rule: "p#1 10+hcp 5+s"
+        rule: "10+hcp 5+s"
         priority: 1
         bids:
           3s:
@@ -370,5 +376,87 @@ fragments:
 
       3nt:
         desc: "To play, game values, but DENIES Diamond stopper (Fast Denies)"
-        rule: "p#3 10-14hcp"
+        rule: "10-14hcp"
         priority: 3
+
+  f1NTInterferenceDefense:
+    desc: "Comprehensive 1NT Interference Defense: Penalty X (DONT Runouts), Multi-Landy 2C/2NT, and Transfer Lebensohl (2D/2H/2S)"
+    bids:
+      "(x)":
+        desc: "Opponent Penalty Double (15+ HCP)"
+        ref: "fGavin1NTRunouts"
+
+      "(2c)":
+        desc: "Opponent Multi-Landy: both majors (5-4 or 5-5)"
+        rule: "8+hcp 4+h 4+s"
+        priority: 1
+        bids:
+          pass:
+            desc: "Pass to play"
+            rule: "0-7hcp"
+            priority: 10
+            ref: "fMultiLandyAdvancerOver2C"
+          dbl:
+            desc: "Penalty Double: 9+ HCP balanced/values"
+            rule: "9+hcp"
+            priority: 1
+          2d:
+            desc: "Lebensohl / relay enquiry"
+            rule: "8+hcp"
+            priority: 2
+          2nt:
+            desc: "Lebensohl relay to 3C (competitive signoff in a minor)"
+            rule: "0-7hcp"
+            priority: 2
+          3c:
+            desc: "Natural to play in Clubs"
+            rule: "5+c"
+            priority: 3
+          3d:
+            desc: "Natural to play in Diamonds"
+            rule: "5+d"
+            priority: 3
+          3nt:
+            desc: "To play with stoppers in both majors"
+            rule: "10-15hcp 3+h 3+s"
+            priority: 1
+
+      "(2d)":
+        desc: "Opponent Multi-Landy: single-suited major (6+ Hearts or 6+ Spades)"
+        ref: "fTransferLebensohlOver2D"
+
+      "(2h)":
+        desc: "Opponent Multi-Landy: 5+ Hearts and 4+ minor"
+        ref: "fTransferLebensohlOver2H"
+
+      "(2s)":
+        desc: "Opponent Multi-Landy: 5+ Spades and 4+ minor"
+        ref: "fTransferLebensohlOver2S"
+
+      "(2nt)":
+        desc: "Opponent Multi-Landy: both minors (5-5 minors)"
+        rule: "8+hcp 5+c 5+d"
+        priority: 1
+        bids:
+          pass:
+            desc: "Pass to play"
+            rule: "0-7hcp"
+            priority: 10
+            ref: "fMultiLandyAdvancerOver2NT"
+          dbl:
+            desc: "Penalty Double: 9+ HCP"
+            rule: "9+hcp"
+            priority: 1
+          3h:
+            desc: "Natural 5+ Hearts (competitive)"
+            rule: "5+h"
+            priority: 2
+          3s:
+            desc: "Natural 5+ Spades (competitive)"
+            rule: "5+s"
+            priority: 2
+          3nt:
+            desc: "To play with minor stoppers"
+            rule: "10-15hcp"
+            priority: 1
+

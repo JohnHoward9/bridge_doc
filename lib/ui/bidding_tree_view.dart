@@ -11,12 +11,16 @@ class BiddingTreeView extends StatefulWidget {
   final BridgeSystem system;
   final Function(String fragmentName)? onNavigateToFragment;
   final Function(List<BiddingNode> path)? onPracticeFromNode;
+  final Function(List<BiddingNode> path)? onViewInYaml;
+  final Function(List<BiddingNode> path)? onEditFromNode;
 
   const BiddingTreeView({
     super.key,
     required this.system,
     this.onNavigateToFragment,
     this.onPracticeFromNode,
+    this.onViewInYaml,
+    this.onEditFromNode,
   });
 
   @override
@@ -116,7 +120,7 @@ class _BiddingTreeViewState extends State<BiddingTreeView> {
 
   /// Normalizes a list of nodes into a colon-separated sequence key for state tracking.
   String _getSequenceKey(List<BiddingNode> path) {
-    return path.map((n) => CompiledAuctionState.normalizeCallKey(n.displayCall)).join(':');
+    return path.map((n) => CompiledAuctionState.normalizeCallKey(n.auctionCall)).join(':');
   }
 
   /// Fetches legal continuation children for [path] using the compiled graph,
@@ -124,7 +128,7 @@ class _BiddingTreeViewState extends State<BiddingTreeView> {
   List<BiddingNode> _getChildrenForSequence(List<BiddingNode> path) {
     if (path.isEmpty) return [];
 
-    final calls = path.map((n) => n.displayCall).toList();
+    final calls = path.map((n) => n.auctionCall).toList();
     List<BiddingNode> candidates = [];
 
     // 1. Try compiled bidding graph lookup
@@ -144,8 +148,11 @@ class _BiddingTreeViewState extends State<BiddingTreeView> {
       // Opposition bids are skipped throughout the tree as if opponents pass throughout.
       return candidates.where((c) => !c.isOpponent && !c.call.startsWith('(')).toList();
     } else {
-      // In Competitive mode: all calls (friendly bids and opponent interference) are shown.
-      return candidates;
+      // In Competitive mode: all calls are shown.
+      // Prioritize opponent interference calls at the top so competitive interventions are immediately visible!
+      final oppCalls = candidates.where((c) => c.isOpponent || c.call.startsWith('(')).toList();
+      final friendlyCalls = candidates.where((c) => !c.isOpponent && !c.call.startsWith('(')).toList();
+      return [...oppCalls, ...friendlyCalls];
     }
   }
 
@@ -477,6 +484,46 @@ class _BiddingTreeViewState extends State<BiddingTreeView> {
 
                     const SizedBox(width: 8),
 
+                    // Direct View in YAML Action Button
+                    Tooltip(
+                      message: 'View this bid definition in YAML 📝',
+                      child: InkWell(
+                        onTap: () {
+                          if (widget.onViewInYaml != null) {
+                            widget.onViewInYaml!(path);
+                          } else if (widget.onEditFromNode != null) {
+                            widget.onEditFromNode!(path);
+                          }
+                        },
+                        borderRadius: BorderRadius.circular(12),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                          decoration: BoxDecoration(
+                            color: Colors.blueGrey.shade100.withValues(alpha: 0.5),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(color: Colors.blueGrey.shade400.withValues(alpha: 0.4)),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.code, size: 13, color: Colors.blueGrey.shade800),
+                              const SizedBox(width: 4),
+                              Text(
+                                'YAML',
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.blueGrey.shade800,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(width: 6),
+
                     // Direct Practice Action Button
                     Tooltip(
                       message: 'Practice against this bid in Test My Memory 🎯',
@@ -571,7 +618,7 @@ class _BiddingTreeViewState extends State<BiddingTreeView> {
   Widget _buildInspectorPanel(BuildContext context, BiddingNode node, List<BiddingNode> path) {
     final theme = Theme.of(context);
     final hasContinuations = _hasContinuations(path);
-    final sequenceStr = path.map((n) => n.displayCall).join(' ➔ ');
+    final sequenceStr = path.map((n) => n.auctionCall).join(' ➔ ');
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
@@ -687,6 +734,31 @@ class _BiddingTreeViewState extends State<BiddingTreeView> {
             ),
             const SizedBox(height: 8),
           ],
+
+          SizedBox(
+            width: double.infinity,
+            child: FilledButton.icon(
+              style: FilledButton.styleFrom(
+                backgroundColor: const Color(0xFF263238),
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                elevation: 1,
+              ),
+              icon: const Icon(Icons.code, size: 20),
+              label: const Text(
+                'View This Bid in YAML Editor 📝',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13.5),
+              ),
+              onPressed: () {
+                if (widget.onViewInYaml != null) {
+                  widget.onViewInYaml!(path);
+                } else if (widget.onEditFromNode != null) {
+                  widget.onEditFromNode!(path);
+                }
+              },
+            ),
+          ),
+          const SizedBox(height: 8),
 
           SizedBox(
             width: double.infinity,

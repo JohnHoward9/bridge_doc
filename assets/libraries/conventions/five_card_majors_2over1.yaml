@@ -11,7 +11,6 @@ fragments:
     bids:
       pass:
         desc: "Pass: weak hand (0-5 HCP)"
-        rule: "p#10 5-hcp"
         priority: 10
       1s:
         desc: "Natural 4+ Spades (forcing 1 round)"
@@ -35,10 +34,12 @@ fragments:
             desc: "Opener rebids 6-card Hearts"
             rule: "6+h, 12-15hcp"
       2c:
+        forceTo: game
         desc: "2/1 Game Force in Clubs"
         rule: "12+hcp, 4+c"
         priority: 3
       2d:
+        forceTo: game
         desc: "2/1 Game Force in Diamonds"
         rule: "12+hcp, 4+d"
         priority: 3
@@ -47,6 +48,7 @@ fragments:
         rule: "6-9hcp, 3+h"
         priority: 3
       2nt:
+        forceTo: game
         desc: "Jacoby 2NT: Game-forcing 4+ card Heart support"
         rule: "13+hcp, 4+h [$M=h, $OM=s]"
         priority: 2
@@ -65,7 +67,6 @@ fragments:
     bids:
       pass:
         desc: "Pass: weak hand (0-5 HCP)"
-        rule: "p#10 5-hcp"
         priority: 10
       1nt:
         desc: "Semi-forcing 1NT (denies 3s)"
@@ -82,21 +83,91 @@ fragments:
           2d:
             desc: "Opener natural Diamonds"
             rule: "3+d, 12-15hcp"
+            bids:
+              pass:
+                desc: "Pass with Diamond tolerance and minimum"
+                rule: "5-8hcp 3+d"
+                priority: 10
+              2h:
+                desc: "Natural signoff in Hearts (5+ Hearts)"
+                rule: "5-8hcp 5+h"
+                priority: 3
+              2s:
+                desc: "Preference to Spades (2-card support, 5-8 HCP)"
+                rule: "5-8hcp 2s"
+                priority: 2
+              2nt:
+                desc: "Natural balanced invitation (9-11 HCP)"
+                rule: "9-11hcp balanced"
+                priority: 3
+              3d:
+                desc: "Invitational Diamond raise (4+ Diamonds, 9-11 HCP)"
+                rule: "9-11hcp 4+d"
+                priority: 3
+              3s:
+                desc: "Invitational 3-card Spade limit raise"
+                rule: "10-11hcp 3s"
+                priority: 2
           2h:
             desc: "Opener secondary 4+ Hearts"
             rule: "4+h, 12-15hcp"
+            bids:
+              pass:
+                desc: "Pass with Heart fit/tolerance and minimum (5-8 HCP, 3+ Hearts)"
+                rule: "5-8hcp 3+h"
+                priority: 2
+              2s:
+                desc: "False preference to Spades (2-card support, 2 or fewer Hearts, 5-8 HCP)"
+                rule: "5-8hcp 2s 2-h"
+                priority: 3
+              2nt:
+                desc: "Natural balanced invitation without major fit (9-11 HCP)"
+                rule: "9-11hcp balanced 3-h 2-s"
+                priority: 3
+              3c:
+                desc: "Natural weak signoff with 6+ Clubs"
+                rule: "5-8hcp 6+c"
+                priority: 4
+              3d:
+                desc: "Natural weak signoff with 6+ Diamonds"
+                rule: "5-8hcp 6+d"
+                priority: 4
+              3h:
+                desc: "Invitational Heart raise (4+ Hearts, 9-11 HCP)"
+                rule: "4+h 9-11hcp"
+                priority: 2
+                bids:
+                  pass:
+                    desc: "Opener declines invitation with minimum 12-13 HCP and 4 Hearts"
+                    rule: "12-13hcp 4h"
+                    priority: 10
+                  4h:
+                    desc: "Opener accepts invitation with maximum (14+ HCP) or 5+ Hearts"
+                    rule: "14+hcp | 5+h"
+                    priority: 1
+              4h:
+                desc: "Game in Hearts (4+ Hearts, 11-12 HCP)"
+                rule: "4+h 11-12hcp"
+                priority: 1
+              3s:
+                desc: "Invitational 3-card Spade limit raise (10-11 HCP)"
+                rule: "10-11hcp 3s"
+                priority: 2
           2s:
             desc: "Opener rebids 6-card Spades"
             rule: "6+s, 12-15hcp"
       2c:
+        forceTo: game
         desc: "2/1 Game Force in Clubs"
         rule: "12+hcp, 4+c"
         priority: 3
       2d:
+        forceTo: game
         desc: "2/1 Game Force in Diamonds"
         rule: "12+hcp, 5+d"
         priority: 3
       2h:
+        forceTo: game
         desc: "2/1 Game Force in Hearts (5+ Hearts)"
         rule: "12+hcp, 5+h"
         priority: 3
@@ -105,6 +176,7 @@ fragments:
         rule: "6-9hcp, 3+s"
         priority: 3
       2nt:
+        forceTo: game
         desc: "Jacoby 2NT: Game-forcing 4+ card Spade support"
         rule: "13+hcp, 4+s [$M=s, $OM=h]"
         priority: 2

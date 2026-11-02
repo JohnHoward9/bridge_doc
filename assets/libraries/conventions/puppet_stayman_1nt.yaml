@@ -1,0 +1,134 @@
+library: "Puppet Stayman 1NT"
+description: "Gavin Wolpert definition of 3C Puppet Stayman over 1NT openings for uncovering 5-card majors (or 4-4 fit with single 4M)"
+version: "1.0"
+
+imports:
+  - "assets/libraries/conventions/serious_3nt_and_kickback.yaml"
+
+fragments:
+  fPuppetStayman1NT:
+    aliases: ["PuppetStayman1NT"]
+    desc: "Opener responses to 3C Puppet Stayman over 1NT/2NT opening"
+    bids:
+      3d:
+        desc: "Opener has at least one 4-card major (denies 5-card major)"
+        rule: "4-h 4-s 4+h | 4-h 4-s 4+s"
+        priority: 2
+        bids:
+          3h:
+            desc: "Responder shows 4 Spades (bids other major so opener declares)"
+            rule: "4+s 3-h"
+            priority: 1
+            bids:
+              3s:
+                desc: "Opener accepts Spade fit"
+                rule: "4+s"
+                priority: 2
+              4s:
+                desc: "Opener raises to 4S game"
+                rule: "4+s"
+                priority: 1
+              3nt:
+                desc: "Opener has 4 Hearts (no Spade fit)"
+                rule: "3-s 4+h"
+                priority: 2
+          3s:
+            desc: "Responder shows 4 Hearts (bids other major so opener declares)"
+            rule: "4+h 3-s"
+            priority: 1
+            bids:
+              4h:
+                desc: "Opener accepts Heart fit to play"
+                rule: "4+h"
+                priority: 1
+              3nt:
+                desc: "Opener has 4 Spades (no Heart fit)"
+                rule: "3-h 4+s"
+                priority: 2
+          3nt:
+            desc: "Responder has no 4-card major (was looking for opener's 5-card major)"
+            rule: "3-h 3-s"
+            priority: 3
+            bids:
+              pass:
+                desc: "Opener passes to play 3NT"
+                rule: "15+hcp"
+                priority: 10
+          4d:
+            desc: "Responder has both 4 Hearts and 4 Spades"
+            rule: "4+h 4+s"
+            priority: 1
+            bids:
+              4h:
+                desc: "Opener picks Hearts"
+                rule: "4+h"
+                priority: 1
+              4s:
+                desc: "Opener picks Spades"
+                rule: "4+s"
+                priority: 1
+
+      3h:
+        desc: "Opener shows exactly 5 Hearts"
+        rule: "5+h"
+        priority: 1
+        bids:
+          3nt:
+            desc: "Responder signs off in 3NT (denies 3-card Heart support)"
+            rule: "2-h"
+            priority: 2
+          4h:
+            desc: "Responder raises to 4H game (3+ card Heart support)"
+            rule: "3+h"
+            priority: 1
+
+      3s:
+        desc: "Opener shows exactly 5 Spades"
+        rule: "5+s"
+        priority: 1
+        bids:
+          3nt:
+            desc: "Responder signs off in 3NT (denies 3-card Spade support)"
+            rule: "2-s"
+            priority: 2
+          4s:
+            desc: "Responder raises to 4S game (3+ card Spade support)"
+            rule: "3+s"
+            priority: 1
+
+      3nt:
+        desc: "Opener denies any 4-card or 5-card major"
+        rule: "3-h 3-s"
+        priority: 3
+        bids:
+          4d:
+            desc: "Kickback RKCB 1430 for Clubs"
+            agreedSuit: "c"
+            rule: "11+hcp 4+c"
+            priority: 1
+            ref: "fKickbackClubs"
+          4h:
+            desc: "Kickback RKCB 1430 for Diamonds"
+            agreedSuit: "d"
+            rule: "11+hcp 4+d"
+            priority: 1
+            ref: "fKickbackDiamonds"
+          4nt:
+            desc: "Quantitative invite to 6NT"
+            rule: "11-13hcp"
+            priority: 2
+            bids:
+              pass:
+                desc: "Pass"
+                priority: 10
+              6nt:
+                desc: "Accept to 6NT"
+                rule: "22+hcp | 16+hcp"
+                priority: 1
+          6nt:
+            desc: "Direct slam in 6NT"
+            rule: "14+hcp"
+            priority: 1
+          pass:
+            desc: "To play"
+            priority: 10

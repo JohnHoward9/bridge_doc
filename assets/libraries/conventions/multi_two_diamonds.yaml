@@ -1,0 +1,351 @@
+library: "Multi 2 Diamonds & Sound Weak Twos"
+description: "Multi 2D opening (Poor/Ragged 5-7 HCP with a 6-card major) alongside Good/Sound Weak Twos in 2H and 2S (8-10 HCP)"
+version: "1.0"
+
+imports:
+  - "assets/libraries/conventions/rkcb_1430.yaml"
+
+fragments:
+  fMultiTwoDiamonds:
+    aliases:
+      - "MultiTwoDiamonds"
+      - "Multi2D"
+      - "fMultiTwoDiamondResponses"
+    desc: "Multi 2D opening (Poor weak two in an unspecified major, 5-7 HCP, 6-card Hearts or Spades)"
+    rule: "5-7hcp 6h !6s | 5-7hcp 6s !6h"
+    priority: 1
+    bids:
+      # Pass or Correct (2H): 0-15 HCP, non-forcing
+      2h:
+        desc: "Pass or Correct: preference to play 2H opposite Hearts, correct to 2S opposite Spades"
+        rule: "0-15hcp"
+        priority: 3
+        bids:
+          pass:
+            desc: "Opener passes with Hearts"
+            rule: "6h"
+            priority: 1
+          2s:
+            desc: "Opener corrects to Spades"
+            rule: "6s"
+            priority: 1
+
+      # Pass or Correct (2S) with Heart Game Interest
+      2s:
+        desc: "Pass or Correct: invites Heart game if Opener has Hearts, plays 2S if Opener has Spades"
+        rule: "10-12hcp 3+h"
+        priority: 2
+        bids:
+          pass:
+            desc: "Opener passes with Spades"
+            rule: "6s"
+            priority: 1
+          3h:
+            desc: "Opener minimum with Hearts (5-6 HCP)"
+            rule: "5-6hcp 6h"
+            priority: 2
+          4h:
+            desc: "Opener maximum with Hearts (7 HCP)"
+            rule: "7hcp 6h"
+            priority: 1
+
+      # Strong Enquiry (2NT): asks opener for suit and sub-range
+      2nt:
+        desc: "Strong enquiry (15+ HCP, forcing): asks opener for major and strength"
+        rule: "15+hcp"
+        priority: 1
+        bids:
+          3c:
+            desc: "Minimum with Hearts (5-6 HCP, 6 Hearts)"
+            rule: "5-6hcp 6h"
+            priority: 1
+            bids:
+              3h:
+                desc: "Signoff in 3H"
+                rule: "14-16hcp"
+                priority: 2
+              3nt:
+                desc: "Signoff in 3NT"
+                rule: "15-18hcp balanced"
+                priority: 2
+              4h:
+                desc: "Game in Hearts"
+                rule: "16+hcp"
+                priority: 1
+          3d:
+            desc: "Minimum with Spades (5-6 HCP, 6 Spades)"
+            rule: "5-6hcp 6s"
+            priority: 1
+            bids:
+              3s:
+                desc: "Signoff in 3S"
+                rule: "14-16hcp"
+                priority: 2
+              3nt:
+                desc: "Signoff in 3NT"
+                rule: "15-18hcp balanced"
+                priority: 2
+              4s:
+                desc: "Game in Spades"
+                rule: "16+hcp"
+                priority: 1
+          3h:
+            desc: "Maximum with Hearts (7 HCP, 6 Hearts)"
+            rule: "7hcp 6h"
+            priority: 1
+            bids:
+              4h:
+                desc: "Game in Hearts"
+                rule: "14+hcp"
+                priority: 1
+              3nt:
+                desc: "Signoff in 3NT"
+                rule: "15+hcp"
+                priority: 2
+          3s:
+            desc: "Maximum with Spades (7 HCP, 6 Spades)"
+            rule: "7hcp 6s"
+            priority: 1
+            bids:
+              4s:
+                desc: "Game in Spades"
+                rule: "14+hcp"
+                priority: 1
+              3nt:
+                desc: "Signoff in 3NT"
+                rule: "15+hcp"
+                priority: 2
+
+      # Preemptive Pass or Correct (3H / 3S)
+      3h:
+        desc: "Preemptive pass or correct (0-9 HCP, 4+ Hearts)"
+        rule: "0-9hcp 4+h"
+        priority: 2
+        bids:
+          pass:
+            desc: "Opener passes with Hearts"
+            rule: "6h"
+            priority: 1
+          3s:
+            desc: "Opener corrects to Spades"
+            rule: "6s"
+            priority: 1
+
+      3s:
+        desc: "Preemptive to play opposite Spades (0-9 HCP, 4+ Spades)"
+        rule: "0-9hcp 4+s"
+        priority: 2
+        bids:
+          pass:
+            desc: "Opener passes with Spades"
+            rule: "6s"
+            priority: 1
+          4h:
+            desc: "Opener corrects to Hearts"
+            rule: "6h"
+            priority: 1
+
+      # Transfer to Opener's Major (4D)
+      4d:
+        desc: "Transfer to opener's major: bid your major at the 4-level"
+        rule: "12+hcp"
+        priority: 1
+        bids:
+          4h:
+            desc: "Opener has Hearts"
+            rule: "6h"
+            priority: 1
+          4s:
+            desc: "Opener has Spades"
+            rule: "6s"
+            priority: 1
+
+      # Direct 4H / 4S game
+      4h:
+        desc: "To play opposite Hearts, pass or correct to 4S"
+        rule: "0-14hcp 4+h"
+        priority: 2
+        bids:
+          pass:
+            desc: "Opener passes with Hearts"
+            rule: "6h"
+            priority: 1
+          4s:
+            desc: "Opener corrects to Spades"
+            rule: "6s"
+            priority: 1
+
+      4s:
+        desc: "To play in 4S"
+        rule: "0-14hcp 4+s"
+        priority: 2
+
+  fGoodWeakTwoHearts:
+    aliases:
+      - "GoodWeakTwoHearts"
+      - "fGoodWeakTwoHeartResponses"
+    desc: "Good Weak Two in Hearts (8-10 HCP, sound 6-card Heart suit)"
+    rule: "8-10hcp 6h quality:h | 8-10hcp 6h"
+    priority: 1
+    bids:
+      2s:
+        desc: "Natural new suit (5+ Spades, 14+ HCP, forcing 1 round)"
+        rule: "14+hcp 5+s"
+        priority: 2
+        bids:
+          pass:
+            desc: "Opener passes with minimum Spade fit"
+            rule: "3+s 8-9hcp"
+          3h:
+            desc: "Opener rebids Heart suit without Spade fit"
+            rule: "6+h 2-s 8-9hcp"
+          4h:
+            desc: "Opener raises to game in Hearts"
+            rule: "10hcp"
+          4s:
+            desc: "Opener raises to game in Spades"
+            rule: "10hcp 3+s"
+
+      2nt:
+        desc: "Feature Ask (14+ HCP, forcing): asks opener for outside feature"
+        rule: "14+hcp"
+        priority: 1
+        bids:
+          3c:
+            desc: "Outside Club Feature (Ace or King)"
+            rule: "8-10hcp 1+c kc"
+            priority: 1
+            bids:
+              4h:
+                desc: "Game in Hearts"
+                rule: "14+hcp"
+                priority: 1
+              3nt:
+                desc: "Signoff in 3NT"
+                rule: "15+hcp"
+                priority: 2
+          3d:
+            desc: "Outside Diamond Feature (Ace or King)"
+            rule: "8-10hcp 1+d kd"
+            priority: 1
+            bids:
+              4h:
+                desc: "Game in Hearts"
+                rule: "14+hcp"
+                priority: 1
+              3nt:
+                desc: "Signoff in 3NT"
+                rule: "15+hcp"
+                priority: 2
+          3s:
+            desc: "Outside Spade Feature (Ace or King)"
+            rule: "8-10hcp 1+s ks"
+            priority: 1
+            bids:
+              4h:
+                desc: "Game in Hearts"
+                rule: "14+hcp"
+                priority: 1
+              3nt:
+                desc: "Signoff in 3NT"
+                rule: "15+hcp"
+                priority: 2
+          3h:
+            desc: "Minimum without outside Ace or King"
+            rule: "8-9hcp"
+            priority: 2
+            bids:
+              pass:
+                desc: "Pass to play in 3H"
+                rule: "14-15hcp"
+                priority: 2
+              4h:
+                desc: "Game in Hearts"
+                rule: "16+hcp"
+                priority: 1
+
+      3h:
+        desc: "Preemptive raise (3-card support, 0-11 HCP)"
+        rule: "0-11hcp 3+h"
+        priority: 3
+
+      4h:
+        desc: "Game raise in Hearts to play"
+        rule: "0-14hcp 3+h"
+        priority: 2
+
+  fGoodWeakTwoSpades:
+    aliases:
+      - "GoodWeakTwoSpades"
+      - "fGoodWeakTwoSpadeResponses"
+    desc: "Good Weak Two in Spades (8-10 HCP, sound 6-card Spade suit)"
+    rule: "8-10hcp 6s quality:s | 8-10hcp 6s"
+    priority: 1
+    bids:
+      2nt:
+        desc: "Feature Ask (14+ HCP, forcing): asks opener for outside feature"
+        rule: "14+hcp"
+        priority: 1
+        bids:
+          3c:
+            desc: "Outside Club Feature (Ace or King)"
+            rule: "8-10hcp 1+c kc"
+            priority: 1
+            bids:
+              4s:
+                desc: "Game in Spades"
+                rule: "14+hcp"
+                priority: 1
+              3nt:
+                desc: "Signoff in 3NT"
+                rule: "15+hcp"
+                priority: 2
+          3d:
+            desc: "Outside Diamond Feature (Ace or King)"
+            rule: "8-10hcp 1+d kd"
+            priority: 1
+            bids:
+              4s:
+                desc: "Game in Spades"
+                rule: "14+hcp"
+                priority: 1
+              3nt:
+                desc: "Signoff in 3NT"
+                rule: "15+hcp"
+                priority: 2
+          3h:
+            desc: "Outside Heart Feature (Ace or King)"
+            rule: "8-10hcp 1+h kh"
+            priority: 1
+            bids:
+              4s:
+                desc: "Game in Spades"
+                rule: "14+hcp"
+                priority: 1
+              3nt:
+                desc: "Signoff in 3NT"
+                rule: "15+hcp"
+                priority: 2
+          3s:
+            desc: "Minimum without outside Ace or King"
+            rule: "8-9hcp"
+            priority: 2
+            bids:
+              pass:
+                desc: "Pass to play in 3S"
+                rule: "14-15hcp"
+                priority: 2
+              4s:
+                desc: "Game in Spades"
+                rule: "16+hcp"
+                priority: 1
+
+      3s:
+        desc: "Preemptive raise (3-card support, 0-11 HCP)"
+        rule: "0-11hcp 3+s"
+        priority: 3
+
+      4s:
+        desc: "Game raise in Spades to play"
+        rule: "0-14hcp 3+s"
+        priority: 2

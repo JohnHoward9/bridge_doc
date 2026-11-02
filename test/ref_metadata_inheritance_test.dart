@@ -65,7 +65,7 @@ void main() {
 
       final open1hResolved = open1hRaw.withResolvedFragmentMetadata(system.fragments);
       expect(open1hResolved.desc, contains('Gavin 5+ Hearts'));
-      expect(open1hResolved.rule, contains('12-21hcp'));
+      expect(open1hResolved.rule, contains('12+hcp'));
       expect(open1hResolved.variables['M'], equals('h'));
 
       // 4. Check 1S opening bid (GavinSpadeOpening)
@@ -76,7 +76,7 @@ void main() {
 
       final open1sResolved = open1sRaw.withResolvedFragmentMetadata(system.fragments);
       expect(open1sResolved.desc, contains('Gavin 5+ Spades'));
-      expect(open1sResolved.rule, contains('12-21hcp'));
+      expect(open1sResolved.rule, contains('12+hcp'));
       expect(open1sResolved.variables['M'], equals('s'));
     });
 
@@ -189,7 +189,7 @@ void main() {
       final open3ntRaw = system.openingBids.firstWhere((b) => b.call == '3nt');
       final open3ntResolved = open3ntRaw.withResolvedFragmentMetadata(system.fragments);
       expect(open3ntResolved.desc, contains('Kantar 3NT'));
-      expect(open3ntResolved.rule, contains('7+h, p#1 7+s'));
+      expect(open3ntResolved.rule, contains('7+h, 7+s'));
     });
 
     test('BiddingGraphCompiler compiles successfully with caller ref-only metadata inheritance', () async {

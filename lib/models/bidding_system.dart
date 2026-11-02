@@ -36,13 +36,76 @@ class BridgeSystem {
   }
 }
 
+/// The partnership forcing commitment level established by bids during an auction.
+enum ForcingLevel {
+  partScore(0, 'partScore'),
+  game(1, 'game'),
+  slam(2, 'slam'),
+  grandSlam(3, 'grandSlam');
+
+  final int rank;
+  final String label;
+  const ForcingLevel(this.rank, this.label);
+
+  static ForcingLevel fromString(String? str) {
+    if (str == null) return ForcingLevel.partScore;
+    final clean = str.trim().toLowerCase().replaceAll('_', '').replaceAll('-', '');
+    switch (clean) {
+      case 'game':
+      case 'gf':
+        return ForcingLevel.game;
+      case 'slam':
+      case 'sf':
+        return ForcingLevel.slam;
+      case 'grandslam':
+      case 'grand':
+      case 'gsf':
+        return ForcingLevel.grandSlam;
+      case 'partscore':
+      default:
+        return ForcingLevel.partScore;
+    }
+  }
+
+  bool get isForced => this != ForcingLevel.partScore;
+
+  /// Checks if [rawCall] satisfies this [forcingLevel].
+  static bool isContractSatisfied(String rawCall, ForcingLevel forcingLevel) {
+    if (forcingLevel == ForcingLevel.partScore) return true;
+    final clean = rawCall.toLowerCase().replaceAll('(', '').replaceAll(')', '').trim();
+    if (clean.length < 2) return false;
+    final level = int.tryParse(clean.substring(0, 1));
+    if (level == null || level < 1 || level > 7) return false;
+    final strain = clean.substring(1).trim();
+
+    if (forcingLevel == ForcingLevel.grandSlam) {
+      return level >= 7;
+    }
+    if (forcingLevel == ForcingLevel.slam) {
+      return level >= 6;
+    }
+    if (forcingLevel == ForcingLevel.game) {
+      if (level >= 6) return true;
+      if (strain == 'nt') return level >= 3;
+      if (strain == 'h' || strain == 's') return level >= 4;
+      if (strain == 'c' || strain == 'd') return level >= 5;
+    }
+    return false;
+  }
+}
+
 /// A reusable bidding convention or subroutine fragment (e.g. `fMultiLandy`, `WalshClubOpening`).
 class Fragment {
   final String name;
   final String? desc;
   final String? rule;
   final int? priority;
+  final String? ref;
+  final List<String> includes;
   final List<String> aliases;
+  final String? agreedSuit;
+  final Map<String, String> variables;
+  final ForcingLevel forceTo;
   final List<BiddingNode> bids;
 
   Fragment({
@@ -50,14 +113,24 @@ class Fragment {
     this.desc,
     this.rule,
     this.priority,
+    this.ref,
+    this.includes = const [],
     this.aliases = const [],
+    this.agreedSuit,
+    Map<String, String>? variables,
+    ForcingLevel? forceTo,
     List<BiddingNode>? bids,
-  }) : bids = bids ?? [];
+  })  : forceTo = forceTo ?? ForcingLevel.partScore,
+        variables = BiddingNode.enrichSuitVariables(
+          BiddingNode._extractVariablesFromRule(rule, variables),
+          agreedSuit: agreedSuit,
+        ),
+        bids = bids ?? [];
 }
 
 /// A node in the bidding tree.
 class BiddingNode {
-  /// The call text as defined, e.g. "pass", "1c", "(1s)", "[1h-1s]", "<$M=h>1s", "~>MultiLandy".
+  /// The call text as defined, e.g. "pass", "1c", "(1s)", "[1h-1s]", "<$M=h>1s", "~>MultiLandy", "step#1".
   final String call;
 
   /// Meaning or description, e.g. "Drury 3-4", "Takeout", "No opening available".
@@ -72,11 +145,20 @@ class BiddingNode {
   /// Fragment reference if this bid redirects/branches to a fragment (e.g. "fMultiLandy").
   final String? ref;
 
+  /// Additional fragment mixins whose child bids are merged with this node's [bids].
+  final List<String> includes;
+
   /// Explicit condition if parsed (e.g. "$M=h").
   final String? condition;
 
+  /// Explicit agreed trump suit established by this bid (e.g. "h", "s", "$M").
+  final String? agreedSuit;
+
   /// Context variables bound at this node, e.g. { 'M': 'h', 'OM': 's', 'os': 'h' }.
   final Map<String, String> variables;
+
+  /// Forcing level established by this bid (defaults to [ForcingLevel.partScore]).
+  final ForcingLevel forceTo;
 
   /// Child responses / follow-up bids.
   final List<BiddingNode> bids;
@@ -87,11 +169,56 @@ class BiddingNode {
     this.rule,
     this.priority,
     this.ref,
+    this.includes = const [],
     this.condition,
+    this.agreedSuit,
     Map<String, String>? variables,
+    ForcingLevel? forceTo,
     List<BiddingNode>? bids,
-  })  : variables = variables ?? _extractVariablesFromRule(rule),
+  })  : forceTo = forceTo ?? ForcingLevel.partScore,
+        variables = enrichSuitVariables(_extractVariablesFromRule(rule, variables), agreedSuit: agreedSuit),
         bids = bids ?? [];
+
+  static const List<String> _bridgeBidLadder = [
+    '1c', '1d', '1h', '1s', '1nt',
+    '2c', '2d', '2h', '2s', '2nt',
+    '3c', '3d', '3h', '3s', '3nt',
+    '4c', '4d', '4h', '4s', '4nt',
+    '5c', '5d', '5h', '5s', '5nt',
+    '6c', '6d', '6h', '6s', '6nt',
+    '7c', '7d', '7h', '7s', '7nt',
+  ];
+
+  /// Resolves a relative step call (e.g. `step#1`, `step#2`) relative to [parentCall].
+  /// Preserves any inline `<condition>` prefix if present.
+  static String resolveStepCall(String childCall, String parentCall) {
+    var trimmed = childCall.trim();
+    String? prefix;
+    if (trimmed.startsWith('<') && trimmed.contains('>')) {
+      final end = trimmed.indexOf('>');
+      prefix = trimmed.substring(0, end + 1);
+      trimmed = trimmed.substring(end + 1).trim();
+    }
+    final stepMatch = RegExp(r'^step#(\d+)$', caseSensitive: false).firstMatch(trimmed);
+    if (stepMatch == null) return childCall;
+
+    final stepOffset = int.tryParse(stepMatch.group(1)!);
+    if (stepOffset == null || stepOffset <= 0) return childCall;
+
+    var cleanParent = parentCall.trim().toLowerCase();
+    if (cleanParent.startsWith('<') && cleanParent.contains('>')) {
+      cleanParent = cleanParent.substring(cleanParent.indexOf('>') + 1).trim();
+    }
+    cleanParent = cleanParent.replaceAll('(', '').replaceAll(')', '').trim();
+
+    final parentIdx = _bridgeBidLadder.indexOf(cleanParent);
+    if (parentIdx == -1 || parentIdx + stepOffset >= _bridgeBidLadder.length) {
+      return childCall;
+    }
+
+    final resolved = _bridgeBidLadder[parentIdx + stepOffset];
+    return prefix != null ? '$prefix $resolved' : resolved;
+  }
 
   /// Returns the other major suit character ('h' -> 's', 's' -> 'h').
   static String otherMajor(String major) {
@@ -109,14 +236,77 @@ class BiddingNode {
     return '';
   }
 
+  static String suitName(String s) => _suitName(s);
+  static String suitSym(String s) => _suitSym(s);
+
+  static String _suitName(String s) =>
+      s == 'h' ? 'Hearts' : (s == 's' ? 'Spades' : (s == 'd' ? 'Diamonds' : (s == 'c' ? 'Clubs' : s)));
+
+  static String _suitSym(String s) =>
+      s == 'h' ? '♥' : (s == 's' ? '♠' : (s == 'd' ? '♦' : (s == 'c' ? '♣' : s)));
+
+  /// Enriches suit variables ($M, $OM, $m, $om, $suit, $trump, $os, $agreedSuit) with their _name and _sym counterparts.
+  static Map<String, String> enrichSuitVariables(
+    Map<String, String> input, {
+    String? agreedSuit,
+  }) {
+    if (input.isEmpty && (agreedSuit == null || agreedSuit.isEmpty)) return input;
+    final map = Map<String, String>.from(input);
+
+    if (agreedSuit != null && agreedSuit.isNotEmpty) {
+      map['agreedSuit'] = agreedSuit;
+      map['agreed_suit'] = agreedSuit;
+      map['trump'] = agreedSuit;
+    } else if (map.containsKey('agreedSuit') && map['agreedSuit']!.isNotEmpty) {
+      final s = map['agreedSuit']!;
+      map['agreed_suit'] = s;
+      map['trump'] = s;
+    }
+
+    if (map.containsKey('agreedSuit')) {
+      final s = map['agreedSuit']!;
+      if (s == 'h' || s == 's') {
+        map['M'] = s;
+        map['OM'] = otherMajor(s);
+      }
+    }
+
+    if (map.containsKey('M') && !map.containsKey('OM')) {
+      final om = otherMajor(map['M']!);
+      if (om.isNotEmpty) map['OM'] = om;
+    }
+    if (map.containsKey('m') && !map.containsKey('om')) {
+      final om = otherMinor(map['m']!);
+      if (om.isNotEmpty) map['om'] = om;
+    }
+    if (map.containsKey('oppos') && !map.containsKey('os')) {
+      map['os'] = map['oppos']!;
+    } else if (map.containsKey('os') && !map.containsKey('oppos')) {
+      map['oppos'] = map['os']!;
+    }
+    if (map.containsKey('os') && !map.containsKey('OM')) {
+      final om = otherMajor(map['os']!);
+      if (om.isNotEmpty) map['OM'] = om;
+    }
+
+    for (final k in ['M', 'OM', 'm', 'om', 'os', 'oppos', 'suit', 'trump', 'agreedSuit', 'agreed_suit']) {
+      if (map.containsKey(k) && map[k]!.isNotEmpty) {
+        final v = map[k]!;
+        map['${k}_name'] = _suitName(v);
+        map['${k}_sym'] = _suitSym(v);
+      }
+    }
+    return map;
+  }
+
   static Map<String, String> _extractVariablesFromRule(String? ruleText, [Map<String, String>? existingVars]) {
-    if (ruleText == null) return {};
+    if (ruleText == null && (existingVars == null || existingVars.isEmpty)) return {};
     final map = <String, String>{};
     if (existingVars != null) {
       map.addAll(existingVars);
     }
     // Match [$M=h, $OM=s, $os=h] or [$OM=otherMajor($M)]
-    final match = RegExp(r'\[([^\]]+)\]').firstMatch(ruleText);
+    final match = ruleText != null ? RegExp(r'\[([^\]]+)\]').firstMatch(ruleText) : null;
     if (match != null) {
       final inner = match.group(1)!;
       final pairs = inner.split(',');
@@ -132,12 +322,25 @@ class BiddingNode {
             final resolvedArg = map[arg] ?? (arg == 'h' || arg == 's' ? arg : '');
             if (resolvedArg.isNotEmpty) {
               val = otherMajor(resolvedArg);
+            } else {
+              continue;
             }
           } else if (val.startsWith('otherMinor(') && val.endsWith(')')) {
             final arg = val.substring('otherMinor('.length, val.length - 1).replaceAll(r'$', '').trim();
             final resolvedArg = map[arg] ?? (arg == 'c' || arg == 'd' ? arg : '');
             if (resolvedArg.isNotEmpty) {
               val = otherMinor(resolvedArg);
+            } else {
+              continue;
+            }
+          }
+
+          if (val.startsWith(r'$')) {
+            final varName = val.substring(1).trim();
+            if (map.containsKey(varName)) {
+              val = map[varName]!;
+            } else {
+              continue;
             }
           }
 
@@ -148,30 +351,7 @@ class BiddingNode {
       }
     }
 
-    // Automatic fallback: if $M is defined and $OM is not, automatically derive otherMajor($M)
-    if (map.containsKey('M') && !map.containsKey('OM')) {
-      final om = otherMajor(map['M']!);
-      if (om.isNotEmpty) {
-        map['OM'] = om;
-      }
-    }
-
-    // Automatic fallback: alias $oppos and $os
-    if (map.containsKey('oppos') && !map.containsKey('os')) {
-      map['os'] = map['oppos']!;
-    } else if (map.containsKey('os') && !map.containsKey('oppos')) {
-      map['oppos'] = map['os']!;
-    }
-
-    // If $os is a major and $OM is not set, automatically derive otherMajor($os)
-    if (map.containsKey('os') && !map.containsKey('OM')) {
-      final om = otherMajor(map['os']!);
-      if (om.isNotEmpty) {
-        map['OM'] = om;
-      }
-    }
-
-    return map;
+    return enrichSuitVariables(map);
   }
 
   /// Priority defined either via explicit field or p# rule tag from Bridge.g grammar.
@@ -215,6 +395,15 @@ class BiddingNode {
     return c;
   }
 
+  /// Returns the call key for auction sequence tracking and graph state lookups.
+  /// Opposition bids retain parentheses, e.g. "(2d)", while friendly bids are "2d".
+  String get auctionCall {
+    if (isOpponent || call.trim().startsWith('(')) {
+      return '($displayCall)';
+    }
+    return displayCall;
+  }
+
   /// Suit character: 'C', 'D', 'H', 'S', 'NT' or null.
   String? get suit {
     final c = displayCall.toLowerCase();
@@ -253,24 +442,29 @@ class BiddingNode {
     return null;
   }
 
-  /// Checks if this node's condition (e.g. `<$M=h>`) is satisfied in [activeVariables].
+  /// Checks if this node's condition (e.g. `<$M=h>`, `<$suit=c,d>`, `<$M>`, `<!$m>`) is satisfied in [activeVariables].
   bool isConditionSatisfied(Map<String, String> activeVariables) {
     final cond = inlineCondition;
     if (cond == null || cond.isEmpty) return true;
 
-    // Pattern: $M=h or M=h or !$M=h or $M!=h
     final isNot = cond.startsWith('!') || cond.contains('!=');
     final cleanCond = cond.startsWith('!') ? cond.substring(1) : cond;
-    final sep = cleanCond.contains('!=') ? '!=' : '=';
-    final parts = cleanCond.split(sep);
-    if (parts.length == 2) {
+    final sep = cleanCond.contains('!=') ? '!=' : (cleanCond.contains('=') ? '=' : null);
+
+    if (sep != null) {
+      final parts = cleanCond.split(sep);
       final key = parts[0].replaceAll(r'$', '').trim();
-      final expectedVal = parts[1].trim();
+      final expectedVals = parts[1].split(',').map((s) => s.trim()).where((s) => s.isNotEmpty).toList();
       final actualVal = activeVariables[key];
-      final matches = actualVal == expectedVal;
+      final matches = actualVal != null && expectedVals.contains(actualVal);
       return isNot ? !matches : matches;
+    } else {
+      // Variable presence check, e.g. <$M> or <$m>
+      final key = cleanCond.replaceAll(r'$', '').trim();
+      final actualVal = activeVariables[key];
+      final hasVar = actualVal != null && actualVal.isNotEmpty;
+      return isNot ? !hasVar : hasVar;
     }
-    return true;
   }
 
   /// Returns a clone of this node with variable values ($M, $OM, $m, $om, etc.)
@@ -283,7 +477,7 @@ class BiddingNode {
       final sortedKeys = activeVariables.keys.toList()..sort((a, b) => b.length.compareTo(a.length));
       for (final k in sortedKeys) {
         final v = activeVariables[k]!;
-        if (k == 'M' || k == 'OM' || k == 'os' || k == 'oppos' || k == 'om' || k == 'm') {
+        if (k == 'M' || k == 'OM' || k == 'os' || k == 'oppos' || k == 'om' || k == 'm' || k == 'suit' || k == 'trump') {
           final sym = v == 'h' ? '♥' : (v == 's' ? '♠' : (v == 'd' ? '♦' : (v == 'c' ? '♣' : v)));
           result = result.replaceAll('\$${k}_sym', sym);
           final name = v == 'h' ? 'Hearts' : (v == 's' ? 'Spades' : (v == 'd' ? 'Diamonds' : 'Clubs'));
@@ -304,8 +498,10 @@ class BiddingNode {
       rule: newRule,
       priority: priority,
       ref: ref,
+      includes: includes,
       condition: condition,
       variables: variables,
+      forceTo: forceTo,
       bids: bids,
     );
   }
@@ -384,6 +580,7 @@ class BiddingNode {
           priority: priority,
           ref: ref,
           variables: partVars,
+          forceTo: forceTo,
           bids: bids,
         ));
       }
@@ -398,24 +595,75 @@ class BiddingNode {
       final partVars = <String, String>{};
 
       // Substitute % with suit character of subCall if present
-      if (subRule != null && subRule.contains('%')) {
-        String suitChar = '';
-        if (subCall.endsWith('c')) suitChar = 'c';
-        if (subCall.endsWith('d')) suitChar = 'd';
-        if (subCall.endsWith('h')) suitChar = 'h';
-        if (subCall.endsWith('s')) suitChar = 's';
-        if (suitChar.isNotEmpty) {
+      String suitChar = '';
+      if (subCall.endsWith('c')) suitChar = 'c';
+      if (subCall.endsWith('d')) suitChar = 'd';
+      if (subCall.endsWith('h')) suitChar = 'h';
+      if (subCall.endsWith('s')) suitChar = 's';
+      if (suitChar.isNotEmpty) {
+        if (subRule != null && subRule.contains('%')) {
           subRule = subRule.replaceAll('%', suitChar);
-          partVars['%'] = suitChar;
         }
+        partVars['%'] = suitChar;
+        partVars['suit'] = suitChar;
+        final name = suitChar == 'h' ? 'Hearts' : (suitChar == 's' ? 'Spades' : (suitChar == 'd' ? 'Diamonds' : 'Clubs'));
+        final sym = suitChar == 'h' ? '♥' : (suitChar == 's' ? '♠' : (suitChar == 'd' ? '♦' : '♣'));
+        partVars['suit_name'] = name;
+        partVars['suit_sym'] = sym;
       }
 
-      if (subCall.endsWith('h')) {
-        partVars.putIfAbsent('M', () => 'h');
-        partVars.putIfAbsent('OM', () => otherMajor('h'));
-      } else if (subCall.endsWith('s')) {
-        partVars.putIfAbsent('M', () => 's');
-        partVars.putIfAbsent('OM', () => otherMajor('s'));
+      final isMajorTransfer = (inner.contains('4d') && inner.contains('4h')) ||
+          (inner.contains('2d') && inner.contains('2h')) ||
+          (desc.toLowerCase().contains('transfer') && (subCall.endsWith('d') || subCall.endsWith('h')));
+
+      if (isMajorTransfer) {
+        if (subCall.endsWith('d')) {
+          partVars['M'] = 'h';
+          partVars['OM'] = otherMajor('h');
+          partVars['M_name'] = 'Hearts';
+          partVars['M_sym'] = '♥';
+          partVars['OM_name'] = 'Spades';
+          partVars['OM_sym'] = '♠';
+          partVars['transfer_suit'] = 'h';
+        } else if (subCall.endsWith('h')) {
+          partVars['M'] = 's';
+          partVars['OM'] = otherMajor('s');
+          partVars['M_name'] = 'Spades';
+          partVars['M_sym'] = '♠';
+          partVars['OM_name'] = 'Hearts';
+          partVars['OM_sym'] = '♥';
+          partVars['transfer_suit'] = 's';
+        }
+      } else {
+        if (subCall.endsWith('h')) {
+          partVars.putIfAbsent('M', () => 'h');
+          partVars.putIfAbsent('OM', () => otherMajor('h'));
+          partVars.putIfAbsent('M_name', () => 'Hearts');
+          partVars.putIfAbsent('M_sym', () => '♥');
+          partVars.putIfAbsent('OM_name', () => 'Spades');
+          partVars.putIfAbsent('OM_sym', () => '♠');
+        } else if (subCall.endsWith('s')) {
+          partVars.putIfAbsent('M', () => 's');
+          partVars.putIfAbsent('OM', () => otherMajor('s'));
+          partVars.putIfAbsent('M_name', () => 'Spades');
+          partVars.putIfAbsent('M_sym', () => '♠');
+          partVars.putIfAbsent('OM_name', () => 'Hearts');
+          partVars.putIfAbsent('OM_sym', () => '♥');
+        } else if (subCall.endsWith('c')) {
+          partVars.putIfAbsent('m', () => 'c');
+          partVars.putIfAbsent('om', () => otherMinor('c'));
+          partVars.putIfAbsent('m_name', () => 'Clubs');
+          partVars.putIfAbsent('m_sym', () => '♣');
+          partVars.putIfAbsent('om_name', () => 'Diamonds');
+          partVars.putIfAbsent('om_sym', () => '♦');
+        } else if (subCall.endsWith('d')) {
+          partVars.putIfAbsent('m', () => 'd');
+          partVars.putIfAbsent('om', () => otherMinor('d'));
+          partVars.putIfAbsent('m_name', () => 'Diamonds');
+          partVars.putIfAbsent('m_sym', () => '♦');
+          partVars.putIfAbsent('om_name', () => 'Clubs');
+          partVars.putIfAbsent('om_sym', () => '♣');
+        }
       }
 
       // Merge variables extracted from subRule (e.g. [$OM=otherMajor($M)])
@@ -424,22 +672,28 @@ class BiddingNode {
         partVars.addAll(extracted);
 
         // Substitute variable tokens $M, $OM, etc. into subRule
-        partVars.forEach((k, v) {
+        final sortedKeys = partVars.keys.toList()..sort((a, b) => b.length.compareTo(a.length));
+        for (final k in sortedKeys) {
+          final v = partVars[k]!;
           if (v.isNotEmpty) {
             subRule = subRule!.replaceAll('\$$k', v);
           }
-        });
+        }
       }
 
       var subDesc = desc;
       if (subDesc.isNotEmpty) {
-        partVars.forEach((k, v) {
-          subDesc = subDesc.replaceAll('\$$k', v);
-          if (k == 'M' || k == 'OM' || k == 'os' || k == 'oppos') {
+        final sortedKeys = partVars.keys.toList()..sort((a, b) => b.length.compareTo(a.length));
+        for (final k in sortedKeys) {
+          final v = partVars[k]!;
+          if (k == 'M' || k == 'OM' || k == 'os' || k == 'oppos' || k == 'om' || k == 'm' || k == 'suit') {
             final sym = v == 'h' ? '♥' : (v == 's' ? '♠' : (v == 'd' ? '♦' : (v == 'c' ? '♣' : v)));
             subDesc = subDesc.replaceAll('\$${k}_sym', sym);
           }
-        });
+          if (v.isNotEmpty) {
+            subDesc = subDesc.replaceAll('\$$k', v);
+          }
+        }
         if (!desc.contains(r'$')) {
           subDesc = '$desc ($subCall)';
         }
@@ -452,7 +706,9 @@ class BiddingNode {
         rule: subRule,
         priority: priority,
         ref: ref,
+        includes: includes,
         variables: partVars,
+        forceTo: forceTo,
         bids: bids,
       ));
     }
@@ -467,24 +723,80 @@ class BiddingNode {
     Map<String, Fragment>? fragments,
   }) {
     final List<BiddingNode> result = [];
-    final mergedVars = Map<String, String>.from(activeVariables)..addAll(variables);
+    final mergedVars = Map<String, String>.from(activeVariables);
+    if (ref != null && fragments != null && fragments.containsKey(ref)) {
+      mergedVars.addAll(fragments[ref]!.variables);
+    }
+    if (isOpponent && activeVariables.containsKey('M')) {
+      final filteredVars = Map<String, String>.from(variables);
+      filteredVars.remove('M');
+      filteredVars.remove('OM');
+      filteredVars.remove('M_name');
+      filteredVars.remove('M_sym');
+      if (activeVariables.containsKey('m')) {
+        filteredVars.remove('m');
+        filteredVars.remove('om');
+        filteredVars.remove('m_name');
+        filteredVars.remove('m_sym');
+      }
+      mergedVars.addAll(filteredVars);
+    } else {
+      mergedVars.addAll(variables);
+    }
+    if (!mergedVars.containsKey('trump')) {
+      final fallbackTrump = mergedVars['M'] ?? mergedVars['m'] ?? mergedVars['suit'];
+      if (fallbackTrump != null && fallbackTrump.isNotEmpty) {
+        mergedVars['trump'] = fallbackTrump;
+      }
+    }
+    final enrichedVars = enrichSuitVariables(mergedVars);
+
+    final selfSub = substituted(enrichedVars);
+    final parentEffectiveCall = (!isConditionalBranch && selfSub.displayCall.isNotEmpty)
+        ? selfSub.displayCall
+        : (enrichedVars['_last_call'] ?? '');
+    if (parentEffectiveCall.isNotEmpty) {
+      enrichedVars['_last_call'] = parentEffectiveCall;
+    }
 
     final List<BiddingNode> sourceList = [];
     if (bids.isNotEmpty) {
       sourceList.addAll(bids);
     } else if (ref != null && fragments != null && fragments.containsKey(ref)) {
-      sourceList.addAll(fragments[ref]!.bids);
+      final resolvedFrag = _resolveFragmentChain(fragments[ref!]!, fragments, <String>{});
+      sourceList.addAll(resolvedFrag.bids);
+    }
+    for (final inc in includes) {
+      if (fragments != null && fragments.containsKey(inc)) {
+        final incFrag = _resolveFragmentChain(fragments[inc]!, fragments, <String>{});
+        sourceList.addAll(incFrag.bids);
+      }
     }
 
     final Set<String> seenKeys = {};
     for (final child in sourceList) {
       final resolvedChild = fragments != null ? child.withResolvedFragmentMetadata(fragments) : child;
-      if (!resolvedChild.isConditionSatisfied(mergedVars)) {
+      if (!resolvedChild.isConditionSatisfied(enrichedVars)) {
         continue;
       }
       final expandedList = resolvedChild.expandCompoundBid();
       for (final exp in expandedList) {
-        final sub = exp.substituted(mergedVars);
+        var sub = exp.substituted(enrichedVars);
+        if (parentEffectiveCall.isNotEmpty && sub.call.toLowerCase().contains('step#')) {
+          final stepCall = resolveStepCall(sub.call, parentEffectiveCall);
+          sub = BiddingNode(
+            call: stepCall,
+            desc: sub.desc,
+            rule: sub.rule,
+            priority: sub.priority,
+            ref: sub.ref,
+            includes: sub.includes,
+            condition: sub.condition,
+            variables: sub.variables,
+            forceTo: sub.forceTo,
+            bids: sub.bids,
+          );
+        }
         final key = '${sub.call}|${sub.rule}|${sub.condition}';
         if (seenKeys.add(key)) {
           result.add(sub);
@@ -524,9 +836,11 @@ class BiddingNode {
         vars['OM'] = otherMajor(suit);
         vars['M_name'] = suit == 'h' ? 'Hearts' : 'Spades';
         vars['M_sym'] = suit == 'h' ? '♥' : '♠';
+        vars['OM_name'] = suit == 'h' ? 'Spades' : 'Hearts';
+        vars['OM_sym'] = suit == 'h' ? '♠' : '♥';
       } else {
         vars['m'] = suit;
-        vars['om'] = isOpp ? suit : otherMinor(suit);
+        vars['om'] = otherMinor(suit);
         vars['m_name'] = suit == 'c' ? 'Clubs' : 'Diamonds';
         vars['m_sym'] = suit == 'c' ? '♣' : '♦';
       }
@@ -544,34 +858,167 @@ class BiddingNode {
     return vars;
   }
 
+  static Fragment _resolveFragmentChain(
+    Fragment frag,
+    Map<String, Fragment> fragments,
+    Set<String> visited,
+  ) {
+    if (!visited.add(frag.name)) return frag;
+    String? desc = frag.desc;
+    String? rule = frag.rule;
+    int? priority = frag.priority;
+    ForcingLevel forcing = frag.forceTo;
+    final vars = Map<String, String>.from(frag.variables);
+    final mergedBids = List<BiddingNode>.from(frag.bids);
+
+    if (frag.ref != null && fragments.containsKey(frag.ref)) {
+      final base = _resolveFragmentChain(fragments[frag.ref!]!, fragments, Set.from(visited));
+      desc ??= base.desc;
+      rule ??= base.rule;
+      priority ??= base.priority;
+      if (base.forceTo.rank > forcing.rank) {
+        forcing = base.forceTo;
+      }
+      final combinedVars = Map<String, String>.from(base.variables)..addAll(vars);
+      vars
+        ..clear()
+        ..addAll(combinedVars);
+      mergedBids.addAll(base.bids);
+    }
+
+    for (final inc in frag.includes) {
+      if (fragments.containsKey(inc)) {
+        final incFrag = _resolveFragmentChain(fragments[inc]!, fragments, Set.from(visited));
+        if (incFrag.forceTo.rank > forcing.rank) {
+          forcing = incFrag.forceTo;
+        }
+        mergedBids.addAll(incFrag.bids);
+      }
+    }
+
+    return Fragment(
+      name: frag.name,
+      desc: desc,
+      rule: rule,
+      priority: priority,
+      aliases: frag.aliases,
+      variables: enrichSuitVariables(vars),
+      forceTo: forcing,
+      bids: mergedBids,
+    );
+  }
+
   /// Returns a copy of this node with `desc`, `rule`, `priority`, and `bids` inherited from
   /// the referenced [Fragment] if not explicitly specified on this node.
-  BiddingNode withResolvedFragmentMetadata(Map<String, Fragment> fragments) {
-    if (ref == null) return this;
-    final frag = fragments[ref];
-    if (frag == null) return this;
+  BiddingNode withResolvedFragmentMetadata(
+    Map<String, Fragment> fragments, [
+    Set<String>? visited,
+  ]) {
+    final activeVisited = visited ?? <String>{};
+    Fragment? resolvedFrag;
+    if (ref != null && fragments.containsKey(ref) && !activeVisited.contains(ref)) {
+      resolvedFrag = _resolveFragmentChain(fragments[ref!]!, fragments, Set.from(activeVisited));
+    }
+
+    final List<BiddingNode> incBids = [];
+    final Map<String, String> incVars = {};
+    ForcingLevel maxIncForcing = ForcingLevel.partScore;
+    for (final inc in includes) {
+      if (fragments.containsKey(inc) && !activeVisited.contains(inc)) {
+        final incFrag = _resolveFragmentChain(fragments[inc]!, fragments, Set.from(activeVisited));
+        incBids.addAll(incFrag.bids);
+        incVars.addAll(incFrag.variables);
+        if (incFrag.forceTo.rank > maxIncForcing.rank) {
+          maxIncForcing = incFrag.forceTo;
+        }
+      }
+    }
+
+    if (resolvedFrag == null && incBids.isEmpty) {
+      if (bids.isEmpty) return this;
+      final nextVisited = Set<String>.from(activeVisited);
+      return BiddingNode(
+        call: call,
+        desc: desc,
+        rule: rule,
+        priority: priority,
+        ref: ref,
+        includes: includes,
+        condition: condition,
+        agreedSuit: agreedSuit,
+        variables: variables,
+        forceTo: forceTo,
+        bids: bids.map((b) => b.withResolvedFragmentMetadata(fragments, nextVisited)).toList(),
+      );
+    }
 
     final deducedVars = deduceVariablesFromCall(call);
-    final mergedVars = Map<String, String>.from(deducedVars)..addAll(variables);
+    final mergedVars = <String, String>{};
+    if (resolvedFrag != null) {
+      for (final e in resolvedFrag.variables.entries) {
+        if (!e.value.startsWith(r'$') && !e.value.contains('(')) {
+          mergedVars[e.key] = e.value;
+        }
+      }
+    }
+    mergedVars.addAll(incVars);
+    final activeAgreed = agreedSuit ?? resolvedFrag?.agreedSuit;
+    if (activeAgreed != null && activeAgreed.isNotEmpty) {
+      mergedVars['agreedSuit'] = activeAgreed;
+    }
+    for (final e in deducedVars.entries) {
+      if (!mergedVars.containsKey(e.key) && !variables.containsKey(e.key)) {
+        if (activeAgreed != null && (e.key == 'M' || e.key == 'OM' || e.key == 'trump')) {
+          continue; // do not clobber agreed suit
+        }
+        mergedVars[e.key] = e.value;
+      }
+    }
+    mergedVars.addAll(variables);
+    final enrichedVars = enrichSuitVariables(mergedVars, agreedSuit: activeAgreed);
 
     String resolveString(String text) {
       var s = text;
-      mergedVars.forEach((k, v) {
-        if (k == 'M' || k == 'OM' || k == 'os' || k == 'oppos' || k == 'om' || k == 'm' || k == 'suit') {
+      final sortedKeys = enrichedVars.keys.toList()..sort((a, b) => b.length.compareTo(a.length));
+      for (final k in sortedKeys) {
+        final v = enrichedVars[k]!;
+        if (k == 'M' || k == 'OM' || k == 'os' || k == 'oppos' || k == 'om' || k == 'm' || k == 'suit' || k == 'trump') {
           final sym = v == 'h' ? '♥' : (v == 's' ? '♠' : (v == 'd' ? '♦' : (v == 'c' ? '♣' : v)));
           s = s.replaceAll('\$${k}_sym', sym);
           final name = v == 'h' ? 'Hearts' : (v == 's' ? 'Spades' : (v == 'd' ? 'Diamonds' : 'Clubs'));
           s = s.replaceAll('\$${k}_name', name);
         }
         s = s.replaceAll('\$$k', v);
-      });
+      }
       return s;
     }
 
-    final resolvedDesc = desc.isNotEmpty ? desc : (frag.desc != null ? resolveString(frag.desc!) : '');
-    final resolvedRule = (rule != null && rule!.isNotEmpty) ? rule : (frag.rule != null ? resolveString(frag.rule!) : null);
-    final resolvedPriority = priority ?? frag.priority;
-    final ruleVars = resolvedRule != null ? _extractVariablesFromRule(resolvedRule, mergedVars) : mergedVars;
+    final resolvedDesc = desc.isNotEmpty
+        ? desc
+        : (resolvedFrag?.desc != null ? resolveString(resolvedFrag!.desc!) : '');
+    final resolvedRule = (rule != null && rule!.isNotEmpty)
+        ? rule
+        : (resolvedFrag?.rule != null ? resolveString(resolvedFrag!.rule!) : null);
+    final resolvedPriority = priority ?? resolvedFrag?.priority;
+    final ruleVars = resolvedRule != null ? _extractVariablesFromRule(resolvedRule, enrichedVars) : enrichedVars;
+
+    var resolvedForcing = forceTo;
+    if (resolvedFrag != null && resolvedFrag.forceTo.rank > resolvedForcing.rank) {
+      resolvedForcing = resolvedFrag.forceTo;
+    }
+    if (maxIncForcing.rank > resolvedForcing.rank) {
+      resolvedForcing = maxIncForcing;
+    }
+
+    final nextVisited = Set<String>.from(activeVisited);
+    if (ref != null) nextVisited.add(ref!);
+    nextVisited.addAll(includes);
+
+    final combinedBids = <BiddingNode>[
+      ...bids,
+      if (resolvedFrag != null) ...resolvedFrag.bids,
+      ...incBids,
+    ].map((b) => b.withResolvedFragmentMetadata(fragments, nextVisited)).toList();
 
     return BiddingNode(
       call: call,
@@ -579,9 +1026,12 @@ class BiddingNode {
       rule: resolvedRule,
       priority: resolvedPriority,
       ref: ref,
+      includes: const [],
       condition: condition,
+      agreedSuit: activeAgreed,
       variables: ruleVars.isNotEmpty ? ruleVars : null,
-      bids: bids.isNotEmpty ? bids : frag.bids,
+      forceTo: resolvedForcing,
+      bids: combinedBids,
     );
   }
 }

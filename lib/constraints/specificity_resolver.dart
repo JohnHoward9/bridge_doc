@@ -1,6 +1,9 @@
 import '../models/bidding_system.dart';
+import '../models/card.dart';
 import '../models/hand.dart';
+import '../models/bidding_state_context.dart';
 import '../evaluators/valuation_engine.dart';
+import '../evaluators/ml_bid_evaluator.dart';
 import 'constraint_parser.dart';
 import 'hand_constraint.dart';
 
@@ -39,12 +42,14 @@ class SpecificityResolver {
     List<BiddingNode> candidates, {
     Map<String, Fragment>? fragments,
     Map<String, String>? activeVariables,
+    BiddingStateContext? context,
   }) {
     final playable = resolvePlayableCandidates(
       hand,
       candidates,
       fragments: fragments,
       activeVariables: activeVariables,
+      context: context,
     );
 
     final List<CandidateMatch> matches = [];
@@ -60,10 +65,17 @@ class SpecificityResolver {
         continue;
       }
 
-      final constraint = parser.parse(node.rule!);
-      final result = constraint.evaluate(hand, valuation);
+      final constraint = parser.parse(node.rule!, agreedTrump: context?.agreedTrump);
+      final result = constraint.evaluate(hand, valuation, context);
 
       if (result.isMatch) {
+        if (context != null && context.isOpeningAuction) {
+          final decision = _evaluateOpeningPreempt(node, hand, context);
+          if (decision != null && !decision.shouldPreempt) {
+            continue; // Filtered out by ML tactical preempt evaluation
+          }
+        }
+
         matches.add(CandidateMatch(
           node: node,
           matchResult: result,
@@ -100,6 +112,7 @@ class SpecificityResolver {
     List<BiddingNode> candidates, {
     Map<String, Fragment>? fragments,
     Map<String, String>? activeVariables,
+    BiddingStateContext? context,
   }) {
     final List<BiddingNode> playable = [];
     final vars = activeVariables ?? const {};
@@ -109,8 +122,8 @@ class SpecificityResolver {
         // Evaluate condition of this continuation branch against hand
         bool branchMatches = true;
         if (node.rule != null && node.rule!.trim().isNotEmpty) {
-          final constraint = parser.parse(node.rule!);
-          final result = constraint.evaluate(hand, valuation);
+          final constraint = parser.parse(node.rule!, agreedTrump: context?.agreedTrump);
+          final result = constraint.evaluate(hand, valuation, context);
           branchMatches = result.isMatch;
         }
 
@@ -123,6 +136,7 @@ class SpecificityResolver {
             children,
             fragments: fragments,
             activeVariables: mergedVars,
+            context: context,
           ));
         }
       } else {
@@ -150,6 +164,55 @@ class SpecificityResolver {
     );
     if (matches.isEmpty) return null;
     return matches.first.node;
+  }
+
+  /// Evaluates an opening bid against MLPreempt rules (Rule of 2/3/4, seat, vulnerability, suit quality).
+  PreemptDecision? _evaluateOpeningPreempt(
+    BiddingNode node,
+    Hand hand,
+    BiddingStateContext context,
+  ) {
+    final cleanCall = node.call.toLowerCase().replaceAll('(', '').replaceAll(')', '').trim();
+    if (cleanCall.length < 2) return null;
+    final level = int.tryParse(cleanCall[0]);
+    if (level == null || level < 2 || level > 4) return null;
+
+    final isMulti = cleanCall == '2d' &&
+        (node.ref == 'MultiTwoDiamonds' ||
+            node.desc.toLowerCase().contains('multi') ||
+            (node.rule != null && (node.rule!.contains('6h') || node.rule!.contains('6s'))));
+
+    final isWeakOrPreempt = isMulti ||
+        (node.ref != null && (node.ref!.contains('Weak') || node.ref!.contains('Preempt'))) ||
+        node.desc.toLowerCase().contains('weak') ||
+        node.desc.toLowerCase().contains('preempt') ||
+        (node.rule != null &&
+            (node.rule!.contains('5-10hcp') ||
+                node.rule!.contains('6-10hcp') ||
+                node.rule!.contains('0-11hcp')));
+
+    if (!isWeakOrPreempt && hand.hcp > 10) return null;
+
+    Suit? suit;
+    if (isMulti) {
+      suit = hand.heartsLength >= 6 ? Suit.hearts : (hand.spadesLength >= 6 ? Suit.spades : null);
+    } else {
+      final suitChar = cleanCall[1];
+      if (suitChar == 'c') suit = Suit.clubs;
+      else if (suitChar == 'd') suit = Suit.diamonds;
+      else if (suitChar == 'h') suit = Suit.hearts;
+      else if (suitChar == 's') suit = Suit.spades;
+    }
+
+    if (suit == null) return null;
+
+    return MLPowerEngine.evaluatePreempt(
+      hand,
+      suit: suit,
+      level: level,
+      seat: context.seatPosition,
+      vuln: context.vulnerability,
+    );
   }
 }
 

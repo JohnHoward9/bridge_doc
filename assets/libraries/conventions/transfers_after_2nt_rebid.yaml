@@ -1,0 +1,134 @@
+library: "Transfers after 2NT Rebid"
+description: "Gavin Wolpert Master Series: Transfers and Modified Wolff over opener 1x - 1y - 2NT (18-19 balanced)"
+version: "1.0"
+
+fragments:
+  fTransfersAfter2NTRebid:
+    aliases: ["fTransfersOver2NT"]
+    desc: "Transfers and Modified Wolff over 18-19 balanced 2NT rebid"
+    bids:
+      pass:
+        desc: "Pass (0-4 HCP)"
+        rule: "4-hcp"
+        priority: 10
+
+      3c:
+        desc: "Modified Wolff Relay: Puppet to 3D to sign off in a suit"
+        rule: "0-9hcp"
+        priority: 2
+        bids:
+          3d:
+            desc: "Forced puppet to 3D"
+            rule: "18-19hcp"
+            priority: 1
+            bids:
+              pass:
+                desc: "Pass to play in Diamonds (signoff)"
+                rule: "5+d 0-7hcp"
+                priority: 10
+              3h:
+                desc: "Signoff in Hearts (5+ Hearts, 4-7 HCP)"
+                rule: "5+h 4-7hcp"
+                priority: 2
+                bids:
+                  pass:
+                    desc: "Opener passes to play in 3H"
+                    rule: "18-19hcp"
+                    priority: 10
+              3s:
+                desc: "Signoff in Spades (5+ Spades, 4-7 HCP)"
+                rule: "5+s 4-7hcp"
+                priority: 2
+                bids:
+                  pass:
+                    desc: "Opener passes to play in 3S"
+                    rule: "18-19hcp"
+                    priority: 10
+
+      3d:
+        desc: "Transfer to Hearts (5+ Hearts, game forcing or choice of games)"
+        rule: "5+h 5+hcp"
+        priority: 1
+        bids:
+          3h:
+            desc: "Opener accepts transfer to Hearts"
+            rule: "2+h 18-19hcp"
+            priority: 1
+            bids:
+              pass:
+                desc: "Signoff with minimum"
+                rule: "4-6hcp"
+                priority: 10
+              3nt:
+                desc: "Choice of games: 5 Hearts, offers 3NT or 4H"
+                rule: "5h 7-10hcp"
+                priority: 2
+                bids:
+                  pass:
+                    desc: "Opener prefers 3NT with only 2 Hearts"
+                    rule: "2h"
+                    priority: 10
+                  4h:
+                    desc: "Opener prefers 4H with 3+ Heart support"
+                    rule: "3+h"
+                    priority: 1
+              4h:
+                desc: "Game in Hearts with 6-card suit"
+                rule: "6+h 7-11hcp"
+                priority: 1
+
+      3h:
+        desc: "Transfer to Spades (5+ Spades, game forcing or choice of games)"
+        rule: "5+s 5+hcp"
+        priority: 1
+        bids:
+          3s:
+            desc: "Opener accepts transfer to Spades"
+            rule: "2+s 18-19hcp"
+            priority: 1
+            bids:
+              pass:
+                desc: "Signoff with minimum"
+                rule: "4-6hcp"
+                priority: 10
+              3nt:
+                desc: "Choice of games: 5 Spades, offers 3NT or 4S"
+                rule: "5s 7-10hcp"
+                priority: 2
+                bids:
+                  pass:
+                    desc: "Opener prefers 3NT with only 2 Spades"
+                    rule: "2s"
+                    priority: 10
+                  4s:
+                    desc: "Opener prefers 4S with 3+ Spade support"
+                    rule: "3+s"
+                    priority: 1
+              4s:
+                desc: "Game in Spades with 6-card suit"
+                rule: "6+s 7-11hcp"
+                priority: 1
+
+      3s:
+        desc: "Minor suit slam try (5-4 or 5-5 minors, slam interest)"
+        rule: "4+c 4+d 11+hcp"
+        priority: 1
+
+      3nt:
+        desc: "Signoff in 3NT (no 5-card major, 6-11 HCP)"
+        rule: "4-h 4-s 6-11hcp"
+        priority: 2
+
+      4nt:
+        desc: "Quantitative invitation to 6NT (12-14 HCP balanced)"
+        rule: "12-14hcp balanced"
+        priority: 1
+        bids:
+          pass:
+            desc: "Opener declines with minimum (18 HCP)"
+            rule: "18hcp"
+            priority: 10
+          6nt:
+            desc: "Opener accepts with maximum (19 HCP)"
+            rule: "19hcp"
+            priority: 1

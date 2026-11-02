@@ -36,7 +36,8 @@ OpeningBids:
 
   1c:
     desc: "3-way club: weak NT, 11+ clubs, or game force"
-    rule: "p#2 $weakbal | p#2 5+c 11+hcp c>* !$bal | p#2 s#4441 4c 11-14hcp | p#2 $gf [$os=c]"
+    rule: "$weakbal | 5+c 11+hcp c>* !$bal | s#4441 4c 11-14hcp | $gf [$os=c]"
+    priority: 2
     ref: "f1CWalrusResponses"
 
   1d:
@@ -45,7 +46,7 @@ OpeningBids:
 
   1h:
     desc: "5+ card Hearts opening"
-    rule: "10+hcp, 5+h"
+    rule: "10+hcp, 5+h, h>s"
     ref: "fHeartResponses2Over1"
 
   1s:
@@ -55,7 +56,7 @@ OpeningBids:
 
   1nt:
     desc: "Strong balanced NT (15-17)"
-    rule: "p#1 15-17hcp, balanced, 4-h, 4-s"
+    rule: "15-17hcp, balanced, 4-h, 4-s"
     priority: 1
     ref: "f1NTResponses"
 

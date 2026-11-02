@@ -19,7 +19,8 @@ imports:
   - "assets/libraries/conventions/gavin_defense_1nt.yaml"
   - "assets/libraries/conventions/serious_3nt_and_kickback.yaml"
   - "assets/libraries/conventions/transfer_lebensohl.yaml"
-  - "assets/libraries/conventions/puppet_stayman.yaml"
+  - "assets/libraries/conventions/puppet_stayman_1nt.yaml"
+  - "assets/libraries/conventions/puppet_stayman_2nt.yaml"
   - "assets/libraries/conventions/drury.yaml"
   - "assets/libraries/conventions/jacoby_2nt.yaml"
   - "assets/libraries/conventions/defence_weak_two.yaml"
@@ -29,17 +30,24 @@ imports:
   - "assets/libraries/conventions/spiral_raises.yaml"
   - "assets/libraries/conventions/support_doubles.yaml"
   - "assets/libraries/conventions/suit_overcalls_and_michaels.yaml"
+  - "assets/libraries/conventions/multi_landy.yaml"
   - "assets/libraries/conventions/defence_multi_two_diamonds.yaml"
   - "assets/libraries/conventions/defence_ekren.yaml"
   - "assets/libraries/conventions/defence_strong_club.yaml"
   - "assets/libraries/conventions/defence_two_clubs_majors.yaml"
+  - "assets/libraries/conventions/fourth_suit_forcing.yaml"
+  - "assets/libraries/conventions/transfers_after_one_major_double.yaml"
+  - "assets/libraries/conventions/transfers_after_2nt_rebid.yaml"
+  - "assets/libraries/conventions/gavin_1nt_runouts.yaml"
+  - "assets/libraries/conventions/exclusion_rkcb.yaml"
 
 definitions:
   1NTOpening: "15-17"
   bal: "s#5332|4432|4333"
   # Any balanced shape (4333, 4432, 5332 including 5-card majors)
-  # Plus semi-balanced 5422 minor hands (2452, 2425, 2245, 2254) and 6322 with a minor suit
-  strongnt: "15-17hcp s#5332|4432|4333 | 15-17hcp s#5422|6322 4-h 4-s | 15-17hcp dist#2452|2425|2245|2254"
+  # Plus 6322 minor, 5422 with 4H-5m at 15-16 HCP (reversing with 17 HCP),
+  # and 2245/2254 both minors at 15-17 HCP
+  strongnt: "15-17hcp s#5332|4432|4333 | 15-17hcp s#6322 4-h 4-s | 15-16hcp dist#2452|2425 | 15-17hcp dist#2245|2254"
 
 OpeningBids:
   pass:
@@ -47,10 +55,10 @@ OpeningBids:
     rule: "11-hcp"
     bids:
       1h:
-        ref: "fDrury"
+        ref: "fDruryHeartOpening"
 
       1s:
-        ref: "fDrury"
+        ref: "fDrurySpadeOpening"
 
   1c:
     ref: "WalshClubOpening"
@@ -81,7 +89,7 @@ OpeningBids:
 
   2nt:
     ref: "Strong2NTOpening"
-
+    priority: 1
   3c:
     ref: "Preempt3Clubs"
 
@@ -114,10 +122,14 @@ OpeningBids:
 
 OppositionOpeningBids:
   "(1nt)":
-    ref: "fGavinDefenseStrong1NT"
+    desc: "Opposition Strong NT (15-17 HCP)"
+    rule: "15-17hcp"
+    ref: "fMultiLandy"
 
   "(50%Weak.1nt)":
-    ref: "fGavinDefenseWeak1NT"
+    desc: "Opposition Weak NT (12-14 HCP)"
+    rule: "12-14hcp"
+    ref: "fMultiLandy"
 
   "(2h)":
     ref: "fWeakTwoDefense"

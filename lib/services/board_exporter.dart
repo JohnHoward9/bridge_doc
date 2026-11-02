@@ -13,6 +13,10 @@ class BoardExportOptions {
   final String vulnerable; // 'None', 'NS', 'EW', 'All'
   final String systemName;
   final String scoring;
+  final String? shortDescription;
+  final String? longDescription;
+  final String? errorType;
+  final bool isFixed;
 
   const BoardExportOptions({
     this.event = 'Gavin Wolpert Practice Studio',
@@ -23,6 +27,10 @@ class BoardExportOptions {
     this.vulnerable = 'None',
     this.systemName = 'Gavin Wolpert 2/1 GF',
     this.scoring = 'IMP',
+    this.shortDescription,
+    this.longDescription,
+    this.errorType,
+    this.isFixed = false,
   });
 }
 
@@ -80,6 +88,31 @@ class BoardExporter {
     buffer.writeln('[Vulnerable "${options.vulnerable}"]');
     buffer.writeln('[Scoring "${options.scoring}"]');
     buffer.writeln('[BiddingSystem "${options.systemName}"]');
+
+    if (options.shortDescription != null && options.shortDescription!.trim().isNotEmpty) {
+      final sanitizedShort = options.shortDescription!.replaceAll('"', "''").replaceAll('\n', ' ').trim();
+      buffer.writeln('[Description "$sanitizedShort"]');
+    }
+
+    if (options.errorType != null && options.errorType!.trim().isNotEmpty) {
+      final sanitizedError = options.errorType!.replaceAll('"', "''").replaceAll('\n', ' ').trim();
+      buffer.writeln('[ErrorType "$sanitizedError"]');
+    }
+
+    buffer.writeln('[Fixed "${options.isFixed ? 'Yes' : 'No'}"]');
+
+    if (options.longDescription != null && options.longDescription!.trim().isNotEmpty) {
+      final sanitizedComment = options.longDescription!.replaceAll('"', "''").replaceAll('\n', ' ').trim();
+      buffer.writeln('[Comment "$sanitizedComment"]');
+    }
+
+    if (options.longDescription != null && options.longDescription!.trim().isNotEmpty) {
+      buffer.writeln('{');
+      for (final line in options.longDescription!.trim().split('\n')) {
+        buffer.writeln('  $line');
+      }
+      buffer.writeln('}');
+    }
 
     // Standard PBN deal order starting with North: N:North East South West
     final nPbn = handToPbn(deal.north);

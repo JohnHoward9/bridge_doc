@@ -1,0 +1,148 @@
+library: "Gavin 1NT Runouts"
+description: "Gavin Wolpert Master Series: DONT escape runouts when 1NT is doubled for penalty"
+version: "1.0"
+
+fragments:
+  fGavin1NTRunouts:
+    desc: "DONT Runouts after 1NT - (X)"
+    bids:
+      pass:
+        desc: "Forcing Redouble / Penalty interest (9+ HCP)"
+        rule: "9+hcp"
+        priority: 1
+        bids:
+          rdbl:
+            desc: "Opener forced redouble"
+            priority: 1
+            bids:
+              pass:
+                desc: "Play 1NT doubled with penalties"
+                rule: "9+hcp"
+                priority: 10
+
+      rdbl:
+        desc: "Single-suited escape (5+ cards in unspecified suit, single-suiter)"
+        rule: "5+c 3-d 3-h 3-s | 5+d 3-c 3-h 3-s | 5+h 3-c 3-d 3-s | 6+c | 6+d | 6+h"
+        priority: 3
+        bids:
+          2c:
+            desc: "Opener forced relay to 2C"
+            priority: 1
+            bids:
+              pass:
+                desc: "Responder has Clubs (signoff)"
+                rule: "5+c"
+                priority: 10
+              2d:
+                desc: "Responder has Diamonds (signoff)"
+                rule: "5+d"
+                priority: 1
+                bids:
+                  pass:
+                    desc: "Opener passes 2D"
+                    priority: 10
+              2h:
+                desc: "Responder has Hearts (signoff)"
+                rule: "5+h"
+                priority: 1
+                bids:
+                  pass:
+                    desc: "Opener passes 2H"
+                    priority: 10
+              2s:
+                desc: "Responder has Spades (signoff)"
+                rule: "5+s"
+                priority: 1
+                bids:
+                  pass:
+                    desc: "Opener passes 2S"
+                    priority: 10
+
+      2c:
+        desc: "Clubs and a higher-ranking suit (4+ Clubs and 4+ higher)"
+        rule: "4+c 4+d | 4+c 4+h | 4+c 4+s"
+        priority: 2
+        bids:
+          pass:
+            desc: "Opener prefers Clubs"
+            rule: "3+c"
+            priority: 10
+          2d:
+            desc: "Opener asks for higher suit (tolerates Diamonds)"
+            rule: "2-c"
+            priority: 2
+            bids:
+              pass:
+                desc: "Responder has Diamonds"
+                rule: "4+d"
+                priority: 10
+              2h:
+                desc: "Responder has Hearts"
+                rule: "4+h"
+                priority: 1
+                bids:
+                  pass:
+                    desc: "Opener passes 2H"
+                    priority: 10
+              2s:
+                desc: "Responder has Spades"
+                rule: "4+s"
+                priority: 1
+                bids:
+                  pass:
+                    desc: "Opener passes 2S"
+                    priority: 10
+
+      2d:
+        desc: "Diamonds and a higher-ranking suit (4+ Diamonds and 4+ Major)"
+        rule: "4+d 4+h | 4+d 4+s"
+        priority: 2
+        bids:
+          pass:
+            desc: "Opener prefers Diamonds"
+            rule: "3+d"
+            priority: 10
+          2h:
+            desc: "Opener asks for Major (prefers Hearts)"
+            rule: "2-d"
+            priority: 2
+            bids:
+              pass:
+                desc: "Responder has Hearts"
+                rule: "4+h"
+                priority: 10
+              2s:
+                desc: "Responder has Spades"
+                rule: "4+s"
+                priority: 1
+                bids:
+                  pass:
+                    desc: "Opener passes 2S"
+                    priority: 10
+
+      2h:
+        desc: "Both Majors (4+ Hearts and 4+ Spades)"
+        rule: "4+h 4+s"
+        priority: 2
+        bids:
+          pass:
+            desc: "Opener prefers Hearts"
+            rule: "h>=s"
+            priority: 10
+          2s:
+            desc: "Opener prefers Spades"
+            rule: "s>h"
+            priority: 1
+            bids:
+              pass:
+                desc: "Responder passes 2S"
+                priority: 10
+
+      2s:
+        desc: "To play with Spades (weak signoff, 5+ Spades)"
+        rule: "5+s 0-7hcp"
+        priority: 4
+        bids:
+          pass:
+            desc: "Opener passes 2S"
+            priority: 10

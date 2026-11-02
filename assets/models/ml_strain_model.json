@@ -1,0 +1,163 @@
+{
+  "model_name": "BBOChampionshipsJointPartnershipStrainModel",
+  "version": "3.0.0-empirical-joint",
+  "single_hand_features": [
+    "bias",
+    "aces_diff",
+    "kings_diff",
+    "queens_diff",
+    "jacks_diff",
+    "tens_diff",
+    "nines_diff",
+    "trump_len_surplus",
+    "side_shortness",
+    "is_4333",
+    "is_balanced"
+  ],
+  "partnership_suit_features": [
+    "bias",
+    "trump_fit_surplus",
+    "has_double_fit",
+    "sec_fit_surplus",
+    "side_shortness",
+    "comb_controls_diff",
+    "is_opp_active"
+  ],
+  "partnership_nt_features": [
+    "bias",
+    "running_suit_surplus",
+    "comb_controls_diff",
+    "is_opp_active",
+    "is_flat"
+  ],
+  "strains": {
+    "nt": {
+      "deals": 3418,
+      "partnership_weights": {
+        "bias": 1.5218,
+        "running_suit_surplus": 0.6685,
+        "comb_controls_diff": 1.0626,
+        "is_opp_active": -0.1934,
+        "is_flat": -1.4237
+      },
+      "single_hand_weights": {
+        "bias": 3.6973,
+        "aces_diff": -3.2618,
+        "kings_diff": -2.3762,
+        "queens_diff": -1.6296,
+        "jacks_diff": -0.7703,
+        "tens_diff": 0.2833,
+        "nines_diff": 0.0213,
+        "trump_len_surplus": 0.0,
+        "side_shortness": 0.0,
+        "is_4333": -0.2201,
+        "is_balanced": -0.8265
+      },
+      "mae": 3.1374
+    },
+    "s": {
+      "deals": 3476,
+      "partnership_weights": {
+        "bias": 4.2293,
+        "trump_fit_surplus": 1.9468,
+        "has_double_fit": 1.7537,
+        "sec_fit_surplus": -0.3793,
+        "side_shortness": 1.2455,
+        "comb_controls_diff": 0.0726,
+        "is_opp_active": 0.0641
+      },
+      "single_hand_weights": {
+        "bias": 4.3166,
+        "aces_diff": -3.2972,
+        "kings_diff": -2.5617,
+        "queens_diff": -1.7028,
+        "jacks_diff": -0.8123,
+        "tens_diff": 0.0514,
+        "nines_diff": -0.0397,
+        "trump_len_surplus": -0.0323,
+        "side_shortness": 0.8019,
+        "is_4333": -0.1776,
+        "is_balanced": 0.0582
+      },
+      "mae": 2.554
+    },
+    "h": {
+      "deals": 2973,
+      "partnership_weights": {
+        "bias": 4.0128,
+        "trump_fit_surplus": 1.8769,
+        "has_double_fit": 0.6396,
+        "sec_fit_surplus": 0.0049,
+        "side_shortness": 1.4483,
+        "comb_controls_diff": 0.2404,
+        "is_opp_active": 0.1107
+      },
+      "single_hand_weights": {
+        "bias": 4.1333,
+        "aces_diff": -3.2579,
+        "kings_diff": -2.4811,
+        "queens_diff": -1.8626,
+        "jacks_diff": -0.8802,
+        "tens_diff": 0.209,
+        "nines_diff": 0.035,
+        "trump_len_surplus": 0.1033,
+        "side_shortness": 0.8329,
+        "is_4333": -0.1958,
+        "is_balanced": 0.1617
+      },
+      "mae": 2.5651
+    },
+    "d": {
+      "deals": 2110,
+      "partnership_weights": {
+        "bias": 6.1083,
+        "trump_fit_surplus": 3.0182,
+        "has_double_fit": 0.84,
+        "sec_fit_surplus": 1.3195,
+        "side_shortness": 0.8121,
+        "comb_controls_diff": -2.9407,
+        "is_opp_active": -2.8996
+      },
+      "single_hand_weights": {
+        "bias": 3.5965,
+        "aces_diff": -3.8035,
+        "kings_diff": -2.9321,
+        "queens_diff": -1.9341,
+        "jacks_diff": -1.0359,
+        "tens_diff": -0.0018,
+        "nines_diff": 0.0281,
+        "trump_len_surplus": 0.4472,
+        "side_shortness": 0.3174,
+        "is_4333": 0.0165,
+        "is_balanced": -0.2113
+      },
+      "mae": 4.1178
+    },
+    "c": {
+      "deals": 927,
+      "partnership_weights": {
+        "bias": 3.9986,
+        "trump_fit_surplus": 1.5841,
+        "has_double_fit": 1.7402,
+        "sec_fit_surplus": -0.2982,
+        "side_shortness": 1.543,
+        "comb_controls_diff": -0.0478,
+        "is_opp_active": 0.0535
+      },
+      "single_hand_weights": {
+        "bias": 4.3273,
+        "aces_diff": -3.1893,
+        "kings_diff": -2.4647,
+        "queens_diff": -1.7166,
+        "jacks_diff": -0.9109,
+        "tens_diff": 0.0209,
+        "nines_diff": 0.0224,
+        "trump_len_surplus": -0.0387,
+        "side_shortness": 1.0185,
+        "is_4333": -0.957,
+        "is_balanced": -0.0769
+      },
+      "mae": 2.6033
+    }
+  }
+}

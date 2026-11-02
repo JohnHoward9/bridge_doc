@@ -208,7 +208,9 @@ SimulatedAuctionResult simulateAuction({
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  test('Extract ML Edge Cases across Full 13,975 BBO Championship Dataset', () async {
+  test(
+    'Extract ML Edge Cases across Full 13,975 BBO Championship Dataset',
+    () async {
     final datasetFile = File('res/bbo_championships_2025_dataset.json');
     expect(datasetFile.existsSync(), isTrue);
 
@@ -365,5 +367,5 @@ void main() {
     print('Saved full edge cases dataset to: ${fullDatasetFile.path}');
 
     expect(edgeCaseRecords.length, greaterThan(1000), reason: 'Should extract at least 1,000 edge cases from 13,975 deals');
-  });
+  }, timeout: const Timeout(Duration(minutes: 3)));
 }

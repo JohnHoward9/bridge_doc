@@ -124,11 +124,25 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   }
 
   List<BiddingNode>? _practiceAuctionPath;
+  String? _yamlFocusedCall;
+  String? _yamlFocusedRef;
 
   void _navigateToPractice(List<BiddingNode> path) {
     setState(() {
       _practiceAuctionPath = path;
       _tabController.animateTo(1); // Index 1 is Practice Quiz
+    });
+  }
+
+  void _navigateToYaml(List<BiddingNode> path) {
+    setState(() {
+      _yamlFocusedCall = path.isNotEmpty ? path.last.call : null;
+      final refNode = path.reversed.cast<BiddingNode?>().firstWhere(
+            (n) => n?.ref != null && n!.ref!.isNotEmpty,
+            orElse: () => null,
+          );
+      _yamlFocusedRef = refNode?.ref;
+      _tabController.animateTo(2); // Index 2 is YAML Editor
     });
   }
 
@@ -634,7 +648,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           tabs: const [
             Tab(icon: Icon(Icons.account_tree_outlined), text: 'Bidding Explorer'),
             Tab(icon: Icon(Icons.psychology), text: 'Test My Memory (Quiz)'),
-            Tab(icon: Icon(Icons.edit_note), text: 'YAML Editor'),
+            Tab(icon: Icon(Icons.code), text: 'YAML Editor'),
             Tab(icon: Icon(Icons.transform), text: 'BBS Converter'),
             Tab(icon: Icon(Icons.menu_book), text: 'Definitions & Libraries'),
           ],
@@ -703,6 +717,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                   system: activeViewSystem,
                   onNavigateToFragment: _navigateToFragment,
                   onPracticeFromNode: _navigateToPractice,
+                  onViewInYaml: _navigateToYaml,
                 ),
 
                 // Tab 1: Memory Quiz & Practice
@@ -714,10 +729,13 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                   onClearPracticeAuction: () => setState(() => _practiceAuctionPath = null),
                 ),
 
-                // Tab 2: YAML Editor
+                // Tab 2: YAML Editor with Syntax & Constraint Validation (Modular per-system/convention)
                 YamlEditorTab(
-                  key: ValueKey('${activeViewSystem.name}_$_activeViewPartnership'),
+                  key: ValueKey('${activeViewSystem.name}_${_activeViewPartnership}_${_yamlFocusedRef}_$_yamlFocusedCall'),
                   system: activeViewSystem,
+                  systemAssetPath: _systemAssetPaths[_activeViewPartnership == 'NS' ? _nsProfileKey : _ewProfileKey],
+                  initialFocusedCall: _yamlFocusedCall,
+                  initialFocusedRef: _yamlFocusedRef,
                   onSystemUpdated: (updated) {
                     setState(() {
                       if (_activeViewPartnership == 'NS') {

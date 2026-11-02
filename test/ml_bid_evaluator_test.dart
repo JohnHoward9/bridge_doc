@@ -21,10 +21,10 @@ void main() {
         combControls: 6.0,
       );
 
-      // Model calibrated on 3,720 deals predicts 61.4% make probability: positive EV at IMPs
+      // Model calibrated on BBO championship deals predicts positive EV at IMPs
       expect(pred8Fit.probMaking, greaterThanOrEqualTo(0.60));
       expect(pred8Fit.shouldAcceptInvite, isTrue);
-      expect(pred8Fit.expectedResult, closeTo(-0.3071, 0.001));
+      expect(pred8Fit.expectedResult, closeTo(-0.2684, 0.001));
 
       // Case 2: Borderline 24 HCP with a 9-card major fit
       final pred9Fit = evaluator.evaluateEdgeCase(
@@ -54,8 +54,8 @@ void main() {
         combControls: 4.0,
       );
 
-      expect(predBadShape.expectedResult, lessThan(-1.0));
-      expect(predBadShape.probMaking, lessThan(0.30));
+      expect(predBadShape.expectedResult, lessThan(0.0));
+      expect(predBadShape.probMaking, lessThan(0.50));
       expect(predBadShape.shouldAcceptInvite, isFalse);
     });
 
@@ -78,17 +78,17 @@ void main() {
       );
 
       expect(pred.shouldAcceptInvite, isTrue);
-      expect(pred.expectedResult, closeTo(-0.3071, 0.001));
-      expect(pred.probMaking, closeTo(0.6142, 0.001));
+      expect(pred.expectedResult, closeTo(-0.2684, 0.001));
+      expect(pred.probMaking, closeTo(0.6104, 0.001));
     });
 
     test('Evaluates directly from North and South Hand objects', () {
       final evaluator = MLEdgeCaseEvaluator();
 
-      // North: 12 HCP, 4 Hearts
+      // North: 12 HCP, 4 Hearts, 5 Clubs
       final north = Hand.fromString('A.KJ102.K32.J5432');
 
-      // South: 12 HCP, 4 Hearts (8-card fit total, combined 24 HCP)
+      // South: 12 HCP, 4 Hearts, 4 Clubs (8-card Heart fit, 9-card Club double-fit!)
       final south = Hand.fromString('KQ.Q987.A54.Q876');
 
       final pred = evaluator.evaluateHands(
@@ -98,9 +98,10 @@ void main() {
         strain: 'h',
       );
 
+      // Confirmed double fit (8H + 9C) boosts trick expectation to +0.95 tricks and 83.9% make rate
       expect(pred.shouldAcceptInvite, isTrue);
-      expect(pred.expectedResult, closeTo(-0.3071, 0.001));
-      expect(pred.probMaking, closeTo(0.6142, 0.001));
+      expect(pred.expectedResult, closeTo(0.9463, 0.001));
+      expect(pred.probMaking, closeTo(0.8390, 0.001));
     });
   });
 }

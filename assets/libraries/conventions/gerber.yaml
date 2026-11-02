@@ -1,0 +1,25 @@
+library: "Gerber Ace Asking"
+description: "Gerber 4C Ace-asking convention over 1NT and 2NT"
+version: "1.0"
+
+fragments:
+  fGerber:
+    desc: "Gerber 4C Ace-asking convention"
+    bids:
+      4c:
+        desc: "Gerber: Ace ask over Notrump"
+        rule: "16+hcp"
+        priority: 1
+        bids:
+          4d:
+            desc: "0 or 4 Aces"
+            rule: "0+hcp"
+          4h:
+            desc: "1 Ace"
+            rule: "0+hcp"
+          4s:
+            desc: "2 Aces"
+            rule: "0+hcp"
+          4nt:
+            desc: "3 Aces"
+            rule: "0+hcp"

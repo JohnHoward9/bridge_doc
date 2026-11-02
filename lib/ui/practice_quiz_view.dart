@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../models/card.dart';
@@ -10,6 +11,7 @@ import '../constraints/specificity_resolver.dart';
 import '../evaluators/ml_bid_evaluator.dart';
 import '../evaluators/valuation_engine.dart';
 import '../services/board_exporter.dart';
+import '../services/hand_review_service.dart';
 import 'widgets/card_hand_widget.dart';
 import 'widgets/bidding_box_widget.dart';
 import 'widgets/enter_hand_dialog.dart';
@@ -48,6 +50,8 @@ class PracticeQuizView extends StatefulWidget {
   final BridgeSystem? ewSystem;
   final List<BiddingNode>? initialAuctionPath;
   final VoidCallback? onClearPracticeAuction;
+  final HandReviewService? reviewService;
+  final HandReviewService? errorService;
 
   const PracticeQuizView({
     super.key,
@@ -55,20 +59,25 @@ class PracticeQuizView extends StatefulWidget {
     this.ewSystem,
     this.initialAuctionPath,
     this.onClearPracticeAuction,
+    this.reviewService,
+    this.errorService,
   });
 
   @override
-  State<PracticeQuizView> createState() => _PracticeQuizViewState();
+  State<PracticeQuizView> createState() => PracticeQuizViewState();
 }
 
-class _PracticeQuizViewState extends State<PracticeQuizView> {
+class PracticeQuizViewState extends State<PracticeQuizView> {
   final DealGenerator _generator = DealGenerator();
+  late final HandReviewService _reviewService = widget.reviewService ?? widget.errorService ?? HandReviewService(directory: Directory('errors'));
+  late final HandReviewService _errorService = widget.errorService ?? widget.reviewService ?? HandReviewService(directory: Directory('errors'));
   late AuctionEngine _engine;
   late SpecificityResolver _resolver;
 
   static const List<String> _seatOrder = ['W', 'N', 'E', 'S'];
 
   DealerSeat _dealer = DealerSeat.north;
+  ReviewBoard? _activeReviewBoard;
   bool _isSetupMode = false;
   List<AuctionEntry>? _lockedSetupAuction;
   String? _selectedNorthOpening;
@@ -376,6 +385,7 @@ class _PracticeQuizViewState extends State<PracticeQuizView> {
           _currentDeal = _generator.dealBoardForSequence(
             seq,
             isNorthDealer: _dealer == DealerSeat.north,
+            graph: _engine.graph,
           );
         } else {
           _currentDeal = _generator.dealTargetedBoard(
@@ -416,7 +426,7 @@ class _PracticeQuizViewState extends State<PracticeQuizView> {
           if (_selectedNorthOpening == null) return northHand.hcp >= 11;
           final bestBid = _engine.graph.rootState.resolveBestBid(
             northHand,
-            _resolver,
+            _engine.botResolver,
             fragments: _engine.graph.system.fragments,
           );
           return bestBid != null &&
@@ -601,6 +611,7 @@ class _PracticeQuizViewState extends State<PracticeQuizView> {
           _currentDeal = _generator.dealBoardForSequence(
             seq,
             isNorthDealer: _dealer == DealerSeat.north,
+            graph: _engine.graph,
           );
         }
       });
@@ -730,6 +741,7 @@ class _PracticeQuizViewState extends State<PracticeQuizView> {
         _currentDeal = _generator.dealBoardForSequence(
           seq,
           isNorthDealer: _dealer == DealerSeat.north,
+          graph: _engine.graph,
         );
       }
 
@@ -766,6 +778,7 @@ class _PracticeQuizViewState extends State<PracticeQuizView> {
       _currentDeal = _generator.dealBoardForSequence(
         seq,
         isNorthDealer: _dealer == DealerSeat.north,
+        graph: _engine.graph,
       );
 
       final activeHand = _activeTurnSeat == 'N' ? _currentDeal.north : _currentDeal.south;
@@ -915,6 +928,7 @@ class _PracticeQuizViewState extends State<PracticeQuizView> {
       _currentDeal = _generator.dealBoardForSequence(
         seq,
         isNorthDealer: _dealer == DealerSeat.north,
+        graph: _engine.graph,
       );
 
       final activeHand = _activeTurnSeat == 'N' ? _currentDeal.north : _currentDeal.south;
@@ -1207,18 +1221,68 @@ class _PracticeQuizViewState extends State<PracticeQuizView> {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        final isWide = constraints.maxWidth >= 1000;
+        final isWide = constraints.maxWidth >= 960;
+        final isHeightBounded = constraints.maxHeight.isFinite && constraints.maxHeight > 500;
+
+        if (isWide && isHeightBounded) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // Top Control Bar
+                _buildTopControlBar(theme, accuracy),
+                if (_activeReviewBoard != null) ...[
+                  const SizedBox(height: 8),
+                  _buildReviewModeBanner(),
+                ],
+                const SizedBox(height: 10),
+
+                // Main 2-Pane Area: Hands fixed on Left, Bidding Flow on Right
+                Expanded(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Left Pane: Hands (stable, anchored on screen)
+                      Expanded(
+                        flex: 5,
+                        child: SingleChildScrollView(
+                          padding: const EdgeInsets.only(right: 6, bottom: 12),
+                          child: _buildPanel1Hands(theme),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+
+                      // Right Pane: Bidding Flow (independent scroll for auction & box)
+                      Expanded(
+                        flex: 6,
+                        child: SingleChildScrollView(
+                          padding: const EdgeInsets.only(left: 6, bottom: 12),
+                          child: _buildRightPanelAuctionAndBidding(theme),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
 
         return SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               // Control Bar
               _buildTopControlBar(theme, accuracy),
-              const SizedBox(height: 14),
+              if (_activeReviewBoard != null) ...[
+                const SizedBox(height: 8),
+                _buildReviewModeBanner(),
+              ],
+              const SizedBox(height: 12),
 
-              // Main Area: 2-Column layout on wide screens
+              // Main Area
               if (isWide)
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -1227,7 +1291,7 @@ class _PracticeQuizViewState extends State<PracticeQuizView> {
                       flex: 5,
                       child: _buildPanel1Hands(theme),
                     ),
-                    const SizedBox(width: 16),
+                    const SizedBox(width: 14),
                     Expanded(
                       flex: 6,
                       child: _buildRightPanelAuctionAndBidding(theme),
@@ -1256,7 +1320,8 @@ class _PracticeQuizViewState extends State<PracticeQuizView> {
           children: [
             const Icon(Icons.psychology, color: Colors.amberAccent, size: 22),
             const SizedBox(width: 10),
-            Expanded(
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 240),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
@@ -1312,42 +1377,126 @@ class _PracticeQuizViewState extends State<PracticeQuizView> {
                 ],
               ),
             ),
-            OutlinedButton.icon(
-              style: OutlinedButton.styleFrom(
-                foregroundColor: Colors.lightGreenAccent,
-                side: const BorderSide(color: Colors.lightGreenAccent),
-                visualDensity: VisualDensity.compact,
-              ),
-              icon: const Icon(Icons.flash_on, size: 16),
-              label: const Text('Test Hand'),
-              onPressed: _loadUserExampleHand,
-            ),
-            const SizedBox(width: 8),
-            OutlinedButton.icon(
-              style: OutlinedButton.styleFrom(
-                foregroundColor: Colors.lightBlueAccent,
-                side: const BorderSide(color: Colors.lightBlueAccent),
-                visualDensity: VisualDensity.compact,
-              ),
-              icon: const Icon(Icons.file_download, size: 16),
-              label: const Text('Export Board'),
-              onPressed: () => _showExportBoardDialog(context),
-            ),
             const SizedBox(width: 12),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Text(
-                'Score: $_correctCount/$_totalAttempts ($accuracy%)',
-                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13),
+            Expanded(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    OutlinedButton.icon(
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: Colors.lightGreenAccent,
+                        side: const BorderSide(color: Colors.lightGreenAccent),
+                        visualDensity: VisualDensity.compact,
+                      ),
+                      icon: const Icon(Icons.flash_on, size: 16),
+                      label: const Text('Test Hand'),
+                      onPressed: _loadUserExampleHand,
+                    ),
+                    const SizedBox(width: 8),
+                    OutlinedButton.icon(
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: Colors.lightBlueAccent,
+                        side: const BorderSide(color: Colors.lightBlueAccent),
+                        visualDensity: VisualDensity.compact,
+                      ),
+                      icon: const Icon(Icons.file_download, size: 16),
+                      label: const Text('Export Board'),
+                      onPressed: () => _showExportBoardDialog(context),
+                    ),
+                    const SizedBox(width: 8),
+                    OutlinedButton.icon(
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: Colors.redAccent.shade100,
+                        side: BorderSide(color: Colors.redAccent.shade100),
+                        visualDensity: VisualDensity.compact,
+                      ),
+                      icon: const Icon(Icons.bug_report_outlined, size: 16),
+                      label: const Text('Save Hand'),
+                      onPressed: () => _showSaveErrorDialog(context),
+                    ),
+                    const SizedBox(width: 8),
+                    OutlinedButton.icon(
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: Colors.redAccent.shade200,
+                        side: BorderSide(color: Colors.redAccent.shade200),
+                        visualDensity: VisualDensity.compact,
+                      ),
+                      icon: const Icon(Icons.rule_folder_outlined, size: 16),
+                      label: const Text('Error Hands'),
+                      onPressed: () => _showErrorHandsDialog(context),
+                    ),
+                    const SizedBox(width: 12),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Text(
+                        'Score: $_correctCount/$_totalAttempts ($accuracy%)',
+                        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  MLHandBreakdown _evaluateDynamicHandBreakdown(Hand hand, String seat) {
+    if (_auctionHistory.isEmpty) {
+      return MLHandValuation().evaluateBreakdown(hand);
+    }
+
+    final belief = AuctionEngine.buildBeliefState(_auctionHistory);
+    final partnerSeat = seat.toUpperCase() == 'N' ? 'S' : 'N';
+    final partnerBelief = belief.get(partnerSeat);
+
+    // Identify if an 8-card fit exists or partner has shown a long suit
+    Suit? activeTrump;
+    Suit? partnerPrimarySuit;
+
+    // Check for 8-card golden fit
+    for (final s in Suit.values) {
+      if (partnerBelief.totalGuaranteedFit(hand, s) >= 8) {
+        activeTrump = s;
+        break;
+      }
+    }
+
+    // Check partner's longest shown suit (>= 4 cards)
+    int maxPartnerLen = 0;
+    for (final entry in partnerBelief.minSuitLength.entries) {
+      if (entry.value >= 4 && entry.value > maxPartnerLen) {
+        maxPartnerLen = entry.value;
+        partnerPrimarySuit = entry.key;
+      }
+    }
+
+    // Check opposition suits from history
+    Suit? oppSuit;
+    for (final entry in _auctionHistory) {
+      if (entry.seat == 'E' || entry.seat == 'W') {
+        final c = entry.call.toLowerCase();
+        for (final s in Suit.values) {
+          if (c.contains(s.name[0])) {
+            oppSuit = s;
+            break;
+          }
+        }
+      }
+    }
+
+    return MLHandValuation().evaluateBreakdown(
+      hand,
+      trumpSuit: activeTrump,
+      partnerSuit: activeTrump ?? partnerPrimarySuit,
+      oppSuit: oppSuit,
     );
   }
 
@@ -1461,29 +1610,29 @@ class _PracticeQuizViewState extends State<PracticeQuizView> {
         ],
         const SizedBox(height: 10),
 
-        // North Hand
+        // North Hand (Stable & non-collapsing to prevent layout shifting)
         CardHandWidget(
           hand: _currentDeal.north,
           title: _activeTurnSeat == 'N' ? 'Your Hand (North)' : 'Partner Hand (North)',
           icon: _activeTurnSeat == 'N' ? Icons.person : Icons.support_agent,
           headerColor: _activeTurnSeat == 'N' ? const Color(0xFF1B5E20) : const Color(0xFF1565C0),
-          isCollapsible: _activeTurnSeat != 'N',
-          initiallyCollapsed: _activeTurnSeat != 'N' && !_showNorthHand,
+          isCollapsible: false,
+          initiallyCollapsed: false,
           onRedeal: _activeTurnSeat == 'N' ? _startNewDeal : null,
-          mlBreakdown: MLHandValuation().evaluateBreakdown(_currentDeal.north),
+          mlBreakdown: _evaluateDynamicHandBreakdown(_currentDeal.north, 'N'),
         ),
         const SizedBox(height: 10),
 
-        // South Hand
+        // South Hand (Stable & non-collapsing to prevent layout shifting)
         CardHandWidget(
           hand: _currentDeal.south,
           title: _activeTurnSeat == 'S' ? 'Your Hand (South)' : 'Partner Hand (South)',
           icon: _activeTurnSeat == 'S' ? Icons.person : Icons.support_agent,
           headerColor: _activeTurnSeat == 'S' ? const Color(0xFF1B5E20) : const Color(0xFF1565C0),
-          isCollapsible: _activeTurnSeat != 'S',
-          initiallyCollapsed: _activeTurnSeat != 'S' && !_showNorthHand,
+          isCollapsible: false,
+          initiallyCollapsed: false,
           onRedeal: _activeTurnSeat == 'S' ? _startNewDeal : null,
-          mlBreakdown: MLHandValuation().evaluateBreakdown(_currentDeal.south),
+          mlBreakdown: _evaluateDynamicHandBreakdown(_currentDeal.south, 'S'),
           filterBadge: (_southHcpFilter != SouthHcpFilter.any || _southShapeFilter != SouthShapeFilter.any)
               ? [
                   if (_southHcpFilter != SouthHcpFilter.any) _southHcpFilter.label,
@@ -1506,12 +1655,6 @@ class _PracticeQuizViewState extends State<PracticeQuizView> {
         // Live Auction Board (Panel 2)
         _buildAuctionTable(theme),
         const SizedBox(height: 10),
-
-        // ML Hand Valuation & Dynamic Upgrade/Downgrade Card
-        if (_lastMlUpgradeBreakdown != null && (_lastMlUpgradeBreakdown!.isUpgraded || _lastMlUpgradeBreakdown!.isDowngraded)) ...[
-          _buildMlUpgradeCard(theme),
-          const SizedBox(height: 10),
-        ],
 
         // ML Edge-Case Prediction Card (if borderline invitation/slam evaluated)
         if (_lastMlPrediction != null) ...[
@@ -1545,14 +1688,14 @@ class _PracticeQuizViewState extends State<PracticeQuizView> {
 
   Widget _buildPresetsBar(ThemeData theme) {
     return Card(
-      elevation: 1,
+      elevation: 0.5,
       color: const Color(0xFFF1F5F9),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
         side: const BorderSide(color: Color(0xFFCBD5E1)),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -1810,7 +1953,7 @@ class _PracticeQuizViewState extends State<PracticeQuizView> {
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    '🤖 ML Hand Valuation & Upgrade Breakdown',
+                    '🤖 ML Hand Valuation (0–37 Scale)',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 13,
@@ -1837,36 +1980,13 @@ class _PracticeQuizViewState extends State<PracticeQuizView> {
             ),
             const SizedBox(height: 8),
             Text(
-              'Valuation dynamically adjusted from ${b.rawHcp.toStringAsFixed(0)} raw HCP to ${b.effectiveHcp.toStringAsFixed(1)} effective HCP.',
+              'ML Hand Value: ${b.effectiveHcp.toStringAsFixed(1)} (0–37 scale) • Raw Milton Work: ${b.rawHcp.toStringAsFixed(0)} HCP',
               style: TextStyle(
                 fontSize: 12.5,
                 fontWeight: FontWeight.w600,
                 color: isUp ? const Color(0xFF4C1D95) : const Color(0xFF78350F),
               ),
             ),
-            if (b.reasons.isNotEmpty) ...[
-              const SizedBox(height: 8),
-              Wrap(
-                spacing: 6,
-                runSpacing: 4,
-                children: b.reasons.map((r) => Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.9),
-                    borderRadius: BorderRadius.circular(6),
-                    border: Border.all(color: isUp ? const Color(0xFFDDD6FE) : const Color(0xFFFDE68A)),
-                  ),
-                  child: Text(
-                    r,
-                    style: TextStyle(
-                      fontSize: 11.5,
-                      fontWeight: FontWeight.w500,
-                      color: isUp ? const Color(0xFF4C1D95) : const Color(0xFF78350F),
-                    ),
-                  ),
-                )).toList(),
-              ),
-            ],
           ],
         ),
       ),
@@ -2640,6 +2760,15 @@ class _PracticeQuizViewState extends State<PracticeQuizView> {
                   label: const Text('Deal New Hand'),
                   onPressed: _startNewDeal,
                 ),
+                OutlinedButton.icon(
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: const Color(0xFFB71C1C),
+                    side: const BorderSide(color: Color(0xFFEF9A9A)),
+                  ),
+                  icon: const Icon(Icons.bug_report, size: 18),
+                  label: const Text('Save Error Hand'),
+                  onPressed: () => _showSaveErrorDialog(context),
+                ),
               ],
             ),
             const SizedBox(height: 12),
@@ -2853,6 +2982,1058 @@ class _PracticeQuizViewState extends State<PracticeQuizView> {
               SnackBar(content: Text('$formatLabel copied to clipboard!')),
             );
           },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildReviewModeBanner() {
+    if (_activeReviewBoard == null) return const SizedBox.shrink();
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      decoration: BoxDecoration(
+        color: const Color(0xFFFEF3C7), // warm amber background
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: const Color(0xFFF59E0B), width: 1.5),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Icon(Icons.psychology, color: Color(0xFFB45309), size: 24),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFD97706),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: const Text(
+                        'REVIEW MODE',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10.5,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        _activeReviewBoard!.displayTitle,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF78350F),
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+                if (_activeReviewBoard!.longDescription.isNotEmpty) ...[
+                  const SizedBox(height: 4),
+                  Text(
+                    _activeReviewBoard!.longDescription,
+                    style: const TextStyle(
+                      fontSize: 12.5,
+                      color: Color(0xFF92400E),
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          ),
+          const SizedBox(width: 8),
+          IconButton(
+            icon: const Icon(Icons.close, size: 18, color: Color(0xFFB45309)),
+            tooltip: 'Exit review mode',
+            visualDensity: VisualDensity.compact,
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+            onPressed: () {
+              setState(() {
+                _activeReviewBoard = null;
+              });
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showSaveForReviewDialog(BuildContext context) {
+    _showSaveErrorDialog(context);
+  }
+
+  void showReviewHandsDialog(BuildContext context, {List<ReviewBoard>? preloadedBoards}) =>
+      _showReviewHandsDialog(context, preloadedBoards: preloadedBoards);
+
+  Future<void> _showReviewHandsDialog(BuildContext context, {List<ReviewBoard>? preloadedBoards}) async {
+    final boards = preloadedBoards ?? await _reviewService.listReviewBoards();
+    if (!context.mounted) return;
+
+    showDialog(
+      context: context,
+      builder: (dialogCtx) => _ReviewHandsDialog(
+        reviewService: _reviewService,
+        initialBoards: boards,
+        onLoadBoard: (board) {
+          Navigator.of(dialogCtx).pop();
+          _loadReviewBoard(board);
+        },
+      ),
+    );
+  }
+
+  void _loadReviewBoard(ReviewBoard board) {
+    setState(() {
+      _activeReviewBoard = board;
+      _dealer = switch (board.dealer.toUpperCase()) {
+        'S' => DealerSeat.south,
+        'W' => DealerSeat.west,
+        'E' => DealerSeat.east,
+        _ => DealerSeat.north,
+      };
+      _submittedBid = null;
+      _expectedBestBid = null;
+      _allMatches = null;
+      _isCorrect = null;
+      _lastMlPrediction = null;
+      _lastMlUpgradeBreakdown = null;
+      _inspectedHistoryIndex = null;
+      _isSetupMode = false;
+      _lockedSetupAuction = null;
+      _currentDeal = board.deal;
+
+      final step = _engine.startDeal(
+        deal: _currentDeal,
+        isNorthFirst: _dealer == DealerSeat.north,
+      );
+
+      _auctionHistory.clear();
+      _auctionHistory.addAll(step.updatedHistory);
+      _availableCandidates = step.nextValidCandidatesForUser;
+      _isAuctionComplete = step.isAuctionComplete;
+      _lastCorrectFeedback = 'Reviewing problem hand: "${board.displayTitle}". Auction reset to start.';
+      _lastMlUpgradeBreakdown = step.mlUpgradeBreakdown;
+    });
+  }
+
+  void showSaveErrorDialog(BuildContext context, {List<String>? initialCategories}) =>
+      _showSaveErrorDialog(context, initialCategories: initialCategories);
+
+  void _showSaveErrorDialog(BuildContext context, {List<String>? initialCategories}) {
+    final categories = List<String>.from(initialCategories ?? HandReviewService.defaultCategories);
+    if (!categories.contains('Wrong Bid')) {
+      categories.insert(0, 'Wrong Bid');
+    }
+
+    String defaultDesc = _activeReviewBoard?.shortDescription ?? '';
+    String defaultLongDesc = _activeReviewBoard?.longDescription ?? '';
+    if (defaultDesc.isEmpty && _submittedBid != null) {
+      final expectedCall = _expectedBestBid?.displayCall ?? 'Pass';
+      defaultDesc = 'Bid $_submittedBid instead of $expectedCall';
+    }
+    if (defaultLongDesc.isEmpty && _submittedBid != null) {
+      final expectedCall = _expectedBestBid?.displayCall ?? 'Pass';
+      final descPart = (_expectedBestBid?.desc != null && _expectedBestBid!.desc.isNotEmpty)
+          ? ' (${_expectedBestBid!.desc})'
+          : '';
+      final rulePart = (_expectedBestBid?.rule?.isNotEmpty == true)
+          ? '\nExpected rule: ${_expectedBestBid!.rule}'
+          : '';
+      defaultLongDesc = 'Submitted bid: $_submittedBid\nExpected: $expectedCall$descPart$rulePart';
+    }
+
+    final shortDescCtrl = TextEditingController(text: defaultDesc);
+    final longDescCtrl = TextEditingController(text: defaultLongDesc);
+    String selectedCategory = categories.contains('Wrong Bid') ? 'Wrong Bid' : categories.first;
+    bool isFixed = false;
+
+    // Load any persisted custom categories in background
+    _errorService.getCategories().then((loaded) {
+      for (final c in loaded) {
+        if (!categories.contains(c)) categories.add(c);
+      }
+    });
+
+    Future<void> promptAddNewCategory(BuildContext ctx, StateSetter setDialogState) async {
+      final textCtrl = TextEditingController();
+      final newCat = await showDialog<String>(
+        context: ctx,
+        builder: (cCtx) => AlertDialog(
+          title: const Text('Add New Category', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          content: TextField(
+            controller: textCtrl,
+            autofocus: true,
+            decoration: const InputDecoration(
+              labelText: 'Category Name',
+              hintText: 'e.g. Inverted Minor Error',
+              border: OutlineInputBorder(),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(cCtx).pop(null),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                final text = textCtrl.text.trim();
+                if (text.isNotEmpty) Navigator.of(cCtx).pop(text);
+              },
+              child: const Text('Add'),
+            ),
+          ],
+        ),
+      );
+
+      if (newCat != null && newCat.isNotEmpty) {
+        if (!categories.contains(newCat)) {
+          categories.add(newCat);
+        }
+        setDialogState(() {
+          selectedCategory = newCat;
+        });
+        _errorService.addCategory(newCat);
+      }
+    }
+
+    showDialog(
+      context: context,
+      builder: (dialogCtx) => StatefulBuilder(
+        builder: (dialogContentCtx, setDialogState) => AlertDialog(
+          title: const Row(
+            children: [
+              Icon(Icons.bug_report, color: Colors.redAccent),
+              SizedBox(width: 8),
+              Text('Capture Bidding Error Hand', style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+            ],
+          ),
+          content: SizedBox(
+            width: 540,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Save this hand to the ./errors directory to capture a bidding failure for agent analysis and fixes.',
+                    style: TextStyle(fontSize: 13, color: Colors.black87),
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: DropdownButtonFormField<String>(
+                          key: ValueKey(selectedCategory),
+                          value: categories.contains(selectedCategory) ? selectedCategory : null,
+                          isExpanded: true,
+                          decoration: const InputDecoration(
+                            labelText: 'Error Type / Category *',
+                            border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                          ),
+                          items: [
+                            ...categories.map((c) => DropdownMenuItem<String>(
+                                  value: c,
+                                  child: Text(c, overflow: TextOverflow.ellipsis),
+                                )),
+                            const DropdownMenuItem<String>(
+                              value: '__ADD_NEW__',
+                              child: Row(
+                                children: [
+                                  Icon(Icons.add, size: 16, color: Colors.blue),
+                                  SizedBox(width: 6),
+                                  Text('+ Add new category...', style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
+                                ],
+                              ),
+                            ),
+                          ],
+                          onChanged: (val) async {
+                            if (val == '__ADD_NEW__') {
+                              await promptAddNewCategory(dialogCtx, setDialogState);
+                            } else if (val != null) {
+                              setDialogState(() {
+                                selectedCategory = val;
+                              });
+                            }
+                          },
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      IconButton.filledTonal(
+                        tooltip: 'Add new category to list',
+                        icon: const Icon(Icons.add),
+                        onPressed: () => promptAddNewCategory(dialogCtx, setDialogState),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 14),
+                  TextField(
+                    controller: shortDescCtrl,
+                    decoration: const InputDecoration(
+                      labelText: 'Description *',
+                      hintText: 'e.g. Bid 2S instead of 4H, or 1S Opening with 5-5 Majors',
+                      border: OutlineInputBorder(),
+                      contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+                  TextField(
+                    controller: longDescCtrl,
+                    maxLines: 4,
+                    decoration: const InputDecoration(
+                      labelText: 'Additional Notes / Failure Details (Optional)',
+                      hintText: 'Describe what the engine bid vs what was expected, or rule that failed...',
+                      border: OutlineInputBorder(),
+                      contentPadding: EdgeInsets.all(12),
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: isFixed,
+                        onChanged: (val) {
+                          setDialogState(() {
+                            isFixed = val ?? false;
+                          });
+                        },
+                      ),
+                      const Text('Mark as already fixed', style: TextStyle(fontSize: 13)),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogCtx).pop(),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.redAccent.shade700,
+                foregroundColor: Colors.white,
+              ),
+              icon: const Icon(Icons.save, size: 16),
+              label: const Text('Save'),
+              onPressed: () async {
+                final shortDesc = shortDescCtrl.text.trim();
+                final category = selectedCategory.trim();
+                final description = longDescCtrl.text.trim();
+                final effectiveShortDesc = shortDesc.isNotEmpty ? shortDesc : description;
+                if (effectiveShortDesc.isEmpty || category.isEmpty) {
+                  ScaffoldMessenger.of(this.context).showSnackBar(
+                    const SnackBar(content: Text('Please enter category and description.')),
+                  );
+                  return;
+                }
+
+                try {
+                  final file = await _errorService.saveBoard(
+                    deal: _currentDeal,
+                    dealer: _dealer.code,
+                    shortDescription: effectiveShortDesc,
+                    longDescription: description,
+                    errorType: category,
+                    isFixed: isFixed,
+                    history: _auctionHistory,
+                    systemName: widget.system.name,
+                  );
+
+                  if (!dialogCtx.mounted) return;
+                  Navigator.of(dialogCtx).pop();
+                  if (mounted) {
+                    ScaffoldMessenger.of(this.context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: Colors.redAccent.shade700,
+                        content: Text('Error hand saved to errors/${file.uri.pathSegments.last}'),
+                      ),
+                    );
+                  }
+                } catch (e) {
+                  if (mounted) {
+                    ScaffoldMessenger.of(this.context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: Colors.red.shade700,
+                        content: Text('Error saving hand: $e'),
+                      ),
+                    );
+                  }
+                }
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void showErrorHandsDialog(BuildContext context, {List<ReviewBoard>? preloadedBoards}) =>
+      _showErrorHandsDialog(context, preloadedBoards: preloadedBoards);
+
+  Future<void> _showErrorHandsDialog(BuildContext context, {List<ReviewBoard>? preloadedBoards}) async {
+    final boards = preloadedBoards ?? await _errorService.listReviewBoards();
+    if (!context.mounted) return;
+
+    showDialog(
+      context: context,
+      builder: (dialogCtx) => _ErrorHandsDialog(
+        errorService: _errorService,
+        initialBoards: boards,
+        onLoadBoard: (board) {
+          Navigator.of(dialogCtx).pop();
+          _loadReviewBoard(board);
+        },
+      ),
+    );
+  }
+}
+
+class _ReviewHandsDialog extends StatefulWidget {
+  final HandReviewService reviewService;
+  final List<ReviewBoard>? initialBoards;
+  final ValueChanged<ReviewBoard> onLoadBoard;
+
+  const _ReviewHandsDialog({
+    required this.reviewService,
+    this.initialBoards,
+    required this.onLoadBoard,
+  });
+
+  @override
+  State<_ReviewHandsDialog> createState() => _ReviewHandsDialogState();
+}
+
+class _ReviewHandsDialogState extends State<_ReviewHandsDialog> {
+  late bool _isLoading = widget.initialBoards == null;
+  late List<ReviewBoard> _boards = widget.initialBoards ?? [];
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.initialBoards == null) {
+      _loadBoards();
+    }
+  }
+
+  Future<void> _loadBoards() async {
+    final list = await widget.reviewService.listReviewBoards();
+    if (mounted) {
+      setState(() {
+        _boards = list;
+        _isLoading = false;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Row(
+        children: [
+          const Icon(Icons.collections_bookmark, color: Colors.orange),
+          const SizedBox(width: 8),
+          const Text('Review Hands in \\review', style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+          const Spacer(),
+          if (!_isLoading)
+            Text(
+              '${_boards.length} saved',
+              style: const TextStyle(fontSize: 13, color: Colors.grey, fontWeight: FontWeight.normal),
+            ),
+        ],
+      ),
+      content: SizedBox(
+        width: 650,
+        height: 450,
+        child: _isLoading
+            ? const Center(
+                child: Text(
+                  'Loading saved review hands...',
+                  style: TextStyle(fontSize: 14, color: Colors.grey),
+                ),
+              )
+            : _boards.isEmpty
+                ? Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.folder_open, size: 48, color: Colors.grey.shade400),
+                        const SizedBox(height: 12),
+                        const Text(
+                          'No review hands saved yet in \\review.',
+                          style: TextStyle(fontSize: 14, color: Colors.grey, fontWeight: FontWeight.w500),
+                        ),
+                        const SizedBox(height: 6),
+                        const Text(
+                          'Use "Save Hand" during practice to save challenging hands.',
+                          style: TextStyle(fontSize: 12, color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                  )
+                : ListView.separated(
+                    itemCount: _boards.length,
+                    separatorBuilder: (_, __) => const Divider(height: 1),
+                    itemBuilder: (ctx, index) {
+                      final board = _boards[index];
+                      final dateStr = HandReviewService.formatPbnDate(board.savedAt);
+                      return ListTile(
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        title: Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                              decoration: BoxDecoration(
+                                color: Colors.blueGrey.shade100,
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: Text(
+                                'D: ${board.dealer}',
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.blueGrey.shade800,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                board.displayTitle,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            Text(
+                              dateStr,
+                              style: const TextStyle(fontSize: 11, color: Colors.grey),
+                            ),
+                          ],
+                        ),
+                        subtitle: board.longDescription.isNotEmpty
+                            ? Padding(
+                                padding: const EdgeInsets.only(top: 4),
+                                child: Text(
+                                  board.longDescription,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(fontSize: 12, color: Colors.grey.shade700),
+                                ),
+                              )
+                            : null,
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ElevatedButton.icon(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.lightGreen.shade700,
+                                foregroundColor: Colors.white,
+                                visualDensity: VisualDensity.compact,
+                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                              ),
+                              icon: const Icon(Icons.play_arrow, size: 16),
+                              label: const Text('Re-bid Hand', style: TextStyle(fontSize: 12)),
+                              onPressed: () => widget.onLoadBoard(board),
+                            ),
+                            const SizedBox(width: 6),
+                            IconButton(
+                              icon: const Icon(Icons.delete_outline, size: 18, color: Colors.redAccent),
+                              tooltip: 'Delete saved board',
+                              visualDensity: VisualDensity.compact,
+                              onPressed: () async {
+                                final confirmed = await showDialog<bool>(
+                                  context: context,
+                                  builder: (confirmCtx) => AlertDialog(
+                                    title: const Text('Delete Board?', style: TextStyle(fontSize: 16)),
+                                    content: Text('Are you sure you want to delete "${board.displayTitle}"?'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.of(confirmCtx).pop(false),
+                                        child: const Text('Cancel'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () => Navigator.of(confirmCtx).pop(true),
+                                        style: TextButton.styleFrom(foregroundColor: Colors.red),
+                                        child: const Text('Delete'),
+                                      ),
+                                    ],
+                                  ),
+                                );
+
+                                if (confirmed == true) {
+                                  await widget.reviewService.deleteBoard(board.filename);
+                                  await _loadBoards();
+                                }
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text('Close'),
+        ),
+      ],
+    );
+  }
+}
+
+class _ErrorHandsDialog extends StatefulWidget {
+  final HandReviewService errorService;
+  final List<ReviewBoard>? initialBoards;
+  final ValueChanged<ReviewBoard> onLoadBoard;
+
+  const _ErrorHandsDialog({
+    required this.errorService,
+    this.initialBoards,
+    required this.onLoadBoard,
+  });
+
+  @override
+  State<_ErrorHandsDialog> createState() => _ErrorHandsDialogState();
+}
+
+class _ErrorHandsDialogState extends State<_ErrorHandsDialog> {
+  late bool _isLoading = widget.initialBoards == null;
+  late List<ReviewBoard> _boards = widget.initialBoards ?? [];
+  String _statusFilter = 'All'; // 'All', 'Open', 'Fixed'
+  String? _selectedCategory;
+  List<String> _categories = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+
+  Future<void> _loadData() async {
+    final list = await widget.errorService.listReviewBoards();
+    final cats = await widget.errorService.getCategories();
+    if (mounted) {
+      setState(() {
+        _boards = list;
+        _categories = cats;
+        _isLoading = false;
+      });
+    }
+  }
+
+  List<ReviewBoard> get _filteredBoards {
+    return _boards.where((b) {
+      if (_statusFilter == 'Open' && b.isFixed) return false;
+      if (_statusFilter == 'Fixed' && !b.isFixed) return false;
+      if (_selectedCategory != null && b.errorType != _selectedCategory) return false;
+      return true;
+    }).toList();
+  }
+
+  void _copyAgentPrompt(BuildContext context, ReviewBoard board) {
+    final prompt = '//plan Please pick up the unfixed error hand in ./errors/${board.filename} and create a plan to fix the bidding rules with tests.';
+    Clipboard.setData(ClipboardData(text: prompt));
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Agent fix prompt copied to clipboard! Paste it into chat to generate fix plan.'),
+        backgroundColor: Colors.blueAccent,
+      ),
+    );
+  }
+
+  Future<void> _editBoardDetails(ReviewBoard board) async {
+    final titleCtrl = TextEditingController(text: board.shortDescription);
+    final descCtrl = TextEditingController(text: board.longDescription);
+    String selectedCat = board.errorType ?? (_categories.isNotEmpty ? _categories.first : 'Wrong Bid');
+    bool isFixed = board.isFixed;
+    final catList = List<String>.from(_categories);
+    if (!catList.contains(selectedCat) && selectedCat.isNotEmpty) {
+      catList.add(selectedCat);
+    }
+    if (!catList.contains('Wrong Bid')) {
+      catList.insert(0, 'Wrong Bid');
+    }
+
+    final saved = await showDialog<bool>(
+      context: context,
+      builder: (editCtx) => StatefulBuilder(
+        builder: (ctx, setEditState) => AlertDialog(
+          title: const Row(
+            children: [
+              Icon(Icons.edit_note, color: Colors.blueAccent),
+              SizedBox(width: 8),
+              Text('Edit Error Hand Details', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            ],
+          ),
+          content: SizedBox(
+            width: 500,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  DropdownButtonFormField<String>(
+                    value: catList.contains(selectedCat) ? selectedCat : null,
+                    isExpanded: true,
+                    decoration: const InputDecoration(
+                      labelText: 'Error Type / Category *',
+                      border: OutlineInputBorder(),
+                      contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                    ),
+                    items: [
+                      ...catList.map((c) => DropdownMenuItem<String>(
+                            value: c,
+                            child: Text(c, overflow: TextOverflow.ellipsis),
+                          )),
+                    ],
+                    onChanged: (val) {
+                      if (val != null) {
+                        setEditState(() => selectedCat = val);
+                      }
+                    },
+                  ),
+                  const SizedBox(height: 12),
+                  TextField(
+                    controller: titleCtrl,
+                    decoration: const InputDecoration(
+                      labelText: 'Description *',
+                      hintText: 'e.g. Bid 2S instead of 4H',
+                      border: OutlineInputBorder(),
+                      contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  TextField(
+                    controller: descCtrl,
+                    maxLines: 4,
+                    decoration: const InputDecoration(
+                      labelText: 'Additional Notes / Failure Details (Optional)',
+                      border: OutlineInputBorder(),
+                      contentPadding: EdgeInsets.all(12),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: isFixed,
+                        onChanged: (val) => setEditState(() => isFixed = val ?? false),
+                      ),
+                      const Text('Mark as fixed', style: TextStyle(fontSize: 13)),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(editCtx).pop(false),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton.icon(
+              icon: const Icon(Icons.save, size: 16),
+              label: const Text('Save'),
+              onPressed: () => Navigator.of(editCtx).pop(true),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    if (saved == true) {
+      final effTitle = titleCtrl.text.trim().isNotEmpty ? titleCtrl.text.trim() : descCtrl.text.trim();
+      await widget.errorService.updateBoardDetails(
+        board.filename,
+        shortDescription: effTitle,
+        longDescription: descCtrl.text.trim(),
+        errorType: selectedCat,
+        isFixed: isFixed,
+      );
+      await _loadData();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final filtered = _filteredBoards;
+    final openCount = _boards.where((b) => !b.isFixed).length;
+    final fixedCount = _boards.where((b) => b.isFixed).length;
+
+    return AlertDialog(
+      title: Row(
+        children: [
+          const Icon(Icons.rule_folder_outlined, color: Colors.redAccent),
+          const SizedBox(width: 8),
+          const Text('Bidding Error Hands in \\errors', style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+          const Spacer(),
+          if (!_isLoading)
+            Text(
+              '${_boards.length} total ($openCount open, $fixedCount fixed)',
+              style: const TextStyle(fontSize: 12, color: Colors.grey, fontWeight: FontWeight.normal),
+            ),
+        ],
+      ),
+      content: SizedBox(
+        width: 720,
+        height: 500,
+        child: _isLoading
+            ? const Center(
+                child: Text('Loading error hands...', style: TextStyle(fontSize: 14, color: Colors.grey)),
+              )
+            : Column(
+                children: [
+                  // Filter Bar
+                  Row(
+                    children: [
+                      Wrap(
+                        spacing: 6,
+                        children: [
+                          ChoiceChip(
+                            label: Text('All (${_boards.length})'),
+                            selected: _statusFilter == 'All',
+                            onSelected: (_) => setState(() => _statusFilter = 'All'),
+                          ),
+                          ChoiceChip(
+                            label: Text('Open ($openCount)'),
+                            selected: _statusFilter == 'Open',
+                            selectedColor: Colors.red.shade100,
+                            onSelected: (_) => setState(() => _statusFilter = 'Open'),
+                          ),
+                          ChoiceChip(
+                            label: Text('Fixed ($fixedCount)'),
+                            selected: _statusFilter == 'Fixed',
+                            selectedColor: Colors.green.shade100,
+                            onSelected: (_) => setState(() => _statusFilter = 'Fixed'),
+                          ),
+                        ],
+                      ),
+                      const Spacer(),
+                      DropdownButton<String?>(
+                        value: _selectedCategory,
+                        hint: const Text('All Categories', style: TextStyle(fontSize: 12)),
+                        items: [
+                          const DropdownMenuItem<String?>(
+                            value: null,
+                            child: Text('All Categories', style: TextStyle(fontSize: 12)),
+                          ),
+                          ..._categories.map((c) => DropdownMenuItem<String?>(
+                                value: c,
+                                child: Text(c, style: const TextStyle(fontSize: 12)),
+                              )),
+                        ],
+                        onChanged: (val) => setState(() => _selectedCategory = val),
+                      ),
+                    ],
+                  ),
+                  const Divider(height: 12),
+                  // List
+                  Expanded(
+                    child: filtered.isEmpty
+                        ? Center(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(Icons.check_circle_outline, size: 48, color: Colors.green.shade300),
+                                const SizedBox(height: 12),
+                                Text(
+                                  _statusFilter == 'Open'
+                                      ? 'No open bidding errors! All clear.'
+                                      : 'No error hands matching current filter.',
+                                  style: const TextStyle(fontSize: 14, color: Colors.grey, fontWeight: FontWeight.w500),
+                                ),
+                              ],
+                            ),
+                          )
+                        : ListView.separated(
+                            itemCount: filtered.length,
+                            separatorBuilder: (_, __) => const Divider(height: 1),
+                            itemBuilder: (ctx, index) {
+                              final board = filtered[index];
+                              final dateStr = HandReviewService.formatPbnDate(board.savedAt);
+                              return ListTile(
+                                contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                title: Row(
+                                  children: [
+                                    // Status Badge
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                      decoration: BoxDecoration(
+                                        color: board.isFixed ? Colors.green.shade700 : Colors.red.shade700,
+                                        borderRadius: BorderRadius.circular(4),
+                                      ),
+                                      child: Text(
+                                        board.isFixed ? 'FIXED' : 'OPEN',
+                                        style: const TextStyle(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 6),
+                                    if (board.errorType != null && board.errorType!.isNotEmpty) ...[
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                        decoration: BoxDecoration(
+                                          color: Colors.amber.shade100,
+                                          borderRadius: BorderRadius.circular(4),
+                                          border: Border.all(color: Colors.amber.shade400),
+                                        ),
+                                        child: Text(
+                                          board.errorType!,
+                                          style: TextStyle(
+                                            fontSize: 11,
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.brown.shade800,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(width: 8),
+                                    ],
+                                    Expanded(
+                                      child: Text(
+                                        board.displayTitle,
+                                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    Text(dateStr, style: const TextStyle(fontSize: 11, color: Colors.grey)),
+                                  ],
+                                ),
+                                subtitle: board.longDescription.isNotEmpty
+                                    ? Padding(
+                                        padding: const EdgeInsets.only(top: 4),
+                                        child: Text(
+                                          board.longDescription,
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(fontSize: 12, color: Colors.grey.shade700),
+                                        ),
+                                      )
+                                    : null,
+                                trailing: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    // Toggle fixed status
+                                    OutlinedButton(
+                                      style: OutlinedButton.styleFrom(
+                                        visualDensity: VisualDensity.compact,
+                                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                      ),
+                                      onPressed: () async {
+                                        await widget.errorService.updateBoardFixedStatus(board.filename, !board.isFixed);
+                                        await _loadData();
+                                      },
+                                      child: Text(
+                                        board.isFixed ? 'Reopen' : 'Mark Fixed',
+                                        style: TextStyle(
+                                          fontSize: 11,
+                                          color: board.isFixed ? Colors.orange.shade800 : Colors.green.shade800,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 6),
+                                    // Re-bid button
+                                    ElevatedButton.icon(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.blueGrey.shade700,
+                                        foregroundColor: Colors.white,
+                                        visualDensity: VisualDensity.compact,
+                                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                      ),
+                                      icon: const Icon(Icons.play_arrow, size: 15),
+                                      label: const Text('Re-bid', style: TextStyle(fontSize: 11)),
+                                      onPressed: () => widget.onLoadBoard(board),
+                                    ),
+                                    const SizedBox(width: 4),
+                                    // Copy Agent Prompt
+                                    IconButton(
+                                      icon: const Icon(Icons.smart_toy_outlined, size: 18, color: Colors.indigo),
+                                      tooltip: 'Copy Agent Fix Prompt',
+                                      visualDensity: VisualDensity.compact,
+                                      onPressed: () => _copyAgentPrompt(context, board),
+                                    ),
+                                    // Edit button
+                                    IconButton(
+                                      icon: const Icon(Icons.edit_outlined, size: 18, color: Colors.blueAccent),
+                                      tooltip: 'Edit error details',
+                                      visualDensity: VisualDensity.compact,
+                                      onPressed: () => _editBoardDetails(board),
+                                    ),
+                                    // Delete button
+                                    IconButton(
+                                      icon: const Icon(Icons.delete_outline, size: 18, color: Colors.red),
+                                      tooltip: 'Delete error board',
+                                      visualDensity: VisualDensity.compact,
+                                      onPressed: () async {
+                                        final confirmed = await showDialog<bool>(
+                                          context: context,
+                                          builder: (confirmCtx) => AlertDialog(
+                                            title: const Text('Delete Error Board?'),
+                                            content: Text('Are you sure you want to delete "${board.displayTitle}"?'),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () => Navigator.of(confirmCtx).pop(false),
+                                                child: const Text('Cancel'),
+                                              ),
+                                              TextButton(
+                                                onPressed: () => Navigator.of(confirmCtx).pop(true),
+                                                style: TextButton.styleFrom(foregroundColor: Colors.red),
+                                                child: const Text('Delete'),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+
+                                        if (confirmed == true) {
+                                          await widget.errorService.deleteBoard(board.filename);
+                                          await _loadData();
+                                        }
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                  ),
+                ],
+              ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text('Cancel'),
+        ),
+        FilledButton.icon(
+          icon: const Icon(Icons.check, size: 16),
+          label: const Text('Save'),
+          onPressed: () => Navigator.of(context).pop(),
         ),
       ],
     );

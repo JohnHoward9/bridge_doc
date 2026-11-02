@@ -1,0 +1,19 @@
+% PBN 2.1 Exported by Antigravity Bridge Studio
+[Event "Gavin Wolpert Practice Studio"]
+[Site "Antigravity Bridge"]
+[Date "2026.10.29"]
+[Board "1"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Scoring "IMP"]
+[BiddingSystem "Gavin Wolpert Master Series (2/1 Game Forcing)"]
+[Description "Should open 2nt"]
+[ErrorType "Wrong Bid"]
+[Fixed "Yes"]
+[Comment "This is balanced 20-21 and therefore should be 2nt opening"]
+{
+  This is balanced 20-21 and therefore should be 2nt opening
+}
+[Deal "N:AK7.QT4.KQJ3.AJ5 965.953.852.QT64 T43.A6.T976.9873 QJ82.KJ872.A4.K2"]
+[Auction "N"]
+1D Pass

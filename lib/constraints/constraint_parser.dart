@@ -9,7 +9,7 @@ class ConstraintParser {
   ConstraintParser({this.definitions = const {}});
 
   /// Parse a constraint from either a Map or a String.
-  HandConstraint parse(dynamic raw) {
+  HandConstraint parse(dynamic raw, {Suit? agreedTrump}) {
     if (raw == null) {
       return const CompositeConstraint(children: []);
     }
@@ -17,7 +17,7 @@ class ConstraintParser {
       return _parseMapConstraint(raw);
     }
     if (raw is String) {
-      return parseStringDsl(raw);
+      return parseStringDsl(raw, agreedTrump: agreedTrump);
     }
     return const CompositeConstraint(children: []);
   }
@@ -91,7 +91,7 @@ class ConstraintParser {
   /// - "10+hcp, 5+h"
   /// - "15-17 hcp, balanced, 4-h, 4-s"
   /// - "p#6 2+c $weakbal, 4+c 12+hcp c>=*"
-  HandConstraint parseStringDsl(String text) {
+  HandConstraint parseStringDsl(String text, {Suit? agreedTrump}) {
     // Strip variable binding annotations like [$M=h, $OM=s] before tokenizing
     var s = text.replaceAll(RegExp(r'\[[^\]]*\]'), '').trim();
     if (s.isEmpty) return const CompositeConstraint(children: []);
@@ -104,12 +104,12 @@ class ConstraintParser {
     final alternatives = _splitTopLevelOr(s);
     if (alternatives.length > 1) {
       return CompositeConstraint(
-        children: alternatives.map((alt) => _parseSingleClause(alt)).toList(),
+        children: alternatives.map((alt) => _parseSingleClause(alt, agreedTrump: agreedTrump)).toList(),
         isAnd: false,
       );
     }
 
-    return _parseSingleClause(s);
+    return _parseSingleClause(s, agreedTrump: agreedTrump);
   }
 
   String _expandMacros(String text) {
@@ -153,9 +153,12 @@ class ConstraintParser {
     return [text];
   }
 
-  HandConstraint _parseSingleClause(String clause) {
+  HandConstraint _parseSingleClause(String clause, {Suit? agreedTrump}) {
+    // Strip variable bindings and inline comments like [$M=h] or [d=d, ...]
+    var cleanClause = clause.replaceAll(RegExp(r'\[.*?\]'), ' ');
+
     // Expand macro references like $bal, $weakbal, $1ntInviteRange, etc.
-    final expanded = _expandMacros(clause);
+    final expanded = _expandMacros(cleanClause);
 
     final List<HandConstraint> constraints = [];
     final tokens = expanded.split(RegExp(r'[\s,]+')).where((t) => t.isNotEmpty).toList();
@@ -185,7 +188,7 @@ class ConstraintParser {
             i++; // consume next suit token
           }
         }
-        trump ??= Suit.hearts;
+        trump ??= agreedTrump ?? Suit.hearts;
 
         final kcConstraint = _parseKeyCardToken(cleanKcToken, trump);
         if (kcConstraint != null) {
@@ -224,6 +227,15 @@ class ConstraintParser {
         }
       }
 
+      // KnR (Kaplan-Rubens) point patterns: e.g. 27+knr, 25-28knr
+      if (t.contains('knr')) {
+        final parsedKnr = _parseSingleHcpString(t.replaceAll('knr', ''));
+        if (parsedKnr != null) {
+          constraints.add(parsedKnr);
+          continue;
+        }
+      }
+
       // LTC patterns: 4-ltc, 3-ltc, 4ltc, 4+ltc, <=4ltc
       if (t.contains('ltc')) {
         final parsedLtc = _parseSingleLtcString(t);
@@ -247,6 +259,16 @@ class ConstraintParser {
         }
       }
 
+      // Good suit patterns: good_suit:s, good_suit:h, good_suit:c, good_suit:d, quality:s
+      if (t.startsWith('good_suit:') || t.startsWith('quality:')) {
+        final suitPart = t.replaceFirst(RegExp(r'^(good_suit|quality):'), '');
+        final s = Suit.fromString(suitPart);
+        if (s != null) {
+          constraints.add(GoodSuitConstraint(suit: s));
+          continue;
+        }
+      }
+
       // Outside controls: outside_ctrl<=1, outside_ctrl=0, outside_controls<=1, outside_ctrl>=1
       if (t.contains('outside_ctrl') || t.contains('outside_controls')) {
         final parsedOutsideCtrl = _parseOutsideControlsToken(t);
@@ -265,7 +287,7 @@ class ConstraintParser {
         }
       }
 
-      // GF pattern: Game Force (22+ HCP or 20+ HCP unbalanced or <=4 LTC with 16+ HCP)
+      // GF pattern: Game Force (22+ HCP, or 20+ HCP unbalanced, or <=3 LTC with 19+ HCP)
       if (t == 'gf') {
         constraints.add(const CompositeConstraint(
           children: [
@@ -279,8 +301,8 @@ class ConstraintParser {
             ),
             CompositeConstraint(
               children: [
-                HcpConstraint(min: 16),
-                LosingTrickCountConstraint(max: 4),
+                HcpConstraint(min: 19),
+                LosingTrickCountConstraint(max: 3),
               ],
               isAnd: true,
             ),
@@ -318,6 +340,14 @@ class ConstraintParser {
 
       if (t == '!balanced' || t == r'!$bal') {
         constraints.add(const ShapeConstraint(requiresBalanced: true, isNegated: true));
+        continue;
+      }
+      if (t == 'short_honors') {
+        constraints.add(const ShortSuitsHonorsConstraint(requiresHonors: true));
+        continue;
+      }
+      if (t == '!short_honors') {
+        constraints.add(const ShortSuitsHonorsConstraint(requiresHonors: false));
         continue;
       }
 
@@ -520,7 +550,7 @@ class ConstraintParser {
 
 
   SuitLengthConstraint? _parseLengthString(Suit suit, String s) {
-    var str = s.trim();
+    var str = s.replaceAll('(', '').replaceAll(')', '').trim();
     if (str.startsWith('>=')) {
       final val = int.tryParse(str.substring(2));
       if (val != null) return SuitLengthConstraint(suit: suit, min: val);
@@ -533,6 +563,15 @@ class ConstraintParser {
     } else if (str.endsWith('-')) {
       final val = int.tryParse(str.substring(0, str.length - 1));
       if (val != null) return SuitLengthConstraint(suit: suit, max: val);
+    } else if (str.contains('-')) {
+      final parts = str.split('-');
+      if (parts.length == 2) {
+        final minVal = int.tryParse(parts[0].trim());
+        final maxVal = int.tryParse(parts[1].trim());
+        if (minVal != null && maxVal != null) {
+          return SuitLengthConstraint(suit: suit, min: minVal, max: maxVal);
+        }
+      }
     } else {
       final val = int.tryParse(str);
       if (val != null) return SuitLengthConstraint(suit: suit, min: val, max: val);
@@ -541,6 +580,19 @@ class ConstraintParser {
   }
 
   SuitLengthConstraint? _parseSuitLengthToken(String token) {
+    // Range patterns like: "5-6h", "(5-6)h", "5-6s", "(5-6)s", "5-6d", "5-6c"
+    final rangeRegex = RegExp(r'^\(?(\d+)\s*-\s*(\d+)\)?([cdhs])$');
+    final rangeMatch = rangeRegex.firstMatch(token);
+    if (rangeMatch != null) {
+      final minVal = int.parse(rangeMatch.group(1)!);
+      final maxVal = int.parse(rangeMatch.group(2)!);
+      final suitChar = rangeMatch.group(3)!;
+      final suit = Suit.fromString(suitChar);
+      if (suit != null) {
+        return SuitLengthConstraint(suit: suit, min: minVal, max: maxVal);
+      }
+    }
+
     // Patterns like: "5+h", "2+c", "4-s", "3-d", "4=h", "4=s", "6h", "5s"
     final regex = RegExp(r'^(\d+)(\+|\-|=)?([cdhs])$');
     final match = regex.firstMatch(token);
@@ -557,7 +609,11 @@ class ConstraintParser {
         } else if (modifier == '=') {
           return SuitLengthConstraint(suit: suit, min: numVal, max: numVal);
         } else {
-          // Exact length like "5h" or minimum? In bridge BBS, "5h" usually means 5+ hearts or exact 5
+          // If numVal == 0 (e.g. "0c", "0d", "0h", "0s"), it represents a void (exact 0 length)
+          if (numVal == 0) {
+            return SuitLengthConstraint(suit: suit, min: 0, max: 0);
+          }
+          // Exact length like "5h" or minimum? In bridge BBS, "5h" usually means 5+ hearts
           return SuitLengthConstraint(suit: suit, min: numVal);
         }
       }

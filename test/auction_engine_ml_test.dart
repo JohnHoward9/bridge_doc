@@ -33,9 +33,9 @@ void main() {
 
     expect(engine.mlEvaluator, isNotNull);
 
-    // North has 14 HCP with 5 Hearts
-    // South has 10 HCP with 4 Hearts (24 HCP combined - borderline edge case)
-    final north = Hand.fromString('A5.AKJ86.986.K98');
+    // North has 15 HCP with 5 Hearts and unbalanced 1-5-4-3 shape (opens 1H, not 1NT)
+    // South has 10 HCP with 4 Hearts (25 HCP combined - accepts game 4H)
+    final north = Hand.fromString('A.AKJ86.9865.K98');
     final south = Hand.fromString('K742.QT54.AJ.T76');
 
     final deal = PartnershipDeal(

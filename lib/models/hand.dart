@@ -90,6 +90,19 @@ class Hand {
     return ctrl;
   }
 
+  /// Whether all short suits (length <= 2) hold at least one honor (A, K, or Q).
+  bool get shortSuitsHaveHonors {
+    for (final s in Suit.values) {
+      final len = length(s);
+      if (len <= 2) {
+        final suitCards = cardsInSuit(s);
+        final hasHonor = suitCards.any((c) => c.rank == Rank.ace || c.rank == Rank.king || c.rank == Rank.queen);
+        if (!hasHonor) return false;
+      }
+    }
+    return true;
+  }
+
   /// Returns the longest suit in the hand (breaking ties by rank order S, H, D, C).
   Suit get longestSuit {
     Suit best = Suit.spades;
@@ -180,6 +193,17 @@ class Hand {
   bool get isSemiBalanced {
     final p = sortedShapePattern;
     return isBalanced || p == '5422' || p == '6322';
+  }
+
+  /// Whether [suit] has good suit quality (at least 2 of top 3 honors, 3 honors, or 5+ suit HCP).
+  bool isGoodSuit(Suit suit) {
+    final suitCards = cardsInSuit(suit);
+    if (suitCards.isEmpty) return false;
+    final top3Honors = suitCards.where((c) => c.rank == Rank.ace || c.rank == Rank.king || c.rank == Rank.queen).length;
+    if (top3Honors >= 2) return true;
+    if (hasHonorCount(suit, 3)) return true;
+    if (suitHcp(suit) >= 5) return true;
+    return false;
   }
 
   /// Returns true if the suit contains top honors matching [pattern],

@@ -1,0 +1,20 @@
+% PBN 2.1 Exported by Antigravity Bridge Studio
+[Event "Gavin Wolpert Practice Studio"]
+[Site "Antigravity Bridge"]
+[Date "2026.10.30"]
+[Board "1"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Scoring "IMP"]
+[BiddingSystem "Gavin Wolpert Master Series (2/1 Game Forcing)"]
+[Description "Opener passes after forcing bid from south"]
+[ErrorType "Premature Pass"]
+[Fixed "Yes"]
+[Comment "When need to bid when the hands have not been limited.  So here the 1s bid is 6+hcp and there is no limit at this time.  south could have 6-28hcp.  Clearly north/south should not pass out until the hands are limited.  This is different to when south is a passed hand here south is limited to 11 points, and if north has 3+ suport then north could pass.  There should be a yaml covering north continuations after south bids or in competition  when east and west bid.  Here 2c is best and then bid in stades"]
+{
+  When need to bid when the hands have not been limited.  So here the 1s bid is 6+hcp and there is no limit at this time.  south could have 6-28hcp.  Clearly north/south should not pass out until the hands are limited.  This is different to when south is a passed hand here south is limited to 11 points, and if north has 3+ suport then north could pass.  There should be a yaml covering north continuations after south bids or in competition  when east and west bid.  Here 2c is best and then bid in stades
+}
+[Deal "N:AK3.KQ853.6.A832 Q64.J97.AT2.KQT6 J98752.A64.J874. T.T2.KQ953.J9754"]
+[Auction "N"]
+1H Pass 1S Pass
+Pass

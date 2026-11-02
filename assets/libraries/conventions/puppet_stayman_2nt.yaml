@@ -1,0 +1,52 @@
+library: "Puppet Stayman 2NT"
+description: "Puppet Stayman 3C structure and Jacoby transfers over 2NT openings (20-21 HCP)"
+version: "2.0"
+
+imports:
+  - "assets/libraries/conventions/puppet_stayman_1nt.yaml"
+
+fragments:
+  Strong2NTOpening:
+    aliases: ["fPuppetStayman2NT"]
+    desc: "Strong balanced NT (20-21 HCP)"
+    rule: "20-21hcp, balanced, 4-h, 4-s"
+    priority: 1
+    bids:
+      pass:
+        desc: "Pass (0-3 HCP)"
+        rule: "3-hcp"
+        priority: 10
+
+      3c:
+        desc: "Puppet Stayman: asks opener for 5-card or 4-card major"
+        rule: "4+hcp 3+h | 4+hcp 3+s | 4+hcp 4+h | 4+hcp 4+s"
+        priority: 2
+        ref: "fPuppetStayman1NT"
+
+      3d:
+        desc: "Jacoby Transfer to Hearts"
+        rule: "5+h"
+        priority: 1
+        bids:
+          3h:
+            desc: "Accept transfer"
+            rule: "2+h"
+
+      3h:
+        desc: "Jacoby Transfer to Spades"
+        rule: "5+s"
+        priority: 1
+        bids:
+          3s:
+            desc: "Accept transfer"
+            rule: "2+s"
+
+      3s:
+        desc: "Minor suit slam try or 5-5 minors"
+        rule: "5+c 5+d"
+        priority: 3
+
+      3nt:
+        desc: "To play (denies 4-card or 5-card major)"
+        rule: "3-h 3-s"
+        priority: 4

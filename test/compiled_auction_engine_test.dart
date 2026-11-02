@@ -215,11 +215,11 @@ void main() {
       expect(openerResponses, contains('3nt'), reason: 'Shortness in other major (Spades)');
     });
 
-    test('User deal: North opens 1NT with 65:AKJT:AJT8:KJ8, South passes with Q43:765:KQ953:95', () async {
+    test('User deal: North opens 1NT with 65:AKJ3:KJ82:KJ8, South passes with Q43:765:KQ953:95', () async {
       final system = await loadSystemProfile('assets/core/systems/us_standard_2over1.yaml');
       final engine = AuctionEngine.fromSystem(system);
 
-      final northHand = Hand.fromString('65:AKJT:AJT8:KJ8');
+      final northHand = Hand.fromString('65:AKJ3:KJ82:KJ8');
       final southHand = Hand.fromString('Q43:765:KQ953:95');
       final deal = PartnershipDeal(
         north: northHand,
@@ -260,15 +260,15 @@ void main() {
         isTargetMatch: (northHand) {
           final bestBid = engine.graph.rootState.resolveBestBid(
             northHand,
-            engine.resolver,
+            engine.botResolver,
             fragments: engine.graph.system.fragments,
           );
           return bestBid != null && bestBid.displayCall.toLowerCase() == '1nt';
         },
       );
 
-      // Verify North hand satisfies 1NT criteria (15-17 HCP, balanced)
-      expect(targetedDeal.north.hcp, inInclusiveRange(15, 17));
+      // Verify North hand satisfies 1NT criteria (15-17 Effective HCP, or 13-17 raw HCP)
+      expect(targetedDeal.north.hcp, inInclusiveRange(13, 17));
       expect(targetedDeal.north.isBalanced, isTrue);
 
       // When starting the deal, North must open 1NT

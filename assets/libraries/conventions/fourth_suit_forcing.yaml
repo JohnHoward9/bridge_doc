@@ -1,0 +1,491 @@
+library: "Fourth Suit Forcing (FSF / FSGF)"
+description: "Gavin Wolpert Fourth Suit Game Force over two-suited auctions: strict priority order of opener rebids (3-card major support, NT with stopper, rebid of own suit) and full game/slam continuations"
+version: "1.0"
+
+imports:
+  - "assets/libraries/conventions/rkcb_1430.yaml"
+
+fragments:
+  # =========================================================================
+  # 1. 1C - 1H - 2D (Opener reverse) -> 2S is Fourth Suit Forcing
+  # =========================================================================
+  fFSF_Over_1C_1H_2D:
+    desc: "Fourth Suit Forcing 2S over 1C - 1H - 2D (artificial GF, asks opener to describe hand)"
+    forceTo: game
+    bids:
+      3h:
+        desc: "Opener shows 3-card Heart support for responder's major (Priority 1)"
+        rule: "16+hcp 3h"
+        priority: 1
+        bids:
+          4h:
+            desc: "Signoff in 4H"
+            rule: "9-11hcp"
+            priority: 10
+          4nt:
+            desc: "Roman Key Card Blackwood 1430 for Hearts"
+            rule: "12+hcp"
+            priority: 1
+            ref: "fRKCBResponses"
+            variables:
+              trump: "h"
+      2nt:
+        desc: "Opener has Spade stopper, minimum reverse (Priority 2, 16-17 HCP)"
+        rule: "16-17hcp as | 16-17hcp ks | 16-17hcp qs"
+        priority: 2
+        bids:
+          3nt:
+            desc: "3NT to play"
+            rule: "9+hcp"
+            priority: 1
+          4h:
+            desc: "Signoff in 4H with 6+ Hearts"
+            rule: "9+hcp 6+h"
+            priority: 2
+      3nt:
+        desc: "Opener has Spade stopper, maximum reverse (Priority 2, 18+ HCP)"
+        rule: "18+hcp as | 18+hcp ks | 18+hcp qs"
+        priority: 2
+      3c:
+        desc: "Opener rebids 6+ Clubs, no 3-card Heart support and no Spade stopper (Priority 3)"
+        rule: "16+hcp 6+c"
+        priority: 3
+        bids:
+          3nt:
+            desc: "Responder bids 3NT with Spade stopper"
+            rule: "9+hcp as | 9+hcp ks | 9+hcp qs"
+            priority: 1
+          4h:
+            desc: "Signoff in 4H with 6+ Hearts"
+            rule: "9+hcp 6+h"
+            priority: 2
+      3d:
+        desc: "Opener rebids 5+ Diamonds, extra diamond length (Priority 3)"
+        rule: "16+hcp 5+d"
+        priority: 3
+        bids:
+          3nt:
+            desc: "Responder bids 3NT with Spade stopper"
+            rule: "9+hcp as | 9+hcp ks | 9+hcp qs"
+            priority: 1
+
+  # =========================================================================
+  # 2. 1C - 1S - 2D (Opener reverse) -> 2H is Fourth Suit Forcing
+  # =========================================================================
+  fFSF_Over_1C_1S_2D:
+    desc: "Fourth Suit Forcing 2H over 1C - 1S - 2D (artificial GF, asks opener to describe hand)"
+    forceTo: game
+    bids:
+      2s:
+        desc: "Opener shows 3-card Spade support for responder's major (Priority 1)"
+        rule: "16+hcp 3s"
+        priority: 1
+        bids:
+          4s:
+            desc: "Signoff in 4S"
+            rule: "9-11hcp"
+            priority: 10
+          4nt:
+            desc: "Roman Key Card Blackwood 1430 for Spades"
+            rule: "12+hcp"
+            priority: 1
+            ref: "fRKCBResponses"
+            variables:
+              trump: "s"
+      2nt:
+        desc: "Opener has Heart stopper, minimum reverse (Priority 2, 16-17 HCP)"
+        rule: "16-17hcp ah | 16-17hcp kh | 16-17hcp qh"
+        priority: 2
+        bids:
+          3nt:
+            desc: "3NT to play"
+            rule: "9+hcp"
+            priority: 1
+          4s:
+            desc: "Signoff in 4S with 6+ Spades"
+            rule: "9+hcp 6+s"
+            priority: 2
+      3nt:
+        desc: "Opener has Heart stopper, maximum reverse (Priority 2, 18+ HCP)"
+        rule: "18+hcp ah | 18+hcp kh | 18+hcp qh"
+        priority: 2
+      3c:
+        desc: "Opener rebids 6+ Clubs, no 3-card Spade support and no Heart stopper (Priority 3)"
+        rule: "16+hcp 6+c"
+        priority: 3
+        bids:
+          3nt:
+            desc: "Responder bids 3NT with Heart stopper"
+            rule: "9+hcp ah | 9+hcp kh | 9+hcp qh"
+            priority: 1
+          4s:
+            desc: "Signoff in 4S with 6+ Spades"
+            rule: "9+hcp 6+s"
+            priority: 2
+      3d:
+        desc: "Opener rebids 5+ Diamonds, extra diamond length (Priority 3)"
+        rule: "16+hcp 5+d"
+        priority: 3
+        bids:
+          3nt:
+            desc: "Responder bids 3NT with Heart stopper"
+            rule: "9+hcp ah | 9+hcp kh | 9+hcp qh"
+            priority: 1
+
+  # =========================================================================
+  # 3. 1C - 1S - 2H (Opener reverse) -> 3D is Fourth Suit Forcing
+  # =========================================================================
+  fFSF_Over_1C_1S_2H:
+    desc: "Fourth Suit Forcing 3D over 1C - 1S - 2H (artificial GF, asks opener to describe hand)"
+    forceTo: game
+    bids:
+      3s:
+        desc: "Opener shows 3-card Spade support for responder's major (Priority 1)"
+        rule: "16+hcp 3s"
+        priority: 1
+        bids:
+          4s:
+            desc: "Signoff in 4S"
+            rule: "9-11hcp"
+            priority: 10
+          4nt:
+            desc: "Roman Key Card Blackwood 1430 for Spades"
+            rule: "12+hcp"
+            priority: 1
+            ref: "fRKCBResponses"
+            variables:
+              trump: "s"
+      3nt:
+        desc: "Opener has Diamond stopper (Priority 2, 16+ HCP)"
+        rule: "16+hcp ad | 16+hcp kd | 16+hcp qd"
+        priority: 2
+        bids:
+          pass:
+            desc: "Pass 3NT to play"
+            rule: "9-13hcp"
+            priority: 10
+          4s:
+            desc: "Signoff in 4S with 6+ Spades"
+            rule: "9+hcp 6+s"
+            priority: 2
+      3h:
+        desc: "Opener shows 5+ Hearts, extra heart length (Priority 3)"
+        rule: "16+hcp 5+h"
+        priority: 3
+        bids:
+          4h:
+            desc: "Game in Hearts with 3+ Hearts"
+            rule: "9+hcp 3+h"
+            priority: 1
+          3nt:
+            desc: "3NT to play with Diamond stopper"
+            rule: "9+hcp ad | 9+hcp kd | 9+hcp qd"
+            priority: 2
+      4c:
+        desc: "Opener rebids 6+ Clubs (Priority 3)"
+        rule: "16+hcp 6+c"
+        priority: 3
+        bids:
+          3nt:
+            desc: "3NT to play with Diamond stopper"
+            rule: "9+hcp ad | 9+hcp kd | 9+hcp qd"
+            priority: 1
+
+  # =========================================================================
+  # 4. 1D - 1S - 2H (Opener reverse) -> 3C is Fourth Suit Forcing
+  # =========================================================================
+  fFSF_Over_1D_1S_2H:
+    desc: "Fourth Suit Forcing 3C over 1D - 1S - 2H (artificial GF, asks opener to describe hand)"
+    forceTo: game
+    bids:
+      3s:
+        desc: "Opener shows 3-card Spade support for responder's major (Priority 1)"
+        rule: "16+hcp 3s"
+        priority: 1
+        bids:
+          4s:
+            desc: "Signoff in 4S"
+            rule: "9-11hcp"
+            priority: 10
+          4nt:
+            desc: "Roman Key Card Blackwood 1430 for Spades"
+            rule: "12+hcp"
+            priority: 1
+            ref: "fRKCBResponses"
+            variables:
+              trump: "s"
+      3nt:
+        desc: "Opener has Club stopper (Priority 2, 16+ HCP)"
+        rule: "16+hcp ac | 16+hcp kc | 16+hcp qc"
+        priority: 2
+        bids:
+          pass:
+            desc: "Pass 3NT to play"
+            rule: "9-13hcp"
+            priority: 10
+          4s:
+            desc: "Signoff in 4S with 6+ Spades"
+            rule: "9+hcp 6+s"
+            priority: 2
+      3h:
+        desc: "Opener shows 5+ Hearts, extra heart length (Priority 3)"
+        rule: "16+hcp 5+h"
+        priority: 3
+        bids:
+          4h:
+            desc: "Game in Hearts with 3+ Hearts"
+            rule: "9+hcp 3+h"
+            priority: 1
+          3nt:
+            desc: "3NT to play with Club stopper"
+            rule: "9+hcp ac | 9+hcp kc | 9+hcp qc"
+            priority: 2
+      4d:
+        desc: "Opener rebids 6+ Diamonds (Priority 3)"
+        rule: "16+hcp 6+d"
+        priority: 3
+        bids:
+          3nt:
+            desc: "3NT to play with Club stopper"
+            rule: "9+hcp ac | 9+hcp kc | 9+hcp qc"
+            priority: 1
+
+  # =========================================================================
+  # 5. 1D - 1H - 2C (Non-reverse minors) -> 2S is Fourth Suit Forcing
+  # =========================================================================
+  fFSF_Over_1D_1H_2C:
+    desc: "Fourth Suit Forcing 2S over 1D - 1H - 2C (artificial GF, asks opener to describe hand)"
+    forceTo: game
+    bids:
+      3h:
+        desc: "Opener shows 3-card Heart support for responder's major (Priority 1)"
+        rule: "11-15hcp 3h"
+        priority: 1
+        bids:
+          4h:
+            desc: "Signoff in 4H"
+            rule: "12+hcp"
+            priority: 10
+          4nt:
+            desc: "Roman Key Card Blackwood 1430 for Hearts"
+            rule: "15+hcp"
+            priority: 1
+            ref: "fRKCBResponses"
+            variables:
+              trump: "h"
+      2nt:
+        desc: "Opener has Spade stopper, minimum (Priority 2, 11-13 HCP)"
+        rule: "11-13hcp as | 11-13hcp ks | 11-13hcp qs"
+        priority: 2
+        bids:
+          3nt:
+            desc: "3NT to play"
+            rule: "12+hcp"
+            priority: 1
+          4h:
+            desc: "Signoff in 4H with 6+ Hearts"
+            rule: "12+hcp 6+h"
+            priority: 2
+      3nt:
+        desc: "Opener has Spade stopper, maximum (Priority 2, 14-15 HCP)"
+        rule: "14-15hcp as | 14-15hcp ks | 14-15hcp qs"
+        priority: 2
+      3c:
+        desc: "Opener shows 5+ Clubs (5-5 minors, Priority 3)"
+        rule: "11-15hcp 5+c"
+        priority: 3
+        bids:
+          3nt:
+            desc: "Responder bids 3NT with Spade stopper"
+            rule: "12+hcp as | 12+hcp ks | 12+hcp qs"
+            priority: 1
+      3d:
+        desc: "Opener rebids 6+ Diamonds (Priority 3)"
+        rule: "11-15hcp 6+d"
+        priority: 3
+        bids:
+          3nt:
+            desc: "Responder bids 3NT with Spade stopper"
+            rule: "12+hcp as | 12+hcp ks | 12+hcp qs"
+            priority: 1
+
+  # =========================================================================
+  # 6. 1D - 1S - 2C (Non-reverse minors) -> 2H is Fourth Suit Forcing
+  # =========================================================================
+  fFSF_Over_1D_1S_2C:
+    desc: "Fourth Suit Forcing 2H over 1D - 1S - 2C (artificial GF, asks opener to describe hand)"
+    forceTo: game
+    bids:
+      2s:
+        desc: "Opener shows 3-card Spade support for responder's major (Priority 1)"
+        rule: "11-15hcp 3s"
+        priority: 1
+        bids:
+          4s:
+            desc: "Signoff in 4S"
+            rule: "12+hcp"
+            priority: 10
+          4nt:
+            desc: "Roman Key Card Blackwood 1430 for Spades"
+            rule: "15+hcp"
+            priority: 1
+            ref: "fRKCBResponses"
+            variables:
+              trump: "s"
+      2nt:
+        desc: "Opener has Heart stopper, minimum (Priority 2, 11-13 HCP)"
+        rule: "11-13hcp ah | 11-13hcp kh | 11-13hcp qh"
+        priority: 2
+        bids:
+          3nt:
+            desc: "3NT to play"
+            rule: "12+hcp"
+            priority: 1
+          4s:
+            desc: "Signoff in 4S with 6+ Spades"
+            rule: "12+hcp 6+s"
+            priority: 2
+      3nt:
+        desc: "Opener has Heart stopper, maximum (Priority 2, 14-15 HCP)"
+        rule: "14-15hcp ah | 14-15hcp kh | 14-15hcp qh"
+        priority: 2
+      3c:
+        desc: "Opener shows 5+ Clubs (5-5 minors, Priority 3)"
+        rule: "11-15hcp 5+c"
+        priority: 3
+        bids:
+          3nt:
+            desc: "Responder bids 3NT with Heart stopper"
+            rule: "12+hcp ah | 12+hcp kh | 12+hcp qh"
+            priority: 1
+      3d:
+        desc: "Opener rebids 6+ Diamonds (Priority 3)"
+        rule: "11-15hcp 6+d"
+        priority: 3
+        bids:
+          3nt:
+            desc: "Responder bids 3NT with Heart stopper"
+            rule: "12+hcp ah | 12+hcp kh | 12+hcp qh"
+            priority: 1
+
+  # =========================================================================
+  # 7. 1H - 1S - 2C -> 2D is Fourth Suit Forcing
+  # =========================================================================
+  fFSF_Over_1H_1S_2C:
+    desc: "Fourth Suit Forcing 2D over 1H - 1S - 2C (artificial GF, asks opener to describe hand)"
+    forceTo: game
+    bids:
+      2s:
+        desc: "Opener shows 3-card Spade support for responder's major (Priority 1)"
+        rule: "11-15hcp 3s"
+        priority: 1
+        bids:
+          4s:
+            desc: "Signoff in 4S"
+            rule: "12+hcp"
+            priority: 10
+          4nt:
+            desc: "Roman Key Card Blackwood 1430 for Spades"
+            rule: "15+hcp"
+            priority: 1
+            ref: "fRKCBResponses"
+            variables:
+              trump: "s"
+      2nt:
+        desc: "Opener has Diamond stopper, minimum (Priority 2, 11-13 HCP)"
+        rule: "11-13hcp ad | 11-13hcp kd | 11-13hcp qd"
+        priority: 2
+        bids:
+          3nt:
+            desc: "3NT to play"
+            rule: "12+hcp"
+            priority: 1
+          4s:
+            desc: "Signoff in 4S with 6+ Spades"
+            rule: "12+hcp 6+s"
+            priority: 2
+      3nt:
+        desc: "Opener has Diamond stopper, maximum (Priority 2, 14-15 HCP)"
+        rule: "14-15hcp ad | 14-15hcp kd | 14-15hcp qd"
+        priority: 2
+      2h:
+        desc: "Opener rebids 6+ Hearts (Priority 3)"
+        rule: "11-15hcp 6+h"
+        priority: 3
+        bids:
+          3nt:
+            desc: "Responder bids 3NT with Diamond stopper"
+            rule: "12+hcp ad | 12+hcp kd | 12+hcp qd"
+            priority: 1
+          4h:
+            desc: "Game in Hearts with 2+ Hearts"
+            rule: "12+hcp 2+h"
+            priority: 2
+      3c:
+        desc: "Opener shows 5+ Clubs (5-5 shape, Priority 3)"
+        rule: "11-15hcp 5+c"
+        priority: 3
+        bids:
+          3nt:
+            desc: "Responder bids 3NT with Diamond stopper"
+            rule: "12+hcp ad | 12+hcp kd | 12+hcp qd"
+            priority: 1
+
+  # =========================================================================
+  # 8. 1H - 1S - 2D -> 3C is Fourth Suit Forcing
+  # =========================================================================
+  fFSF_Over_1H_1S_2D:
+    desc: "Fourth Suit Forcing 3C over 1H - 1S - 2D (artificial GF, asks opener to describe hand)"
+    forceTo: game
+    bids:
+      3s:
+        desc: "Opener shows 3-card Spade support for responder's major (Priority 1)"
+        rule: "11-15hcp 3s"
+        priority: 1
+        bids:
+          4s:
+            desc: "Signoff in 4S"
+            rule: "12+hcp"
+            priority: 10
+          4nt:
+            desc: "Roman Key Card Blackwood 1430 for Spades"
+            rule: "15+hcp"
+            priority: 1
+            ref: "fRKCBResponses"
+            variables:
+              trump: "s"
+      3nt:
+        desc: "Opener has Club stopper (Priority 2, 12-15 HCP)"
+        rule: "12-15hcp ac | 12-15hcp kc | 12-15hcp qc"
+        priority: 2
+        bids:
+          pass:
+            desc: "Pass 3NT to play"
+            rule: "12-13hcp"
+            priority: 10
+          4s:
+            desc: "Signoff in 4S with 6+ Spades"
+            rule: "12+hcp 6+s"
+            priority: 2
+      3h:
+        desc: "Opener rebids 6+ Hearts (Priority 3)"
+        rule: "11-15hcp 6+h"
+        priority: 3
+        bids:
+          3nt:
+            desc: "Responder bids 3NT with Club stopper"
+            rule: "12+hcp ac | 12+hcp kc | 12+hcp qc"
+            priority: 1
+          4h:
+            desc: "Game in Hearts with 2+ Hearts"
+            rule: "12+hcp 2+h"
+            priority: 2
+      3d:
+        desc: "Opener shows 5+ Diamonds (5-5 red suits, Priority 3)"
+        rule: "11-15hcp 5+d"
+        priority: 3
+        bids:
+          3nt:
+            desc: "Responder bids 3NT with Club stopper"
+            rule: "12+hcp ac | 12+hcp kc | 12+hcp qc"
+            priority: 1

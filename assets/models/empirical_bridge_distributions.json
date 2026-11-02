@@ -1,0 +1,42 @@
+{
+  "metadata": {
+    "source": "2025 BBO Championship Dataset",
+    "total_deals_analyzed": 13975,
+    "sample_version": "1.0.0"
+  },
+  "bid_suit_lengths": {
+    "open_1h_mean": 5.3737,
+    "open_1h_samples": 1726,
+    "open_1s_mean": 5.3834,
+    "open_1s_samples": 1899,
+    "open_1c_mean": 4.1213,
+    "open_1c_samples": 3117,
+    "open_1d_mean": 4.7158,
+    "open_1d_samples": 2512,
+    "preempt_mean": 5.9828,
+    "preempt_samples": 1044,
+    "overcall_mean": 4.523,
+    "overcall_samples": 7237
+  },
+  "opponent_activity_conditioning": {
+    "trump_8fit_bad_split_silent": 0.2612,
+    "trump_8fit_bad_split_silent_samples": 1704,
+    "trump_8fit_bad_split_active": 0.2987,
+    "trump_8fit_bad_split_active_samples": 2427,
+    "trump_9fit_bad_split_silent": 0.0566,
+    "trump_9fit_bad_split_silent_samples": 936,
+    "trump_9fit_bad_split_active": 0.0664,
+    "trump_9fit_bad_split_active_samples": 1761,
+    "opp_max_suit_length_silent": 4.6467,
+    "opp_max_suit_length_silent_samples": 12016,
+    "opp_max_suit_length_active": 5.046,
+    "opp_max_suit_length_active_samples": 15840
+  },
+  "shape_expectations": {
+    "5card_major_unbid_other_major_mean": 2.12,
+    "5card_major_unbid_minors_mean": 2.76,
+    "balanced_shape_suit_mean": 3.25,
+    "balanced_shape_suit_min": 2.2,
+    "balanced_shape_suit_max": 4.3
+  }
+}

@@ -1,6 +1,7 @@
 import '../models/card.dart';
 import '../models/hand.dart';
 import '../models/bidding_system.dart';
+import '../models/bidding_state_context.dart';
 import '../constraints/specificity_resolver.dart';
 
 /// A concrete bid candidate evaluated at a specific state in the auction.
@@ -41,6 +42,9 @@ class CompiledAuctionState {
   /// Ordered list of calls leading to this state, e.g. ['1c', '1h'].
   final List<String> sequence;
 
+  /// The accumulated partnership forcing commitment at this auction state.
+  final ForcingLevel forcingLevel;
+
   /// Bound context variables at this state, e.g. { 'M': 's', 'OM': 'h' }.
   final Map<String, String> activeVariables;
 
@@ -53,6 +57,7 @@ class CompiledAuctionState {
   CompiledAuctionState({
     required this.sequenceKey,
     required this.sequence,
+    this.forcingLevel = ForcingLevel.partScore,
     Map<String, String>? activeVariables,
     List<BiddingNode>? candidateNodes,
     Map<String, CompiledAuctionState>? transitions,
@@ -82,12 +87,24 @@ class CompiledAuctionState {
     Hand hand,
     SpecificityResolver resolver, {
     Map<String, Fragment>? fragments,
+    BiddingStateContext? context,
   }) {
+    final effectiveContext = context ??
+        (sequence.isEmpty
+            ? BiddingStateContext(
+                holding: hand,
+                auctionHistory: const [],
+                activeSeat: 'N',
+                valuation: resolver.valuation,
+              )
+            : null);
+
     final playableNodes = resolver.resolvePlayableCandidates(
       hand,
       candidateNodes,
       fragments: fragments,
       activeVariables: activeVariables,
+      context: effectiveContext,
     );
 
     final matches = resolver.evaluateCandidates(
@@ -95,6 +112,7 @@ class CompiledAuctionState {
       playableNodes,
       fragments: fragments,
       activeVariables: activeVariables,
+      context: effectiveContext,
     );
 
     // Build ordered list of CandidateCall objects
@@ -129,10 +147,27 @@ class CompiledAuctionState {
       }
     }
 
-    // Ensure Pass is always available as a candidate call
-    final hasExplicitPass = results.any((c) => c.isPass);
-    if (!hasExplicitPass) {
-      final anyOtherMatch = results.any((c) => c.isMatch);
+    // Ensure Pass is available as a candidate call, treating priority 999 or empty rule pass as fallback
+    final anyOtherMatch = results.any((c) => !c.isPass && c.isMatch);
+    bool hasPass = false;
+    for (int i = 0; i < results.length; i++) {
+      final c = results[i];
+      if (c.isPass) {
+        hasPass = true;
+        if (c.priority == 999 || c.rule == null || c.rule!.trim().isEmpty) {
+          results[i] = CandidateCall(
+            call: c.call,
+            displayCall: c.displayCall,
+            desc: anyOtherMatch ? 'Pass (below bid requirements)' : 'Pass (to play / no bids apply)',
+            priority: 999,
+            isMatch: !anyOtherMatch,
+            originalNode: c.originalNode,
+          );
+        }
+      }
+    }
+
+    if (!hasPass) {
       results.add(CandidateCall(
         call: 'pass',
         displayCall: 'Pass',
@@ -167,8 +202,9 @@ class CompiledAuctionState {
     SpecificityResolver resolver, {
     Map<String, Fragment>? fragments,
     bool allowOpponent = false,
+    BiddingStateContext? context,
   }) {
-    final candidates = evaluateCandidates(hand, resolver, fragments: fragments);
+    final candidates = evaluateCandidates(hand, resolver, fragments: fragments, context: context);
     final matching = candidates.where((c) => c.isMatch && (allowOpponent || !c.isOpponent)).toList();
     if (matching.isEmpty) {
       return const CandidateCall(

@@ -1,0 +1,306 @@
+library: "Transfers after 1M (X)"
+description: "Gavin Wolpert Master Series: Transfers over opponent takeout double of 1H or 1S"
+version: "1.0"
+
+fragments:
+  fTransfersAfter1H_Double:
+    desc: "Transfers after 1H - (X)"
+    bids:
+      pass:
+        desc: "Pass (0-5 HCP or penalty trap)"
+        rule: "5-hcp"
+        priority: 10
+
+      rdbl:
+        desc: "Redouble: 10+ HCP, balanced or penalty-oriented"
+        rule: "10+hcp 3-h"
+        priority: 1
+
+      1s:
+        desc: "Natural 4+ Spades (6+ HCP, forcing 1 round)"
+        rule: "6+hcp 4+s"
+        priority: 2
+        bids:
+          pass:
+            desc: "Pass with minimum and no Spade fit"
+            rule: "12-14hcp 3-s"
+            priority: 10
+          2h:
+            desc: "Opener rebids 6-card Hearts"
+            rule: "6+h 12-15hcp"
+            priority: 2
+          2s:
+            desc: "Opener supports Spades with 4-card fit"
+            rule: "4+s 12-15hcp"
+            priority: 1
+
+      1nt:
+        desc: "Transfer to Clubs (5+ Clubs, 6-10 HCP, non-forcing)"
+        rule: "6-10hcp 5+c 3-h"
+        priority: 2
+        bids:
+          2c:
+            desc: "Opener accepts transfer to Clubs"
+            rule: "2+c"
+            priority: 2
+            bids:
+              pass:
+                desc: "Pass to play in Clubs (signoff)"
+                rule: "6-8hcp"
+                priority: 10
+              2d:
+                desc: "Pass or correct / secondary Diamonds"
+                rule: "4+d 8-10hcp"
+                priority: 2
+              2h:
+                desc: "Tolerance for Hearts (2 Hearts, 8-10 HCP)"
+                rule: "2h 8-10hcp"
+                priority: 3
+
+      2c:
+        desc: "Transfer to Diamonds (5+ Diamonds, 6-10 HCP, non-forcing)"
+        rule: "6-10hcp 5+d 3-h"
+        priority: 2
+        bids:
+          2d:
+            desc: "Opener accepts transfer to Diamonds"
+            rule: "2+d"
+            priority: 2
+            bids:
+              pass:
+                desc: "Pass to play in Diamonds (signoff)"
+                rule: "6-8hcp"
+                priority: 10
+              2h:
+                desc: "Tolerance for Hearts (2 Hearts, 8-10 HCP)"
+                rule: "2h 8-10hcp"
+                priority: 3
+
+      2d:
+        desc: "Transfer to Hearts: Constructive 3-card raise (7-9 HCP, 3 Hearts)"
+        rule: "7-9hcp 3h"
+        priority: 1
+        bids:
+          2h:
+            desc: "Opener accepts transfer with minimum (12-14 HCP)"
+            rule: "12-14hcp"
+            priority: 10
+          3h:
+            desc: "Opener invites game with 15-17 HCP"
+            rule: "15-17hcp"
+            priority: 2
+          4h:
+            desc: "Opener to play in game (18+ HCP)"
+            rule: "18+hcp"
+            priority: 1
+
+      2h:
+        desc: "Simple 3-card weak/competitive raise (4-6 HCP, 3 Hearts)"
+        rule: "4-6hcp 3h"
+        priority: 3
+        bids:
+          pass:
+            desc: "Opener passes with minimum"
+            rule: "12-15hcp"
+            priority: 10
+          3h:
+            desc: "Opener competes with extras and 6-card suit"
+            rule: "16-17hcp 6+h"
+            priority: 2
+          4h:
+            desc: "Opener bids game with maximum"
+            rule: "18+hcp"
+            priority: 1
+
+      2s:
+        desc: "Weak jump shift (6+ Spades, 0-5 HCP)"
+        rule: "0-5hcp 6+s"
+        priority: 3
+
+      2nt:
+        desc: "Jordan 2NT / Truscott: Sound limit raise or better (10+ HCP, 4+ Hearts)"
+        rule: "10+hcp 4+h"
+        priority: 1
+        bids:
+          3h:
+            desc: "Opener signs off with minimum (12-14 HCP)"
+            rule: "12-14hcp"
+            priority: 10
+          4h:
+            desc: "Opener accepts game invitation (15+ HCP)"
+            rule: "15+hcp"
+            priority: 1
+
+      3c:
+        desc: "Splinter: Club shortness (singleton/void, 10-12 HCP, 4+ Hearts)"
+        rule: "10-12hcp 4+h 1-c"
+        priority: 1
+
+      3d:
+        desc: "Splinter: Diamond shortness (singleton/void, 10-12 HCP, 4+ Hearts)"
+        rule: "10-12hcp 4+h 1-d"
+        priority: 1
+
+      3s:
+        desc: "Splinter: Spade shortness (singleton/void, 10-12 HCP, 4+ Hearts)"
+        rule: "10-12hcp 4+h 1-s"
+        priority: 1
+
+      3h:
+        desc: "Preemptive raise (0-6 HCP, 4 Hearts)"
+        rule: "0-6hcp 4h"
+        priority: 2
+
+      4h:
+        desc: "Preemptive game to play (5+ Hearts, 0-7 HCP)"
+        rule: "0-7hcp 5+h"
+        priority: 3
+
+  fTransfersAfter1S_Double:
+    desc: "Transfers after 1S - (X)"
+    bids:
+      pass:
+        desc: "Pass (0-5 HCP or penalty trap)"
+        rule: "5-hcp"
+        priority: 10
+
+      rdbl:
+        desc: "Redouble: 10+ HCP, balanced or penalty-oriented"
+        rule: "10+hcp 3-s"
+        priority: 1
+
+      1nt:
+        desc: "Transfer to Clubs (5+ Clubs, 6-10 HCP, non-forcing)"
+        rule: "6-10hcp 5+c 3-s"
+        priority: 2
+        bids:
+          2c:
+            desc: "Opener accepts transfer to Clubs"
+            rule: "2+c"
+            priority: 2
+            bids:
+              pass:
+                desc: "Pass to play in Clubs (signoff)"
+                rule: "6-8hcp"
+                priority: 10
+              2d:
+                desc: "Pass or correct / secondary Diamonds"
+                rule: "4+d 8-10hcp"
+                priority: 2
+              2s:
+                desc: "Tolerance for Spades (2 Spades, 8-10 HCP)"
+                rule: "2s 8-10hcp"
+                priority: 3
+
+      2c:
+        desc: "Transfer to Diamonds (5+ Diamonds, 6-10 HCP, non-forcing)"
+        rule: "6-10hcp 5+d 3-s"
+        priority: 2
+        bids:
+          2d:
+            desc: "Opener accepts transfer to Diamonds"
+            rule: "2+d"
+            priority: 2
+            bids:
+              pass:
+                desc: "Pass to play in Diamonds (signoff)"
+                rule: "6-8hcp"
+                priority: 10
+              2s:
+                desc: "Tolerance for Spades (2 Spades, 8-10 HCP)"
+                rule: "2s 8-10hcp"
+                priority: 3
+
+      2d:
+        desc: "Transfer to Hearts (5+ Hearts, 6-10 HCP, non-forcing)"
+        rule: "6-10hcp 5+h 3-s"
+        priority: 2
+        bids:
+          2h:
+            desc: "Opener accepts transfer to Hearts"
+            rule: "2+h"
+            priority: 2
+            bids:
+              pass:
+                desc: "Pass to play in Hearts (signoff)"
+                rule: "6-8hcp"
+                priority: 10
+              2s:
+                desc: "Tolerance for Spades (2 Spades, 8-10 HCP)"
+                rule: "2s 8-10hcp"
+                priority: 3
+
+      2h:
+        desc: "Transfer to Spades: Constructive 3-card raise (7-9 HCP, 3 Spades)"
+        rule: "7-9hcp 3s"
+        priority: 1
+        bids:
+          2s:
+            desc: "Opener accepts transfer with minimum (12-14 HCP)"
+            rule: "12-14hcp"
+            priority: 10
+          3s:
+            desc: "Opener invites game with 15-17 HCP"
+            rule: "15-17hcp"
+            priority: 2
+          4s:
+            desc: "Opener to play in game (18+ HCP)"
+            rule: "18+hcp"
+            priority: 1
+
+      2s:
+        desc: "Simple 3-card weak/competitive raise (4-6 HCP, 3 Spades)"
+        rule: "4-6hcp 3s"
+        priority: 3
+        bids:
+          pass:
+            desc: "Opener passes with minimum"
+            rule: "12-15hcp"
+            priority: 10
+          3s:
+            desc: "Opener competes with extras and 6-card suit"
+            rule: "16-17hcp 6+s"
+            priority: 2
+          4s:
+            desc: "Opener bids game with maximum"
+            rule: "18+hcp"
+            priority: 1
+
+      2nt:
+        desc: "Jordan 2NT / Truscott: Sound limit raise or better (10+ HCP, 4+ Spades)"
+        rule: "10+hcp 4+s"
+        priority: 1
+        bids:
+          3s:
+            desc: "Opener signs off with minimum (12-14 HCP)"
+            rule: "12-14hcp"
+            priority: 10
+          4s:
+            desc: "Opener accepts game invitation (15+ HCP)"
+            rule: "15+hcp"
+            priority: 1
+
+      3c:
+        desc: "Splinter: Club shortness (singleton/void, 10-12 HCP, 4+ Spades)"
+        rule: "10-12hcp 4+s 1-c"
+        priority: 1
+
+      3d:
+        desc: "Splinter: Diamond shortness (singleton/void, 10-12 HCP, 4+ Spades)"
+        rule: "10-12hcp 4+s 1-d"
+        priority: 1
+
+      3h:
+        desc: "Splinter: Heart shortness (singleton/void, 10-12 HCP, 4+ Spades)"
+        rule: "10-12hcp 4+s 1-h"
+        priority: 1
+
+      3s:
+        desc: "Preemptive raise (0-6 HCP, 4 Spades)"
+        rule: "0-6hcp 4s"
+        priority: 2
+
+      4s:
+        desc: "Preemptive game to play (5+ Spades, 0-7 HCP)"
+        rule: "0-7hcp 5+s"
+        priority: 3

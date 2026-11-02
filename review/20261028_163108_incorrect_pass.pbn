@@ -1,0 +1,17 @@
+% PBN 2.1 Exported by Antigravity Bridge Studio
+[Event "Gavin Wolpert Practice Studio"]
+[Site "Antigravity Bridge"]
+[Date "2026.10.28"]
+[Board "1"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Scoring "IMP"]
+[BiddingSystem "Gavin Wolpert Master Series (2/1 Game Forcing)"]
+[Description "incorrect pass"]
+[Comment "Corrected opening rule: 4-1-4-4 with 17 HCP opens 1D (d>=c and 4+d with <=4 in majors)."]
+{
+  Corrected opening rule: 4-1-4-4 with 17 HCP opens 1D (d>=c and 4+d with <=4 in majors).
+}
+[Deal "N:AK84.J.KQ72.KJ64 T97652.6.85.AT72 QJ.K9743.A96.Q93 3.AQT852.JT43.85"]
+[Auction "N"]
+1D Pass

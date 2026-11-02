@@ -246,45 +246,167 @@ class _CardHandWidgetState extends State<CardHandWidget> {
     );
   }
 
+  void _showMlBreakdownDialog(BuildContext context, MLHandBreakdown b) {
+    final isUp = b.isUpgraded;
+    final isDown = b.isDowngraded;
+    final sign = b.netDelta >= 0 ? '+' : '';
+    final deltaStr = '$sign${b.netDelta.toStringAsFixed(1)} HCP';
+
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Row(
+          children: [
+            Icon(
+              isUp ? Icons.auto_awesome : (isDown ? Icons.trending_down : Icons.psychology),
+              color: isUp ? const Color(0xFF6D28D9) : (isDown ? const Color(0xFFB45309) : const Color(0xFF475569)),
+              size: 24,
+            ),
+            const SizedBox(width: 8),
+            const Expanded(
+              child: Text(
+                'ML Hand Valuation',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              decoration: BoxDecoration(
+                color: isUp
+                    ? const Color(0xFFEDE9FE)
+                    : isDown
+                        ? const Color(0xFFFEF3C7)
+                        : const Color(0xFFF1F5F9),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '${b.rawHcp.toStringAsFixed(0)} raw HCP → ${b.effectiveHcp.toStringAsFixed(1)} Eff HCP (MPI: ${b.mpi.toStringAsFixed(1)})',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 13,
+                      color: isUp
+                          ? const Color(0xFF5B21B6)
+                          : isDown
+                              ? const Color(0xFF92400E)
+                              : const Color(0xFF334155),
+                    ),
+                  ),
+                  Text(
+                    deltaStr,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 13,
+                      color: isUp
+                          ? const Color(0xFF6D28D9)
+                          : isDown
+                              ? const Color(0xFFB45309)
+                              : const Color(0xFF475569),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 12),
+            if (b.reasons.isNotEmpty) ...[
+              const Text(
+                'Valuation Adjustments:',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+              ),
+              const SizedBox(height: 6),
+              ...b.reasons.map((r) => Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 2),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text('• ', style: TextStyle(fontWeight: FontWeight.bold)),
+                        Expanded(child: Text(r, style: const TextStyle(fontSize: 12.5))),
+                      ],
+                    ),
+                  )),
+            ] else
+              const Text(
+                'No significant honor or shape adjustments for this hand.',
+                style: TextStyle(fontSize: 12.5, fontStyle: FontStyle.italic),
+              ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(),
+            child: const Text('Close'),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildEffHcpBadge(MLHandBreakdown b) {
     final isUp = b.effectiveHcp > b.rawHcp;
     final isDown = b.effectiveHcp < b.rawHcp;
     return Tooltip(
       message: b.reasons.isNotEmpty
-          ? b.reasons.join('\n')
-          : 'Evaluated at ${b.effectiveHcp.toStringAsFixed(1)} Eff HCP',
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-        decoration: BoxDecoration(
-          color: isUp
-              ? const Color(0xFFEDE9FE)
-              : isDown
-                  ? const Color(0xFFFEF3C7)
-                  : const Color(0xFFF1F5F9),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
+          ? '${b.reasons.join('\n')}\n(Click for breakdown dialog)'
+          : 'Evaluated at ${b.effectiveHcp.toStringAsFixed(1)} Eff HCP\n(Click for breakdown dialog)',
+      child: InkWell(
+        onTap: () => _showMlBreakdownDialog(context, b),
+        borderRadius: BorderRadius.circular(12),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+          decoration: BoxDecoration(
             color: isUp
-                ? const Color(0xFF8B5CF6)
+                ? const Color(0xFFEDE9FE)
                 : isDown
-                    ? const Color(0xFFF59E0B)
-                    : const Color(0xFF94A3B8),
-            width: 1.2,
+                    ? const Color(0xFFFEF3C7)
+                    : const Color(0xFFF1F5F9),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: isUp
+                  ? const Color(0xFF8B5CF6)
+                  : isDown
+                      ? const Color(0xFFF59E0B)
+                      : const Color(0xFF94A3B8),
+              width: 1.2,
+            ),
           ),
-        ),
-        child: Text(
-          isUp
-              ? '🚀 ${b.effectiveHcp.toStringAsFixed(1)} Eff HCP'
-              : isDown
-                  ? '⚠️ ${b.effectiveHcp.toStringAsFixed(1)} Eff HCP'
-                  : '✨ ${b.effectiveHcp.toStringAsFixed(1)} Eff HCP',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 11.5,
-            color: isUp
-                ? const Color(0xFF6D28D9)
-                : isDown
-                    ? const Color(0xFFB45309)
-                    : const Color(0xFF475569),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                isUp
+                    ? '🚀 ${b.effectiveHcp.toStringAsFixed(1)} Eff HCP'
+                    : isDown
+                        ? '⚠️ ${b.effectiveHcp.toStringAsFixed(1)} Eff HCP'
+                        : '✨ ${b.effectiveHcp.toStringAsFixed(1)} Eff HCP',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 11.5,
+                  color: isUp
+                      ? const Color(0xFF6D28D9)
+                      : isDown
+                          ? const Color(0xFFB45309)
+                          : const Color(0xFF475569),
+                ),
+              ),
+              const SizedBox(width: 4),
+              Icon(
+                Icons.info_outline,
+                size: 13,
+                color: isUp
+                    ? const Color(0xFF6D28D9).withValues(alpha: 0.7)
+                    : isDown
+                        ? const Color(0xFFB45309).withValues(alpha: 0.7)
+                        : const Color(0xFF475569).withValues(alpha: 0.7),
+              ),
+            ],
           ),
         ),
       ),

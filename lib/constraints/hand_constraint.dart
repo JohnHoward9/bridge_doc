@@ -1,5 +1,6 @@
 import '../models/card.dart';
 import '../models/hand.dart';
+import '../models/bidding_state_context.dart';
 import '../evaluators/valuation_engine.dart';
 
 /// The result of evaluating a hand against a constraint.
@@ -32,7 +33,7 @@ abstract class HandConstraint {
   const HandConstraint();
 
   /// Evaluates whether the [hand] satisfies this constraint.
-  MatchResult evaluate(Hand hand, HandValuationEngine valuation);
+  MatchResult evaluate(Hand hand, HandValuationEngine valuation, [BiddingStateContext? context]);
 
   /// Approximate metric of how restrictive / informative this constraint is.
   double get baseSpecificity;
@@ -46,17 +47,48 @@ class HcpConstraint extends HandConstraint {
   const HcpConstraint({this.min, this.max});
 
   @override
-  MatchResult evaluate(Hand hand, HandValuationEngine valuation) {
+  MatchResult evaluate(Hand hand, HandValuationEngine valuation, [BiddingStateContext? context]) {
     final rawHcp = hand.hcp;
-    final effectivePts = valuation.evaluatePoints(hand);
+    final effectivePts = context != null
+        ? context.effectiveHcp
+        : valuation.evaluatePoints(hand);
     final pts = effectivePts.round();
     bool passed = true;
     final List<String> satisfied = [];
     final List<String> failed = [];
 
-    // Check minimum:
+    // 1. Strict Effective HCP mode for automated bot bidding (North, East, West)
+    if (valuation is MLHandValuation && valuation.strictEffectiveHcp) {
+      if (min != null && effectivePts < (min! - 0.49)) {
+        passed = false;
+        failed.add('Effective HCP ${effectivePts.toStringAsFixed(1)} is below minimum $min');
+      }
+      if (max != null) {
+        final upperLimit = max! + 0.5;
+        if (effectivePts >= upperLimit) {
+          passed = false;
+          failed.add('Effective HCP ${effectivePts.toStringAsFixed(1)} is >= upper bound $max');
+        }
+      }
+      final rangeStr = min != null && max != null
+          ? '$min-$max HCP'
+          : (min != null ? '$min+ HCP' : '$max- HCP');
+
+      if (passed) {
+        satisfied.add('Effective HCP ${effectivePts.toStringAsFixed(1)} matches $rangeStr');
+      }
+
+      return MatchResult(
+        isMatch: passed,
+        satisfiedCriteria: satisfied,
+        failedCriteria: failed,
+        specificityScore: baseSpecificity,
+      );
+    }
+
+    // 2. Learner mode (South) or MiltonWorkValuation:
     // If downgraded, effective points must still meet min.
-    // If upgraded, effective points can promote into min.
+    // If upgraded, effective points can promote into min (by at most 1 point).
     // Otherwise, raw Milton Work HCP must satisfy min.
     if (min != null) {
       if (valuation is MLHandValuation) {
@@ -155,7 +187,7 @@ class SuitLengthConstraint extends HandConstraint {
   const SuitLengthConstraint({required this.suit, this.min, this.max});
 
   @override
-  MatchResult evaluate(Hand hand, HandValuationEngine valuation) {
+  MatchResult evaluate(Hand hand, HandValuationEngine valuation, [BiddingStateContext? context]) {
     final len = hand.length(suit);
     bool passed = true;
     final List<String> satisfied = [];
@@ -225,7 +257,7 @@ class ShapeConstraint extends HandConstraint {
   });
 
   @override
-  MatchResult evaluate(Hand hand, HandValuationEngine valuation) {
+  MatchResult evaluate(Hand hand, HandValuationEngine valuation, [BiddingStateContext? context]) {
     bool passed = false;
     final shape = hand.sortedShapePattern;
     final exact = '${hand.spadesLength}${hand.heartsLength}${hand.diamondsLength}${hand.clubsLength}';
@@ -280,7 +312,7 @@ class LosingTrickCountConstraint extends HandConstraint {
   const LosingTrickCountConstraint({this.min, this.max});
 
   @override
-  MatchResult evaluate(Hand hand, HandValuationEngine valuation) {
+  MatchResult evaluate(Hand hand, HandValuationEngine valuation, [BiddingStateContext? context]) {
     final ltc = hand.losingTrickCount;
     bool passed = true;
     final List<String> satisfied = [];
@@ -328,7 +360,7 @@ class SuitComparisonConstraint extends HandConstraint {
   const SuitComparisonConstraint({required this.suit1, required this.op, this.suit2});
 
   @override
-  MatchResult evaluate(Hand hand, HandValuationEngine valuation) {
+  MatchResult evaluate(Hand hand, HandValuationEngine valuation, [BiddingStateContext? context]) {
     final len1 = hand.length(suit1);
     bool passed = true;
 
@@ -385,14 +417,14 @@ class CompositeConstraint extends HandConstraint {
   const CompositeConstraint({required this.children, this.isAnd = true});
 
   @override
-  MatchResult evaluate(Hand hand, HandValuationEngine valuation) {
+  MatchResult evaluate(Hand hand, HandValuationEngine valuation, [BiddingStateContext? context]) {
     if (children.isEmpty) {
       return const MatchResult(isMatch: true);
     }
 
-    MatchResult combined = children.first.evaluate(hand, valuation);
+    MatchResult combined = children.first.evaluate(hand, valuation, context);
     for (int i = 1; i < children.length; i++) {
-      final res = children[i].evaluate(hand, valuation);
+      final res = children[i].evaluate(hand, valuation, context);
       combined = combined.combine(res, isAnd: isAnd);
     }
 
@@ -420,7 +452,7 @@ class KeyCardConstraint extends HandConstraint {
   });
 
   @override
-  MatchResult evaluate(Hand hand, HandValuationEngine valuation) {
+  MatchResult evaluate(Hand hand, HandValuationEngine valuation, [BiddingStateContext? context]) {
     final count = hand.keyCardCount(trumpSuit);
     final hasQ = hand.hasQueen(trumpSuit);
 
@@ -484,7 +516,7 @@ class HonorConstraint extends HandConstraint {
   });
 
   @override
-  MatchResult evaluate(Hand hand, HandValuationEngine valuation) {
+  MatchResult evaluate(Hand hand, HandValuationEngine valuation, [BiddingStateContext? context]) {
     final hasCard = hand.cards.any((c) => c.suit == suit && c.rank == rank);
     final passed = isPresent ? hasCard : !hasCard;
 
@@ -508,7 +540,7 @@ class ControlsConstraint extends HandConstraint {
   const ControlsConstraint({this.min, this.max});
 
   @override
-  MatchResult evaluate(Hand hand, HandValuationEngine valuation) {
+  MatchResult evaluate(Hand hand, HandValuationEngine valuation, [BiddingStateContext? context]) {
     final ctrl = hand.controls;
     bool passed = true;
     final List<String> satisfied = [];
@@ -553,7 +585,7 @@ class OutsideControlsConstraint extends HandConstraint {
   const OutsideControlsConstraint({this.trumpSuit, this.min, this.max});
 
   @override
-  MatchResult evaluate(Hand hand, HandValuationEngine valuation) {
+  MatchResult evaluate(Hand hand, HandValuationEngine valuation, [BiddingStateContext? context]) {
     final Suit suit = trumpSuit ?? (hand.solidMinorSuit ?? hand.longestSuit);
     final ctrl = hand.outsideControls(suit);
     bool passed = true;
@@ -598,7 +630,7 @@ class SolidSuitConstraint extends HandConstraint {
   const SolidSuitConstraint({this.suit, this.minLength = 7});
 
   @override
-  MatchResult evaluate(Hand hand, HandValuationEngine valuation) {
+  MatchResult evaluate(Hand hand, HandValuationEngine valuation, [BiddingStateContext? context]) {
     bool passed = false;
     String desc = '';
 
@@ -620,5 +652,53 @@ class SolidSuitConstraint extends HandConstraint {
 
   @override
   double get baseSpecificity => 35.0;
+}
+
+/// Constraint requiring short suits (length <= 2) to hold at least one honor (A, K, or Q),
+/// or requiring that at least one short suit lacks honors (!short_honors).
+class ShortSuitsHonorsConstraint extends HandConstraint {
+  final bool requiresHonors;
+
+  const ShortSuitsHonorsConstraint({this.requiresHonors = true});
+
+  @override
+  MatchResult evaluate(Hand hand, HandValuationEngine valuation, [BiddingStateContext? context]) {
+    final hasHonors = hand.shortSuitsHaveHonors;
+    final passed = requiresHonors ? hasHonors : !hasHonors;
+    return MatchResult(
+      isMatch: passed,
+      satisfiedCriteria: [
+        if (passed) (requiresHonors ? 'Short suits hold honors' : 'Short suits lack honors/unstopped')
+      ],
+      failedCriteria: [
+        if (!passed) (requiresHonors ? 'Short suits lack honors/stoppers' : 'Short suits hold honors')
+      ],
+      specificityScore: baseSpecificity,
+    );
+  }
+
+  @override
+  double get baseSpecificity => 20.0;
+}
+
+/// Good suit quality constraint, e.g. "good_suit:s", "good_suit:h".
+class GoodSuitConstraint extends HandConstraint {
+  final Suit suit;
+
+  const GoodSuitConstraint({required this.suit});
+
+  @override
+  MatchResult evaluate(Hand hand, HandValuationEngine valuation, [BiddingStateContext? context]) {
+    final passed = hand.isGoodSuit(suit);
+    return MatchResult(
+      isMatch: passed,
+      satisfiedCriteria: passed ? ['Good suit quality in ${suit.symbol}'] : [],
+      failedCriteria: !passed ? ['Lacks good suit quality in ${suit.symbol}'] : [],
+      specificityScore: baseSpecificity,
+    );
+  }
+
+  @override
+  double get baseSpecificity => 15.0;
 }
 

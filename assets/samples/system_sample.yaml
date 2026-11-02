@@ -24,7 +24,8 @@ OpeningBids:
     bids:
       "[1h-1s]":
         desc: "5 card major opening"
-        rule: "1h:p#5 5+h 11+hcp [$M=h, $OM=s, $os=h] ^ 1s:p#4 5+s 11+hcp [$M=s, $OM=h, $os=s]"
+        rule: "1h:5+h 11+hcp [$M=h, $OM=s, $os=h] ^ 1s:5+s 11+hcp [$M=s, $OM=h, $os=s]"
+        priority: 5
         bids:
           2c:
             desc: "Drury 3-4"
@@ -45,9 +46,10 @@ OpeningBids:
               "2$M":
                 desc: "Minimum"
                 rule: "13-hcp"
-          "<$os=s>4h":
+          4h:
             desc: "Fit"
             rule: "4+s 5+h"
+            cond: "$os=s"
       "(50%Weak.1nt)":
         desc: "Weak NT"
         rule: "12-14hcp"
@@ -60,7 +62,7 @@ OpeningBids:
                 rule: "d#4xx5|4xx6|4x5x|4x6x|x4x5|x4x6|x45x|x46x 8-11hcp"
                 priority: 1
               "~>MultiLandy":
-                rule: "p#3"
+                priority: 3
                 ref: "fMultiLandy"
       "(50%Strong.1nt)":
         desc: "Strong NT"
@@ -68,17 +70,21 @@ OpeningBids:
 
   1c:
     desc: "3 way club"
-    rule: "p#2 $weakbal, 5+c 11+hcp c>* !$bal, s#4441 4c 11-14hcp, $gf [$os=c]"
+    rule: "$weakbal, 5+c 11+hcp c>* !$bal, s#4441 4c 11-14hcp, $gf [$os=c]"
+    priority: 2
     bids:
       "[1d-1h]":
         desc: "xfer response showing 4+M"
-        rule: "1d:p#4 4+h h>s, 4h 4s [$M=h, $OM=s] ^ 1h:p#5 4+s [$M=s,$OM=h]"
+        rule: "1d:4+h h>s, 4h 4s [$M=h, $OM=s] ^ 1h:4+s [$M=s,$OM=h]"
+        priority: 4
         bids:
           "~>Initial gf":
-            rule: "p#1 $gf"
+            rule: "$gf"
+            priority: 1
             ref: "f1CMajorGameForcing"
           "~>Support":
-            rule: "p#4 3+$M"
+            rule: "3+$M"
+            priority: 4
             bids:
               "~>Strong hand 3/4 card support":
                 rule: "17+hcp 5+c !s#5332"
@@ -87,37 +93,43 @@ OpeningBids:
                 rule: "16-hcp"
                 ref: "f1CMajorLimitedSupport"
           "~>No Support":
-            rule: "p#5 2-$M"
+            rule: "2-$M"
+            priority: 5
             bids:
               "~>Spades no support":
-                rule: "p#3 4+s"
+                rule: "4+s"
+                priority: 3
                 ref: "f1CMajorSpadeHands"
               "~>Strong hand no support":
-                rule: "p#3 17+hcp s#55xx|54xx|64xx, 18+hcp s#6322, 19+hcp 6+c"
+                rule: "17+hcp s#55xx|54xx|64xx, 18+hcp s#6322, 19+hcp 6+c"
+                priority: 3
                 ref: "f1CMajorStrongHands"
               1nt:
                 desc: "Weak nt no support"
-                rule: "p#5 $weakbal, s#4441|5431 c>=* 11-14hcp 1$M"
+                rule: "$weakbal, s#4441|5431 c>=* 11-14hcp 1$M"
+                priority: 5
                 ref: "f1CMajorWeakNT"
               2c:
                 desc: "Clubs"
-                rule: "p#4 15-hcp 5+c !s#5332"
+                rule: "15-hcp 5+c !s#5332"
+                priority: 4
                 ref: "f1CMajorClubs"
               3c:
                 desc: "Clubs natural inv"
-                rule: "p#3 16-17hcp 6+c"
+                rule: "16-17hcp 6+c"
                 priority: 1
           3d:
             desc: "splinter 18+"
-            rule: "p#3 1-d 18-21hcp 4$M"
+            rule: "1-d 18-21hcp 4$M"
             priority: 1
           "3$OM":
             desc: "splinter 18+"
-            rule: "p#3 1-$OM 18-21hcp 4$M"
+            rule: "1-$OM 18-21hcp 4$M"
             priority: 1
-          "<$M=h>(1s)":
+          "(1s)":
             desc: "Overcall"
             rule: "5+s 7+hcp"
+            cond: "$M=h"
             bids:
               2d:
                 desc: "Reverse"
@@ -125,15 +137,17 @@ OpeningBids:
                 priority: 1
               2s:
                 desc: "Initial GF"
-                rule: "p#1 $gf"
+                rule: "$gf"
                 priority: 1
       1s:
         desc: "GF diamonds or <10hcp no 4c M"
-        rule: "p#3 13+hcp 5+d d>*, 10-hcp 3-h 3-s"
+        rule: "13+hcp 5+d d>*, 10-hcp 3-h 3-s"
+        priority: 3
         bids:
           1nt:
             desc: "11-14 Bal"
-            rule: "p#4 $weakbal"
+            rule: "$weakbal"
+            priority: 4
             bids:
               2c:
                 desc: "natural sign off"
@@ -162,29 +176,35 @@ OpeningBids:
 
   1d:
     desc: "Unbalanced"
-    rule: "p#3 5+d d>s d>h !s#5332 11+hcp, 4d s#4441 11+hcp 3-c [$os=d]"
+    rule: "5+d d>s d>h !s#5332 11+hcp, 4d s#4441 11+hcp 3-c [$os=d]"
+    priority: 3
 
   1nt:
     desc: "Strong NT"
-    rule: "p#3 15-17hcp s#4333|4432|5332|4441, 14-16hcp s#5422 4-s 4-h, 13-15hcp s#6322 4-s 4-h"
+    rule: "15-17hcp s#4333|4432|5332|4441, 14-16hcp s#5422 4-s 4-h, 13-15hcp s#6322 4-s 4-h"
+    priority: 3
 
   2c:
     desc: "Majors 8-13"
-    rule: "p#1 s#55xx 4+h 4+s 8-11hcp, s#5431 4+h 4+s 8-12hcp, s#5422 4+h 4+s 8-13hcp, 4h 4s 8-12hcp"
+    rule: "s#55xx 4+h 4+s 8-11hcp, s#5431 4+h 4+s 8-12hcp, s#5422 4+h 4+s 8-13hcp, 4h 4s 8-12hcp"
+    priority: 1
 
   2d:
     desc: "18-19 balanced not 5 card major"
-    rule: "p#1 18-19hcp 4-h 4-s s#4333|4432|5332|4441, 17-18hcp s#5422 4-s 4-h, 16-17hcp s#6322 4-s 4-h"
+    rule: "18-19hcp 4-h 4-s s#4333|4432|5332|4441, 17-18hcp s#5422 4-s 4-h, 16-17hcp s#6322 4-s 4-h"
+    priority: 1
 
   2nt:
     desc: "20-22 balanced"
-    rule: "p#1 20-22hcp 20+knr s#4333|4432|5332|4441, 19-21hcp s#5422 4-s 4-h, 18-20hcp s#6322 4-s 4-h"
+    rule: "20-22hcp 20+knr s#4333|4432|5332|4441, 19-21hcp s#5422 4-s 4-h, 18-20hcp s#6322 4-s 4-h"
+    priority: 1
 
 # Tree of auctions initiated by opponents
 OppositionOpeningBids:
   "(50%SAYC.1c)":
     desc: "Short c"
-    rule: "p#6 2+c $weakbal, 4+c 12+hcp c>=*"
+    rule: "2+c $weakbal, 4+c 12+hcp c>=*"
+    priority: 6
     bids:
       1nt:
         desc: "Minors"
@@ -192,19 +212,22 @@ OppositionOpeningBids:
 
   "(25%Acol.1c)":
     desc: "ACOL"
-    rule: "p#6 4+c 12+hcp c>=* !$bal, 4+c 15+hcp c>=*"
+    rule: "4+c 12+hcp c>=* !$bal, 4+c 15+hcp c>=*"
+    priority: 6
 
   "(25%TwoWay.1c)":
     desc: "Polish"
-    rule: "p#6 2+c $weakbal, 16+hcp"
+    rule: "2+c $weakbal, 16+hcp"
+    priority: 6
 
   "(1d)":
     desc: "Natural"
-    rule: "p#5 4+d 12+hcp d>=*"
+    rule: "4+d 12+hcp d>=*"
+    priority: 5
     bids:
       pass:
         desc: "Nothing to say"
-        rule: "p#10"
+        priority: 10
         bids:
           "(1s)":
             desc: "Natural"
@@ -244,7 +267,8 @@ OppositionOpeningBids:
                 priority: 1
       dbl:
         desc: "Takeout"
-        rule: "p#5 12+hcp 3-d"
+        rule: "12+hcp 3-d"
+        priority: 5
         bids:
           "[1h,1s]":
             desc: "Natural"
@@ -262,11 +286,12 @@ OppositionOpeningBids:
                     rule: "5+$M 5-hcp"
       "[1h-1s]":
         desc: "Overcall"
-        rule: "1h:p#4 5+h 8+hcp h>s [$OM=s, $M=h] ^ 1s:p#4 5+s 8+hcp s>=* [$OM=h, $M=s]"
+        rule: "1h:5+h 8+hcp h>s [$OM=s, $M=h] ^ 1s:5+s 8+hcp s>=* [$OM=h, $M=s]"
+        priority: 4
         bids:
           "(pass)":
             desc: "Neutral"
-            rule: "p#10"
+            priority: 10
             bids:
               2d:
                 desc: "Good 3 card raise"
@@ -286,11 +311,13 @@ OppositionOpeningBids:
                 priority: 4
       1nt:
         desc: "15-17hcp bal"
-        rule: "p#3 15-17hcp $bal"
+        rule: "15-17hcp $bal"
+        priority: 3
         ref: "f1NTResponsesInComp"
       2c:
         desc: "Overcall"
-        rule: "p#4 6+c 8+hcp"
+        rule: "6+c 8+hcp"
+        priority: 4
         bids:
           "(2d)":
             desc: "Natural"
@@ -307,11 +334,12 @@ OppositionOpeningBids:
 
   "FiveCardM.[1h-1s]":
     desc: "5 card majors"
-    rule: "1h:p#4 5+h 11+hcp h>s [$oppoM=h, $OM=s] ^ 1s:p#4 5+s 11+hcp s>=* [$oppoM=s, $OM=h]"
+    rule: "1h:5+h 11+hcp h>s [$oppoM=h, $OM=s] ^ 1s:5+s 11+hcp s>=* [$oppoM=s, $OM=h]"
+    priority: 4
     bids:
       pass:
         desc: "Weak or unsuitable"
-        rule: "p#6"
+        priority: 6
         bids:
           1nt:
             desc: "12-16 bal"
@@ -319,35 +347,33 @@ OppositionOpeningBids:
             bids:
               2c:
                 desc: "Crowhurst"
-                rule: "p#4 9+hcp"
+                rule: "9+hcp"
                 priority: 2
               2d:
                 desc: "xFer"
-                rule: "p#3 5+h"
+                rule: "5+h"
                 priority: 2
               2h:
                 desc: "xFer"
-                rule: "p#3 5+s"
+                rule: "5+s"
                 priority: 2
           "(2$oppoM)":
             desc: "Raise"
             rule: "3$oppoM 7-10hcp"
             bids:
-              "<$oppoM=h>3h":
+              3h:
                 desc: "Spades and another"
                 rule: "5+s 5+d, 5+s 5+c"
+                cond: "$oppoM=h"
                 priority: 1
-              "<$oppoM=s>3s":
+              3s:
                 desc: "Hearts and another"
                 rule: "5+h 5+d 15+hcp, 5+h 5+c 15+hcp"
+                cond: "$oppoM=s"
                 priority: 1
-              "<$oppoM=h>2nt":
-                desc: "Minors"
-                rule: "5+c 5+d"
-                priority: 1
-              "<$oppoM=s>2nt":
-                desc: "Any 2 suits"
-                rule: "5+c 5+d, 5+h 5+c, 5+h 5+d 14-hcp"
+              2nt:
+                desc: "Minors (over 2H) or Any 2 suits (over 2S)"
+                rule: "5+c 5+d, 5+h 5+c, 5+h 5+d"
                 priority: 1
 
 # Reusable bidding convention subroutines
@@ -412,19 +438,19 @@ Fragments:
     bids:
       2c:
         desc: "4M inv+ raise or 1-suited major bad suit or 1 suited minor fg"
-        rule: "p#2 4h 3-s 8+hcp, 4s 3-h 8+hcp, 6+h 12+hcp q#hh-h, 6+s 12+hcp q#hh-s, 6+c 10+hcp 3-s 3-h, 6+d 10+hcp 3-s 3-h, s#5422 4+d 4+c 10+hcp"
+        rule: "4h 3-s 8+hcp, 4s 3-h 8+hcp, 6+h 12+hcp q#hh-h, 6+s 12+hcp q#hh-s, 6+c 10+hcp 3-s 3-h, 6+d 10+hcp 3-s 3-h, s#5422 4+d 4+c 10+hcp"
         priority: 1
       2d:
         desc: "Both M inv+ or Signoff H or inv+ 5H or 1 suited slam try good suit"
-        rule: "p#3 5+h 7-hcp, 5h s#5332 8-12hcp, 5h 3-s s#5422|5431 15+hcp, 5h 3-s s#5422|5431 9-14hcp q#hhh+h, 6h 12+hcp q#hhh+h, 4+h 4+s 8+hcp [$M=h, $OM=s]"
+        rule: "5+h 7-hcp, 5h s#5332 8-12hcp, 5h 3-s s#5422|5431 15+hcp, 5h 3-s s#5422|5431 9-14hcp q#hhh+h, 6h 12+hcp q#hhh+h, 4+h 4+s 8+hcp [$M=h, $OM=s]"
         priority: 1
       2h:
         desc: "Signoff S or inv+ 5s or 1 suited slam try good suit"
-        rule: "p#4 5+s 7-hcp, 5s s#5332 8-12hcp, 5s 3-h s#5422|5431 15+hcp, 5s 3-h s#5422|5431 9-14hcp q#hhh+s, 6s 12+hcp q#hhh+s [$M=s, $OM=h]"
+        rule: "5+s 7-hcp, 5s s#5332 8-12hcp, 5s 3-h s#5422|5431 15+hcp, 5s 3-h s#5422|5431 9-14hcp q#hhh+s, 6s 12+hcp q#hhh+s [$M=s, $OM=h]"
         priority: 1
       2s:
         desc: "Inv bal or signoff clubs or bal slam try or fg 54/45 minors"
-        rule: "p#2 8-9hcp 3-h 3-s, 6+c 7-hcp, $14to15Bal, $16PlusBal"
+        rule: "8-9hcp 3-h 3-s, 6+c 7-hcp, $14to15Bal, $16PlusBal"
         priority: 1
 
   fRKCBResponses:

@@ -44,20 +44,25 @@ class SystemYamlParser {
           final priority = val['priority'] is int
               ? val['priority'] as int
               : int.tryParse(val['priority']?.toString() ?? '');
-          final aliasesRaw = val['aliases'] ?? val['alias'];
-          final List<String> aliases = [];
-          if (aliasesRaw is List) {
-            aliases.addAll(aliasesRaw.map((e) => e.toString()));
-          } else if (aliasesRaw is String) {
-            aliases.add(aliasesRaw);
-          }
+          final ref = val['ref']?.toString() ?? val['fragment']?.toString();
+          final includes = _parseStringList(val['include'] ?? val['includes']);
+          final aliases = _parseStringList(val['aliases'] ?? val['alias']);
+          final vars = _parseVarsMap(val['vars'] ?? val['params'] ?? val['variables']);
+          final agreedSuit = val['agreedSuit']?.toString() ?? val['agreed_suit']?.toString() ?? val['agreed']?.toString();
+          final forceToStr = val['forceTo']?.toString() ?? val['force']?.toString() ?? val['forcing']?.toString();
+          final forceTo = ForcingLevel.fromString(forceToStr);
           final bids = _parseBids(val['bids'] ?? val['responses'] ?? val['continuations'] ?? val);
           final frag = Fragment(
             name: name,
             desc: desc,
             rule: rule,
             priority: priority,
+            ref: ref,
+            includes: includes,
             aliases: aliases,
+            agreedSuit: agreedSuit,
+            variables: vars,
+            forceTo: forceTo,
             bids: bids,
           );
           fragments[name] = frag;
@@ -105,6 +110,36 @@ class SystemYamlParser {
     );
   }
 
+  static List<String> _parseStringList(dynamic raw) {
+    if (raw == null) return const [];
+    if (raw is List) {
+      return raw.map((e) => e.toString()).toList();
+    } else if (raw is String && raw.trim().isNotEmpty) {
+      return [raw.trim()];
+    }
+    return const [];
+  }
+
+  static Map<String, String>? _parseVarsMap(dynamic raw) {
+    if (raw is! Map) return null;
+    final map = <String, String>{};
+    raw.forEach((k, v) {
+      final key = k.toString().replaceAll(r'$', '').trim();
+      final val = v.toString().trim();
+      if (key.isNotEmpty && val.isNotEmpty) {
+        map[key] = val;
+      }
+    });
+    return map.isEmpty ? null : map;
+  }
+
+  static const Set<String> _metadataKeys = {
+    'desc', 'description', 'rule', 'criteria', 'bids', 'responses', 'continuations',
+    'priority', 'ref', 'fragment', 'library', 'convention', 'name',
+    'aliases', 'alias', 'include', 'includes', 'vars', 'params', 'variables',
+    'cond', 'condition', 'forceTo', 'force', 'forcing',
+  };
+
   static List<BiddingNode> _parseBids(dynamic raw) {
     if (raw == null) return [];
     final List<BiddingNode> nodes = [];
@@ -113,7 +148,7 @@ class SystemYamlParser {
       raw.forEach((keyStr, val) {
         final key = keyStr.toString();
         // Skip metadata keys if inside map
-        if (key == 'desc' || key == 'rule' || key == 'bids' || key == 'priority' || key == 'ref' || key == 'name') {
+        if (_metadataKeys.contains(key)) {
           return;
         }
 
@@ -130,7 +165,12 @@ class SystemYamlParser {
               val['fragment']?.toString() ??
               val['library']?.toString() ??
               val['convention']?.toString();
-          final condition = val['condition']?.toString();
+          final includes = _parseStringList(val['include'] ?? val['includes']);
+          final vars = _parseVarsMap(val['vars'] ?? val['params'] ?? val['variables']);
+          final condition = val['cond']?.toString() ?? val['condition']?.toString();
+          final agreedSuit = val['agreedSuit']?.toString() ?? val['agreed_suit']?.toString() ?? val['agreed']?.toString();
+          final forceToStr = val['forceTo']?.toString() ?? val['force']?.toString() ?? val['forcing']?.toString();
+          final forceTo = ForcingLevel.fromString(forceToStr);
           final childBids = _parseBids(
             val['bids'] ??
             val['responses'] ??
@@ -145,7 +185,11 @@ class SystemYamlParser {
             rule: rule,
             priority: priority,
             ref: ref,
+            includes: includes,
             condition: condition,
+            agreedSuit: agreedSuit,
+            variables: vars,
+            forceTo: forceTo,
             bids: childBids,
           ));
         }
@@ -161,6 +205,12 @@ class SystemYamlParser {
                 ? item['priority'] as int
                 : int.tryParse(item['priority']?.toString() ?? '');
             final ref = item['ref']?.toString() ?? item['fragment']?.toString();
+            final includes = _parseStringList(item['include'] ?? item['includes']);
+            final vars = _parseVarsMap(item['vars'] ?? item['params'] ?? item['variables']);
+            final condition = item['cond']?.toString() ?? item['condition']?.toString();
+            final agreedSuit = item['agreedSuit']?.toString() ?? item['agreed_suit']?.toString() ?? item['agreed']?.toString();
+            final forceToStr = item['forceTo']?.toString() ?? item['force']?.toString() ?? item['forcing']?.toString();
+            final forceTo = ForcingLevel.fromString(forceToStr);
             final childBids = _parseBids(item['bids'] ?? item['responses']);
 
             nodes.add(BiddingNode(
@@ -169,6 +219,11 @@ class SystemYamlParser {
               rule: rule,
               priority: priority,
               ref: ref,
+              includes: includes,
+              condition: condition,
+              agreedSuit: agreedSuit,
+              variables: vars,
+              forceTo: forceTo,
               bids: childBids,
             ));
           } else {
@@ -237,6 +292,69 @@ class SystemYamlParser {
     return buffer.toString();
   }
 
+  /// Serialize just a single [Fragment] into clean, standalone YAML.
+  static String fragmentToYaml(Fragment fragment) {
+    final buffer = StringBuffer();
+    buffer.writeln('fragment: "${_escape(fragment.name)}"');
+    if (fragment.desc != null && fragment.desc!.isNotEmpty) {
+      buffer.writeln('desc: "${_escape(fragment.desc!)}"');
+    }
+    if (fragment.rule != null && fragment.rule!.isNotEmpty) {
+      buffer.writeln('rule: "${_escape(fragment.rule!)}"');
+    }
+    if (fragment.priority != null) {
+      buffer.writeln('priority: ${fragment.priority}');
+    }
+    if (fragment.aliases.isNotEmpty) {
+      buffer.writeln('aliases: [${fragment.aliases.map((a) => '"$a"').join(', ')}]');
+    }
+    buffer.writeln('bids:');
+    _serializeNodes(buffer, fragment.bids, indentLevel: 1);
+    return buffer.toString();
+  }
+
+  /// Serialize only the top-level System Blueprint (imports, definitions, opening wiring)
+  /// without inlining all imported convention libraries.
+  static String systemBlueprintToYaml(BridgeSystem system, {List<String>? imports}) {
+    final buffer = StringBuffer();
+    buffer.writeln('system: "${_escape(system.name)}"');
+    if (system.player != null && system.player!.isNotEmpty) {
+      buffer.writeln('player: "${_escape(system.player!)}"');
+    }
+    if (system.partner != null && system.partner!.isNotEmpty) {
+      buffer.writeln('partner: "${_escape(system.partner!)}"');
+    }
+    buffer.writeln();
+
+    if (imports != null && imports.isNotEmpty) {
+      buffer.writeln('imports:');
+      for (final imp in imports) {
+        buffer.writeln('  - "$imp"');
+      }
+      buffer.writeln();
+    }
+
+    if (system.definitions.isNotEmpty) {
+      buffer.writeln('definitions:');
+      system.definitions.forEach((k, v) {
+        buffer.writeln('  $k: "${_escape(v)}"');
+      });
+      buffer.writeln();
+    }
+
+    buffer.writeln('OpeningBids:');
+    _serializeNodes(buffer, system.openingBids, indentLevel: 1);
+    buffer.writeln();
+
+    if (system.oppositionOpeningBids.isNotEmpty) {
+      buffer.writeln('OppositionOpeningBids:');
+      _serializeNodes(buffer, system.oppositionOpeningBids, indentLevel: 1);
+      buffer.writeln();
+    }
+
+    return buffer.toString();
+  }
+
   static void _serializeNodes(StringBuffer buffer, List<BiddingNode> nodes, {required int indentLevel}) {
     final indent = '  ' * indentLevel;
     for (final node in nodes) {
@@ -259,6 +377,9 @@ class SystemYamlParser {
       }
       if (node.condition != null && node.condition!.isNotEmpty) {
         buffer.writeln('$childIndent condition: "${_escape(node.condition!)}"');
+      }
+      if (node.forceTo != ForcingLevel.partScore) {
+        buffer.writeln('$childIndent forceTo: "${node.forceTo.label}"');
       }
       if (node.bids.isNotEmpty) {
         buffer.writeln('$childIndent bids:');

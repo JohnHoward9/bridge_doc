@@ -133,14 +133,32 @@ void main() {
           // 3C
           final state3C = eng.graph.getState(['3c']);
           expect(state3C, isNotNull);
-          expect(state3C!.candidateNodes.map((n) => n.displayCall.toLowerCase()).toSet(),
-              containsAll(['pass', '3d', '3h', '3s', '3nt', '4c', '5c']));
+          final calls3C = state3C!.candidateNodes.map((n) => n.displayCall.toLowerCase()).toSet();
+          expect(calls3C, containsAll(['pass', '3d', '3h', '3s', '3nt', '4c', '5c']));
+
+          // 3D
+          final state3D = eng.graph.getState(['3d']);
+          expect(state3D, isNotNull);
+          final calls3D = state3D!.candidateNodes.map((n) => n.displayCall.toLowerCase()).toSet();
+          expect(calls3D, containsAll(['pass', '3h', '3s', '3nt', '4d', '5d']));
+          expect(calls3D.contains('3d'), isFalse, reason: '3D cannot rebid 3D (pruned by call legality)');
 
           // 3H
           final state3H = eng.graph.getState(['3h']);
           expect(state3H, isNotNull);
-          expect(state3H!.candidateNodes.map((n) => n.displayCall.toLowerCase()).toSet(),
-              containsAll(['pass', '3s', '3nt', '4h', '4nt']));
+          final calls3H = state3H!.candidateNodes.map((n) => n.displayCall.toLowerCase()).toSet();
+          expect(calls3H, containsAll(['pass', '3s', '3nt', '4h', '4nt']));
+          expect(calls3H.contains('3d'), isFalse, reason: '3D is lower than 3H (pruned)');
+          expect(calls3H.contains('3h'), isFalse, reason: '3H is not higher than 3H (pruned)');
+
+          // 3S
+          final state3S = eng.graph.getState(['3s']);
+          expect(state3S, isNotNull);
+          final calls3S = state3S!.candidateNodes.map((n) => n.displayCall.toLowerCase()).toSet();
+          expect(calls3S, containsAll(['pass', '3nt', '4s', '4nt']));
+          expect(calls3S.contains('3d'), isFalse);
+          expect(calls3S.contains('3h'), isFalse);
+          expect(calls3S.contains('3s'), isFalse);
 
           // 3NT
           final state3NT = eng.graph.getState(['3nt']);

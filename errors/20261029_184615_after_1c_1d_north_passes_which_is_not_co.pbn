@@ -1,0 +1,21 @@
+% PBN 2.1 Exported by Antigravity Bridge Studio
+[Event "Gavin Wolpert Practice Studio"]
+[Site "Antigravity Bridge"]
+[Date "2026.10.29"]
+[Board "1"]
+[Dealer "N"]
+[Vulnerable "None"]
+[Scoring "IMP"]
+[BiddingSystem "Gavin Wolpert Master Series (2/1 Game Forcing)"]
+[Description "After 1C-1D north passes which is not correct"]
+[ErrorType "Premature Pass"]
+[Fixed "Yes"]
+[Comment "Submitted bid from north: pass Expectedbid from north: 1nt"]
+{
+  Submitted bid from north: pass
+  Expectedbid from north: 1nt
+}
+[Deal "N:Q832.AQJ3.A3.J63 74.T9.J96.QT9872 K6.842.KQT82.K54 AJT95.K765.754.A"]
+[Auction "N"]
+1C Pass 1D Pass
+Pass

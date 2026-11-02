@@ -29,6 +29,13 @@ void main() {
     });
 
     testWidgets('Opening bids render with resolved descriptions and > expansion symbols', (WidgetTester tester) async {
+      tester.view.physicalSize = const Size(1280, 1024);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -107,6 +114,20 @@ void main() {
 
       // In Competitive mode, mode button is selected
       expect(find.text('Competitive (All Calls)'), findsOneWidget);
+
+      // Expand 1nt in Competitive mode
+      final card1nt = find.ancestor(of: find.text('1nt'), matching: find.byType(Card)).first;
+      await tester.ensureVisible(card1nt);
+      await tester.pumpAndSettle();
+
+      final chevron1nt = find.descendant(of: card1nt, matching: find.byIcon(Icons.chevron_right));
+      await tester.tap(chevron1nt);
+      await tester.pumpAndSettle();
+
+      // Verify opponent Multi-Landy calls like (2c) or (2d) appear
+      final allCompetitiveTexts = tester.widgetList<Text>(find.byType(Text)).map((w) => w.data ?? '').toList();
+      final hasMultiLandyInCompetitive = allCompetitiveTexts.any((t) => t.contains('2c') || t.contains('2d'));
+      expect(hasMultiLandyInCompetitive, isTrue, reason: 'Competitive mode should display opponent Multi-Landy calls under 1NT');
     });
 
     testWidgets('Tapping a card opens Detail Inspector with sequence path and practice button', (WidgetTester tester) async {
@@ -149,6 +170,72 @@ void main() {
 
       expect(practicePath, isNotNull);
       expect(practicePath!.first.displayCall, equals('1h'));
+    });
+
+    testWidgets('Expanding opponent Multi-Landy 2D under 1NT displays Transfer Lebensohl children', (WidgetTester tester) async {
+      tester.view.physicalSize = const Size(1280, 900);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: BiddingTreeView(
+              system: system,
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      // Switch to Competitive mode
+      await tester.tap(find.text('Competitive (All Calls)'));
+      await tester.pumpAndSettle();
+
+      // Expand 1nt
+      final card1nt = find.ancestor(of: find.text('1nt'), matching: find.byType(Card)).first;
+      await tester.ensureVisible(card1nt);
+      await tester.pumpAndSettle();
+
+      final chevron1nt = find.descendant(of: card1nt, matching: find.byIcon(Icons.chevron_right));
+      await tester.tap(chevron1nt);
+      await tester.pumpAndSettle();
+
+      // Find the Opponent Multi-Landy 2d card
+      final multiLandy2DDesc = find.textContaining('single-suited major');
+      expect(multiLandy2DDesc, findsOneWidget);
+      final card2d = find.ancestor(of: multiLandy2DDesc, matching: find.byType(Card)).first;
+      await tester.ensureVisible(card2d);
+      await tester.pumpAndSettle();
+
+      // Expand 2d
+      final chevron2d = find.descendant(of: card2d, matching: find.byIcon(Icons.chevron_right));
+      await tester.tap(chevron2d);
+      await tester.pumpAndSettle();
+
+      // Verify Transfer Lebensohl responses appear, NOT Jacoby acceptance
+      final allTexts = tester.widgetList<Text>(find.byType(Text)).map((w) => w.data ?? '').toList();
+      expect(allTexts.any((t) => t.contains('Negative double')), isTrue, reason: 'Transfer Lebensohl dbl appears');
+      expect(allTexts.any((t) => t.contains('Transfer to Clubs')), isTrue, reason: 'Transfer Lebensohl 2NT appears');
+      expect(allTexts.any((t) => t.contains('super-accepts transfer')), isFalse, reason: 'Must not mistake opponent 2D for Jacoby transfer');
+
+      // Expand pass under 2d
+      final passDesc = find.textContaining('Pass: weak hand without action');
+      expect(passDesc, findsOneWidget);
+      final cardPass = find.ancestor(of: passDesc, matching: find.byType(Card)).first;
+      await tester.ensureVisible(cardPass);
+      await tester.pumpAndSettle();
+
+      final chevronPass = find.descendant(of: cardPass, matching: find.byIcon(Icons.chevron_right));
+      await tester.tap(chevronPass);
+      await tester.pumpAndSettle();
+
+      // Verify Advancer pass or correct appears under pass
+      final allTextsAfterPass = tester.widgetList<Text>(find.byType(Text)).map((w) => w.data ?? '').toList();
+      expect(allTextsAfterPass.any((t) => t.contains('pass or correct to 2S')), isTrue, reason: 'Advancer 2H pass or correct appears under 1NT-(2D)-Pass');
     });
   });
 }

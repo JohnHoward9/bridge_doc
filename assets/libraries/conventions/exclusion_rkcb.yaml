@@ -1,0 +1,347 @@
+library: "Exclusion RKCB"
+description: "Gavin Wolpert Master Series: Exclusion Key Card Blackwood (0314 steps) showing a void"
+version: "2.0"
+
+imports:
+  - "assets/libraries/conventions/rkcb_1430.yaml"
+
+fragments:
+  # --- Captain Continuations for Agreed Spades ---
+  fExclusionCaptainStep1_Spades:
+    desc: "Captain follow-ups over Step 1 (Partner has 0 or 3 Keycards outside void)"
+    bids:
+      5s:
+        desc: "Signoff in 5S (Missing 2 Keycards: Partner has 0 KC, Captain has <=2 KC = <=2 total)"
+        rule: "kc<=2 s"
+        priority: 2
+      6s:
+        desc: "Small slam in 6S (Partner has 3 KC + Captain's 1 KC = all 4 Keycards)"
+        rule: "kc=1 s"
+        priority: 1
+      5nt:
+        desc: "King ask / Grand slam try (Partner has 3 KC + Captain's 1 KC with Queen = all 4 KC + Queen)"
+        rule: "kc=1 s qs"
+        priority: 1
+        ref: "fSpecificKingResponses"
+      7s:
+        desc: "Grand slam in Spades"
+        rule: "kc=1 s qs"
+        priority: 2
+
+  fExclusionCaptainStep2_Spades:
+    desc: "Captain follow-ups over Step 2 (Partner has 1 or 4 Keycards outside void)"
+    bids:
+      5s:
+        desc: "Signoff in 5S (Missing 2 Keycards: Partner has 1 KC, Captain has <=2 KC = <=3 total)"
+        rule: "kc<=2 s"
+        priority: 2
+      6s:
+        desc: "Small slam in 6S (Partner has 1 KC + Captain's 3 KC = all 4 Keycards)"
+        rule: "kc=3 s"
+        priority: 1
+      5nt:
+        desc: "King ask / Grand slam try (Partner has 1 KC + Captain's 3 KC with Queen = all 4 KC + Queen)"
+        rule: "kc=3 s qs"
+        priority: 1
+        ref: "fSpecificKingResponses"
+      7s:
+        desc: "Grand slam in Spades"
+        rule: "kc=3 s qs"
+        priority: 2
+
+  fExclusionCaptainStep3_Spades:
+    desc: "Captain follow-ups over Step 3 (Partner has 2 Keycards without Queen of Spades)"
+    bids:
+      5s:
+        desc: "Signoff in 5S (Missing 1 KC and Queen: Captain has 1 KC + Partner's 2 = 3 total)"
+        rule: "kc<=1 s"
+        priority: 2
+      6s:
+        desc: "Small slam in 6S (Captain has 2 KC without Queen = all 4 KC without Queen)"
+        rule: "kc=2 s"
+        priority: 1
+      5nt:
+        desc: "King ask / Grand slam try (Captain has 2 KC with Queen = all 4 KC + Queen)"
+        rule: "kc=2 s qs"
+        priority: 1
+        ref: "fSpecificKingResponses"
+      7s:
+        desc: "Grand slam in Spades"
+        rule: "kc=2 s qs"
+        priority: 2
+
+  fExclusionCaptainStep4_Spades:
+    desc: "Captain follow-ups over Step 4 (Partner has 2 Keycards with Queen of Spades)"
+    bids:
+      5s:
+        desc: "Signoff in 5S (Captain has 1 KC + Partner's 2 = 3 total)"
+        rule: "kc<=1 s"
+        priority: 2
+      6s:
+        desc: "Small slam in 6S"
+        rule: "kc>=2 s"
+        priority: 1
+      5nt:
+        desc: "King ask / Grand slam try (Captain has 2 KC + Partner's 2 with Queen = all 4 KC + Queen)"
+        rule: "kc=2 s"
+        priority: 1
+        ref: "fSpecificKingResponses"
+      7s:
+        desc: "Grand slam in Spades"
+        rule: "kc=2 s"
+        priority: 2
+
+  # --- Captain Continuations for Agreed Hearts ---
+  fExclusionCaptainStep1_Hearts:
+    desc: "Captain follow-ups over Step 1 (Partner has 0 or 3 Keycards outside void)"
+    bids:
+      5h:
+        desc: "Signoff in 5H (Missing 2 Keycards: Partner has 0 KC, Captain has <=2 KC = <=2 total)"
+        rule: "kc<=2 h"
+        priority: 2
+      6h:
+        desc: "Small slam in 6H (Partner has 3 KC + Captain's 1 KC = all 4 Keycards)"
+        rule: "kc=1 h"
+        priority: 1
+      5nt:
+        desc: "King ask / Grand slam try"
+        rule: "kc=1 h qh"
+        priority: 1
+        ref: "fSpecificKingResponses"
+      7h:
+        desc: "Grand slam in Hearts"
+        rule: "kc=1 h qh"
+        priority: 2
+
+  fExclusionCaptainStep2_Hearts:
+    desc: "Captain follow-ups over Step 2 (Partner has 1 or 4 Keycards outside void)"
+    bids:
+      5h:
+        desc: "Signoff in 5H (Missing 2 Keycards: Partner has 1 KC, Captain has <=2 KC = <=3 total)"
+        rule: "kc<=2 h"
+        priority: 2
+      6h:
+        desc: "Small slam in 6H (Partner has 1 KC + Captain's 3 KC = all 4 Keycards)"
+        rule: "kc=3 h"
+        priority: 1
+      5nt:
+        desc: "King ask / Grand slam try"
+        rule: "kc=3 h qh"
+        priority: 1
+        ref: "fSpecificKingResponses"
+      7h:
+        desc: "Grand slam in Hearts"
+        rule: "kc=3 h qh"
+        priority: 2
+
+  fExclusionCaptainStep3_Hearts:
+    desc: "Captain follow-ups over Step 3 (Partner has 2 Keycards without Queen of Hearts)"
+    bids:
+      5h:
+        desc: "Signoff in 5H"
+        rule: "kc<=1 h"
+        priority: 2
+      6h:
+        desc: "Small slam in 6H"
+        rule: "kc=2 h"
+        priority: 1
+      5nt:
+        desc: "King ask / Grand slam try"
+        rule: "kc=2 h qh"
+        priority: 1
+        ref: "fSpecificKingResponses"
+      7h:
+        desc: "Grand slam in Hearts"
+        rule: "kc=2 h qh"
+        priority: 2
+
+  fExclusionCaptainStep4_Hearts:
+    desc: "Captain follow-ups over Step 4 (Partner has 2 Keycards with Queen of Hearts)"
+    bids:
+      5h:
+        desc: "Signoff in 5H"
+        rule: "kc<=1 h"
+        priority: 2
+      6h:
+        desc: "Small slam in 6H"
+        rule: "kc>=2 h"
+        priority: 1
+      5nt:
+        desc: "King ask / Grand slam try"
+        rule: "kc=2 h"
+        priority: 1
+        ref: "fSpecificKingResponses"
+      7h:
+        desc: "Grand slam in Hearts"
+        rule: "kc=2 h"
+        priority: 2
+
+  # --- Exclusion RKCB for Spades ---
+  fExclusionRKCB_Spades:
+    desc: "Exclusion RKCB for Spades (void in bid suit, asking for key cards outside void)"
+    bids:
+      5c:
+        forceTo: slam
+        desc: "Exclusion RKCB: Club void, asks for key cards excluding CA"
+        rule: "0c 16+hcp [$void=c]"
+        priority: 1
+        bids:
+          5d:
+            desc: "0 or 3 Key Cards (excluding CA)"
+            rule: "kc=0|3:s"
+            priority: 1
+            include: "fExclusionCaptainStep1_Spades"
+          5h:
+            desc: "1 or 4 Key Cards (excluding CA)"
+            rule: "kc=1|4:s"
+            priority: 1
+            include: "fExclusionCaptainStep2_Spades"
+          5s:
+            desc: "2 Key Cards without Queen of Spades"
+            rule: "kc=2-q:s"
+            priority: 1
+            include: "fExclusionCaptainStep3_Spades"
+          5nt:
+            desc: "2 Key Cards with Queen of Spades"
+            rule: "kc=2+q:s"
+            priority: 1
+            include: "fExclusionCaptainStep4_Spades"
+
+      5d:
+        forceTo: slam
+        desc: "Exclusion RKCB: Diamond void, asks for key cards excluding DA"
+        rule: "0d 16+hcp [$void=d]"
+        priority: 1
+        bids:
+          5h:
+            desc: "0 or 3 Key Cards (excluding DA)"
+            rule: "kc=0|3:s"
+            priority: 1
+            include: "fExclusionCaptainStep1_Spades"
+          5s:
+            desc: "1 or 4 Key Cards (excluding DA)"
+            rule: "kc=1|4:s"
+            priority: 1
+            include: "fExclusionCaptainStep2_Spades"
+          5nt:
+            desc: "2 Key Cards without Queen of Spades"
+            rule: "kc=2-q:s"
+            priority: 1
+            include: "fExclusionCaptainStep3_Spades"
+          6c:
+            desc: "2 Key Cards with Queen of Spades"
+            rule: "kc=2+q:s"
+            priority: 1
+            include: "fExclusionCaptainStep4_Spades"
+
+      5h:
+        forceTo: slam
+        desc: "Exclusion RKCB: Heart void, asks for key cards excluding HA"
+        rule: "0h 16+hcp [$void=h]"
+        priority: 1
+        bids:
+          5s:
+            desc: "0 or 3 Key Cards (excluding HA)"
+            rule: "kc=0|3:s"
+            priority: 1
+            include: "fExclusionCaptainStep1_Spades"
+          5nt:
+            desc: "1 or 4 Key Cards (excluding HA)"
+            rule: "kc=1|4:s"
+            priority: 1
+            include: "fExclusionCaptainStep2_Spades"
+          6c:
+            desc: "2 Key Cards without Queen of Spades"
+            rule: "kc=2-q:s"
+            priority: 1
+            include: "fExclusionCaptainStep3_Spades"
+          6d:
+            desc: "2 Key Cards with Queen of Spades"
+            rule: "kc=2+q:s"
+            priority: 1
+            include: "fExclusionCaptainStep4_Spades"
+
+  # --- Exclusion RKCB for Hearts ---
+  fExclusionRKCB_Hearts:
+    desc: "Exclusion RKCB for Hearts (void in bid suit, asking for key cards outside void)"
+    bids:
+      5c:
+        forceTo: slam
+        desc: "Exclusion RKCB: Club void, asks for key cards excluding CA"
+        rule: "0c 16+hcp [$void=c]"
+        priority: 1
+        bids:
+          5d:
+            desc: "0 or 3 Key Cards (excluding CA)"
+            rule: "kc=0|3:h"
+            priority: 1
+            include: "fExclusionCaptainStep1_Hearts"
+          5h:
+            desc: "1 or 4 Key Cards (excluding CA)"
+            rule: "kc=1|4:h"
+            priority: 1
+            include: "fExclusionCaptainStep2_Hearts"
+          5s:
+            desc: "2 Key Cards without Queen of Hearts"
+            rule: "kc=2-q:h"
+            priority: 1
+            include: "fExclusionCaptainStep3_Hearts"
+          5nt:
+            desc: "2 Key Cards with Queen of Hearts"
+            rule: "kc=2+q:h"
+            priority: 1
+            include: "fExclusionCaptainStep4_Hearts"
+
+      5d:
+        forceTo: slam
+        desc: "Exclusion RKCB: Diamond void, asks for key cards excluding DA"
+        rule: "0d 16+hcp [$void=d]"
+        priority: 1
+        bids:
+          5h:
+            desc: "0 or 3 Key Cards (excluding DA)"
+            rule: "kc=0|3:h"
+            priority: 1
+            include: "fExclusionCaptainStep1_Hearts"
+          5s:
+            desc: "1 or 4 Key Cards (excluding DA)"
+            rule: "kc=1|4:h"
+            priority: 1
+            include: "fExclusionCaptainStep2_Hearts"
+          5nt:
+            desc: "2 Key Cards without Queen of Hearts"
+            rule: "kc=2-q:h"
+            priority: 1
+            include: "fExclusionCaptainStep3_Hearts"
+          6c:
+            desc: "2 Key Cards with Queen of Hearts"
+            rule: "kc=2+q:h"
+            priority: 1
+            include: "fExclusionCaptainStep4_Hearts"
+
+      5s:
+        forceTo: slam
+        desc: "Exclusion RKCB: Spade void, asks for key cards excluding SA"
+        rule: "0s 16+hcp [$void=s]"
+        priority: 1
+        bids:
+          5nt:
+            desc: "0 or 3 Key Cards (excluding SA)"
+            rule: "kc=0|3:h"
+            priority: 1
+            include: "fExclusionCaptainStep1_Hearts"
+          6c:
+            desc: "1 or 4 Key Cards (excluding SA)"
+            rule: "kc=1|4:h"
+            priority: 1
+            include: "fExclusionCaptainStep2_Hearts"
+          6d:
+            desc: "2 Key Cards without Queen of Hearts"
+            rule: "kc=2-q:h"
+            priority: 1
+            include: "fExclusionCaptainStep3_Hearts"
+          6h:
+            desc: "2 Key Cards with Queen of Hearts"
+            rule: "kc=2+q:h"
+            priority: 1
+            include: "fExclusionCaptainStep4_Hearts"

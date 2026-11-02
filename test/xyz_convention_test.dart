@@ -34,6 +34,11 @@ void main() {
       final topCalls = fXYZ.bids.map((b) => b.displayCall.toLowerCase()).toSet();
       expect(topCalls, containsAll(['pass', '1s', '2c', '2d', '2h', '2s', '2nt', '3c']));
 
+      // 1S Fourth suit has explicit cond field
+      final bid1S = fXYZ.bids.firstWhere((b) => b.displayCall.toLowerCase() == '1s');
+      expect(bid1S.condition, equals(r'$fourth_suit=true'));
+      expect(bid1S.call, equals('1s'));
+
       // 2C forces 2D
       final bid2C = fXYZ.bids.firstWhere((b) => b.displayCall.toLowerCase() == '2c');
       expect(bid2C.desc.toLowerCase(), contains('puppet to 2d'));

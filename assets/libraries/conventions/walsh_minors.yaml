@@ -1,21 +1,25 @@
 library: "Walsh Minors & Inverted Minors"
 description: "Gavin Wolpert Walsh Club responses, Inverted Minors, 1m-2NT Game Force, and Transfers over 2NT rebid"
-version: "1.0"
+version: "2.0"
+
+imports:
+  - "assets/libraries/conventions/support_doubles.yaml"
+  - "assets/libraries/conventions/suit_overcalls_and_michaels.yaml"
+  - "assets/libraries/conventions/rkcb_1430.yaml"
+  - "assets/libraries/conventions/serious_3nt_and_kickback.yaml"
+  - "assets/libraries/conventions/fourth_suit_forcing.yaml"
+  - "assets/libraries/conventions/transfers_after_2nt_rebid.yaml"
+  - "assets/libraries/conventions/two_way_checkback.yaml"
 
 fragments:
   WalshClubOpening:
     aliases: ["fWalshClubResponses"]
-    desc: "Better minor opening (3+ Clubs, 12-21 HCP)"
-    rule: "12-21hcp, 3+c, c>=d"
+    desc: "Better minor opening (2+ Clubs, 12+ HCP)"
+    rule: "12+hcp 2+c 3-d 4-s 4-h | 12+hcp 5+c c>d 4-s 4-h | 12+hcp 6+c c>d c>s c>h"
     bids:
-      pass:
-        desc: "Pass (0-5 HCP)"
-        rule: "p#10 5-hcp"
-        priority: 10
-
       1d:
         desc: "Walsh 1D: 4+ Diamonds (bypasses 4M unless GF or 4441)"
-        rule: "p#2 6+hcp 4+d"
+        rule: "6+hcp 4+d"
         priority: 2
         bids:
           1h:
@@ -32,7 +36,7 @@ fragments:
             desc: "Opener 12-14 balanced (does NOT deny 4-card major)"
             rule: "12-14hcp balanced"
             priority: 2
-            ref: "fThreeWayCheckback"
+            ref: "fCheckbackOver1D"
           2c:
             desc: "Opener 6+ Clubs minimum"
             rule: "6+c 12-15hcp"
@@ -45,70 +49,89 @@ fragments:
 
       1h:
         desc: "Natural 4+ Hearts (6+ HCP, Hearts longer than Spades or 4-4 majors)"
-        rule: "p#2 6+hcp 4+h h>=s 4-s | p#2 6+hcp 5+h h>s"
+        rule: "6+hcp 4+h h>=s 4-s | 6+hcp 5+h h>s"
         priority: 2
+        include: "fSupportDoubles"
         bids:
           1s:
-            desc: "Natural 4+ Spades"
-            rule: "p#1 4+s"
+            desc: "Opener 4+ Spades UNBALANCED (5+ Clubs or 15+ HCP)"
+            rule: "4+s !balanced"
             priority: 1
             ref: "fXYZ"
           1nt:
-            desc: "12-14 balanced minimum"
+            desc: "12-14 balanced minimum (does NOT deny 4-card major)"
             rule: "12-14hcp balanced"
-            ref: "fThreeWayCheckback"
+            priority: 2
+            ref: "fCheckbackOver1H"
           2c:
             desc: "Natural 5+ Clubs"
             rule: "5+c 12-15hcp"
             ref: "fResponderRebidsOverMinor_H"
+          2d:
+            desc: "Opener reverse 4+ Diamonds (16+ HCP, F1)"
+            rule: "16+hcp 5+c 4+d c>d 3-h !balanced"
+            priority: 1
+            bids:
+              2h:
+                desc: "Rebid 5+ Hearts (6-8 HCP, minimum non-forcing)"
+                rule: "6-8hcp 5+h"
+                priority: 2
+                bids:
+                  pass:
+                    desc: "Pass with minimum reverse (16-17 HCP)"
+                    rule: "16-17hcp 2-h"
+                    priority: 10
+                  3h:
+                    desc: "Raise Hearts with 3-card support (17-18 HCP, invitational)"
+                    rule: "17-18hcp 3h"
+                    priority: 1
+                  4h:
+                    desc: "Game in Hearts with 3-card support (19+ HCP)"
+                    rule: "19+hcp 3h"
+                    priority: 1
+              2s:
+                desc: "Fourth suit forcing (9+ HCP, Game Force)"
+                rule: "9+hcp"
+                priority: 1
+                forceTo: game
+                ref: "fFSF_Over_1C_1H_2D"
+              2nt:
+                desc: "Natural / stopper inquiry (6-8 HCP)"
+                rule: "6-8hcp"
+                priority: 2
+              3c:
+                desc: "Preference to opener's 5+ Clubs (6-8 HCP, 2+ Clubs)"
+                rule: "6-8hcp 2+c"
+                priority: 2
+                bids:
+                  pass:
+                    desc: "Pass with minimum reverse (16-17 HCP)"
+                    rule: "16-17hcp"
+                    priority: 10
+              3d:
+                desc: "Raise Diamonds with 4-card support (8-10 HCP invitational)"
+                rule: "8-10hcp 4+d"
+                priority: 1
+              3h:
+                desc: "Jump rebid 6+ Hearts (9+ HCP, Game Force)"
+                rule: "9+hcp 6+h"
+                priority: 1
+                forceTo: game
+                ref: "fReverseOpenerCuebids_Hearts"
+              3nt:
+                desc: "3NT to play with stoppers (9-11 HCP)"
+                rule: "9-11hcp balanced"
+                priority: 1
+                forceTo: game
+              4h:
+                desc: "Game in Hearts (10+ HCP, 6+ Hearts)"
+                rule: "10+hcp 6+h"
+                priority: 1
+                forceTo: game
           2h:
             desc: "Raise Hearts with 4-card support"
             rule: "4+h 12-15hcp"
             ref: "fSpiralRaises_Heart"
-          "(1s)":
-            desc: "Interference 1S"
-            bids:
-              dbl:
-                desc: "Support Double: Exactly 3-card Heart support"
-                rule: "p#1 12-18hcp 3=h"
-                priority: 1
-              2h:
-                desc: "Raise Hearts: 4-card support"
-                rule: "p#2 12-15hcp 4+h"
-                priority: 2
-          "(2c)":
-            desc: "Interference 2C"
-            bids:
-              dbl:
-                desc: "Support Double: Exactly 3-card Heart support"
-                rule: "p#1 12-18hcp 3=h"
-                priority: 1
-              2h:
-                desc: "Raise Hearts: 4-card support"
-                rule: "p#2 12-15hcp 4+h"
-                priority: 2
-          "(2d)":
-            desc: "Interference 2D"
-            bids:
-              dbl:
-                desc: "Support Double: Exactly 3-card Heart support"
-                rule: "p#1 12-18hcp 3=h"
-                priority: 1
-              2h:
-                desc: "Raise Hearts: 4-card support"
-                rule: "p#2 12-15hcp 4+h"
-                priority: 2
-          "(x)":
-            desc: "Interference Takeout Double"
-            bids:
-              rdbl:
-                desc: "Support Redouble: Exactly 3-card Heart support"
-                rule: "p#1 12+hcp 3=h"
-                priority: 1
-              2h:
-                desc: "Raise Hearts: 4-card support"
-                rule: "p#2 12-15hcp 4+h"
-                priority: 2
           2nt:
             desc: "18-19 balanced"
             rule: "18-19hcp balanced"
@@ -119,86 +142,195 @@ fragments:
             bids:
               3h:
                 desc: "Rebid 5+ Hearts"
-                rule: "p#2 5+h"
+                rule: "5+h"
                 priority: 2
+              4d:
+                desc: "Kickback RKCB 1430 for Clubs"
+                agreedSuit: "c"
+                rule: "12+hcp 4+c"
+                priority: 1
+                ref: "fKickbackClubs"
               3nt:
                 desc: "To play with stoppers in unbid suits"
-                rule: "p#1 10+hcp balanced"
+                rule: "10+hcp balanced"
                 priority: 1
               4c:
                 desc: "Support for Clubs"
-                rule: "p#2 3+c"
+                rule: "3+c"
                 priority: 2
               4h:
                 desc: "Game in Hearts"
-                rule: "p#1 6+h"
+                rule: "6+h"
                 priority: 1
               5c:
                 desc: "Game in Clubs"
-                rule: "p#2 4+c !balanced"
+                rule: "4+c !balanced"
                 priority: 2
 
       1s:
         desc: "Natural 4+ Spades (6+ HCP, Spades longer than Hearts or 5-5 majors)"
-        rule: "p#2 6+hcp 4+s s>h | p#2 6+hcp 5+s s>=h"
+        rule: "6+hcp 4+s s>h | 6+hcp 5+s s>=h"
         priority: 2
+        include: "fSupportDoubles"
         bids:
           1nt:
             desc: "12-14 balanced minimum"
             rule: "12-14hcp balanced"
-            ref: "fThreeWayCheckback"
+            ref: "fCheckbackOver1S"
           2c:
             desc: "Natural 5+ Clubs"
             rule: "5+c 12-15hcp"
             ref: "fResponderRebidsOverMinor_S"
+          2d:
+            desc: "Opener reverse 4+ Diamonds (16+ HCP, F1)"
+            rule: "16+hcp 5+c 4+d c>d 3-s !balanced"
+            priority: 1
+            bids:
+              2h:
+                desc: "Fourth suit forcing (9+ HCP, Game Force)"
+                rule: "9+hcp"
+                priority: 1
+                forceTo: game
+                ref: "fFSF_Over_1C_1S_2D"
+              2s:
+                desc: "Rebid 5+ Spades (6-8 HCP, minimum non-forcing)"
+                rule: "6-8hcp 5+s"
+                priority: 2
+                bids:
+                  pass:
+                    desc: "Pass with minimum reverse (16-17 HCP)"
+                    rule: "16-17hcp 2-s"
+                    priority: 10
+                  3s:
+                    desc: "Raise Spades with 3-card support (17-18 HCP, invitational)"
+                    rule: "17-18hcp 3s"
+                    priority: 1
+                  4s:
+                    desc: "Game in Spades with 3-card support (19+ HCP)"
+                    rule: "19+hcp 3s"
+                    priority: 1
+              2nt:
+                desc: "Natural / stopper inquiry (6-8 HCP)"
+                rule: "6-8hcp"
+                priority: 2
+              3c:
+                desc: "Preference to opener's 5+ Clubs (6-8 HCP, 2+ Clubs)"
+                rule: "6-8hcp 2+c"
+                priority: 2
+                bids:
+                  pass:
+                    desc: "Pass with minimum reverse (16-17 HCP)"
+                    rule: "16-17hcp"
+                    priority: 10
+              3d:
+                desc: "Raise Diamonds with 4-card support (8-10 HCP invitational)"
+                rule: "8-10hcp 4+d"
+                priority: 1
+              3s:
+                desc: "Jump rebid 6+ Spades (9+ HCP, Game Force)"
+                rule: "9+hcp 6+s"
+                priority: 1
+                forceTo: game
+                ref: "fReverseOpenerCuebids_Spades"
+              3nt:
+                desc: "3NT to play with stoppers (9-11 HCP)"
+                rule: "9-11hcp balanced"
+                priority: 1
+                forceTo: game
+              4s:
+                desc: "Game in Spades (10+ HCP, 6+ Spades)"
+                rule: "10+hcp 6+s"
+                priority: 1
+                forceTo: game
+          2h:
+            desc: "Opener reverse 4+ Hearts (16+ HCP, F1)"
+            rule: "16+hcp 5+c 4+h c>h 3-s !balanced"
+            priority: 1
+            bids:
+              2s:
+                desc: "Rebid 5+ Spades (6-8 HCP, minimum non-forcing)"
+                rule: "6-8hcp 5+s"
+                priority: 2
+                bids:
+                  pass:
+                    desc: "Pass with minimum reverse (16-17 HCP)"
+                    rule: "16-17hcp 2-s"
+                    priority: 10
+                  3s:
+                    desc: "Raise Spades with 3-card support (17-18 HCP, invitational)"
+                    rule: "17-18hcp 3s"
+                    priority: 1
+                  4s:
+                    desc: "Game in Spades with 3-card support (19+ HCP)"
+                    rule: "19+hcp 3s"
+                    priority: 1
+              2nt:
+                desc: "Natural / stopper inquiry (6-8 HCP)"
+                rule: "6-8hcp"
+                priority: 2
+              3c:
+                desc: "Preference to opener's 5+ Clubs (6-8 HCP, 2+ Clubs)"
+                rule: "6-8hcp 2+c"
+                priority: 2
+                bids:
+                  pass:
+                    desc: "Pass with minimum reverse (16-17 HCP)"
+                    rule: "16-17hcp"
+                    priority: 10
+              3d:
+                desc: "Fourth suit forcing (9+ HCP, Game Force)"
+                rule: "9+hcp"
+                priority: 1
+                forceTo: game
+                ref: "fFSF_Over_1C_1S_2H"
+              3h:
+                desc: "Raise Hearts with 4-card support (8-10 HCP invitational)"
+                rule: "8-10hcp 4+h"
+                priority: 1
+              3s:
+                desc: "Jump rebid 6+ Spades (9+ HCP, Game Force)"
+                rule: "9+hcp 6+s"
+                priority: 1
+                forceTo: game
+                ref: "fReverseOpenerCuebids_Spades"
+              3nt:
+                desc: "3NT to play with stoppers (9-11 HCP)"
+                rule: "9-11hcp balanced"
+                priority: 1
+                forceTo: game
+              4h:
+                desc: "Game in Hearts (10+ HCP, 4+ Hearts)"
+                rule: "10+hcp 4+h"
+                priority: 1
+                forceTo: game
+              4s:
+                desc: "Game in Spades (10+ HCP, 6+ Spades)"
+                rule: "10+hcp 6+s"
+                priority: 1
+                forceTo: game
           2s:
             desc: "Raise Spades with 4-card support"
             rule: "4+s 12-15hcp"
             ref: "fSpiralRaises_Spade"
-          "(2c)":
-            desc: "Interference 2C"
+          3s:
+            desc: "Jump raise 4+ Spades (16-19 HCP)"
+            rule: "4+s 16-19hcp"
+            priority: 1
             bids:
-              dbl:
-                desc: "Support Double: Exactly 3-card Spade support"
-                rule: "p#1 12-18hcp 3=s"
-                priority: 1
-              2s:
-                desc: "Raise Spades: 4-card support"
-                rule: "p#2 12-15hcp 4+s"
+              pass:
+                desc: "Decline with 6-7 HCP"
+                rule: "6-7hcp"
+                priority: 10
+              4s:
+                desc: "Game in Spades"
+                rule: "8-11hcp"
                 priority: 2
-          "(2d)":
-            desc: "Interference 2D"
-            bids:
-              dbl:
-                desc: "Support Double: Exactly 3-card Spade support"
-                rule: "p#1 12-18hcp 3=s"
+              4nt:
+                desc: "RKCB 1430 for Spades"
+                agreedSuit: "s"
+                rule: "12+hcp"
                 priority: 1
-              2s:
-                desc: "Raise Spades: 4-card support"
-                rule: "p#2 12-15hcp 4+s"
-                priority: 2
-          "(2h)":
-            desc: "Interference 2H"
-            bids:
-              dbl:
-                desc: "Support Double: Exactly 3-card Spade support"
-                rule: "p#1 12-18hcp 3=s"
-                priority: 1
-              2s:
-                desc: "Raise Spades: 4-card support"
-                rule: "p#2 12-15hcp 4+s"
-                priority: 2
-          "(x)":
-            desc: "Interference Takeout Double"
-            bids:
-              rdbl:
-                desc: "Support Redouble: Exactly 3-card Spade support"
-                rule: "p#1 12+hcp 3=s"
-                priority: 1
-              2s:
-                desc: "Raise Spades: 4-card support"
-                rule: "p#2 12-15hcp 4+s"
-                priority: 2
+                ref: "fRKCBResponses"
           2nt:
             desc: "18-19 balanced"
             rule: "18-19hcp balanced"
@@ -209,33 +341,79 @@ fragments:
             bids:
               3s:
                 desc: "Rebid 5+ Spades"
-                rule: "p#2 5+s"
+                rule: "5+s"
                 priority: 2
+              4d:
+                desc: "Kickback RKCB 1430 for Clubs"
+                agreedSuit: "c"
+                rule: "12+hcp 4+c"
+                priority: 1
+                ref: "fKickbackClubs"
               3nt:
                 desc: "To play with stoppers in unbid suits"
-                rule: "p#1 10+hcp balanced"
+                rule: "10+hcp balanced"
                 priority: 1
               4c:
                 desc: "Support for Clubs"
-                rule: "p#2 3+c"
+                rule: "3+c"
                 priority: 2
               4s:
                 desc: "Game in Spades"
-                rule: "p#1 6+s"
+                rule: "6+s"
                 priority: 1
               5c:
                 desc: "Game in Clubs"
-                rule: "p#2 4+c !balanced"
+                rule: "4+c !balanced"
                 priority: 2
 
       1nt:
         desc: "Natural balanced 6-9 HCP without 4-card major"
-        rule: "p#3 6-9hcp 3-h 3-s"
+        rule: "6-9hcp 3-h 3-s"
         priority: 3
+        bids:
+          pass:
+            desc: "Opener passes with 12-14 balanced"
+            rule: "12-14hcp balanced"
+            priority: 10
+          2c:
+            desc: "Opener minimum rebid 6+ Clubs"
+            rule: "12-15hcp 6+c"
+            priority: 3
+          2nt:
+            desc: "Opener 18-19 balanced"
+            rule: "18-19hcp balanced"
+            priority: 2
+          3c:
+            desc: "Opener strong jump rebid 6+ Clubs (16-18 HCP)"
+            rule: "16-18hcp 6+c !balanced"
+            priority: 1
+            bids:
+              pass:
+                desc: "Pass with minimum 6-7 HCP"
+                rule: "6-7hcp"
+                priority: 10
+              3nt:
+                desc: "3NT with stoppers"
+                rule: "8-10hcp"
+                priority: 2
+              4d:
+                desc: "Kickback RKCB 1430 for Clubs"
+                agreedSuit: "c"
+                rule: "9+hcp 3+c"
+                priority: 1
+                ref: "fKickbackClubs"
+              5c:
+                desc: "Game in Clubs"
+                rule: "8-10hcp 3+c"
+                priority: 2
+          3nt:
+            desc: "Opener to play in 3NT (19-21 HCP)"
+            rule: "19-21hcp"
+            priority: 1
 
       2c:
         desc: "Inverted Minor: 10+ HCP, 4+ Clubs, denies 4-card major (GF or invitational)"
-        rule: "p#1 10+hcp 4+c 3-h 3-s"
+        rule: "10+hcp 4+c 3-h 3-s"
         priority: 1
         bids:
           2d:
@@ -261,107 +439,89 @@ fragments:
 
       2nt:
         desc: "Game Forcing 12-15 or 18+ HCP (may contain 4-card major)"
-        rule: "p#2 12+hcp balanced"
+        rule: "12+hcp balanced"
         priority: 2
         bids:
           3nt:
             desc: "3NT to play"
-            rule: "p#1 12-17hcp"
+            rule: "12-17hcp"
             priority: 1
           4nt:
             desc: "Quantitative slam invite"
-            rule: "p#1 18-19hcp"
+            rule: "18-19hcp"
             priority: 1
+            bids:
+              pass:
+                desc: "Decline quantitative invite with minimum 12 HCP"
+                rule: "12hcp"
+                priority: 2
+              6nt:
+                desc: "Accept quantitative invite to 6NT with maximum 13+ HCP"
+                rule: "13+hcp"
+                priority: 1
           6nt:
             desc: "Small Slam in NT"
-            rule: "p#1 20+hcp"
+            rule: "20+hcp"
             priority: 1
 
       3c:
         desc: "Preemptive Inverted Minor: 0-6 HCP, 5+ Clubs"
-        rule: "p#2 0-6hcp 5+c"
+        rule: "0-6hcp 5+c"
         priority: 2
+
+      "(2c)":
+        desc: "Interference Michaels Cuebid (both Majors 5-5)"
+        ref: "fMichaelsDefense_Minor"
+
+      "(2nt)":
+        desc: "Interference Unusual 2NT (Diamonds and Hearts 5-5)"
+        ref: "fUnusualOverUnusual_Minor"
 
   WalshDiamondOpening:
     aliases: ["fWalshDiamondResponses"]
-    desc: "Better minor opening (3+ Diamonds, 12-21 HCP)"
-    rule: "12-21hcp, 3+d, d>c"
+    desc: "Better minor opening (4+ Diamonds, 12+ HCP)"
+    rule: "12+hcp 4+d d>=c 4-s 4-h | 12+hcp 6+d d>=c d>s d>h"
     bids:
-      pass:
-        desc: "Pass (0-5 HCP)"
-        rule: "p#10 5-hcp"
-        priority: 10
-
       1h:
         desc: "Natural 4+ Hearts (6+ HCP, Hearts longer than Spades or 4-4 majors)"
-        rule: "p#2 6+hcp 4+h h>=s 4-s | p#2 6+hcp 5+h h>s"
+        rule: "6+hcp 4+h h>=s 4-s | 6+hcp 5+h h>s"
         priority: 2
+        include: "fSupportDoubles"
         bids:
           1s:
-            desc: "Natural 4+ Spades"
-            rule: "p#1 4+s"
+            desc: "Opener 4+ Spades UNBALANCED (5+ Diamonds or 15+ HCP)"
+            rule: "4+s !balanced"
             priority: 1
             ref: "fXYZ"
           1nt:
-            desc: "12-14 balanced"
+            desc: "12-14 balanced (does NOT deny 4-card major)"
             rule: "12-14hcp balanced"
-            ref: "fThreeWayCheckback"
+            priority: 2
+            ref: "fCheckbackOver1H"
           2c:
             desc: "Natural secondary Clubs"
             rule: "4+c 12-18hcp"
-            ref: "fResponderRebidsOverMinor_H"
+            include: "fResponderRebidsOverMinor_H"
+            bids:
+              2s:
+                desc: "Fourth suit forcing (12+ HCP, Game Force)"
+                rule: "12+hcp"
+                priority: 1
+                forceTo: game
+                ref: "fFSF_Over_1D_1H_2C"
           2d:
             desc: "Natural 5+ Diamonds"
             rule: "5+d 12-18hcp"
             ref: "fResponderRebidsOverMinor_H"
+            vars:
+              m: "d"
+              m_name: "Diamonds"
+              M: "h"
+              M_name: "Hearts"
           2h:
             desc: "Raise Hearts with 4-card support"
             rule: "4+h 12-15hcp"
             ref: "fSpiralRaises_Heart"
-          "(1s)":
-            desc: "Interference 1S"
-            bids:
-              dbl:
-                desc: "Support Double: Exactly 3-card Heart support"
-                rule: "p#1 12-18hcp 3=h"
-                priority: 1
-              2h:
-                desc: "Raise Hearts: 4-card support"
-                rule: "p#2 12-15hcp 4+h"
-                priority: 2
-          "(2c)":
-            desc: "Interference 2C"
-            bids:
-              dbl:
-                desc: "Support Double: Exactly 3-card Heart support"
-                rule: "p#1 12-18hcp 3=h"
-                priority: 1
-              2h:
-                desc: "Raise Hearts: 4-card support"
-                rule: "p#2 12-15hcp 4+h"
-                priority: 2
-          "(2d)":
-            desc: "Interference 2D"
-            bids:
-              dbl:
-                desc: "Support Double: Exactly 3-card Heart support"
-                rule: "p#1 12-18hcp 3=h"
-                priority: 1
-              2h:
-                desc: "Raise Hearts: 4-card support"
-                rule: "p#2 12-15hcp 4+h"
-                priority: 2
-          "(x)":
-            desc: "Interference Takeout Double"
-            bids:
-              rdbl:
-                desc: "Support Redouble: Exactly 3-card Heart support"
-                rule: "p#1 12+hcp 3=h"
-                priority: 1
-              2h:
-                desc: "Raise Hearts: 4-card support"
-                rule: "p#2 12-15hcp 4+h"
-                priority: 2
           2nt:
             desc: "18-19 balanced"
             rule: "18-19hcp balanced"
@@ -372,97 +532,161 @@ fragments:
             bids:
               3nt:
                 desc: "3NT to play"
-                rule: "p#1 10+hcp balanced"
+                rule: "10+hcp balanced"
                 priority: 1
+              4h:
+                desc: "Kickback RKCB 1430 for Diamonds"
+                agreedSuit: "d"
+                rule: "4+d 12+hcp"
+                priority: 1
+                ref: "fKickbackDiamonds"
               4d:
                 desc: "Diamond raise"
-                rule: "p#2 3+d"
+                rule: "3+d"
                 priority: 2
+                bids:
+                  4h:
+                    desc: "Kickback RKCB 1430 for Diamonds"
+                    agreedSuit: "d"
+                    rule: "16+hcp 4+d"
+                    priority: 1
+                    ref: "fKickbackDiamonds"
               5d:
                 desc: "Game in Diamonds"
-                rule: "p#1 4+d 12+hcp"
-                priority: 1
+                rule: "4+d 8-11hcp"
+                priority: 2
           3h:
             desc: "Jump raise 4+ Hearts (16-18 HCP)"
             rule: "4+h 16-18hcp"
             bids:
               pass:
                 desc: "Decline with 6-7 HCP"
-                rule: "p#10 6-7hcp"
+                rule: "6-7hcp"
                 priority: 10
               4h:
                 desc: "Accept game with 8+ HCP"
-                rule: "p#1 8+hcp"
+                rule: "8+hcp"
                 priority: 1
 
       1s:
         desc: "Natural 4+ Spades (6+ HCP, Spades longer than Hearts or 5-5 majors)"
-        rule: "p#2 6+hcp 4+s s>h | p#2 6+hcp 5+s s>=h"
+        rule: "6+hcp 4+s s>h | 6+hcp 5+s s>=h"
         priority: 2
+        include: "fSupportDoubles"
         bids:
           1nt:
             desc: "12-14 balanced"
             rule: "12-14hcp balanced"
-            ref: "fThreeWayCheckback"
+            ref: "fCheckbackOver1S"
           2c:
             desc: "Natural secondary Clubs"
             rule: "4+c 12-18hcp"
-            ref: "fResponderRebidsOverMinor_S"
+            include: "fResponderRebidsOverMinor_S"
+            bids:
+              2h:
+                desc: "Fourth suit forcing (12+ HCP, Game Force)"
+                rule: "12+hcp"
+                priority: 1
+                forceTo: game
+                ref: "fFSF_Over_1D_1S_2C"
           2d:
             desc: "Natural 5+ Diamonds"
             rule: "5+d 12-18hcp"
             ref: "fResponderRebidsOverMinor_S"
+            vars:
+              m: "d"
+              m_name: "Diamonds"
+              M: "s"
+              M_name: "Spades"
           2h:
-            desc: "Reverse 4+ Hearts (16+ HCP)"
-            rule: "4+h 16+hcp"
+            desc: "Reverse 4+ Hearts (16+ HCP, F1)"
+            rule: "16+hcp 5+d 4+h d>h 3-s !balanced"
+            priority: 1
+            bids:
+              2s:
+                desc: "Rebid 5+ Spades (6-8 HCP, minimum non-forcing)"
+                rule: "6-8hcp 5+s"
+                priority: 2
+                bids:
+                  pass:
+                    desc: "Pass with minimum reverse (16-17 HCP)"
+                    rule: "16-17hcp 2-s"
+                    priority: 10
+                  3s:
+                    desc: "Raise Spades with 3-card support (17-18 HCP, invitational)"
+                    rule: "17-18hcp 3s"
+                    priority: 1
+                  4s:
+                    desc: "Game in Spades with 3-card support (19+ HCP)"
+                    rule: "19+hcp 3s"
+                    priority: 1
+              2nt:
+                desc: "Natural / stopper inquiry (6-8 HCP)"
+                rule: "6-8hcp"
+                priority: 2
+              3c:
+                desc: "Fourth suit forcing (9+ HCP, Game Force)"
+                rule: "9+hcp"
+                priority: 1
+                forceTo: game
+                ref: "fFSF_Over_1D_1S_2H"
+              3d:
+                desc: "Preference to opener's 5+ Diamonds (6-8 HCP, 2+ Diamonds)"
+                rule: "6-8hcp 2+d"
+                priority: 2
+                bids:
+                  pass:
+                    desc: "Pass with minimum reverse (16-17 HCP)"
+                    rule: "16-17hcp"
+                    priority: 10
+              3h:
+                desc: "Raise Hearts with 4-card support (8-10 HCP invitational)"
+                rule: "8-10hcp 4+h"
+                priority: 1
+              3s:
+                desc: "Jump rebid 6+ Spades (9+ HCP, Game Force)"
+                rule: "9+hcp 6+s"
+                priority: 1
+                forceTo: game
+                ref: "fReverseOpenerCuebids_Spades"
+              3nt:
+                desc: "3NT to play with stoppers (9-11 HCP)"
+                rule: "9-11hcp balanced"
+                priority: 1
+                forceTo: game
+              4h:
+                desc: "Game in Hearts (10+ HCP, 4+ Hearts)"
+                rule: "10+hcp 4+h"
+                priority: 1
+                forceTo: game
+              4s:
+                desc: "Game in Spades (10+ HCP, 6+ Spades)"
+                rule: "10+hcp 6+s"
+                priority: 1
+                forceTo: game
           2s:
             desc: "Raise Spades with 4-card support"
             rule: "4+s 12-15hcp"
             ref: "fSpiralRaises_Spade"
-          "(2c)":
-            desc: "Interference 2C"
+          3s:
+            desc: "Jump raise 4+ Spades (16-19 HCP)"
+            rule: "4+s 16-19hcp"
+            priority: 1
             bids:
-              dbl:
-                desc: "Support Double: Exactly 3-card Spade support"
-                rule: "p#1 12-18hcp 3=s"
-                priority: 1
-              2s:
-                desc: "Raise Spades: 4-card support"
-                rule: "p#2 12-15hcp 4+s"
+              pass:
+                desc: "Decline with 6-7 HCP"
+                rule: "6-7hcp"
+                priority: 10
+              4s:
+                desc: "Game in Spades"
+                rule: "8-11hcp"
                 priority: 2
-          "(2d)":
-            desc: "Interference 2D"
-            bids:
-              dbl:
-                desc: "Support Double: Exactly 3-card Spade support"
-                rule: "p#1 12-18hcp 3=s"
+              4nt:
+                desc: "RKCB 1430 for Spades"
+                agreedSuit: "s"
+                rule: "12+hcp"
                 priority: 1
-              2s:
-                desc: "Raise Spades: 4-card support"
-                rule: "p#2 12-15hcp 4+s"
-                priority: 2
-          "(2h)":
-            desc: "Interference 2H"
-            bids:
-              dbl:
-                desc: "Support Double: Exactly 3-card Spade support"
-                rule: "p#1 12-18hcp 3=s"
-                priority: 1
-              2s:
-                desc: "Raise Spades: 4-card support"
-                rule: "p#2 12-15hcp 4+s"
-                priority: 2
-          "(x)":
-            desc: "Interference Takeout Double"
-            bids:
-              rdbl:
-                desc: "Support Redouble: Exactly 3-card Spade support"
-                rule: "p#1 12+hcp 3=s"
-                priority: 1
-              2s:
-                desc: "Raise Spades: 4-card support"
-                rule: "p#2 12-15hcp 4+s"
-                priority: 2
+                ref: "fRKCBResponses"
           2nt:
             desc: "18-19 balanced"
             rule: "18-19hcp balanced"
@@ -473,37 +697,97 @@ fragments:
             bids:
               3nt:
                 desc: "3NT to play"
-                rule: "p#1 10+hcp balanced"
+                rule: "10+hcp balanced"
                 priority: 1
+              4h:
+                desc: "Kickback RKCB 1430 for Diamonds"
+                agreedSuit: "d"
+                rule: "4+d 12+hcp"
+                priority: 1
+                ref: "fKickbackDiamonds"
               4d:
                 desc: "Diamond raise"
-                rule: "p#2 3+d"
+                rule: "3+d"
                 priority: 2
+                bids:
+                  4h:
+                    desc: "Kickback RKCB 1430 for Diamonds"
+                    agreedSuit: "d"
+                    rule: "16+hcp 4+d"
+                    priority: 1
+                    ref: "fKickbackDiamonds"
               5d:
                 desc: "Game in Diamonds"
-                rule: "p#1 4+d 12+hcp"
-                priority: 1
-          3s:
-            desc: "Jump raise 4+ Spades (16-18 HCP)"
-            rule: "4+s 16-18hcp"
-            bids:
-              pass:
-                desc: "Decline with 6-7 HCP"
-                rule: "p#10 6-7hcp"
-                priority: 10
-              4s:
-                desc: "Accept game with 8+ HCP"
-                rule: "p#1 8+hcp"
-                priority: 1
+                rule: "4+d 8-11hcp"
+                priority: 2
 
       1nt:
         desc: "Natural balanced 6-9 HCP without 4-card major"
-        rule: "p#3 6-9hcp 3-h 3-s"
+        rule: "6-9hcp 3-h 3-s"
         priority: 3
+        bids:
+          pass:
+            desc: "Opener passes with 12-14 balanced"
+            rule: "12-14hcp balanced"
+            priority: 10
+          2d:
+            desc: "Opener minimum rebid 6+ Diamonds"
+            rule: "12-15hcp 6+d"
+            priority: 3
+          2nt:
+            desc: "Opener 18-19 balanced"
+            rule: "18-19hcp balanced"
+            priority: 2
+          3d:
+            desc: "Opener strong jump rebid 6+ Diamonds (16-18 HCP)"
+            rule: "16-18hcp 6+d !balanced"
+            priority: 1
+            bids:
+              pass:
+                desc: "Pass with minimum 6-7 HCP"
+                rule: "6-7hcp"
+                priority: 10
+              3nt:
+                desc: "3NT with stoppers"
+                rule: "8-10hcp"
+                priority: 2
+              4c:
+                desc: "Natural 6+ Clubs (slam try)"
+                rule: "6+c 9-11hcp"
+                priority: 1
+                bids:
+                  4d:
+                    desc: "Kickback RKCB 1430 for Clubs"
+                    agreedSuit: "c"
+                    rule: "16+hcp"
+                    priority: 1
+                    ref: "fKickbackClubs"
+                  5c:
+                    desc: "Game in Clubs"
+                    rule: "16+hcp"
+                    priority: 2
+                  6c:
+                    desc: "Small slam in Clubs"
+                    rule: "17+hcp 2+c"
+                    priority: 1
+              4h:
+                desc: "Kickback RKCB 1430 for Diamonds"
+                agreedSuit: "d"
+                rule: "9+hcp 3+d"
+                priority: 1
+                ref: "fKickbackDiamonds"
+              5d:
+                desc: "Game in Diamonds"
+                rule: "8-10hcp 3+d"
+                priority: 2
+          3nt:
+            desc: "Opener to play in 3NT (19-21 HCP)"
+            rule: "19-21hcp"
+            priority: 1
 
       2c:
         desc: "Nebulous 2C / 2/1 GF in Clubs (10+ HCP, 2+ Clubs or 4+ Clubs, denies 4M)"
-        rule: "p#2 10+hcp 2+c 3-h 3-s"
+        rule: "10+hcp 2+c 3-h 3-s"
         priority: 2
         bids:
           2d:
@@ -532,7 +816,7 @@ fragments:
 
       2d:
         desc: "Inverted Minor: 10+ HCP, 4+ Diamonds, denies 4-card major"
-        rule: "p#1 10+hcp 4+d 3-h 3-s"
+        rule: "10+hcp 4+d 3-h 3-s"
         priority: 1
         bids:
           2h:
@@ -554,109 +838,86 @@ fragments:
 
       2nt:
         desc: "Game Forcing 12-15 or 18+ HCP balanced (alternative to 2C)"
-        rule: "p#3 12+hcp balanced"
+        rule: "12+hcp balanced"
         priority: 3
         bids:
           3nt:
             desc: "3NT to play"
-            rule: "p#1 12-17hcp"
+            rule: "12-17hcp"
             priority: 1
           4nt:
             desc: "Quantitative slam invite"
-            rule: "p#1 18-19hcp"
+            rule: "18-19hcp"
             priority: 1
+            bids:
+              pass:
+                desc: "Decline quantitative invite with minimum 12 HCP"
+                rule: "12hcp"
+                priority: 2
+              6nt:
+                desc: "Accept quantitative invite to 6NT with maximum 13+ HCP"
+                rule: "13+hcp"
+                priority: 1
           6nt:
             desc: "Small Slam in NT"
-            rule: "p#1 20+hcp"
+            rule: "20+hcp"
             priority: 1
 
       3d:
         desc: "Preemptive Inverted Minor: 0-6 HCP, 5+ Diamonds"
-        rule: "p#2 0-6hcp 5+d"
+        rule: "0-6hcp 5+d"
         priority: 2
 
-  fTransfersOver2NT:
-    desc: "Transfers by responder after 1x - 1y - 2NT rebid"
-    bids:
-      3c:
-        desc: "Transfer to Diamonds (5+ Diamonds)"
-        rule: "p#1 5+d"
-        priority: 1
-        bids:
-          3d:
-            desc: "Opener accepts transfer to Diamonds"
-            rule: "18-19hcp"
-      3d:
-        desc: "Transfer to Hearts (5+ Hearts)"
-        rule: "p#1 5+h"
-        priority: 1
-        bids:
-          3h:
-            desc: "Opener accepts transfer to Hearts"
-            rule: "18-19hcp"
-            bids:
-              pass:
-                desc: "Pass with 6-7 HCP"
-                rule: "p#10 6-7hcp"
-                priority: 10
-              4h:
-                desc: "Game in Hearts (8+ HCP)"
-                rule: "p#1 8+hcp"
-                priority: 1
-              3nt:
-                desc: "Choice of games (8+ HCP balanced 5 Hearts)"
-                rule: "p#2 8+hcp balanced 5h"
-                priority: 2
-      3h:
-        desc: "Transfer to Spades (5+ Spades)"
-        rule: "p#1 5+s"
-        priority: 1
-        bids:
-          3s:
-            desc: "Opener accepts transfer to Spades"
-            rule: "18-19hcp"
-            bids:
-              pass:
-                desc: "Pass with 6-7 HCP"
-                rule: "p#10 6-7hcp"
-                priority: 10
-              4s:
-                desc: "Game in Spades (8+ HCP)"
-                rule: "p#1 8+hcp"
-                priority: 1
-              3nt:
-                desc: "Choice of games (8+ HCP balanced 5 Spades)"
-                rule: "p#2 8+hcp balanced 5s"
-                priority: 2
-      3nt:
-        desc: "To play"
-        rule: "p#2 balanced"
-        priority: 2
+      "(2d)":
+        desc: "Interference Michaels Cuebid (both Majors 5-5)"
+        ref: "fMichaelsDefense_Minor"
+
+      "(2nt)":
+        desc: "Interference Unusual 2NT (Clubs and Hearts 5-5)"
+        ref: "fUnusualOverUnusual_Minor"
 
   fInvertedClubContinuations:
     desc: "Responder continuations over Opener's Inverted Club rebid"
     bids:
+      4d:
+        desc: "Kickback RKCB 1430 for Clubs"
+        agreedSuit: "c"
+        rule: "14+hcp"
+        priority: 1
+        ref: "fKickbackClubs"
       3nt:
         desc: "3NT to play with stoppers and balanced"
-        rule: "p#1 12+hcp"
+        rule: "12-13hcp"
         priority: 1
       2nt:
         desc: "Natural balanced invitation"
-        rule: "p#2 10-11hcp balanced"
+        rule: "10-11hcp balanced"
         priority: 2
         bids:
           pass:
             desc: "Pass with 12-13 HCP"
             rule: "12-13hcp"
+          4d:
+            desc: "Kickback RKCB 1430 for Clubs"
+            agreedSuit: "c"
+            rule: "16+hcp !balanced | 16+hcp 5+c"
+            priority: 1
+            ref: "fKickbackClubs"
           3nt:
             desc: "Accept game with 14+ HCP"
             rule: "14+hcp"
-            priority: 1
+            priority: 2
       3c:
         desc: "Signoff in Clubs with minimum 10-11 HCP"
-        rule: "p#3 10-11hcp"
+        rule: "10-11hcp"
         priority: 3
         bids:
+          4d:
+            desc: "Kickback RKCB 1430 for Clubs"
+            agreedSuit: "c"
+            rule: "16+hcp 4+c"
+            priority: 1
+            ref: "fKickbackClubs"
           3nt:
             desc: "3NT to play with extra values"
             rule: "15+hcp"
@@ -667,33 +928,51 @@ fragments:
             priority: 2
       5c:
         desc: "Game in Clubs"
-        rule: "p#2 13+hcp !balanced"
+        rule: "13+hcp !balanced"
         priority: 2
 
   fInvertedDiamondContinuations:
     desc: "Responder continuations over Opener's Inverted Diamond rebid"
     bids:
+      4h:
+        desc: "Kickback RKCB 1430 for Diamonds"
+        agreedSuit: "d"
+        rule: "14+hcp"
+        priority: 1
+        ref: "fKickbackDiamonds"
       3nt:
         desc: "3NT to play with stoppers and balanced"
-        rule: "p#1 12+hcp"
+        rule: "12-13hcp"
         priority: 1
       2nt:
         desc: "Natural balanced invitation"
-        rule: "p#2 10-11hcp balanced"
+        rule: "10-11hcp balanced"
         priority: 2
         bids:
           pass:
             desc: "Pass with 12-13 HCP"
             rule: "12-13hcp"
+          4h:
+            desc: "Kickback RKCB 1430 for Diamonds"
+            agreedSuit: "d"
+            rule: "16+hcp !balanced | 16+hcp 5+d"
+            priority: 1
+            ref: "fKickbackDiamonds"
           3nt:
             desc: "Accept game with 14+ HCP"
             rule: "14+hcp"
-            priority: 1
+            priority: 2
       3d:
         desc: "Signoff in Diamonds with minimum 10-11 HCP"
-        rule: "p#3 10-11hcp"
+        rule: "10-11hcp"
         priority: 3
         bids:
+          4h:
+            desc: "Kickback RKCB 1430 for Diamonds"
+            agreedSuit: "d"
+            rule: "16+hcp 4+d"
+            priority: 1
+            ref: "fKickbackDiamonds"
           3nt:
             desc: "3NT to play with extra values"
             rule: "15+hcp"
@@ -704,35 +983,38 @@ fragments:
             priority: 2
       5d:
         desc: "Game in Diamonds"
-        rule: "p#2 13+hcp !balanced"
+        rule: "13+hcp !balanced"
         priority: 2
 
-  fResponderRebidsOverMinor_H:
-    desc: "Responder continuations after 1m - 1H - 2m"
+  fResponderRebidsOverMinor:
+    aliases:
+      - "fResponderRebidsOverMinor_H"
+      - "fResponderRebidsOverMinor_S"
+    desc: "Responder continuations after 1m - 1$M - 2m"
     bids:
       pass:
         desc: "Pass with minimum and minor tolerance"
-        rule: "p#10 6-9hcp"
+        rule: "6-9hcp"
         priority: 10
-      2h:
-        desc: "Rebid 5+ Hearts (6-11 HCP)"
-        rule: "p#2 10-11hcp 5+h | p#3 6-9hcp 5+h"
+      "2$M":
+        desc: "Rebid 5+ $M_name (6-11 HCP)"
+        rule: "10-11hcp 5+$M | 6-9hcp 5+$M"
         priority: 2
         bids:
           pass:
             desc: "Pass with minimum 12-13 HCP"
             rule: "12-13hcp"
-          3h:
-            desc: "Raise Hearts with 3+ Hearts (13-15 HCP)"
-            rule: "13-15hcp 3+h"
+          "3$M":
+            desc: "Raise $M_name with 3+ $M_name (13-15 HCP)"
+            rule: "13-15hcp 3+$M"
             priority: 1
-          4h:
-            desc: "Game in Hearts with 14+ HCP and 4+ Hearts"
-            rule: "14+hcp 4+h"
+          "4$M":
+            desc: "Game in $M_name with 14+ HCP and 4+ $M_name"
+            rule: "14+hcp 4+$M"
             priority: 1
       2nt:
         desc: "Natural balanced invitation (10-11 HCP)"
-        rule: "p#2 10-11hcp"
+        rule: "10-11hcp"
         priority: 2
         bids:
           pass:
@@ -742,79 +1024,313 @@ fragments:
             desc: "Accept invite with 14+ HCP"
             rule: "14+hcp"
             priority: 1
-      3h:
-        desc: "Invitational with 6+ Hearts (10-11 HCP)"
-        rule: "p#2 10-11hcp 6+h"
+      "3$m":
+        desc: "Constructive raise in $m_name (10-11 HCP, 4+ $m_name)"
+        rule: "10-11hcp 4+$m"
         priority: 2
         bids:
           pass:
             desc: "Pass with minimum 12-13 HCP"
             rule: "12-13hcp"
-          4h:
+            priority: 10
+          3nt:
+            desc: "3NT to play"
+            rule: "14-15hcp"
+            priority: 1
+          "5$m":
+            desc: "Game in $m_name"
+            rule: "14-15hcp 5+$m"
+            priority: 2
+      "4$m":
+        desc: "Minor suit slam try in $m_name (12+ HCP, 4+ $m_name)"
+        rule: "12+hcp 4+$m"
+        priority: 1
+        agreedSuit: "$m"
+        bids:
+          "5$m":
+            desc: "Signoff in game"
+            rule: "12-14hcp"
+            priority: 2
+          4nt:
+            desc: "RKCB 1430 for $m_name"
+            rule: "15+hcp"
+            priority: 1
+            ref: "fRKCBResponses"
+            agreedSuit: "$m"
+          "6$m":
+            desc: "Small slam in $m_name"
+            rule: "15+hcp"
+            priority: 1
+      "3$M":
+        desc: "Invitational with 6+ $M_name (10-11 HCP)"
+        rule: "10-11hcp 6+$M"
+        priority: 2
+        bids:
+          pass:
+            desc: "Pass with minimum 12-13 HCP"
+            rule: "12-13hcp"
+          "4$M":
             desc: "Accept invite with 14+ HCP"
             rule: "14+hcp"
             priority: 1
+      "4$M":
+        desc: "Game in $M_name (12+ HCP, 6+ $M_name)"
+        rule: "12+hcp 6+$M"
+        priority: 1
+      3nt:
+        desc: "3NT to play (12-15 HCP)"
+        rule: "12-15hcp"
+        priority: 2
+        bids:
+          pass:
+            desc: "Pass with minimum (12-14 HCP)"
+            rule: "12-14hcp"
+            priority: 10
+          4nt:
+            desc: "Quantitative slam invitation (15-17 HCP)"
+            rule: "15-17hcp"
+            priority: 1
+            bids:
+              pass:
+                desc: "Decline slam invite with minimum"
+                rule: "12-13hcp"
+                priority: 10
+              6nt:
+                desc: "Accept slam invite with maximum"
+                rule: "14+hcp"
+                priority: 1
+          6nt:
+            desc: "Bid 6NT with maximum (18+ HCP)"
+            rule: "18+hcp"
+            priority: 1
+      4nt:
+        desc: "Quantitative invitation to 6NT (16-17 HCP balanced)"
+        rule: "16-17hcp balanced"
+        priority: 1
+        bids:
+          pass:
+            desc: "Decline slam invite with minimum (12-13 HCP)"
+            rule: "12-13hcp"
+            priority: 10
+          6nt:
+            desc: "Accept slam invite with maximum (14+ HCP)"
+            rule: "14+hcp"
+            priority: 1
+
+  fReverseOpenerCuebids_Spades:
+    desc: "Opener control cuebids and slam tries over agreed Spades after a reverse"
+    variables:
+      trump: "s"
+    bids:
+      4c:
+        desc: "Cuebid showing 1st or 2nd round Club control (Ace, King, singleton, or void)"
+        rule: "ac | kc | 1-c"
+        priority: 1
+        bids:
+          4d:
+            desc: "Responder cuebids 1st or 2nd round Diamond control"
+            rule: "ad | kd | 1-d"
+            priority: 1
+            bids:
+              4h:
+                desc: "Opener cuebids 1st or 2nd round Heart control"
+                rule: "ah | kh | 1-h"
+                priority: 1
+                bids:
+                  4s:
+                    desc: "Signoff in 4S"
+                    rule: "9-10hcp"
+                    priority: 10
+                  4nt:
+                    desc: "Roman Key Card Blackwood 1430 for Spades"
+                    rule: "12+hcp"
+                    priority: 1
+                    ref: "fRKCBResponses"
+                    variables:
+                      trump: "s"
+              4s:
+                desc: "Opener signs off in 4S"
+                rule: "16-17hcp"
+                priority: 10
+              4nt:
+                desc: "Opener Roman Key Card Blackwood 1430 for Spades"
+                rule: "18+hcp"
+                priority: 1
+                ref: "fRKCBResponses"
+                variables:
+                  trump: "s"
+          4h:
+            desc: "Responder cuebids 1st or 2nd round Heart control"
+            rule: "ah | kh | 1-h"
+            priority: 2
+            bids:
+              4s:
+                desc: "Opener signs off in 4S"
+                rule: "16-17hcp"
+                priority: 10
+              4nt:
+                desc: "Opener Roman Key Card Blackwood 1430 for Spades"
+                rule: "18+hcp"
+                priority: 1
+                ref: "fRKCBResponses"
+                variables:
+                  trump: "s"
+          4s:
+            desc: "Responder signs off in 4S (minimum Game Force)"
+            rule: "9-11hcp"
+            priority: 10
+          4nt:
+            desc: "Responder Roman Key Card Blackwood 1430 for Spades"
+            rule: "12+hcp"
+            priority: 1
+            ref: "fRKCBResponses"
+            variables:
+              trump: "s"
+
+      4d:
+        desc: "Cuebid showing 1st or 2nd round Diamond control (Ace, King, singleton, or void)"
+        rule: "ad | kd | 1-d"
+        priority: 2
+        bids:
+          4h:
+            desc: "Responder cuebids 1st or 2nd round Heart control"
+            rule: "ah | kh | 1-h"
+            priority: 1
+            bids:
+              4s:
+                desc: "Opener signs off in 4S"
+                rule: "16-17hcp"
+                priority: 10
+              4nt:
+                desc: "Opener Roman Key Card Blackwood 1430 for Spades"
+                rule: "18+hcp"
+                priority: 1
+                ref: "fRKCBResponses"
+                variables:
+                  trump: "s"
+              5c:
+                desc: "Opener cuebids Club control"
+                rule: "ac | kc"
+                priority: 2
+          4s:
+            desc: "Responder signs off in 4S (minimum Game Force)"
+            rule: "9-11hcp"
+            priority: 10
+          4nt:
+            desc: "Responder Roman Key Card Blackwood 1430 for Spades"
+            rule: "12+hcp"
+            priority: 1
+            ref: "fRKCBResponses"
+            variables:
+              trump: "s"
+
       4h:
-        desc: "Game in Hearts (12+ HCP, 5+ Hearts)"
-        rule: "p#1 12+hcp 5+h"
-        priority: 1
-      3nt:
-        desc: "3NT to play (12+ HCP)"
-        rule: "p#2 12+hcp"
-        priority: 2
+        desc: "Cuebid showing 1st or 2nd round Heart control (Ace, King, singleton, or void)"
+        rule: "ah | kh | 1-h"
+        priority: 3
+        bids:
+          4s:
+            desc: "Responder signs off in 4S (minimum Game Force)"
+            rule: "9-11hcp"
+            priority: 10
+          4nt:
+            desc: "Responder Roman Key Card Blackwood 1430 for Spades"
+            rule: "12+hcp"
+            priority: 1
+            ref: "fRKCBResponses"
+            variables:
+              trump: "s"
 
-  fResponderRebidsOverMinor_S:
-    desc: "Responder continuations after 1m - 1S - 2m"
-    bids:
-      pass:
-        desc: "Pass with minimum and minor tolerance"
-        rule: "p#10 6-9hcp"
-        priority: 10
-      2s:
-        desc: "Rebid 5+ Spades (6-11 HCP)"
-        rule: "p#2 10-11hcp 5+s | p#3 6-9hcp 5+s"
-        priority: 2
-        bids:
-          pass:
-            desc: "Pass with minimum 12-13 HCP"
-            rule: "12-13hcp"
-          3s:
-            desc: "Raise Spades with 3+ Spades (13-15 HCP)"
-            rule: "13-15hcp 3+s"
-            priority: 1
-          4s:
-            desc: "Game in Spades with 14+ HCP and 4+ Spades"
-            rule: "14+hcp 4+s"
-            priority: 1
-      2nt:
-        desc: "Natural balanced invitation (10-11 HCP)"
-        rule: "p#2 10-11hcp"
-        priority: 2
-        bids:
-          pass:
-            desc: "Pass with minimum 12-13 HCP"
-            rule: "12-13hcp"
-          3nt:
-            desc: "Accept invite with 14+ HCP"
-            rule: "14+hcp"
-            priority: 1
-      3s:
-        desc: "Invitational with 6+ Spades (10-11 HCP)"
-        rule: "p#2 10-11hcp 6+s"
-        priority: 2
-        bids:
-          pass:
-            desc: "Pass with minimum 12-13 HCP"
-            rule: "12-13hcp"
-          4s:
-            desc: "Accept invite with 14+ HCP"
-            rule: "14+hcp"
-            priority: 1
       4s:
-        desc: "Game in Spades (12+ HCP, 5+ Spades)"
-        rule: "p#1 12+hcp 5+s"
+        desc: "Fast arrival signoff in 4S: Minimum reverse (16-17 HCP) with no slam interest"
+        rule: "16-17hcp"
+        priority: 10
+
+      4nt:
+        desc: "Opener Roman Key Card Blackwood 1430 for Spades"
+        rule: "18+hcp"
         priority: 1
-      3nt:
-        desc: "3NT to play (12+ HCP)"
-        rule: "p#2 12+hcp"
+        ref: "fRKCBResponses"
+        variables:
+          trump: "s"
+
+  fReverseOpenerCuebids_Hearts:
+    desc: "Opener control cuebids and slam tries over agreed Hearts after a reverse"
+    variables:
+      trump: "h"
+    bids:
+      3s:
+        desc: "Cuebid showing 1st or 2nd round Spade control (Ace, King, singleton, or void)"
+        rule: "as | ks | 1-s"
+        priority: 1
+        bids:
+          4c:
+            desc: "Responder cuebids Club control"
+            rule: "ac | kc | 1-c"
+            priority: 1
+          4d:
+            desc: "Responder cuebids Diamond control"
+            rule: "ad | kd | 1-d"
+            priority: 2
+          4h:
+            desc: "Responder signs off in 4H"
+            rule: "9-11hcp"
+            priority: 10
+          4nt:
+            desc: "Responder Roman Key Card Blackwood 1430 for Hearts"
+            rule: "12+hcp"
+            priority: 1
+            ref: "fRKCBResponses"
+            variables:
+              trump: "h"
+
+      4c:
+        desc: "Cuebid showing 1st or 2nd round Club control (Ace, King, singleton, or void)"
+        rule: "ac | kc | 1-c"
         priority: 2
+        bids:
+          4d:
+            desc: "Responder cuebids Diamond control"
+            rule: "ad | kd | 1-d"
+            priority: 1
+          4h:
+            desc: "Responder signs off in 4H"
+            rule: "9-11hcp"
+            priority: 10
+          4nt:
+            desc: "Responder Roman Key Card Blackwood 1430 for Hearts"
+            rule: "12+hcp"
+            priority: 1
+            ref: "fRKCBResponses"
+            variables:
+              trump: "h"
+
+      4d:
+        desc: "Cuebid showing 1st or 2nd round Diamond control (Ace, King, singleton, or void)"
+        rule: "ad | kd | 1-d"
+        priority: 3
+        bids:
+          4h:
+            desc: "Responder signs off in 4H"
+            rule: "9-11hcp"
+            priority: 10
+          4nt:
+            desc: "Responder Roman Key Card Blackwood 1430 for Hearts"
+            rule: "12+hcp"
+            priority: 1
+            ref: "fRKCBResponses"
+            variables:
+              trump: "h"
+
+      4h:
+        desc: "Fast arrival signoff in 4H: Minimum reverse (16-17 HCP) with no slam interest"
+        rule: "16-17hcp"
+        priority: 10
+
+      4nt:
+        desc: "Opener Roman Key Card Blackwood 1430 for Hearts"
+        rule: "18+hcp"
+        priority: 1
+        ref: "fRKCBResponses"
+        variables:
+          trump: "h"

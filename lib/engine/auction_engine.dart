@@ -1,8 +1,11 @@
 import '../models/hand.dart';
 import '../models/bidding_system.dart';
+import '../models/bidding_state_context.dart';
+import '../models/seat_belief_state.dart';
 import '../constraints/constraint_parser.dart';
 import '../constraints/specificity_resolver.dart';
 import '../evaluators/ml_bid_evaluator.dart';
+import '../evaluators/ml_strain_model.dart';
 import '../evaluators/valuation_engine.dart';
 import 'deal_generator.dart';
 import 'compiled_auction_graph.dart';
@@ -36,6 +39,8 @@ class AuctionStepResult {
   final bool isAuctionComplete;
   final MLEdgeCasePrediction? mlPrediction;
   final MLHandBreakdown? mlUpgradeBreakdown;
+  final AuctionBeliefState? beliefState;
+  final MLPartnershipEvaluation? partnershipEvaluation;
 
   const AuctionStepResult({
     required this.updatedHistory,
@@ -47,6 +52,8 @@ class AuctionStepResult {
     this.isAuctionComplete = false,
     this.mlPrediction,
     this.mlUpgradeBreakdown,
+    this.beliefState,
+    this.partnershipEvaluation,
   });
 }
 
@@ -54,21 +61,35 @@ class AuctionStepResult {
 class AuctionEngine {
   final CompiledBiddingGraph graph;
   final SpecificityResolver resolver;
+  final SpecificityResolver botResolver;
   final CompiledBiddingGraph? ewGraph;
   final SpecificityResolver? ewResolver;
+  final SpecificityResolver? botEwResolver;
   final MLEdgeCaseEvaluator? mlEvaluator;
+  final Vulnerability vulnerability;
 
   AuctionEngine({
     required this.graph,
     SpecificityResolver? resolver,
+    SpecificityResolver? botResolver,
     this.ewGraph,
     this.ewResolver,
+    SpecificityResolver? botEwResolver,
     HandValuationEngine? valuation,
     this.mlEvaluator,
-  }) : resolver = resolver ?? SpecificityResolver(
-         parser: ConstraintParser(definitions: graph.system.definitions),
-         valuation: valuation ?? MLHandValuation(),
-       );
+    this.vulnerability = Vulnerability.none,
+  })  : resolver = resolver ?? SpecificityResolver(
+          parser: ConstraintParser(definitions: graph.system.definitions),
+          valuation: valuation ?? MLHandValuation(strictEffectiveHcp: false),
+        ),
+        botResolver = botResolver ?? SpecificityResolver(
+          parser: ConstraintParser(definitions: graph.system.definitions),
+          valuation: MLHandValuation(strictEffectiveHcp: true),
+        ),
+        botEwResolver = botEwResolver ?? (ewGraph != null ? SpecificityResolver(
+          parser: ConstraintParser(definitions: ewGraph.system.definitions),
+          valuation: MLHandValuation(strictEffectiveHcp: true),
+        ) : null);
 
   /// Convenient accessors for North-South and East-West systems.
   BridgeSystem get nsSystem => graph.system;
@@ -81,18 +102,24 @@ class AuctionEngine {
     BridgeSystem? ewSystem,
     MLEdgeCaseEvaluator? mlEvaluator,
     HandValuationEngine? valuation,
+    Vulnerability vulnerability = Vulnerability.none,
   }) {
     final compiler = BiddingGraphCompiler(system: system);
     final compiledGraph = compiler.compile();
 
     CompiledBiddingGraph? compiledEwGraph;
     SpecificityResolver? ewRes;
+    SpecificityResolver? botEwRes;
     if (ewSystem != null) {
       final ewCompiler = BiddingGraphCompiler(system: ewSystem);
       compiledEwGraph = ewCompiler.compile();
       ewRes = SpecificityResolver(
         parser: ConstraintParser(definitions: ewSystem.definitions),
-        valuation: valuation ?? MLHandValuation(),
+        valuation: valuation ?? MLHandValuation(strictEffectiveHcp: false),
+      );
+      botEwRes = SpecificityResolver(
+        parser: ConstraintParser(definitions: ewSystem.definitions),
+        valuation: MLHandValuation(strictEffectiveHcp: true),
       );
     }
 
@@ -100,11 +127,17 @@ class AuctionEngine {
       graph: compiledGraph,
       resolver: SpecificityResolver(
         parser: ConstraintParser(definitions: system.definitions),
-        valuation: valuation ?? MLHandValuation(),
+        valuation: valuation ?? MLHandValuation(strictEffectiveHcp: false),
+      ),
+      botResolver: SpecificityResolver(
+        parser: ConstraintParser(definitions: system.definitions),
+        valuation: MLHandValuation(strictEffectiveHcp: true),
       ),
       ewGraph: compiledEwGraph,
       ewResolver: ewRes,
+      botEwResolver: botEwRes,
       mlEvaluator: mlEvaluator,
+      vulnerability: vulnerability,
     );
   }
 
@@ -159,10 +192,24 @@ class AuctionEngine {
       );
     }
 
+    final oppActions = BiddingStateContext.extractOpponentActions(
+      auctionHistory: currentHistory,
+      activeSeat: seat,
+    );
+    final ewContext = BiddingStateContext(
+      holding: hand,
+      auctionHistory: currentHistory,
+      activeSeat: seat,
+      opponentActions: oppActions,
+      valuation: (botEwResolver ?? ewResolver!).valuation,
+      vulnerability: vulnerability,
+    );
+
     final bestBid = ewState.resolveBestBid(
       hand,
-      ewResolver!,
+      botEwResolver ?? ewResolver!,
       fragments: ewGraph!.system.fragments,
+      context: ewContext,
     );
 
     if (bestBid != null && !bestBid.isPass && bestBid.displayCall.isNotEmpty) {
@@ -217,13 +264,13 @@ class AuctionEngine {
     final rootState = graph.rootState;
     final northBestBid = rootState.resolveBestBid(
       deal.north,
-      resolver,
+      botResolver,
       fragments: graph.system.fragments,
     );
 
     MLHandBreakdown? northBreakdown;
-    if (resolver.valuation is MLHandValuation) {
-      northBreakdown = (resolver.valuation as MLHandValuation).evaluateBreakdown(deal.north);
+    if (botResolver.valuation is MLHandValuation) {
+      northBreakdown = (botResolver.valuation as MLHandValuation).evaluateBreakdown(deal.north);
     }
 
     if (northBestBid == null || northBestBid.isPass) {
@@ -274,6 +321,18 @@ class AuctionEngine {
         ? 'North opened ${northBestBid.displayCall}. Your turn to respond.'
         : 'North opened ${northBestBid.displayCall}, East bid ${eastCall.call} (${eastCall.desc}). Your turn to respond.';
 
+    final belief = buildBeliefState(history);
+    final historyCalls = history.map((e) => e.call).toList();
+    final currentForcing = graph.getState(historyCalls)?.forcingLevel ?? ForcingLevel.partScore;
+    final partnerEval = history.isNotEmpty
+        ? MLStrainBiddingModel.evaluatePartnership(
+            deal.south,
+            belief.get('N'),
+            forcingLevel: currentForcing,
+            isOpponentActive: belief.isOpponentActive('S'),
+          )
+        : null;
+
     return AuctionStepResult(
       updatedHistory: history,
       isUserBidCorrect: true,
@@ -281,10 +340,26 @@ class AuctionEngine {
       nextValidCandidatesForUser: southCandidates,
       isAuctionComplete: southCandidates.isEmpty,
       mlUpgradeBreakdown: northBreakdown,
+      beliefState: belief,
+      partnershipEvaluation: partnerEval,
     );
   }
 
   static const List<String> seatOrder = ['W', 'N', 'E', 'S'];
+
+  /// Extracts the auction belief state accumulated from [history].
+  static AuctionBeliefState buildBeliefState(List<AuctionEntry> history) {
+    final belief = AuctionBeliefState();
+    for (final entry in history) {
+      belief.recordCall(
+        seat: entry.seat,
+        call: entry.call,
+        rule: entry.rule,
+        desc: entry.desc,
+      );
+    }
+    return belief;
+  }
 
   /// Determines the seat whose turn it is next given the current [history] and [dealerCode].
   static String determineNextSeat(List<AuctionEntry> history, String dealerCode) {
@@ -311,24 +386,35 @@ class AuctionEngine {
     final currentSeq = extractSystemSequence(history);
     final currentState = graph.getState(currentSeq) ?? graph.rootState;
 
-    MLHandBreakdown? userBreakdown;
-    if (resolver.valuation is MLHandValuation) {
-      userBreakdown = (resolver.valuation as MLHandValuation).evaluateBreakdown(evalHand);
-    }
+    final userOppActions = BiddingStateContext.extractOpponentActions(
+      auctionHistory: history,
+      activeSeat: activeSeat,
+    );
+    final userContext = BiddingStateContext(
+      holding: evalHand,
+      auctionHistory: history,
+      activeSeat: activeSeat,
+      opponentActions: userOppActions,
+      valuation: resolver.valuation,
+      vulnerability: vulnerability,
+    );
+    final userBreakdown = userContext.breakdown;
 
     final isUserOpponent = (activeSeat.toUpperCase() == 'E' || activeSeat.toUpperCase() == 'W');
 
-    // Evaluate user's call against current state using active player's hand
+    // Evaluate user's call against current state using active player's hand and state context
     final allMatches = currentState.evaluateCandidates(
       evalHand,
       resolver,
       fragments: graph.system.fragments,
+      context: userContext,
     ).where((c) => c.isOpponent == isUserOpponent).toList();
     final bestBid = currentState.resolveBestBid(
       evalHand,
       resolver,
       fragments: graph.system.fragments,
       allowOpponent: isUserOpponent,
+      context: userContext,
     );
 
     final cleanUserCall = userCall.trim().toLowerCase();
@@ -414,11 +500,25 @@ class AuctionEngine {
       );
     }
 
+    final partnerOppActions = BiddingStateContext.extractOpponentActions(
+      auctionHistory: updatedHistory,
+      activeSeat: partnerSeat,
+    );
+    final partnerContext = BiddingStateContext(
+      holding: partnerHand,
+      auctionHistory: updatedHistory,
+      activeSeat: partnerSeat,
+      opponentActions: partnerOppActions,
+      valuation: botResolver.valuation,
+      vulnerability: vulnerability,
+    );
+
     var partnerBestBid = partnerState.resolveBestBid(
       partnerHand,
-      resolver,
+      botResolver,
       fragments: graph.system.fragments,
       allowOpponent: false,
+      context: partnerContext,
     );
 
     MLEdgeCasePrediction? mlPrediction;
@@ -437,8 +537,9 @@ class AuctionEngine {
       if (isEdgeCase) {
         final matches = partnerState.evaluateCandidates(
           partnerHand,
-          resolver,
+          botResolver,
           fragments: graph.system.fragments,
+          context: partnerContext,
         ).where((c) => c.isMatch && !c.isOpponent).toList();
 
         final gameMatch = matches.firstWhere(
@@ -471,11 +572,15 @@ class AuctionEngine {
               : 3;
           final strainCall = gameMatch.isMatch ? gameMatch.displayCall : inviteMatch.displayCall;
           final strain = strainCall.toLowerCase().replaceAll(RegExp(r'[^a-z]'), '');
-          mlPrediction = mlEvaluator!.evaluateHands(
-            north: deal.north,
-            south: deal.south,
+          final intermediateBelief = buildBeliefState(updatedHistory);
+          final userBelief = intermediateBelief.get(activeSeat);
+          final isOppActive = intermediateBelief.isOpponentActive(activeSeat);
+          mlPrediction = mlEvaluator!.evaluateWithBelief(
+            myHand: partnerHand,
+            partnerBelief: userBelief,
             contractLevel: level,
             strain: strain,
+            isOpponentActive: isOppActive,
           );
 
           if (mlPrediction.shouldAcceptInvite) {
@@ -533,12 +638,26 @@ class AuctionEngine {
     final nextSeq = extractSystemSequence(updatedHistory);
     final nextState = graph.getState(nextSeq);
 
+    final nextOppActions = BiddingStateContext.extractOpponentActions(
+      auctionHistory: updatedHistory,
+      activeSeat: activeSeat,
+    );
+    final nextContext = BiddingStateContext(
+      holding: evalHand,
+      auctionHistory: updatedHistory,
+      activeSeat: activeSeat,
+      opponentActions: nextOppActions,
+      valuation: resolver.valuation,
+      vulnerability: vulnerability,
+    );
+
     List<CandidateCall> nextCandidates = [];
     if (nextState != null) {
       nextCandidates = nextState.evaluateCandidates(
         evalHand,
         resolver,
         fragments: graph.system.fragments,
+        context: nextContext,
       ).where((c) => c.isOpponent == isUserOpponent).toList();
     }
     final isAuctionComplete = nextCandidates.isEmpty;
@@ -547,11 +666,23 @@ class AuctionEngine {
       resolver,
       fragments: graph.system.fragments,
       allowOpponent: isUserOpponent,
+      context: nextContext,
     );
 
     final mlNote = mlPrediction != null
         ? ' [🤖 ML: ${(mlPrediction.probMaking * 100).toStringAsFixed(0)}% make chance]'
         : '';
+
+    final currentBelief = buildBeliefState(updatedHistory);
+    final partnerBelief = currentBelief.partnerOf(activeSeat);
+    final historyCalls = updatedHistory.map((e) => e.call).toList();
+    final currentForcing = graph.getState(historyCalls)?.forcingLevel ?? ForcingLevel.partScore;
+    final partnerEval = MLStrainBiddingModel.evaluatePartnership(
+      evalHand,
+      partnerBelief,
+      forcingLevel: currentForcing,
+      isOpponentActive: currentBelief.isOpponentActive(activeSeat),
+    );
 
     return AuctionStepResult(
       updatedHistory: updatedHistory,
@@ -562,6 +693,8 @@ class AuctionEngine {
       isAuctionComplete: isAuctionComplete,
       mlPrediction: mlPrediction,
       mlUpgradeBreakdown: userBreakdown,
+      beliefState: currentBelief,
+      partnershipEvaluation: partnerEval,
     );
   }
 }

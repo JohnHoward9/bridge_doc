@@ -13,7 +13,8 @@ imports:
   - "assets/libraries/conventions/drury.yaml"
   - "assets/libraries/conventions/rkcb_1430.yaml"
   - "assets/libraries/conventions/multi_landy.yaml"
-  - "assets/libraries/conventions/puppet_stayman.yaml"
+  - "assets/libraries/conventions/puppet_stayman_1nt.yaml"
+  - "assets/libraries/conventions/puppet_stayman_2nt.yaml"
   - "assets/libraries/conventions/transfer_lebensohl.yaml"
   - "assets/libraries/conventions/xyz.yaml"
   - "assets/libraries/conventions/two_way_checkback.yaml"
@@ -40,49 +41,49 @@ OpeningBids:
         ref: "fDrury"
 
   1c:
-    desc: "Better minor opening (3+ Clubs, 12-21 HCP)"
-    rule: "12-21hcp, 3+c, c>=d"
+    desc: "Better minor opening (2+ Clubs, 12+ HCP)"
+    rule: "12+hcp 2+c 3-d 4-s 4-h | 12+hcp 5+c c>d 4-s 4-h | 12+hcp 6+c c>d c>s c>h"
     ref: "fNaturalClubResponses"
 
   1d:
-    desc: "Better minor opening (3+ Diamonds, 12-21 HCP)"
-    rule: "12-21hcp, 3+d, d>c"
+    desc: "Better minor opening (4+ Diamonds, 12+ HCP)"
+    rule: "12+hcp 4+d d>=c 4-s 4-h | 12+hcp 6+d d>=c d>s d>h"
     ref: "fNaturalDiamondResponses"
 
   1h:
-    desc: "5+ Hearts opening (12-21 HCP)"
-    rule: "12-21hcp, 5+h, h>=s"
+    desc: "5+ Hearts opening (12+ HCP)"
+    rule: "12+hcp, 5+h, h>s, h>=d, h>=c"
     ref: "fHeartResponses2Over1"
 
   1s:
-    desc: "5+ Spades opening (12-21 HCP)"
-    rule: "12-21hcp, 5+s"
+    desc: "5+ Spades opening (12+ HCP)"
+    rule: "12+hcp, 5+s, s>=*"
     ref: "fSpadeResponses2Over1"
 
   1nt:
     desc: "Strong balanced NT (15-17 HCP)"
-    rule: "p#1 15-17hcp, balanced, 4-h, 4-s"
+    rule: "15-17hcp, balanced, 4-h, 4-s"
     priority: 1
     ref: "f1NTResponses"
 
   2c:
     desc: "Strong artificial opening: Game Force or 22+ balanced (Kokish)"
-    rule: "22+hcp $bal | gf | 20+hcp !balanced | 4-ltc 16+hcp | 22+hcp"
+    rule: "22+hcp $bal | gf | 20+hcp !balanced | 3-ltc 19+hcp | 22+hcp"
     ref: "fStrongTwoClubsResponses"
 
   2d:
-    desc: "Weak Two in Diamonds (6-card suit, 5-10 HCP)"
-    rule: "5-10hcp, 6d"
+    desc: "Weak Two in Diamonds (5-6 card suit, 5-10 HCP)"
+    rule: "5-10hcp 5-6d"
     ref: "fWeakTwoDiamondResponses"
 
   2h:
-    desc: "Weak Two in Hearts (6-card suit, 5-10 HCP)"
-    rule: "5-10hcp, 6h"
+    desc: "Weak Two in Hearts (5-6 card suit, 5-10 HCP)"
+    rule: "5-10hcp 5-6h"
     ref: "fWeakTwoHeartResponses"
 
   2s:
-    desc: "Weak Two in Spades (6-card suit, 5-10 HCP)"
-    rule: "5-10hcp, 6s"
+    desc: "Weak Two in Spades (5-6 card suit, 5-10 HCP)"
+    rule: "5-10hcp 5-6s"
     ref: "fWeakTwoSpadeResponses"
 
   2nt:

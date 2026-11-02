@@ -10,18 +10,18 @@ fragments:
     bids:
       pass:
         desc: "Pass"
-        rule: "p#10 0-11hcp"
+        rule: "0-11hcp"
         priority: 10
 
       # Double: general values (13+ HCP, cards/penalty oriented)
       dbl:
         desc: "Takeout / Values Double (13+ HCP, interested in penalizing or competing)"
-        rule: "p#2 13+hcp"
+        rule: "13+hcp"
         priority: 2
         bids:
           pass:
             desc: "Penalty pass against 2D doubled"
-            rule: "p#1 4+d 8+hcp"
+            rule: "4+d 8+hcp"
             priority: 1
           2h:
             desc: "Compete / choose major if held"
@@ -42,7 +42,7 @@ fragments:
       # Natural minor overcalls
       3c:
         desc: "Natural 5+ Club overcall (11-16 HCP)"
-        rule: "p#3 11-16hcp 5+c"
+        rule: "11-16hcp 5+c"
         priority: 3
         bids:
           pass:
@@ -57,7 +57,7 @@ fragments:
 
       3d:
         desc: "Natural 5+ Diamond overcall (11-16 HCP)"
-        rule: "p#3 11-16hcp 5+d"
+        rule: "11-16hcp 5+d"
         priority: 3
         bids:
           pass:
@@ -73,11 +73,11 @@ fragments:
       # 2NT Overcall: 16-18 HCP balanced with major stoppers
       2nt:
         desc: "2NT Overcall: 16-18 HCP balanced with stoppers in both majors"
-        rule: "p#1 16-18hcp $bal 3+h 3+s"
+        rule: "16-18hcp $bal 3+h 3+s"
         priority: 1
         ref: "fGavin1NTResponses"
 
       3nt:
         desc: "3NT to play (16-18 HCP running minor tricks)"
-        rule: "p#1 16-18hcp"
+        rule: "16-18hcp"
         priority: 1

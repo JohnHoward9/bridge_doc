@@ -1,8 +1,11 @@
 import 'dart:math';
 import '../models/card.dart';
 import '../models/hand.dart';
+import '../models/bidding_system.dart';
 import '../constraints/hand_constraint.dart';
+import '../constraints/constraint_parser.dart';
 import '../evaluators/valuation_engine.dart';
+import 'compiled_auction_graph.dart';
 
 /// Represents a full 4-hand bridge board dealt from one 52-card deck.
 class PartnershipDeal {
@@ -151,10 +154,24 @@ enum SouthShapeFilter {
 class DealGenerator {
   final Random _random;
   final HandValuationEngine _valuation;
+  final ConstraintParser _constraintParser;
 
-  DealGenerator({Random? random, HandValuationEngine? valuation})
+  DealGenerator({Random? random, HandValuationEngine? valuation, ConstraintParser? constraintParser})
       : _random = random ?? Random(),
-        _valuation = valuation ?? MiltonWorkValuation();
+        _valuation = valuation ?? MiltonWorkValuation(),
+        _constraintParser = constraintParser ?? ConstraintParser();
+
+  static BiddingNode? _findMatchingNode(List<BiddingNode> nodes, String callKey) {
+    final cleanKey = callKey.toLowerCase().replaceAll(RegExp(r'[^0-9a-z]'), '');
+    for (final node in nodes) {
+      final cleanCall = node.call.toLowerCase().replaceAll(RegExp(r'[^0-9a-z]'), '');
+      final cleanDisplay = node.displayCall.toLowerCase().replaceAll(RegExp(r'[^0-9a-z]'), '');
+      if (cleanCall == cleanKey || cleanDisplay == cleanKey) {
+        return node;
+      }
+    }
+    return null;
+  }
 
   /// Returns a full fresh 52-card deck.
   static List<BridgeCard> createDeck() {
@@ -216,8 +233,8 @@ class DealGenerator {
     bool Function(Hand northHand)? isNorthMatch,
     bool Function(Hand southHand)? isSouthMatch,
     bool Function(Hand north, Hand south)? isPartnershipMatch,
-    int maxOuterAttempts = 400,
-    int maxInnerAttempts = 200,
+    int maxOuterAttempts = 2000,
+    int maxInnerAttempts = 300,
   }) {
     final deck = createDeck();
     for (int outer = 0; outer < maxOuterAttempts; outer++) {
@@ -312,7 +329,15 @@ class DealGenerator {
   }
 
   /// Deals a board where North and South hands match the initial bidding calls in [systemSequence].
-  PartnershipDeal dealBoardForSequence(List<String> systemSequence, {bool isNorthDealer = true}) {
+  /// If [graph] or [system] is provided, candidate bidding rules are dynamically parsed and executed
+  /// to filter dealt hands directly from the active system definition.
+  PartnershipDeal dealBoardForSequence(
+    List<String> systemSequence, {
+    bool isNorthDealer = true,
+    bool isVulnerable = false,
+    CompiledBiddingGraph? graph,
+    BridgeSystem? system,
+  }) {
     if (systemSequence.isEmpty) {
       return isNorthDealer ? dealWhereNorthOpens() : dealWhereSouthOpens();
     }
@@ -325,37 +350,121 @@ class DealGenerator {
     bool Function(Hand)? openerFilter;
     bool Function(Hand)? responderFilter;
 
-    if (c0 == 'pass') {
-      openerFilter = (h) => h.hcp <= 11;
+    final openerConstraints = <HandConstraint>[];
+    final responderConstraints = <HandConstraint>[];
+
+    // 1. Dynamic extraction of constraints directly from graph or system rules across all bids:
+    final effectiveSystem = graph?.system ?? system;
+    if (graph != null) {
+      for (int i = 0; i < systemSequence.length; i++) {
+        final call = systemSequence[i];
+        final prior = systemSequence.sublist(0, i);
+        final state = graph.getState(prior);
+        if (state == null) continue;
+        final node = _findMatchingNode(state.candidateNodes, call);
+        if (node != null) {
+          final resolved = node.withResolvedFragmentMetadata(graph.system.fragments);
+          if (resolved.rule != null && resolved.rule!.isNotEmpty) {
+            final constraint = _constraintParser.parse(resolved.rule!);
+            if (i % 2 == 0) {
+              openerConstraints.add(constraint);
+            } else {
+              responderConstraints.add(constraint);
+            }
+          }
+        }
+      }
+    } else if (effectiveSystem != null) {
+      List<BiddingNode> currentCandidates = effectiveSystem.openingBids;
+      for (int i = 0; i < systemSequence.length; i++) {
+        final call = systemSequence[i];
+        final node = _findMatchingNode(currentCandidates, call);
+        if (node != null) {
+          final resolved = node.withResolvedFragmentMetadata(effectiveSystem.fragments);
+          if (resolved.rule != null && resolved.rule!.isNotEmpty) {
+            final constraint = _constraintParser.parse(resolved.rule!);
+            if (i % 2 == 0) {
+              openerConstraints.add(constraint);
+            } else {
+              responderConstraints.add(constraint);
+            }
+          }
+          currentCandidates = resolved.getEffectiveChildren(
+            BiddingNode.deduceVariablesFromCall(call),
+            fragments: effectiveSystem.fragments,
+          );
+        } else {
+          break;
+        }
+      }
+    }
+
+    if (openerConstraints.isNotEmpty) {
+      openerFilter = (Hand h) => openerConstraints.every((c) => c.evaluate(h, _valuation).isMatch);
+    }
+    if (responderConstraints.isNotEmpty) {
+      responderFilter = (Hand h) => responderConstraints.every((c) => c.evaluate(h, _valuation).isMatch);
+    }
+
+    // Drury override: passed hand responding to 3rd-seat 1M opening
+    if (c0 == 'pass' && (c1 == '1s' || c1 == '1h')) {
       if (c1 == '1s') {
         responderFilter = (h) => h.hcp >= 12 && h.spadesLength >= 5;
-        // For passed hand responding to 1S with Drury, passed hand holds 9-11 HCP with 3+ spades
         openerFilter = (h) => h.hcp >= 9 && h.hcp <= 11 && h.spadesLength >= 3;
       } else if (c1 == '1h') {
         responderFilter = (h) => h.hcp >= 12 && h.heartsLength >= 5;
-        // For passed hand responding to 1H with Drury, passed hand holds 9-11 HCP with 3+ hearts
         openerFilter = (h) => h.hcp >= 9 && h.hcp <= 11 && h.heartsLength >= 3;
       }
-    } else if (c0 == '1s') {
-      openerFilter = (h) => h.hcp >= 12 && h.spadesLength >= 5;
-    } else if (c0 == '1h') {
-      openerFilter = (h) => h.hcp >= 12 && h.heartsLength >= 5;
-    } else if (c0 == '1nt') {
-      openerFilter = (h) => h.hcp >= 15 && h.hcp <= 17 && h.isBalanced;
-    } else if (c0 == '1c') {
-      openerFilter = (h) => h.hcp >= 12 && h.clubsLength >= 3;
-    } else if (c0 == '1d') {
-      openerFilter = (h) => h.hcp >= 12 && h.diamondsLength >= 3;
-    } else if (c0 == '2c') {
-      openerFilter = (h) => (h.isBalanced && h.hcp >= 22) || h.hcp >= 20 || (h.losingTrickCount <= 4 && h.hcp >= 16);
-    } else if (c0 == '2h' || c0 == '2s' || c0 == '2d') {
-      final suitLength = (c0 == '2h') ? (Hand h) => h.heartsLength : (c0 == '2s' ? (Hand h) => h.spadesLength : (Hand h) => h.diamondsLength);
-      openerFilter = (h) => h.hcp >= 5 && h.hcp <= 10 && suitLength(h) >= 6;
-    } else {
-      openerFilter = (h) => h.hcp >= 11;
     }
 
-    if (c1 != null) {
+    // 2. Heuristic fallback when no dynamic system rule was resolved:
+    if (openerFilter == null) {
+      if (c0 == 'pass') {
+        openerFilter = (h) => h.hcp <= 11;
+        if (c1 == '1s') {
+          responderFilter = (h) => h.hcp >= 12 && h.spadesLength >= 5;
+          // For passed hand responding to 1S with Drury, passed hand holds 9-11 HCP with 3+ spades
+          openerFilter = (h) => h.hcp >= 9 && h.hcp <= 11 && h.spadesLength >= 3;
+        } else if (c1 == '1h') {
+          responderFilter = (h) => h.hcp >= 12 && h.heartsLength >= 5;
+          // For passed hand responding to 1H with Drury, passed hand holds 9-11 HCP with 3+ hearts
+          openerFilter = (h) => h.hcp >= 9 && h.hcp <= 11 && h.heartsLength >= 3;
+        }
+      } else if (c0 == '1s') {
+        openerFilter = (h) => h.hcp >= 12 && h.spadesLength >= 5;
+      } else if (c0 == '1h') {
+        openerFilter = (h) => h.hcp >= 12 && h.heartsLength >= 5;
+      } else if (c0 == '1nt') {
+        openerFilter = (h) => h.hcp >= 15 && h.hcp <= 17 && h.isBalanced;
+      } else if (c0 == '1c') {
+        openerFilter = (h) => h.hcp >= 12 && h.clubsLength >= 3;
+      } else if (c0 == '1d') {
+        openerFilter = (h) => h.hcp >= 12 && h.diamondsLength >= 3;
+      } else if (c0 == '2c') {
+        openerFilter = (h) => (h.isBalanced && h.hcp >= 22) || h.hcp >= 20 || (h.losingTrickCount <= 4 && h.hcp >= 16);
+      } else if (c0 == '2h' || c0 == '2s' || c0 == '2d') {
+        final suitLength = (c0 == '2h')
+            ? (Hand h) => h.heartsLength
+            : (c0 == '2s' ? (Hand h) => h.spadesLength : (Hand h) => h.diamondsLength);
+        // Weak Two suit length: strictly 5-6 cards (never 7 cards!).
+        // If vulnerable, disciplined 6 cards; non-vul (especially 3rd seat / favorable) allows 5-6 cards.
+        openerFilter = (h) =>
+            h.hcp >= 5 &&
+            h.hcp <= 10 &&
+            (isVulnerable ? suitLength(h) == 6 : (suitLength(h) >= 5 && suitLength(h) <= 6));
+      } else if (c0 == '3c' || c0 == '3d' || c0 == '3h' || c0 == '3s') {
+        final suitLength = (c0 == '3c')
+            ? (Hand h) => h.clubsLength
+            : ((c0 == '3d')
+                ? (Hand h) => h.diamondsLength
+                : ((c0 == '3h') ? (Hand h) => h.heartsLength : (Hand h) => h.spadesLength));
+        openerFilter = (h) => h.hcp >= 6 && h.hcp <= 10 && suitLength(h) >= 7;
+      } else {
+        openerFilter = (h) => h.hcp >= 11;
+      }
+    }
+
+    if (responderFilter == null && c1 != null) {
       if ((c0 == '1s' || c0 == '1h') && c1 == '2nt') {
         final majorSuitLength = (c0 == '1s') ? (Hand h) => h.spadesLength : (Hand h) => h.heartsLength;
         responderFilter = (h) => h.hcp >= 13 && majorSuitLength(h) >= 4;
@@ -389,8 +498,8 @@ class DealGenerator {
       }
     }
 
-    // Check third bid (e.g. 1m - 1x - 1NT checkback)
-    if (systemSequence.length > 2) {
+    // Check third bid heuristic fallback (e.g. 1m - 1x - 1NT checkback)
+    if (systemSequence.length > 2 && openerConstraints.length < 2) {
       final c2 = systemSequence[2].toLowerCase().replaceAll(RegExp(r'[^0-9a-z]'), '');
       if (c2 == '1nt') {
         openerFilter = (h) => h.hcp >= 12 && h.hcp <= 14 && h.isBalanced;
@@ -445,12 +554,16 @@ class DealGenerator {
         if (combHcp < 22 || combHcp > 25) return false;
         final spadeFit = n.spadesLength + sHand.spadesLength;
         final heartFit = n.heartsLength + sHand.heartsLength;
-        final maxFit = spadeFit > heartFit ? spadeFit : heartFit;
+        final diamondFit = n.diamondsLength + sHand.diamondsLength;
+        final clubFit = n.clubsLength + sHand.clubsLength;
+        final allFits = [spadeFit, heartFit, diamondFit, clubFit];
+        final maxFit = allFits.reduce((a, b) => a > b ? a : b);
         final controls = n.controls + sHand.controls;
         final ltc = n.losingTrickCount + sHand.losingTrickCount;
         if (expectAccept == null) return true;
         if (expectAccept) {
-          return maxFit >= 8 && controls >= 5 && ltc <= 14;
+          final targetFit = isSpades ? spadeFit : (isHearts ? heartFit : maxFit);
+          return targetFit >= 8 && controls >= 5 && ltc <= 14;
         } else {
           return maxFit <= 8 && ltc >= 15;
         }

@@ -437,7 +437,7 @@ void main() {
     });
 
     test('1NT Stayman continuations: 1NT - 2C - 2D - 2NT (invitational) - 3NT (accept game)', () {
-      final northHand = Hand.fromString('A3:A62:KQ2:KT532'); // 16 HCP, balanced (15-17 1NT)
+      final northHand = Hand.fromString('AK:KQ2:K82:J7652'); // 16 HCP, 5332, 16.55 Eff HCP (15-17 1NT)
       final southHand = Hand.fromString('T97:J753:87:AQJ9'); // 8 HCP, 4 Hearts (invitational)
       final deal = PartnershipDeal(
         north: northHand,
@@ -675,8 +675,8 @@ void main() {
     });
 
     test('Walsh 1C response: South with 5 Hearts and 4 Spades (8742:QJ843:96:AK, 10 HCP) bids 1H (user screenshot)', () {
-      // North opens 1C: Q3:K97:AJ85:Q854 (12 HCP)
-      final north = Hand.fromString('Q3:K97:AJ85:Q854');
+      // North opens 1C: Q3:K97:J85:AQ854 (12 HCP, 3 diamonds < 4)
+      final north = Hand.fromString('Q3:K97:J85:AQ854');
       // South from user screenshot: 8742:QJ843:96:AK (10 HCP, 4s 5h 2d 2c)
       final south = Hand.fromString('8742:QJ843:96:AK');
 

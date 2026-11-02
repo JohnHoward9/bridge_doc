@@ -129,6 +129,9 @@ def main():
         "comb_hcp",
         "hcp_diff",
         "max_major_fit",
+        "secondary_fit",
+        "has_double_fit",
+        "is_opp_active",
         "comb_controls",
         "comb_ltc",
         "contract_level",
@@ -142,10 +145,32 @@ def main():
     y_make = []
 
     for r in valid_records:
+        strain = r.get("contract_strain", "NT")
+        fits = {
+            'S': float(r.get('spade_fit', 7)),
+            'H': float(r.get('heart_fit', 7)),
+            'D': float(r.get('diamond_fit', 7)),
+            'C': float(r.get('club_fit', 7)),
+        }
+        if strain in fits:
+            primary_fit = fits[strain]
+            outside_fits = [fits[s] for s in fits if s != strain]
+            sec_fit = max(outside_fits) if outside_fits else 7.0
+        else:
+            sorted_fits = sorted(fits.values(), reverse=True)
+            primary_fit = sorted_fits[0]
+            sec_fit = sorted_fits[1]
+        has_df = 1.0 if (primary_fit >= 8.0 and sec_fit >= 8.0) else 0.0
+        auc = r.get("simulated_auction", [])
+        is_opp = 1.0 if any('(' in str(c) for c in auc) else 0.0
+
         x_row = [
             float(r.get("comb_hcp", 20)),
             float(r.get("hcp_diff", 0)),
-            float(r.get("max_major_fit", 7)),
+            float(primary_fit),
+            float(sec_fit),
+            float(has_df),
+            float(is_opp),
             float(r.get("comb_controls", 4)),
             float(r.get("comb_ltc", 14)),
             float(r.get("contract_level", 3)),

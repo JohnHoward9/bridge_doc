@@ -2,10 +2,13 @@ library: "Two-Way Checkback (xy-1NT)"
 description: "Two-Way / Three-Way Checkback over 1x - 1y - 1NT: 2C forces 2D (invitational checkback), 2D is Game-Forcing checkback. Parameterized with $1ntRebidInviteRange, $1ntRebidGfRange, $1ntRebidRange, etc."
 version: "2.0"
 
+imports:
+  - "assets/libraries/conventions/rkcb_1430.yaml"
+
 definitions:
   1ntRebidRange: "12-14hcp"
   1ntRebidInviteRange: "10-11hcp"
-  1ntRebidGfRange: "12+hcp"
+  1ntRebidGfRange: "12+hcp | 11+hcp 6+h | 11+hcp 6+s"
   1ntRebidPassRange: "7-hcp"
   1ntRebidMinRange: "12-13hcp"
   1ntRebidMaxRange: "14hcp"
@@ -19,12 +22,12 @@ fragments:
     bids:
       pass:
         desc: "Pass to play ($1ntRebidPassRange)"
-        rule: "p#10 $1ntRebidPassRange"
+        rule: "$1ntRebidPassRange"
         priority: 10
 
-      2c:
+      2c: &checkbackPuppet2C
         desc: "Puppet to 2D: invitational hands ($1ntRebidInviteRange) or weak signoff in diamonds/clubs"
-        rule: "p#1 $1ntRebidInviteRange | 0-7hcp"
+        rule: "$1ntRebidInviteRange | 0-7hcp 5+d | 0-7hcp 6+c"
         priority: 1
         bids:
           2d:
@@ -82,73 +85,149 @@ fragments:
               3h:
                 desc: "Strong invitation with 6+ Hearts ($1ntRebidInviteRange)"
                 rule: "$1ntRebidInviteRange 6+h"
+                priority: 1
+                bids:
+                  pass:
+                    desc: "Decline invite, minimum (12-13 HCP)"
+                    rule: "$1ntRebidMinRange"
+                    priority: 10
+                  4h:
+                    desc: "Accept invite to 4H (13-14 HCP or 3-card support)"
+                    rule: "$1ntRebidMaxRange | 3+h"
+                    priority: 1
               3s:
                 desc: "Strong invitation with 6+ Spades ($1ntRebidInviteRange)"
                 rule: "$1ntRebidInviteRange 6+s"
+                priority: 1
+                bids:
+                  pass:
+                    desc: "Decline invite, minimum (12-13 HCP)"
+                    rule: "$1ntRebidMinRange"
+                    priority: 10
+                  4s:
+                    desc: "Accept invite to 4S (13-14 HCP or 3-card support)"
+                    rule: "$1ntRebidMaxRange | 3+s"
+                    priority: 1
               3nt:
                 desc: "Choice of games (5M 332, $1ntRebidInviteRange)"
-                rule: "$1ntRebidInviteRange 5h | $1ntRebidInviteRange 5s"
+                rule: "$1ntRebidInviteRange 5=h balanced | $1ntRebidInviteRange 5=s balanced"
+                priority: 2
+                bids:
+                  pass:
+                    desc: "Pass with 2-card support"
+                    rule: "2-h 2-s"
+                    priority: 10
+                  4h:
+                    desc: "Correct to 4H with 3-card Heart support"
+                    rule: "3+h"
+                    priority: 1
+                  4s:
+                    desc: "Correct to 4S with 3-card Spade support"
+                    rule: "3+s"
+                    priority: 1
 
       2d:
         desc: "Game-Forcing Checkback ($1ntRebidGfRange): artificial enquiry for 3-card support or unbid 4M"
-        rule: "p#1 $1ntRebidGfRange 4+h | p#1 $1ntRebidGfRange 4+s | p#1 18+hcp"
+        rule: "$1ntRebidGfRange 4+h | $1ntRebidGfRange 4+s | 18+hcp"
         priority: 1
         bids:
           2h:
             desc: "Opener shows 3-card Heart support or 4 Hearts"
             rule: "3+h | 4h"
             bids:
+              2s:
+                desc: "Responder shows 4+ Spades"
+                rule: "4+s"
+                priority: 1
+                bids:
+                  3s:
+                    desc: "Opener fits Spades with minimum 12-13 HCP"
+                    rule: "4+s 12-13hcp"
+                    priority: 1
+                    bids:
+                      4s:
+                        desc: "Signoff in 4S game"
+                        rule: "11-15hcp"
+                        priority: 2
+                      4nt:
+                        desc: "RKCB 1430 for Spades"
+                        agreedSuit: "s"
+                        rule: "16+hcp"
+                        priority: 1
+                        ref: "fRKCBResponses"
+                  4s:
+                    desc: "Opener fits Spades with maximum 14 HCP"
+                    rule: "4+s 14hcp"
+                    priority: 1
+                    bids:
+                      pass:
+                        desc: "To play"
+                        priority: 10
+                      4nt:
+                        desc: "RKCB 1430 for Spades"
+                        agreedSuit: "s"
+                        rule: "16+hcp"
+                        priority: 1
+                        ref: "fRKCBResponses"
+                  2nt:
+                    desc: "Opener denies 4 Spades, minimum"
+                    rule: "3-s 12-13hcp"
+                    priority: 2
+                  3nt:
+                    desc: "Opener denies 4 Spades, maximum"
+                    rule: "3-s 14hcp"
+                    priority: 2
               4h:
-                desc: "Game in Hearts with 3+ Heart fit"
-                rule: "p#1 3+h"
+                desc: "Game in Hearts with 4+ Heart fit"
+                rule: "4+h"
                 priority: 1
               4s:
                 desc: "Game in Spades with 5+ Spades"
-                rule: "p#1 5+s"
+                rule: "5+s"
                 priority: 1
               3nt:
                 desc: "3NT to play without major fit"
-                rule: "p#2 11-15hcp"
+                rule: "11-15hcp"
                 priority: 2
               3h:
                 desc: "Slam try in Hearts"
-                rule: "p#1 3+h 16+hcp"
+                rule: "4+h 16+hcp"
                 priority: 1
               3s:
                 desc: "Slam try in Spades"
-                rule: "p#1 5+s 16+hcp"
+                rule: "5+s 16+hcp"
                 priority: 1
               4nt:
                 desc: "RKCB 1430"
-                rule: "p#1 18+hcp"
+                rule: "18+hcp"
                 priority: 1
           2s:
             desc: "Opener shows 3-card Spade support or 4 Spades"
             rule: "3+s | 4s"
             bids:
               4s:
-                desc: "Game in Spades with 3+ Spade fit"
-                rule: "p#1 3+s"
+                desc: "Game in Spades with 4+ Spade fit"
+                rule: "4+s"
                 priority: 1
               4h:
                 desc: "Game in Hearts with 5+ Hearts"
-                rule: "p#1 5+h"
+                rule: "5+h"
                 priority: 1
               3nt:
                 desc: "3NT to play without major fit"
-                rule: "p#2 11-15hcp"
+                rule: "11-15hcp"
                 priority: 2
               3s:
                 desc: "Slam try in Spades"
-                rule: "p#1 3+s 16+hcp"
+                rule: "4+s 16+hcp"
                 priority: 1
               3h:
                 desc: "Slam try in Hearts"
-                rule: "p#1 5+h 16+hcp"
+                rule: "5+h 16+hcp"
                 priority: 1
               4nt:
                 desc: "RKCB 1430"
-                rule: "p#1 18+hcp"
+                rule: "18+hcp"
                 priority: 1
           2nt:
             desc: "Opener denies major support, balanced stopper"
@@ -163,50 +242,380 @@ fragments:
             rule: "5+d"
             ref: "fThreeWayGameContinuations"
 
-      2h:
+      2h: &checkbackSignoff2H
         desc: "Signoff in Hearts to play (weak, 5+ Hearts)"
-        rule: "p#3 5-7hcp 5+h"
-        priority: 3
-
-      2s:
-        desc: "Signoff in Spades to play (weak, 5+ Spades)"
-        rule: "p#3 5-7hcp 5+s"
-        priority: 3
-
-      2nt:
-        desc: "Natural quantitative invitation"
-        rule: "p#3 $1ntRebidInviteRange balanced"
-        priority: 3
-
-      3nt:
-        desc: "To play with balanced hand and no 4-card major (10-17 HCP)"
-        rule: "p#1 10-17hcp balanced 3-h 3-s | p#2 10-15hcp balanced"
+        rule: "5-9hcp 5+h"
         priority: 1
+
+      2s: &checkbackSignoff2S
+        desc: "Signoff in Spades to play (weak, 5+ Spades)"
+        rule: "5-9hcp 5+s"
+        priority: 1
+
+      2nt: &checkbackQuant2NT
+        desc: "Natural quantitative invitation"
+        rule: "$1ntRebidInviteRange balanced"
+        priority: 3
+
+      3nt: &checkbackGame3NT
+        desc: "To play with balanced hand and no 4-card major (10-17 HCP)"
+        rule: "10-17hcp balanced 3-h 3-s | 10-15hcp balanced"
+        priority: 1
+
+  fCheckbackOver1D:
+    desc: "Checkback structure over 1NT rebid when Responder replied 1D (unbid 4-card majors)"
+    bids:
+      pass:
+        desc: "Pass to play ($1ntRebidPassRange)"
+        rule: "$1ntRebidPassRange"
+        priority: 10
+      2c: *checkbackPuppet2C
+      2d:
+        desc: "Game-Forcing Checkback ($1ntRebidGfRange): enquiry for unbid 4-card majors"
+        rule: "$1ntRebidGfRange 4+h | $1ntRebidGfRange 4+s | 18+hcp"
+        priority: 1
+        bids:
+          2h:
+            desc: "Opener shows 4+ Hearts (unbid major)"
+            rule: "4+h"
+            bids:
+              2s:
+                desc: "Responder shows 4+ Spades"
+                rule: "4+s"
+                priority: 1
+                bids:
+                  3s:
+                    desc: "Opener fits Spades with minimum 12-13 HCP"
+                    rule: "4+s 12-13hcp"
+                    priority: 1
+                    bids:
+                      4s:
+                        desc: "Signoff in 4S game"
+                        rule: "11-15hcp"
+                        priority: 2
+                      4nt:
+                        desc: "RKCB 1430 for Spades"
+                        agreedSuit: "s"
+                        rule: "16+hcp"
+                        priority: 1
+                        ref: "fRKCBResponses"
+                  4s:
+                    desc: "Opener fits Spades with maximum 14 HCP"
+                    rule: "4+s 14hcp"
+                    priority: 1
+                    bids:
+                      pass:
+                        desc: "To play"
+                        priority: 10
+                      4nt:
+                        desc: "RKCB 1430 for Spades"
+                        agreedSuit: "s"
+                        rule: "16+hcp"
+                        priority: 1
+                        ref: "fRKCBResponses"
+                  2nt:
+                    desc: "Opener denies 4 Spades, minimum"
+                    rule: "3-s 12-13hcp"
+                    priority: 2
+                  3nt:
+                    desc: "Opener denies 4 Spades, maximum"
+                    rule: "3-s 14hcp"
+                    priority: 2
+              4h:
+                desc: "Game in Hearts with 4+ Heart fit"
+                rule: "4+h"
+                priority: 1
+              3h:
+                desc: "Slam try in Hearts with 4+ Heart fit"
+                rule: "4+h 16+hcp"
+                priority: 1
+              4s:
+                desc: "Game in Spades with 5+ Spades"
+                rule: "5+s"
+                priority: 1
+              3s:
+                desc: "Slam try in Spades with 5+ Spades"
+                rule: "5+s 16+hcp"
+                priority: 1
+              2nt:
+                desc: "GF enquiry without major fit"
+                rule: "11+hcp 3-h 3-s"
+                priority: 2
+              3nt:
+                desc: "3NT to play without major fit"
+                rule: "11-15hcp 3-h 3-s | 11-15hcp"
+                priority: 2
+              3d:
+                desc: "5+ Diamonds natural GF"
+                rule: "5+d"
+                priority: 2
+              4nt:
+                desc: "RKCB 1430"
+                rule: "18+hcp"
+                priority: 1
+          2s:
+            desc: "Opener shows 4+ Spades (unbid major)"
+            rule: "4+s"
+            bids:
+              4s:
+                desc: "Game in Spades with 4+ Spade fit"
+                rule: "4+s"
+                priority: 1
+              3s:
+                desc: "Slam try in Spades with 4+ Spade fit"
+                rule: "4+s 16+hcp"
+                priority: 1
+              2nt:
+                desc: "GF enquiry without major fit"
+                rule: "11+hcp 3-h 3-s"
+                priority: 2
+              3nt:
+                desc: "3NT to play without major fit"
+                rule: "11-15hcp 3-h 3-s | 11-15hcp"
+                priority: 2
+              3d:
+                desc: "5+ Diamonds natural GF"
+                rule: "5+d"
+                priority: 2
+              4nt:
+                desc: "RKCB 1430"
+                rule: "18+hcp"
+                priority: 1
+          2nt:
+            desc: "Opener denies 4-card major, balanced"
+            rule: "3-h 3-s"
+            ref: "fThreeWayGameContinuations"
+          3c:
+            desc: "Opener 5+ Clubs"
+            rule: "5+c"
+            ref: "fThreeWayGameContinuations"
+          3d:
+            desc: "Opener 4+ Diamonds (fit for responder's diamonds)"
+            rule: "4+d"
+            ref: "fThreeWayGameContinuations"
+      2h: *checkbackSignoff2H
+      2s: *checkbackSignoff2S
+      2nt: *checkbackQuant2NT
+      3nt: *checkbackGame3NT
+
+  fCheckbackOver1H:
+    desc: "Checkback structure over 1NT rebid when Responder replied 1H"
+    bids:
+      pass:
+        desc: "Pass to play ($1ntRebidPassRange)"
+        rule: "$1ntRebidPassRange"
+        priority: 10
+      2c: *checkbackPuppet2C
+      2d:
+        desc: "Game-Forcing Checkback ($1ntRebidGfRange): enquiry for 3-card Heart support or 4 Spades"
+        rule: "$1ntRebidGfRange 4+h | $1ntRebidGfRange 4+s | 18+hcp"
+        priority: 1
+        bids:
+          2h:
+            desc: "Opener shows 3-card Heart support"
+            rule: "3h | 3+h"
+            bids:
+              4h:
+                desc: "Game in Hearts with 5+ Hearts (5-3 fit)"
+                rule: "5+h"
+                priority: 1
+              3h:
+                desc: "Slam try in Hearts with 5+ Hearts"
+                rule: "5+h 16+hcp"
+                priority: 1
+              2s:
+                desc: "Responder shows 4+ Spades"
+                rule: "4+s"
+                priority: 1
+                bids:
+                  3s:
+                    desc: "Opener fits Spades with minimum 12-13 HCP"
+                    rule: "4+s 12-13hcp"
+                    priority: 1
+                    bids:
+                      4s:
+                        desc: "Signoff in 4S game"
+                        rule: "11-15hcp"
+                        priority: 2
+                      4nt:
+                        desc: "RKCB 1430 for Spades"
+                        agreedSuit: "s"
+                        rule: "16+hcp"
+                        priority: 1
+                        ref: "fRKCBResponses"
+                  4s:
+                    desc: "Opener fits Spades with maximum 14 HCP"
+                    rule: "4+s 14hcp"
+                    priority: 1
+                    bids:
+                      pass:
+                        desc: "To play"
+                        priority: 10
+                      4nt:
+                        desc: "RKCB 1430 for Spades"
+                        agreedSuit: "s"
+                        rule: "16+hcp"
+                        priority: 1
+                        ref: "fRKCBResponses"
+                  2nt:
+                    desc: "Opener denies 4 Spades, minimum"
+                    rule: "3-s 12-13hcp"
+                    priority: 2
+                  3nt:
+                    desc: "Opener denies 4 Spades, maximum"
+                    rule: "3-s 14hcp"
+                    priority: 2
+              4s:
+                desc: "Game in Spades with 5+ Spades"
+                rule: "5+s"
+                priority: 1
+              2nt:
+                desc: "GF enquiry without 5 Hearts (4 Hearts only)"
+                rule: "4h"
+                priority: 2
+              3nt:
+                desc: "3NT to play with 4 Hearts (no 5-3 fit)"
+                rule: "11-15hcp 4h"
+                priority: 2
+              4nt:
+                desc: "RKCB 1430"
+                rule: "18+hcp"
+                priority: 1
+          2s:
+            desc: "Opener shows 4+ Spades, denies 3-card Heart support"
+            rule: "4+s 2-h"
+            bids:
+              4s:
+                desc: "Game in Spades with 4+ Spades (4-4 fit)"
+                rule: "4+s"
+                priority: 1
+              4h:
+                desc: "Game in Hearts with 6+ Hearts"
+                rule: "6+h"
+                priority: 1
+              3nt:
+                desc: "3NT to play without major fit"
+                rule: "11-15hcp 3-s"
+                priority: 2
+              4nt:
+                desc: "RKCB 1430"
+                rule: "18+hcp"
+                priority: 1
+          2nt:
+            desc: "Opener denies 3-card Heart support and 4 Spades, balanced"
+            rule: "2-h 3-s"
+            ref: "fThreeWayGameContinuations"
+          3c:
+            desc: "Opener 5+ Clubs"
+            rule: "5+c 2-h"
+            ref: "fThreeWayGameContinuations"
+          3d:
+            desc: "Opener 5+ Diamonds"
+            rule: "5+d 2-h"
+            ref: "fThreeWayGameContinuations"
+      2h: *checkbackSignoff2H
+      2s: *checkbackSignoff2S
+      2nt: *checkbackQuant2NT
+      3nt: *checkbackGame3NT
+
+  fCheckbackOver1S:
+    desc: "Checkback structure over 1NT rebid when Responder replied 1S"
+    bids:
+      pass:
+        desc: "Pass to play ($1ntRebidPassRange)"
+        rule: "$1ntRebidPassRange"
+        priority: 10
+      2c: *checkbackPuppet2C
+      2d:
+        desc: "Game-Forcing Checkback ($1ntRebidGfRange): enquiry for 3-card Spade support or 4 Hearts"
+        rule: "$1ntRebidGfRange 4+h | $1ntRebidGfRange 4+s | 18+hcp"
+        priority: 1
+        bids:
+          2s:
+            desc: "Opener shows 3-card Spade support"
+            rule: "3s | 3+s"
+            bids:
+              4s:
+                desc: "Game in Spades with 5+ Spades (5-3 fit)"
+                rule: "5+s"
+                priority: 1
+              3s:
+                desc: "Slam try in Spades with 5+ Spades"
+                rule: "5+s 16+hcp"
+                priority: 1
+              2nt:
+                desc: "GF enquiry without 5 Spades"
+                rule: "4s"
+                priority: 2
+              3nt:
+                desc: "3NT to play with 4 Spades"
+                rule: "11-15hcp 4s"
+                priority: 2
+              4nt:
+                desc: "RKCB 1430"
+                rule: "18+hcp"
+                priority: 1
+          2h:
+            desc: "Opener shows 4+ Hearts, denies 3-card Spade support"
+            rule: "4+h 2-s"
+            bids:
+              4h:
+                desc: "Game in Hearts with 4+ Hearts (4-4 fit)"
+                rule: "4+h"
+                priority: 1
+              4s:
+                desc: "Game in Spades with 6+ Spades"
+                rule: "6+s"
+                priority: 1
+              3nt:
+                desc: "3NT to play without major fit"
+                rule: "11-15hcp 3-h"
+                priority: 2
+              4nt:
+                desc: "RKCB 1430"
+                rule: "18+hcp"
+                priority: 1
+          2nt:
+            desc: "Opener denies 3-card Spade support and 4 Hearts, balanced"
+            rule: "2-s 3-h"
+            ref: "fThreeWayGameContinuations"
+          3c:
+            desc: "Opener 5+ Clubs"
+            rule: "5+c 2-s"
+            ref: "fThreeWayGameContinuations"
+          3d:
+            desc: "Opener 5+ Diamonds"
+            rule: "5+d 2-s"
+            ref: "fThreeWayGameContinuations"
+      2h: *checkbackSignoff2H
+      2s: *checkbackSignoff2S
+      2nt: *checkbackQuant2NT
+      3nt: *checkbackGame3NT
 
   fThreeWayGameContinuations:
     desc: "Responder game-reaching continuations in Three-Way Checkback"
     bids:
       4s:
         desc: "Game in Spades with 6+ Spades"
-        rule: "p#1 6+s"
+        rule: "6+s"
         priority: 1
       4h:
         desc: "Game in Hearts with 6+ Hearts"
-        rule: "p#1 6+h"
+        rule: "6+h"
         priority: 1
       3nt:
         desc: "3NT to play with balanced hand"
-        rule: "p#1 11-15hcp"
+        rule: "11-15hcp"
         priority: 1
       3s:
         desc: "Slam try in Spades"
-        rule: "p#2 5+s 15+hcp"
+        rule: "5+s 15+hcp"
         priority: 2
       3h:
         desc: "Slam try in Hearts"
-        rule: "p#2 5+h 15+hcp"
+        rule: "5+h 15+hcp"
         priority: 2
       4nt:
         desc: "RKCB 1430"
-        rule: "p#1 16+hcp"
+        rule: "16+hcp"
         priority: 1

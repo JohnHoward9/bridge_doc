@@ -1,113 +1,216 @@
 library: "RKCB"
 description: "Roman Key Card Blackwood 1430 responses and captain rebids"
-version: "1.1"
+version: "2.1"
 
 fragments:
+  fSpecificKingResponses:
+    desc: "Gavin Wolpert Specific King responses over 5NT Grand Slam King Ask"
+    bids:
+      6c:
+        desc: "King of Clubs (cheapest side King)"
+        rule: "kc"
+        priority: 1
+        bids:
+          "7$trump":
+            desc: "Grand slam in $trump_name (all controls and side tricks accounted for)"
+            rule: "15+hcp"
+            priority: 1
+          "6$trump":
+            desc: "Signoff in $trump_name (missing key outside honor for 7)"
+            rule: "11-14hcp"
+            priority: 2
+      6d:
+        desc: "King of Diamonds (denies King of Clubs)"
+        rule: "kd !kc"
+        priority: 1
+        bids:
+          "7$trump":
+            desc: "Grand slam in $trump_name"
+            rule: "15+hcp"
+            priority: 1
+          "6$trump":
+            desc: "Signoff in $trump_name"
+            rule: "11-14hcp"
+            priority: 2
+      6h:
+        cond: "$trump!=h"
+        desc: "King of Hearts (denies King of Clubs and Diamonds)"
+        rule: "kh !kc !kd"
+        priority: 1
+        bids:
+          "7$trump":
+            desc: "Grand slam in $trump_name"
+            rule: "15+hcp"
+            priority: 1
+          "6$trump":
+            desc: "Signoff in $trump_name"
+            rule: "11-14hcp"
+            priority: 2
+      "6$trump":
+        desc: "No outside Kings (signoff in small slam)"
+        rule: "!kc !kd !kh"
+        priority: 3
+        bids:
+          pass:
+            desc: "Captain passes in 6$trump"
+            priority: 10
+
+  fRKCBOverStep1:
+    desc: "Captain follow-ups over Step 1 (Partner has 1 or 4 Keycards)"
+    bids:
+      "5$trump":
+        desc: "Signoff in 5$trump_name (Missing 2 Keycards: Captain has <=2 KC + Partner's 1 = <=3 total)"
+        rule: "kc<=2 $trump"
+        priority: 2
+      5nt:
+        desc: "King ask / Grand slam try (All 5 KC + Queen: Captain has 4 KC + Trump Queen + Partner's 1 = all 6 controls)"
+        rule: "kc=4 $trump q$trump"
+        priority: 1
+        ref: "fSpecificKingResponses"
+      "6$trump":
+        desc: "Small slam in 6$trump_name (Captain has 3 or 4 KC + Partner's 1 = 4 or 5 KC)"
+        rule: "kc>=3 $trump"
+        priority: 2
+      "7$trump":
+        desc: "Grand slam in $trump_name (All 5 KC + Trump Queen held)"
+        rule: "kc=4 $trump q$trump"
+        priority: 3
+      pass:
+        desc: "Signoff"
+        rule: "kc<=1 $trump"
+        priority: 10
+
+  fRKCBOverStep2:
+    desc: "Captain follow-ups over Step 2 (Partner has 0 or 3 Keycards)"
+    bids:
+      "5$trump":
+        desc: "Signoff in 5$trump_name (Captain has 0 Keycards: missing 2 Keycards)"
+        rule: "kc=0 $trump"
+        priority: 2
+      5nt:
+        desc: "King ask / Grand slam try (All 5 KC + Queen: Captain has 2 KC + Queen + partner's 3 = all 6 controls)"
+        rule: "kc=2 $trump q$trump | kc=5 $trump"
+        priority: 1
+        ref: "fSpecificKingResponses"
+      "6$trump":
+        desc: "Small slam in 6$trump_name (Captain has 1 or 2 KC + partner's 3 = 4 or 5 KC)"
+        rule: "kc>=1 $trump"
+        priority: 1
+      "7$trump":
+        desc: "Grand slam in $trump_name"
+        rule: "kc=2 $trump q$trump | kc=5 $trump"
+        priority: 3
+      pass:
+        desc: "Signoff"
+        rule: "kc<=1 $trump"
+        priority: 10
+
+  fRKCBOverStep3:
+    desc: "Captain follow-ups over Step 3 (Partner has 2 Keycards without Trump Queen)"
+    bids:
+      "5$trump":
+        desc: "Signoff in 5$trump_name (Missing 2 Keycards: Captain has <=1 KC + Partner's 2 = <=3 total)"
+        rule: "kc<=1 $trump"
+        priority: 2
+      5nt:
+        desc: "King ask / Grand slam try (All 5 KC + Queen: Captain has 3 KC + Trump Queen + Partner's 2 = all 6 controls)"
+        rule: "kc=3 $trump q$trump"
+        priority: 1
+        ref: "fSpecificKingResponses"
+      "6$trump":
+        desc: "Small slam in 6$trump_name (Captain has 2 KC with Queen or 3 KC)"
+        rule: "kc=2 $trump q$trump | kc=3 $trump"
+        priority: 2
+      "7$trump":
+        desc: "Grand slam in $trump_name"
+        rule: "kc=3 $trump q$trump"
+        priority: 3
+
+  fRKCBOverStep4:
+    desc: "Captain follow-ups over Step 4 (Partner has 2 Keycards with Trump Queen)"
+    bids:
+      "5$trump":
+        desc: "Signoff in 5$trump_name (Missing 2 Keycards: Captain has <=1 KC + Partner's 2 = <=3 total)"
+        rule: "kc<=1 $trump"
+        priority: 2
+      5nt:
+        desc: "King ask / Grand slam try (All 5 KC + Queen: Captain has 3 KC + Partner's 2 with Queen = all 6 controls)"
+        rule: "kc=3 $trump"
+        priority: 1
+        ref: "fSpecificKingResponses"
+      "6$trump":
+        desc: "Small slam in 6$trump_name (Captain has 2 KC + Partner's 2 with Queen = 4 KC with Queen)"
+        rule: "kc=2 $trump"
+        priority: 2
+      "7$trump":
+        desc: "Grand slam in $trump_name"
+        rule: "kc=3 $trump"
+        priority: 3
+
+  fRKCBCaptainContinuations:
+    desc: "Captain follow-up bids over 1430 Key Card step responses (general fallback)"
+    bids:
+      "5$trump":
+        desc: "Signoff in $trump_name (missing 2 key cards)"
+        rule: "kc<=2 $trump"
+        priority: 2
+      5nt:
+        desc: "King ask / grand slam try"
+        rule: "kc>=3 $trump"
+        priority: 2
+        ref: "fSpecificKingResponses"
+      "6$trump":
+        desc: "Small slam in $trump_name"
+        rule: "kc>=2 $trump"
+        priority: 1
+      "7$trump":
+        desc: "Grand slam in $trump_name"
+        rule: "kc>=3 $trump q$trump"
+        priority: 1
+      pass:
+        desc: "Signoff"
+        rule: "kc<=1 $trump"
+        priority: 10
+
   fRKCBResponses:
-    desc: "4NT Key Card Responses (4 Aces + Trump King)"
-    rule: "p#1 14+hcp"
+    aliases: ["fRKCB1430"]
+    forceTo: game
+    desc: "1430 Key Card Responses (4 Aces + Trump King)"
+    rule: "14+hcp"
     priority: 1
     bids:
-      5c:
-        desc: "1 or 4 key cards"
-        rule: "p#1 kc=1|4 $M"
+      "step#1":
+        desc: "Step 1: 1 or 4 key cards"
+        rule: "kc=1|4 $trump"
         priority: 1
+        include: "fRKCBOverStep1"
         bids:
-          5$M:
-            desc: "Signoff (missing 2 key cards)"
-            rule: "p#2 kc<=2 $M"
-            priority: 2
-          5nt:
-            desc: "King ask / grand slam try"
-            rule: "p#2 kc>=3 $M"
-            priority: 2
-          6$M:
-            desc: "Small slam"
-            rule: "p#1 kc>=2 $M"
-            priority: 1
-          7$M:
-            desc: "Grand slam"
-            rule: "p#1 kc>=3 $M q$M"
-            priority: 1
-          pass:
-            desc: "Signoff"
-            rule: "kc<=1 $M"
-            priority: 3
-
-      5d:
-        desc: "0 or 3 key cards"
-        rule: "p#1 kc=0|3 $M"
-        priority: 1
-        bids:
-          5$M:
-            desc: "Signoff (missing 2 key cards)"
-            rule: "p#2 kc<=1 $M"
-            priority: 2
-          5nt:
-            desc: "King ask / grand slam try"
-            rule: "p#2 kc>=2 $M"
-            priority: 2
-          6$M:
-            desc: "Small slam"
-            rule: "p#1 kc>=2 $M"
-            priority: 1
-          7$M:
-            desc: "Grand slam"
-            rule: "p#1 kc>=2 $M q$M"
-            priority: 1
-          pass:
-            desc: "Signoff"
-            rule: "kc<=1 $M"
-            priority: 3
-
-      5h:
-        desc: "2 key cards without trump Queen"
-        rule: "p#1 kc=2-q $M"
-        priority: 1
-        bids:
-          5$M:
-            desc: "Signoff in $M"
-            rule: "p#2 kc<=1 $M"
-            priority: 2
-          5nt:
-            desc: "King ask"
-            rule: "p#2 kc>=3 $M"
-            priority: 2
-          6$M:
-            desc: "Small slam"
-            rule: "p#1 kc>=2 $M"
-            priority: 1
-          7$M:
-            desc: "Grand slam"
-            rule: "p#1 kc>=3 $M q$M"
-            priority: 1
-          pass:
-            desc: "Signoff in 5 Hearts"
-            rule: "kc<=1 $M"
+          5s:
+            cond: "$trump=h"
+            desc: "Queen ask in Hearts"
+            rule: "kc>=3 h"
             priority: 2
 
-      5s:
-        desc: "2 key cards with trump Queen"
-        rule: "p#1 kc=2+q $M"
+      "step#2":
+        desc: "Step 2: 0 or 3 key cards"
+        rule: "kc=0|3 $trump"
         priority: 1
+        include: "fRKCBOverStep2"
         bids:
-          5$M:
-            desc: "Signoff in $M"
-            rule: "p#2 kc<=1 $M"
+          5s:
+            cond: "$trump=h"
+            desc: "Queen ask in Hearts"
+            rule: "kc>=2 h"
             priority: 2
-          5nt:
-            desc: "King ask"
-            rule: "p#2 kc>=3 $M"
-            priority: 2
-          6$M:
-            desc: "Small slam"
-            rule: "p#1 kc>=2 $M"
-            priority: 1
-          7$M:
-            desc: "Grand slam"
-            rule: "p#1 kc>=3 $M"
-            priority: 1
-          pass:
-            desc: "Signoff in 5 Spades"
-            rule: "kc<=1 $M"
-            priority: 2
+
+      "step#3":
+        desc: "Step 3: 2 key cards without Queen of $trump_name"
+        rule: "kc=2-q $trump"
+        priority: 1
+        include: "fRKCBOverStep3"
+
+      "step#4":
+        desc: "Step 4: 2 key cards with Queen of $trump_name"
+        rule: "kc=2+q $trump"
+        priority: 1
+        include: "fRKCBOverStep4"

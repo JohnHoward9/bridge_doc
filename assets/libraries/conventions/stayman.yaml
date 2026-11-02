@@ -4,6 +4,8 @@ version: "1.0"
 
 imports:
   - "assets/libraries/conventions/smolen.yaml"
+  - "assets/libraries/conventions/rkcb_1430.yaml"
+  - "assets/libraries/conventions/serious_3nt_and_kickback.yaml"
 
 fragments:
   fStayman:
@@ -28,29 +30,107 @@ fragments:
         ref: "fStaymanMajorResponses"
 
   fStaymanDenial:
-    desc: "Responder rebids after opener bids 2D (no 4-card major), incorporating Smolen"
+    desc: "Responder rebids after opener bids 2D (no 4-card major), incorporating Smolen, Garbage Stayman, and 5M-4m / 4M-5m"
     bids:
+      2h:
+        desc: "Garbage Stayman: weak with both majors (pass or correct to 2S)"
+        rule: "0-7hcp 4+h 4+s | 0-7hcp 5+h 4+s"
+        priority: 1
+        bids:
+          pass:
+            desc: "Opener passes holding Hearts"
+            rule: "h>=s"
+            priority: 1
+          2s:
+            desc: "Opener corrects to 2S holding longer Spades"
+            rule: "s>h"
+            priority: 1
+
+      2s:
+        desc: "Invitational with 5 Spades (8-9 HCP) or weak 5S-4H Garbage Stayman"
+        rule: "0-7hcp 5+s 4+h | 8-9hcp 5+s"
+        priority: 1
+        bids:
+          pass:
+            desc: "Opener declines invitation with minimum and 2-3 Spades (to play in 2S)"
+            rule: "15-hcp"
+            priority: 1
+          2nt:
+            desc: "Opener declines invitation with minimum and doubleton spade"
+            rule: "15-hcp 2-s"
+            priority: 2
+          3s:
+            desc: "Opener mild acceptance with 3+ Spades (16 HCP)"
+            rule: "16hcp 3+s"
+            priority: 1
+          4s:
+            desc: "Opener accepts game with 3+ Spades (16-17 HCP)"
+            rule: "16-17hcp 3+s"
+            priority: 1
+          3nt:
+            desc: "Opener accepts game with doubleton spade (16-17 HCP)"
+            rule: "16-17hcp 2-s"
+            priority: 2
+
       2nt:
         desc: "Invitational to 3NT (8-9 HCP), no 4-4 major fit"
-        rule: "p#2 8-9hcp"
+        rule: "8-9hcp"
         priority: 2
         bids:
           pass:
             desc: "Opener declines invitation with minimum"
-            rule: "p#10 15-hcp"
+            rule: "15-hcp"
             priority: 10
           3nt:
             desc: "Opener accepts game with maximum"
-            rule: "p#1 16+hcp"
+            rule: "16+hcp"
             priority: 1
+
+      3c:
+        forceTo: game
+        desc: "Natural 5+ Clubs and 4-card major (10+ HCP, Game Forcing)"
+        rule: "10+hcp 5+c 4+h | 10+hcp 5+c 4+s"
+        priority: 1
+        bids:
+          3nt:
+            desc: "Opener signs off in 3NT with stoppers in unbid suits"
+            rule: "15-17hcp 2-c"
+            priority: 1
+          4c:
+            desc: "Opener fits Clubs (3+ Clubs, slam interest)"
+            rule: "15-17hcp 3+c"
+            priority: 1
+          5c:
+            desc: "Opener game in Clubs"
+            rule: "15-17hcp 4+c"
+            priority: 2
+
+      3d:
+        forceTo: game
+        desc: "Natural 5+ Diamonds and 4-card major (10+ HCP, Game Forcing)"
+        rule: "10+hcp 5+d 4+h | 10+hcp 5+d 4+s"
+        priority: 1
+        bids:
+          3nt:
+            desc: "Opener signs off in 3NT with stoppers in unbid suits"
+            rule: "15-17hcp 2-d"
+            priority: 1
+          4d:
+            desc: "Opener fits Diamonds (3+ Diamonds, slam interest)"
+            rule: "15-17hcp 3+d"
+            priority: 1
+          5d:
+            desc: "Opener game in Diamonds"
+            rule: "15-17hcp 4+d"
+            priority: 2
+
       3nt:
         desc: "Signoff in 3NT with both 4-card majors (10-15 HCP)"
-        rule: "p#2 10-15hcp 4+h 4+s"
+        rule: "10-15hcp 4+h 4+s"
         priority: 2
         bids:
           pass:
             desc: "To play"
-            rule: "p#10"
             priority: 10
       ~>smolen:
         ref: "fSmolen"
@@ -60,45 +140,94 @@ fragments:
     bids:
       2nt:
         desc: "Invitational to 3NT (8-9 HCP), had 4 in other major"
-        rule: "p#2 8-9hcp 3-$M"
+        rule: "8-9hcp 3-$M"
         priority: 2
         bids:
           pass:
             desc: "Opener declines invitation with minimum"
-            rule: "p#10 15-hcp"
+            rule: "15-hcp"
             priority: 10
           3nt:
             desc: "Opener accepts game with maximum"
-            rule: "p#1 16+hcp"
+            rule: "16+hcp"
             priority: 1
+
+      3c:
+        desc: "Natural 5+ Clubs with 4 cards in other major (10+ HCP, Game Forcing)"
+        rule: "10+hcp 5+c 4+$OM 3-$M"
+        priority: 1
+        bids:
+          3nt:
+            desc: "Opener signs off in 3NT"
+            rule: "15-17hcp 2-c"
+            priority: 1
+          4c:
+            desc: "Opener fits Clubs (3+ Clubs)"
+            rule: "15-17hcp 3+c"
+            priority: 1
+          5c:
+            desc: "Opener game in Clubs"
+            rule: "15-17hcp 4+c"
+            priority: 2
+
+      3d:
+        desc: "Natural 5+ Diamonds with 4 cards in other major (10+ HCP, Game Forcing)"
+        rule: "10+hcp 5+d 4+$OM 3-$M"
+        priority: 1
+        bids:
+          3nt:
+            desc: "Opener signs off in 3NT"
+            rule: "15-17hcp 2-d"
+            priority: 1
+          4d:
+            desc: "Opener fits Diamonds (3+ Diamonds)"
+            rule: "15-17hcp 3+d"
+            priority: 1
+          5d:
+            desc: "Opener game in Diamonds"
+            rule: "15-17hcp 4+d"
+            priority: 2
+
       3$M:
         desc: "Invitational raise in major (8-9 HCP)"
-        rule: "p#2 8-9hcp 4+$M"
+        rule: "8-9hcp 4+$M"
         priority: 2
         bids:
           pass:
             desc: "Opener declines invitation with minimum"
-            rule: "p#10 15-hcp"
+            rule: "15-hcp"
             priority: 10
           4$M:
             desc: "Opener accepts with maximum"
-            rule: "p#1 16+hcp"
+            rule: "16+hcp"
             priority: 1
       3nt:
         desc: "Game signoff in 3NT, denies 4-card fit (10-15 HCP)"
-        rule: "p#2 10-15hcp 3-$M"
+        rule: "10-15hcp 3-$M"
         priority: 2
         bids:
           pass:
             desc: "To play"
-            rule: "p#10"
             priority: 10
-      4$M:
-        desc: "Game signoff in major (10+ HCP)"
-        rule: "p#1 10+hcp 4+$M"
+      4s:
+        cond: "$M=h"
+        desc: "Kickback RKCB 1430 for Hearts"
+        agreedSuit: "h"
+        rule: "15+hcp 4+$M"
         priority: 1
+        ref: "fKickbackHearts"
+      4nt:
+        cond: "$M=s"
+        desc: "RKCB 1430 for Spades"
+        agreedSuit: "s"
+        rule: "15+hcp 4+$M"
+        priority: 1
+        ref: "fRKCBResponses"
+      4$M:
+        desc: "Game signoff in major (10-14 HCP)"
+        rule: "10-14hcp 4+$M"
+        priority: 2
         bids:
           pass:
             desc: "To play"
-            rule: "p#10"
             priority: 10

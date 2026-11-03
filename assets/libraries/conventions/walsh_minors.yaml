@@ -521,30 +521,106 @@ fragments:
             priority: 2
             ref: "fCheckbackOver1H"
           2c:
-            desc: "Natural secondary Clubs"
+            desc: "Natural secondary Clubs (12-18 HCP, 5+D 4+C)"
             rule: "4+c 12-18hcp"
-            include: "fResponderRebidsOverMinor_H"
+            priority: 1
             bids:
+              pass:
+                desc: "Pass to play in 2C with club tolerance (6-9 HCP)"
+                rule: "6-9hcp 4+c"
+                priority: 10
+              2d:
+                desc: "Simple preference to opener's first suit (6-9 HCP, 3+ Diamonds)"
+                rule: "6-9hcp 3+d"
+                priority: 1
+              2h:
+                desc: "Natural rebid with 5+ Hearts (6-9 HCP)"
+                rule: "6-9hcp 6+h | 6-9hcp 5h 2-d"
+                priority: 2
               2s:
                 desc: "Fourth suit forcing (12+ HCP, Game Force)"
                 rule: "12+hcp"
                 priority: 1
                 forceTo: game
                 ref: "fFSF_Over_1D_1H_2C"
+              2nt:
+                desc: "Natural balanced invitation (10-11 HCP, Spade stopper)"
+                rule: "10-11hcp"
+                priority: 2
+              3c:
+                desc: "Constructive raise in Clubs (10-11 HCP, 4+ Clubs)"
+                rule: "10-11hcp 4+c"
+                priority: 2
+              3d:
+                desc: "Invitational preference to Diamonds (10-11 HCP, 4+ Diamonds)"
+                rule: "10-11hcp 4+d"
+                priority: 2
+              3h:
+                desc: "Invitational rebid with 6+ Hearts (10-11 HCP)"
+                rule: "10-11hcp 6+h"
+                priority: 2
+              3nt:
+                desc: "Game in 3NT (12-15 HCP balanced)"
+                rule: "12-15hcp balanced"
+                priority: 2
           2d:
-            desc: "Natural 5+ Diamonds"
-            rule: "5+d 12-18hcp"
-            ref: "fResponderRebidsOverMinor_H"
-            vars:
-              m: "d"
-              m_name: "Diamonds"
-              M: "h"
-              M_name: "Hearts"
+            desc: "Natural 5+ (or 6+) Diamonds minimum (12-15 HCP)"
+            rule: "6+d 12-15hcp | 5+d 3-c 12-15hcp"
+            priority: 2
+            bids:
+              pass:
+                desc: "Pass with minimum and diamond tolerance (6-9 HCP)"
+                rule: "6-9hcp 2+d"
+                priority: 10
+              2h:
+                desc: "Rebid 5+ Hearts (6-9 HCP, non-forcing)"
+                rule: "6-9hcp 5+h"
+                priority: 2
+              2s:
+                desc: "New suit: 4+ Spades and 5+ Hearts (10+ HCP, F1)"
+                rule: "10+hcp 4+s 5+h"
+                priority: 1
+              2nt:
+                desc: "Natural balanced invitation (10-11 HCP)"
+                rule: "10-11hcp"
+                priority: 2
+              3c:
+                desc: "Artificial Game-Forcing enquiry (12+ HCP)"
+                rule: "12+hcp"
+                priority: 1
+                forceTo: game
+              3d:
+                desc: "Constructive raise in Diamonds (10-11 HCP, 4+ Diamonds)"
+                rule: "10-11hcp 4+d"
+                priority: 2
+              3h:
+                desc: "Invitational rebid with 6+ Hearts (10-11 HCP)"
+                rule: "10-11hcp 6+h"
+                priority: 2
+              3nt:
+                desc: "3NT to play with balanced game values (12-15 HCP)"
+                rule: "12-15hcp balanced"
+                priority: 1
+              4d:
+                desc: "Minor suit slam try in Diamonds (12+ HCP, 4+ Diamonds)"
+                rule: "12+hcp 4+d"
+                priority: 1
+                agreedSuit: "d"
           2h:
             desc: "Raise Hearts with 4-card support"
             rule: "4+h 12-15hcp"
             priority: 1
             ref: "fSpiralRaises_Heart"
+          2s:
+            desc: "Opener Jump Shift: 19+ HCP, 5+ Diamonds and 4+ Spades (Game Force)"
+            rule: "19+hcp 5+d 4+s"
+            priority: 1
+            forceTo: game
+          3c:
+            desc: "Opener Jump Shift: 19+ HCP, 5+ Diamonds and 4+ Clubs (Game Force)"
+            rule: "19+hcp 5+d 4+c"
+            priority: 1
+            forceTo: game
           3h:
             desc: "Jump raise 4+ Hearts (16-18 HCP)"
             rule: "4+h 16-18hcp"

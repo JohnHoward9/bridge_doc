@@ -31,8 +31,8 @@ fragments:
                 desc: "Signoff in Diamonds (weak, content in diamonds)"
                 rule: "0-7hcp 5+d"
               2h:
-                desc: "Invitational with 5+ Hearts or 4-card Heart raise (8-10 HCP)"
-                rule: "8-10hcp 4+h | 8-10hcp 5+h"
+                desc: "Invitational with 5+ Hearts or 4-card Heart raise (8-10 HCP, denies 4 Spades)"
+                rule: "8-10hcp 4+h 3-s | 8-10hcp 5+h 3-s | 8-10hcp 6+h"
                 bids:
                   pass:
                     desc: "Minimum, heart tolerance (12-13 HCP)"

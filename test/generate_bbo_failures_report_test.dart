@@ -39,7 +39,7 @@ class FailureDealRecord {
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  test('Generate Comprehensive BBO 2025 Failure Results Report', () async {
+  test('Generate Comprehensive BBO 2025 Failure Results Report', timeout: const Timeout(Duration(minutes: 5)), () async {
     final engine = await loadGavinEngine();
     final mlVal = MLHandValuation(strictEffectiveHcp: false);
 

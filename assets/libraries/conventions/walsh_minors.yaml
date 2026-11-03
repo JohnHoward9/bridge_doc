@@ -14,8 +14,8 @@ imports:
 fragments:
   WalshClubOpening:
     aliases: ["fWalshClubResponses"]
-    desc: "Better minor opening (2+ Clubs, 12+ HCP)"
-    rule: "12+hcp 2+c 3-d 4-s 4-h | 12+hcp 5+c c>d 4-s 4-h | 12+hcp 6+c c>d c>s c>h"
+    desc: "Better minor opening (2+ Clubs, 11+ HCP with Rule of 20 or 12+ HCP)"
+    rule: "12+hcp 2+c 3-d 4-s 4-h | 12+hcp 5+c c>d 4-s 4-h | 12+hcp 6+c c>d c>s c>h | 11hcp 5+c 4+d 4-s 4-h"
     bids:
       1d:
         desc: "Walsh 1D: 4+ Diamonds (bypasses 4M unless GF or 4441)"
@@ -501,8 +501,8 @@ fragments:
 
   WalshDiamondOpening:
     aliases: ["fWalshDiamondResponses"]
-    desc: "Better minor opening (4+ Diamonds, 12+ HCP)"
-    rule: "12+hcp 4+d d>=c 4-s 4-h | 12+hcp 6+d d>=c d>s d>h"
+    desc: "Better minor opening (4+ Diamonds, 11+ HCP with Rule of 20 or 12+ HCP)"
+    rule: "12+hcp 4+d d>=c 4-s 4-h | 12+hcp 6+d d>=c d>s d>h | 11hcp 5+d 4+s | 11hcp 5+d 4+c 4-s 4-h"
     bids:
       1h:
         desc: "Natural 4+ Hearts (6+ HCP, Hearts longer than Spades or 4-4 majors)"
@@ -559,6 +559,19 @@ fragments:
                 desc: "Invitational rebid with 6+ Hearts (10-11 HCP)"
                 rule: "10-11hcp 6+h"
                 priority: 2
+                bids:
+                  pass:
+                    desc: "Decline invitation (12-14 HCP)"
+                    rule: "12-14hcp"
+                    priority: 10
+                  4h:
+                    desc: "Accept game in Hearts with fit or maximum (15+ HCP, 2+ Hearts)"
+                    rule: "15+hcp 2+h"
+                    priority: 1
+                  3nt:
+                    desc: "Choice of game 3NT without heart fit (15+ HCP, 2- Hearts)"
+                    rule: "15+hcp 2-h"
+                    priority: 2
               3nt:
                 desc: "Game in 3NT (12-15 HCP balanced)"
                 rule: "12-15hcp balanced"
@@ -597,6 +610,19 @@ fragments:
                 desc: "Invitational rebid with 6+ Hearts (10-11 HCP)"
                 rule: "10-11hcp 6+h"
                 priority: 2
+                bids:
+                  pass:
+                    desc: "Decline invitation (12-14 HCP)"
+                    rule: "12-14hcp"
+                    priority: 10
+                  4h:
+                    desc: "Accept game in Hearts with fit or maximum (15+ HCP, 2+ Hearts)"
+                    rule: "15+hcp 2+h"
+                    priority: 1
+                  3nt:
+                    desc: "Choice of game 3NT without heart fit (15+ HCP, 2- Hearts)"
+                    rule: "15+hcp 2-h"
+                    priority: 2
               3nt:
                 desc: "3NT to play with balanced game values (12-15 HCP)"
                 rule: "12-15hcp balanced"
@@ -616,11 +642,53 @@ fragments:
             rule: "19+hcp 5+d 4+s"
             priority: 1
             forceTo: game
+            bids:
+              3d:
+                desc: "Preference / support for Diamonds (3+ Diamonds)"
+                rule: "3+d"
+                priority: 1
+              3h:
+                desc: "Rebid 6+ Hearts"
+                rule: "6+h"
+                priority: 2
+              3s:
+                desc: "Raise Spades with 4-card support"
+                rule: "4+s"
+                priority: 1
+              3nt:
+                desc: "3NT to play with stoppers"
+                rule: "balanced"
+                priority: 2
+              4s:
+                desc: "Game in Spades"
+                rule: "4+s"
+                priority: 1
           3c:
             desc: "Opener Jump Shift: 19+ HCP, 5+ Diamonds and 4+ Clubs (Game Force)"
             rule: "19+hcp 5+d 4+c"
             priority: 1
             forceTo: game
+            bids:
+              3d:
+                desc: "Preference / support for Diamonds (3+ Diamonds)"
+                rule: "3+d"
+                priority: 1
+              3h:
+                desc: "Rebid 6+ Hearts"
+                rule: "6+h"
+                priority: 2
+              3nt:
+                desc: "3NT to play with stoppers"
+                rule: "balanced"
+                priority: 2
+              4c:
+                desc: "Club raise with 4+ Clubs"
+                rule: "4+c"
+                priority: 2
+              4d:
+                desc: "Diamond raise with 4+ Diamonds"
+                rule: "4+d"
+                priority: 1
           3h:
             desc: "Jump raise 4+ Hearts (16-18 HCP)"
             rule: "4+h 16-18hcp"

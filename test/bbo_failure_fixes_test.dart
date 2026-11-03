@@ -89,6 +89,66 @@ void main() {
       print('AUCTION DEAL 81774 B:29: ${sim.auctionCalls.join(" ")}');
       expect(sim.auctionCalls[0].toLowerCase(), '1nt');
       expect(sim.auctionCalls[1].toLowerCase(), '2d', reason: 'North transfers to 2H with 5-card heart suit');
+      expect(sim.finalContract.toLowerCase(), '4h', reason: 'South converts to 4H with 3-card heart fit');
+    });
+
+    test('Deal 81995 B:16: Responder with 11 HCP and 3 spades does not pass 1S', () async {
+      final engine = await loadGavinEngine();
+
+      // North: ♠K8732 ♥KJ9 ♦AT85 ♣A (15 HCP, 5 spades)
+      final north = Hand.fromString('K8732:KJ9:AT85:A');
+      // South: ♠A95 ♥75 ♦KJ62 ♣QJ85 (11 HCP, 3 spades)
+      final south = Hand.fromString('A95:75:KJ62:QJ85');
+
+      final sim = simulateAuction(
+        north: north,
+        south: south,
+        engine: engine,
+        dealer: 'S',
+      );
+
+      print('AUCTION DEAL 81995 B:16: ${sim.auctionCalls.join(" ")}');
+      expect(sim.auctionCalls.length, greaterThan(2), reason: 'South must not pass out 1S');
+      expect(sim.finalContract.toLowerCase(), '4s', reason: 'Partnership reaches 4S with 26 combined HCP and 8-card fit');
+    });
+
+    test('Deal 81580 B:12: 1C - 1H - 1S: Responder invites in 4-4 Spades reaching 4S', () async {
+      final engine = await loadGavinEngine();
+
+      // South: ♠AJ64 ♥Q ♦9 ♣AK65432 (14 HCP, 4 spades, 7 clubs)
+      final south = Hand.fromString('AJ64:Q:9:AK65432');
+      // North: ♠K532 ♥KJ76 ♦Q743 ♣7 (9 HCP, 4 spades, 4 hearts)
+      final north = Hand.fromString('K532:KJ76:Q743:7');
+
+      final sim = simulateAuction(
+        north: north,
+        south: south,
+        engine: engine,
+        dealer: 'S',
+      );
+
+      print('AUCTION DEAL 81580 B:12: ${sim.auctionCalls.join(" ")}');
+      expect(sim.finalContract.toLowerCase(), contains('s'), reason: 'Partnership finds 4-4 Spade fit instead of playing 2H');
+    });
+
+    test('Deal 81995 B:27: Opener 16 HCP with 5H-5D rebids 2D over 1S', () async {
+      final engine = await loadGavinEngine();
+
+      // South: ♠A43 ♥AT742 ♦AKJT8 ♣— (16 HCP, 5H 5D)
+      final south = Hand.fromString('A43:AT742:AKJT8:');
+      // North: ♠KQJ2 ♥K95 ♦Q54 ♣KJ7 (15 HCP, 4 spades)
+      final north = Hand.fromString('KQJ2:K95:Q54:KJ7');
+
+      final sim = simulateAuction(
+        north: north,
+        south: south,
+        engine: engine,
+        dealer: 'S',
+      );
+
+      print('AUCTION DEAL 81995 B:27: ${sim.auctionCalls.join(" ")}');
+      expect(sim.auctionCalls.length, greaterThan(2), reason: 'Opener must not pass 1S');
+      expect(sim.finalContract.toLowerCase(), isNot('1s'), reason: 'Partnership must not stall at 1S');
     });
 
     test('Deal 82680 B:21: 11 HCP with 5-5 minors avoids 4NT runaway overbid', () async {

@@ -55,6 +55,7 @@ OpeningBids:
   pass:
     desc: "Pass (0-11 HCP)"
     rule: "11-hcp"
+    priority: 999
     bids:
       1h:
         ref: "fDruryHeartOpening"

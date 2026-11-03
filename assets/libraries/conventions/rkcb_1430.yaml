@@ -109,8 +109,8 @@ fragments:
     desc: "Captain follow-ups over Step 3 (Partner has 2 Keycards without Trump Queen)"
     bids:
       "5$trump":
-        desc: "Signoff in 5$trump_name (Missing 2 Keycards: Captain has <=1 KC + Partner's 2 = <=3 total)"
-        rule: "kc<=1 $trump"
+        desc: "Signoff in 5$trump_name (Missing 2 Keycards or Queen: Captain has <=2 KC without Queen)"
+        rule: "kc<=1 $trump | kc=2 !q$trump"
         priority: 2
       5nt:
         desc: "King ask / Grand slam try (All 5 KC + Queen: Captain has 3 KC + Trump Queen + Partner's 2 = all 6 controls)"
@@ -130,8 +130,8 @@ fragments:
     desc: "Captain follow-ups over Step 4 (Partner has 2 Keycards with Trump Queen)"
     bids:
       "5$trump":
-        desc: "Signoff in 5$trump_name (Missing 2 Keycards: Captain has <=1 KC + Partner's 2 = <=3 total)"
-        rule: "kc<=1 $trump"
+        desc: "Signoff in 5$trump_name (Missing 2 Keycards or Queen: Captain has <=2 KC without Queen)"
+        rule: "kc<=1 $trump | kc=2 !q$trump"
         priority: 2
       5nt:
         desc: "King ask / Grand slam try (All 5 KC + Queen: Captain has 3 KC + Partner's 2 with Queen = all 6 controls)"

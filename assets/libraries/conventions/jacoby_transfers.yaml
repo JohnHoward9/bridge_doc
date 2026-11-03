@@ -49,13 +49,13 @@ fragments:
         rule: "10+hcp 5+$M 5+c | 10+hcp 5+$M 4+c !s#5332 !s#5422 | 10+hcp 5+$M 4+c !short_honors"
         priority: 1
         bids:
-          3nt:
-            desc: "Opener bids 3NT with outside suits stopped"
-            rule: "15-17hcp"
-            priority: 1
-          4$M:
+          "4$M":
             desc: "Opener converts to 4$M with 3-card fit"
             rule: "3+$M"
+            priority: 1
+          3nt:
+            desc: "Opener bids 3NT with outside suits stopped (2 or fewer trumps)"
+            rule: "15-17hcp 2-$M"
             priority: 2
           4c:
             desc: "Opener raises clubs with 4+ card fit"
@@ -70,13 +70,13 @@ fragments:
         rule: "10+hcp 5+$M 5+d | 10+hcp 5+$M 4+d !s#5332 !s#5422 | 10+hcp 5+$M 4+d !short_honors"
         priority: 1
         bids:
-          3nt:
-            desc: "Opener bids 3NT with outside suits stopped"
-            rule: "15-17hcp"
-            priority: 1
-          4$M:
+          "4$M":
             desc: "Opener converts to 4$M with 3-card fit"
             rule: "3+$M"
+            priority: 1
+          3nt:
+            desc: "Opener bids 3NT with outside suits stopped (2 or fewer trumps)"
+            rule: "15-17hcp 2-$M"
             priority: 2
           4d:
             desc: "Opener raises diamonds with 4+ card fit"

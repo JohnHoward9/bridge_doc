@@ -8,8 +8,8 @@ imports:
 fragments:
   Strong2NTOpening:
     aliases: ["fPuppetStayman2NT"]
-    desc: "Strong balanced NT (20-21 HCP)"
-    rule: "20-21hcp, balanced, 4-h, 4-s"
+    desc: "Strong balanced NT (20-21 HCP, including 5332, 5422, and 6322)"
+    rule: "20-21hcp balanced | 20-21hcp s#5332 | 20-21hcp s#5422 | 20-21hcp s#6322 4-h 4-s"
     priority: 1
     bids:
       pass:

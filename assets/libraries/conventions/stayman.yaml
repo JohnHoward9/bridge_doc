@@ -144,13 +144,21 @@ fragments:
         priority: 2
         bids:
           pass:
-            desc: "Opener declines invitation with minimum"
-            rule: "15-hcp"
+            desc: "Opener declines invitation with minimum and no other major fit"
+            rule: "15-hcp 3-$OM"
             priority: 10
-          3nt:
-            desc: "Opener accepts game with maximum"
-            rule: "16+hcp"
+          "3$OM":
+            desc: "Opener fits other major with minimum (15 HCP, 4+ $OM_name)"
+            rule: "15-hcp 4+$OM"
             priority: 1
+          "4$OM":
+            desc: "Opener fits other major with maximum (16-17 HCP, 4+ $OM_name)"
+            rule: "16-17hcp 4+$OM"
+            priority: 1
+          3nt:
+            desc: "Opener accepts game with maximum and no other major fit"
+            rule: "16+hcp 3-$OM"
+            priority: 2
 
       3c:
         desc: "Natural 5+ Clubs with 4 cards in other major (10+ HCP, Game Forcing)"

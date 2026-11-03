@@ -253,8 +253,8 @@ fragments:
                     rule: "3+d"
 
       3c:
-        desc: "Puppet Stayman: GF with exactly one 4-card major or 3-card major (bypassed with 4333 or 5-card minor)"
-        rule: "10+hcp 4+h 3-s 4-c 4-d !s#4333 | 10+hcp 4+s 3-h 4-c 4-d !s#4333 | 10+hcp 3h 3-s 4-c 4-d !s#4333 | 10+hcp 3s 3-h 4-c 4-d !s#4333"
+        desc: "Puppet Stayman: GF with exactly one 4-card major or 3-card major (denies 5-card major)"
+        rule: "10+hcp 4-h 4-s 3+h 4-c 4-d !s#4333 | 10+hcp 4-h 4-s 3+s 4-c 4-d !s#4333"
         ref: "fPuppetStayman1NT"
         priority: 1
 

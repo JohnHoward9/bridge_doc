@@ -127,8 +127,8 @@ fragments:
   Preempt4NT:
     aliases:
       - "fPreempt4NTResponses"
-    desc: "Specific Minors opening (5-5 or 6-5 minors, 6-11 HCP)"
-    rule: "6-11hcp 5+c 5+d"
+    desc: "Specific Minors opening (6-6 or 7-6 minors, extreme freak, 6-11 HCP)"
+    rule: "6-11hcp 6+c 6+d 4-ltc | 6-11hcp 7+c 6+d | 6-11hcp 6+c 7+d"
     priority: 1
     bids:
       5c:

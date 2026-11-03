@@ -48,6 +48,8 @@ definitions:
   # Plus 6322 minor, 5422 with 4H-5m at 15-16 HCP (reversing with 17 HCP),
   # and 2245/2254 both minors at 15-17 HCP
   strongnt: "15-17hcp s#5332|4432|4333 | 15-17hcp s#6322 4-h 4-s | 15-16hcp dist#2452|2425 | 15-17hcp dist#2245|2254"
+  # Strong 2NT opening (20-21 balanced, including 5332, 5422, and 6322)
+  strong2nt: "20-21hcp s#5332|4432|4333 | 20-21hcp s#6322 4-h 4-s | 20-21hcp s#5422 | 20-21hcp balanced"
 
 OpeningBids:
   pass:

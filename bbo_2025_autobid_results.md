@@ -19,9 +19,9 @@
 | 6 | 81556 B:14 | ♠J ♥QJT5 ♦AK754 ♣Q97<br>(13 HCP → 12.6 Eff) | ♠KQ3 ♥K87632 ♦T ♣KJ5<br>(12 HCP → 11.6 Eff) | **25 HCP**<br>(24.2 Eff) | 4H (10) | `1h 3s 4h Pass` | **4h** | ✅ OPTIMUM |
 | 7 | 81556 B:16 | ♠KT2 ♥A9 ♦A763 ♣A532<br>(15 HCP → 16.2 Eff) | ♠QJ43 ♥J65 ♦854 ♣QT9<br>(6 HCP → 4.6 Eff) | **21 HCP**<br>(20.7 Eff) | 2H (11) | `1nt Pass` | **1nt** | ✅ OPTIMUM |
 | 8 | 81556 B:17 | ♠AQ7 ♥AT2 ♦QT63 ♣J82<br>(13 HCP → 12.9 Eff) | ♠62 ♥KQ9643 ♦K872 ♣7<br>(8 HCP → 8.5 Eff) | **21 HCP**<br>(21.4 Eff) | 4H (10) | `2h Pass` | **2h** | ✅ OPTIMUM |
-| 9 | 81556 B:18 | ♠974 ♥QJ7654 ♦A3 ♣T4<br>(7 HCP → 6.9 Eff) | ♠AT ♥2 ♦KQ8654 ♣AKJ2<br>(17 HCP → 18.4 Eff) | **24 HCP**<br>(25.2 Eff) | 3D (9) | `1d 1h 3d Pass` | **3d** | ✅ OPTIMUM |
+| 9 | 81556 B:18 | ♠974 ♥QJ7654 ♦A3 ♣T4<br>(7 HCP → 6.9 Eff) | ♠AT ♥2 ♦KQ8654 ♣AKJ2<br>(17 HCP → 18.4 Eff) | **24 HCP**<br>(25.2 Eff) | 3D (9) | `1d 1h 3c Pass` | **3c** | ✅ OPTIMUM |
 | 10 | 81556 B:21 | ♠632 ♥A92 ♦A43 ♣AJ32<br>(13 HCP → 13.1 Eff) | ♠5 ♥JT7 ♦987652 ♣986<br>(1 HCP → 0.4 Eff) | **14 HCP**<br>(13.5 Eff) | 4S (10) | `Pass 1c Pass` | **1c** | ✅ OPTIMUM |
-| 11 | 81556 B:22 | ♠AJ6 ♥K9 ♦Q975 ♣AT63<br>(14 HCP → 14.3 Eff) | ♠952 ♥AQ653 ♦KT ♣852<br>(9 HCP → 9.4 Eff) | **23 HCP**<br>(23.8 Eff) | 1N (9) | `Pass 1d 1h 1nt 2h Pass` | **2h** | ✅ OPTIMUM |
+| 11 | 81556 B:22 | ♠AJ6 ♥K9 ♦Q975 ♣AT63<br>(14 HCP → 14.3 Eff) | ♠952 ♥AQ653 ♦KT ♣852<br>(9 HCP → 9.4 Eff) | **23 HCP**<br>(23.8 Eff) | 1N (9) | `Pass 1d 1h 2c 2h Pass` | **2h** | ✅ OPTIMUM |
 | 12 | 81556 B:23 | ♠K632 ♥4 ♦QT95 ♣AT32<br>(9 HCP → 9.5 Eff) | ♠54 ♥AKQJ763 ♦82 ♣Q9<br>(12 HCP → 11.6 Eff) | **21 HCP**<br>(21.0 Eff) | 4H (-) | `Pass 1h 1s 2h Pass` | **2h** | ✅ OPTIMUM |
 | 13 | 81556 B:24 | ♠A986 ♥AT4 ♦J954 ♣54<br>(9 HCP → 9.4 Eff) | ♠J743 ♥— ♦AKQT3 ♣KQJ3<br>(16 HCP → 15.7 Eff) | **25 HCP**<br>(25.1 Eff) | 3N (7) | `Pass 1d 1s 3s 4s Pass` | **4s** | ✅ OPTIMUM |
 | 14 | 81557 B:1 | ♠7 ♥KQT54 ♦J65 ♣JT96<br>(7 HCP → 6.6 Eff) | ♠JT53 ♥A97 ♦K42 ♣KQ4<br>(13 HCP → 12.6 Eff) | **20 HCP**<br>(19.1 Eff) | 4S (8) | `1c 1h 1nt 2h Pass` | **2h** | ✅ OPTIMUM |

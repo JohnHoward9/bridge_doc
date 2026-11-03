@@ -181,6 +181,10 @@ fragments:
   fFeatureAskContinuations:
     desc: "Feature Ask continuations by responder"
     bids:
+      pass:
+        desc: "Pass to play in 3$suit when opener signs off with minimum"
+        rule: "14-15hcp"
+        priority: 1
       "3$suit":
         desc: "Signoff in $suit_name"
         rule: "14-15hcp 2+$suit"
@@ -191,7 +195,7 @@ fragments:
         priority: 2
       "4$suit":
         desc: "Game in $suit_name"
-        rule: "14+hcp 2+$suit"
+        rule: "16+hcp 2+$suit"
         priority: 1
       4nt:
         desc: "RKCB 1430 for $suit_name"

@@ -31,6 +31,103 @@ class MLGameDecision {
 /// Evaluator that determines whether to declare 3NT or 5-Minor (5D / 5C)
 /// when the partnership holds game values and a confirmed minor suit fit.
 class MLGameSelector {
+  /// Unified Game Strain Arbiter: Evaluates optimal game choice among
+  /// 4-Major, 3NT, and 5-Minor given table perspective.
+  static MLGameDecision selectBestGame({
+    required Hand myHand,
+    required SeatBeliefState partnerBelief,
+    SeatBeliefState? lhoBelief,
+    SeatBeliefState? rhoBelief,
+    Suit? candidateMajor,
+    Suit? candidateMinor,
+    bool isOpponentActive = false,
+  }) {
+    // 1. Identify candidate major fit:
+    final major = candidateMajor ??
+        (partnerBelief.hasGoldenFit(myHand, Suit.hearts)
+            ? Suit.hearts
+            : partnerBelief.hasGoldenFit(myHand, Suit.spades)
+                ? Suit.spades
+                : null);
+
+    // 2. Check stopper integrity across all 4 suits
+    final unstopped = <Suit>[];
+    for (final s in Suit.values) {
+      final myHas = SeatBeliefState.hasStopper(myHand, s);
+      final partnerHas = partnerBelief.controlledSuits.contains(s) ||
+          (partnerBelief.minSuitLength[s] ?? 0) >= 4 ||
+          (partnerBelief.isBalanced && (partnerBelief.minSuitLength[s] ?? 0) >= 2) ||
+          (partnerBelief.minHcp >= 12 && (partnerBelief.minSuitLength[s] ?? 0) >= 3);
+      if (!myHas && !partnerHas) {
+        unstopped.add(s);
+      }
+    }
+    final hasAllStoppers = unstopped.isEmpty;
+
+    // 3. Opponent bidding activity check
+    final oppBidSuits = <Suit>{};
+    void checkOpp(SeatBeliefState? opp) {
+      if (opp == null) return;
+      for (final s in Suit.values) {
+        if ((opp.minSuitLength[s] ?? 0) >= 4) {
+          oppBidSuits.add(s);
+        }
+      }
+    }
+    checkOpp(lhoBelief);
+    checkOpp(rhoBelief);
+    final isOpponentSuitExposed = unstopped.any((s) => oppBidSuits.contains(s));
+
+    // 4. If an 8+ card major fit exists:
+    if (major != null) {
+      final fit = partnerBelief.totalGuaranteedFit(myHand, major);
+      if (fit >= 8) {
+        final majorName = major == Suit.hearts ? '4H' : '4S';
+        final isFlat4333 = myHand.isBalanced &&
+            myHand.cards.length == 13 &&
+            [myHand.spadesLength, myHand.heartsLength, myHand.diamondsLength, myHand.clubsLength].every((l) => l == 3 || l == 4);
+
+        // If there's an unstopped side suit, 3NT is vulnerable to an opening lead attack; 4M provides trump control
+        if (unstopped.isNotEmpty) {
+          return MLGameDecision(
+            recommendedGame: majorName,
+            recommendedStrain: major,
+            recommendedLevel: 4,
+            hasAllStoppers: hasAllStoppers,
+            unstoppedSuits: unstopped,
+            isOpponentSuitExposed: isOpponentSuitExposed,
+            confidence: 0.95,
+            reasoning: '8+ card ${major.symbol} fit ($fit cards) provides trump control against unstopped suit (${unstopped.map((s) => s.symbol).join(", ")}); $majorName is superior to 3NT.',
+          );
+        }
+
+        // Even with all stoppers, 4M is preferred unless both hands are pure flat without ruffing values
+        if (!isFlat4333 || !partnerBelief.isBalanced) {
+          return MLGameDecision(
+            recommendedGame: majorName,
+            recommendedStrain: major,
+            recommendedLevel: 4,
+            hasAllStoppers: hasAllStoppers,
+            unstoppedSuits: unstopped,
+            isOpponentSuitExposed: isOpponentSuitExposed,
+            confidence: 0.90,
+            reasoning: 'Golden 8+ card ${major.symbol} fit ($fit cards) with ruffing values; $majorName chosen over 3NT.',
+          );
+        }
+      }
+    }
+
+    // 5. No major fit: delegate to 3NT vs 5-Minor
+    return selectOptimalGame(
+      myHand: myHand,
+      partnerBelief: partnerBelief,
+      lhoBelief: lhoBelief,
+      rhoBelief: rhoBelief,
+      candidateMinor: candidateMinor,
+      isOpponentActive: isOpponentActive,
+    );
+  }
+
   /// Evaluates optimal game choice between 3NT and 5 of [candidateMinor].
   /// Incorporates table perspective (partner, LHO, and RHO beliefs).
   static MLGameDecision selectOptimalGame({

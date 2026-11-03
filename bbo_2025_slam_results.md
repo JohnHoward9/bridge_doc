@@ -5,7 +5,7 @@ Evaluated **20 slam and grand slam deals** across all 5 strains (♠, ♥, ♦, 
 | # | Match / Deal | Strain | North Hand | South Hand | Comb HCP | Table / Target | Auto Auction | Auto Contract | Status & Diagnosis |
 |---|---|:---:|---|---|:---:|:---:|---|:---:|---|
 | 1 | **81564 B:17**<br>BBO 2025 9-card Heart fit (30 HCP) | **H** | ♠AQ752 ♥863 ♦A65 ♣AJ<br>(15 HCP → 15.7 Eff) | ♠KT43 ♥AKQT95 ♦J3 ♣Q<br>(15 HCP → 16.0 Eff) | **30 HCP** | **6H** | `1nt 2c 2s 4nt 5d 6s Pass` | **6s** | ✅ **SLAM_REACHED** |
-| 2 | **81995 B:27**<br>BBO 2025 9-card Heart fit (31 HCP) | **H** | ♠KQJ2 ♥K95 ♦Q54 ♣KJ7<br>(15 HCP → 13.6 Eff) | ♠A43 ♥AT742 ♦AKJT8 ♣—<br>(16 HCP → 17.2 Eff) | **31 HCP** | **6H** | `1h 1s 2d 3nt 4s 4nt 6h Pass` | **6h** | ✅ **SLAM_REACHED** |
+| 2 | **81995 B:27**<br>BBO 2025 9-card Heart fit (31 HCP) | **H** | ♠KQJ2 ♥K95 ♦Q54 ♣KJ7<br>(15 HCP → 13.6 Eff) | ♠A43 ♥AT742 ♦AKJT8 ♣—<br>(16 HCP → 17.2 Eff) | **31 HCP** | **6H** | `1h 1s 2d 4h Pass` | **4h** | 🚩 **STOPPED_IN_GAME** |
 | 3 | **82593 B:29**<br>BBO 2025 8-card Heart fit (31 HCP) | **H** | ♠AK8 ♥KQ832 ♦32 ♣AQ3<br>(18 HCP → 18.5 Eff) | ♠T64 ♥J96 ♦AKJ87 ♣KJ<br>(13 HCP → 12.9 Eff) | **31 HCP** | **6H** | `1h 2d 2nt 3h 4s 4nt 7h Pass` | **7h** | ✅ **SLAM_REACHED** |
 | 4 | **81995 B:29**<br>BBO 2025 8-card Spade fit (32 HCP) | **S** | ♠AQJ5 ♥T75 ♦QJ8 ♣K76<br>(13 HCP → 12.1 Eff) | ♠K964 ♥AK93 ♦AK73 ♣Q<br>(19 HCP → 19.5 Eff) | **32 HCP** | **6S** | `1c 1h 1nt 2d 2h 2s 3s 4nt 5c 6s Pass` | **6s** | ✅ **SLAM_REACHED** |
 | 5 | **82025 B:11**<br>BBO 2025 9-card Spade fit (28 HCP, 5-4 fit) | **S** | ♠AKJ ♥AK943 ♦2 ♣A974<br>(19 HCP → 19.7 Eff) | ♠QT954 ♥Q5 ♦AT94 ♣J2<br>(9 HCP → 8.9 Eff) | **28 HCP** | **6S** | `Pass 1h 1s 3c 3s 4nt 5c 6s Pass` | **6s** | ✅ **SLAM_REACHED** |
@@ -27,5 +27,5 @@ Evaluated **20 slam and grand slam deals** across all 5 strains (♠, ♥, ♦, 
 
 ## Summary
 - **Total Slam Hands Tested**: 20
-- **Slams Reached**: 20 / 20
-- **Stopped in Game / Partscore**: 0 / 20
+- **Slams Reached**: 19 / 20
+- **Stopped in Game / Partscore**: 1 / 20

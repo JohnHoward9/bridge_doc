@@ -268,6 +268,28 @@ class MLHandValuation extends HandValuationEngine {
     );
   }
 
+  /// Unified Game Strain Arbiter: Arbitrates optimal game choice (4-Major vs 3NT vs 5-Minor)
+  /// given partnership major fit, stopper integrity, and ruffing power.
+  MLGameDecision selectBestGame(
+    Hand hand, {
+    required SeatBeliefState partnerBelief,
+    SeatBeliefState? lhoBelief,
+    SeatBeliefState? rhoBelief,
+    Suit? candidateMajor,
+    Suit? candidateMinor,
+    bool isOpponentActive = false,
+  }) {
+    return MLGameSelector.selectBestGame(
+      myHand: hand,
+      partnerBelief: partnerBelief,
+      lhoBelief: lhoBelief,
+      rhoBelief: rhoBelief,
+      candidateMajor: candidateMajor,
+      candidateMinor: candidateMinor,
+      isOpponentActive: isOpponentActive,
+    );
+  }
+
   MLHandBreakdown evaluateBreakdown(
 
     Hand hand, {

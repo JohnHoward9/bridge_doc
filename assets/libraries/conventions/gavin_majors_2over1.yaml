@@ -155,13 +155,21 @@ fragments:
                     rule: "14-15hcp"
                     priority: 1
               3nt:
-                desc: "3NT to play (12-15 HCP, balanced with Diamond stopper)"
-                rule: "12-15hcp balanced 1+d n#a|k|qd"
-                priority: 1
+                desc: "3NT to play without 3-card Heart support (12-15 HCP, balanced, 2- Hearts)"
+                rule: "12-15hcp balanced 2-h 1+d n#a|k|qd"
+                priority: 2
                 forceTo: game
+                bids:
+                  pass:
+                    desc: "Pass to play 3NT"
+                    priority: 10
+                  4h:
+                    desc: "Pull 3NT to 4H with 6+ Hearts or unbalanced hand"
+                    rule: "6+h | 5+h 1-d | 5+h 1-s"
+                    priority: 1
               4h:
-                desc: "Game in Hearts (10+ HCP, 3+ Hearts)"
-                rule: "10+hcp 3+h"
+                desc: "Game in Hearts with 8-card fit (12-15 HCP, 3+ Hearts)"
+                rule: "12-15hcp 3+h"
                 priority: 1
                 forceTo: game
               4s:
@@ -267,9 +275,9 @@ fragments:
                     rule: "14-15hcp"
                     priority: 1
               3nt:
-                desc: "3NT to play (12-15 HCP, balanced with Club stopper)"
-                rule: "12-15hcp balanced 1+c n#a|k|qc"
-                priority: 1
+                desc: "3NT to play without 3-card Heart support (12-15 HCP, balanced, 2- Hearts)"
+                rule: "12-15hcp balanced 2-h 1+c n#a|k|qc"
+                priority: 2
                 forceTo: game
                 bids:
                   4s:
@@ -286,8 +294,8 @@ fragments:
                     desc: "Pass to play 3NT"
                     priority: 10
               4h:
-                desc: "Game in Hearts (10+ HCP, 3+ Hearts)"
-                rule: "10+hcp 3+h"
+                desc: "Game in Hearts with 8-card fit (12-15 HCP, 3+ Hearts)"
+                rule: "12-15hcp 3+h"
                 priority: 1
                 forceTo: game
               4s:

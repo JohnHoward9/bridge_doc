@@ -40,32 +40,53 @@ fragments:
               2h:
                 desc: "Invitational with 5+ Hearts ($1ntRebidInviteRange)"
                 rule: "$1ntRebidInviteRange 5+h"
+                priority: 1
                 bids:
                   pass:
                     desc: "Decline invite, minimum ($1ntRebidMinRange)"
-                    rule: "$1ntRebidMinRange 2-3h"
+                    rule: "$1ntRebidMinRange 2-h"
+                    priority: 10
                   2nt:
                     desc: "Maximum, only 2 hearts ($1ntRebidMaxRange)"
-                    rule: "$1ntRebidMaxRange 2h"
+                    rule: "$1ntRebidMaxRange 2-h"
+                    priority: 2
+                  3nt:
+                    desc: "Maximum, only 2 hearts ($1ntRebidMaxRange)"
+                    rule: "$1ntRebidMaxRange 2-h"
+                    priority: 3
                   3h:
-                    desc: "Maximum, 3-card Heart support ($1ntRebidMaxRange)"
-                    rule: "$1ntRebidMaxRange 3h"
+                    desc: "Minimum, 3-card Heart support ($1ntRebidMinRange)"
+                    rule: "$1ntRebidMinRange 3h"
+                    priority: 2
                   4h:
                     desc: "Maximum, accept invite to 4H ($1ntRebidMaxRange)"
-                    rule: "$1ntRebidMaxRange 3h !balanced"
+                    rule: "$1ntRebidMaxRange 3+h"
+                    priority: 1
               2s:
                 desc: "Invitational with 4+ Spades ($1ntRebidInviteRange)"
                 rule: "$1ntRebidInviteRange 4+s"
+                priority: 1
                 bids:
                   pass:
                     desc: "Decline invite, minimum ($1ntRebidMinRange)"
-                    rule: "$1ntRebidMinRange"
+                    rule: "$1ntRebidMinRange 2-s"
+                    priority: 10
+                  2nt:
+                    desc: "Maximum, only 2 spades ($1ntRebidMaxRange)"
+                    rule: "$1ntRebidMaxRange 2-s"
+                    priority: 2
+                  3nt:
+                    desc: "Maximum, only 2 spades ($1ntRebidMaxRange)"
+                    rule: "$1ntRebidMaxRange 2-s"
+                    priority: 3
                   3s:
-                    desc: "Constructive invite acceptance ($1ntRebidMaxRange)"
-                    rule: "$1ntRebidMaxRange 3+s"
+                    desc: "Minimum, 3-card Spade support ($1ntRebidMinRange)"
+                    rule: "$1ntRebidMinRange 3+s"
+                    priority: 2
                   4s:
                     desc: "Maximum, accept invite to 4S ($1ntRebidMaxRange)"
                     rule: "$1ntRebidMaxRange 3+s"
+                    priority: 1
               2nt:
                 desc: "Natural balanced invitation ($1ntRebidInviteRange)"
                 rule: "$1ntRebidInviteRange balanced"
@@ -107,23 +128,6 @@ fragments:
                   4s:
                     desc: "Accept invite to 4S (13-14 HCP or 3-card support)"
                     rule: "$1ntRebidMaxRange | 3+s"
-                    priority: 1
-              3nt:
-                desc: "Choice of games (5M 332, $1ntRebidInviteRange)"
-                rule: "$1ntRebidInviteRange 5=h balanced | $1ntRebidInviteRange 5=s balanced"
-                priority: 2
-                bids:
-                  pass:
-                    desc: "Pass with 2-card support"
-                    rule: "2-h 2-s"
-                    priority: 10
-                  4h:
-                    desc: "Correct to 4H with 3-card Heart support"
-                    rule: "3+h"
-                    priority: 1
-                  4s:
-                    desc: "Correct to 4S with 3-card Spade support"
-                    rule: "3+s"
                     priority: 1
 
       2d:
@@ -497,6 +501,14 @@ fragments:
                 desc: "3NT to play without major fit"
                 rule: "11-15hcp 3-s"
                 priority: 2
+              3s:
+                desc: "Slam try in Spades with 4+ Spades"
+                rule: "4+s 16+hcp"
+                priority: 1
+              3h:
+                desc: "Slam try in Hearts with 5+ Hearts"
+                rule: "5+h 16+hcp"
+                priority: 1
               4nt:
                 desc: "RKCB 1430"
                 rule: "18+hcp"
@@ -571,6 +583,14 @@ fragments:
                 desc: "3NT to play without major fit"
                 rule: "11-15hcp 3-h"
                 priority: 2
+              3h:
+                desc: "Slam try in Hearts with 4+ Hearts"
+                rule: "4+h 16+hcp"
+                priority: 1
+              3s:
+                desc: "Slam try in Spades with 5+ Spades"
+                rule: "5+s 16+hcp"
+                priority: 1
               4nt:
                 desc: "RKCB 1430"
                 rule: "18+hcp"

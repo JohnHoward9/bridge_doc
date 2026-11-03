@@ -3,7 +3,9 @@ import 'dart:io';
 import '../models/hand.dart';
 import '../models/card.dart';
 import '../models/seat_belief_state.dart';
+import '../models/ml_model_registry.dart';
 import 'valuation_engine.dart';
+import 'ml_strain_model.dart';
 
 /// Prediction result from the Gavin Wolpert ML Edge-Case Model.
 class MLEdgeCasePrediction {
@@ -473,7 +475,7 @@ class DefensiveDecision {
 /// Unified Machine Learning Power Engine (replacing static KNR heuristics)
 /// mapping hand and partnership strength to a canonical 0-37 scale (MPI: Machine Learning Power Index).
 class MLPowerEngine {
-  static final MLEdgeCaseEvaluator _mlEvaluator = MLEdgeCaseEvaluator();
+  static MLEdgeCaseEvaluator get _mlEvaluator => MLModelRegistry.instance.activeEdgeCaseModel;
 
   /// Evaluates single-hand power on a calibrated 0-37 scale, factoring in intermediates,
   /// prime controls, suit quality, shape, seat position, and vulnerability.
@@ -517,30 +519,35 @@ class MLPowerEngine {
     else if (s.contains('d')) trumpSuit = Suit.diamonds;
     else if (s.contains('c')) trumpSuit = Suit.clubs;
 
+    final weights = MLStrainBiddingModel.getPartnershipWeights(trumpSuit);
+
     if (trumpSuit != null) {
       final fit = north.length(trumpSuit) + south.length(trumpSuit);
+      final fitWeight = weights['trump_fit_surplus'] ?? 1.85;
       if (fit >= 10) {
-        combined += 3.5;
+        combined += (fitWeight * 1.89);
       } else if (fit == 9) {
-        combined += 2.0;
+        combined += fitWeight;
       } else if (fit == 8) {
-        combined += 1.0;
+        combined += (fitWeight * 0.54);
       } else if (fit < 7) {
-        combined -= 1.5;
+        combined -= (fitWeight * 0.81);
       }
 
       // Shortness ruffing synergy when trump fit exists
       if (fit >= 8) {
+        final shortnessWeight = weights['side_shortness'] ?? 1.25;
         for (final suit in Suit.values) {
           if (suit == trumpSuit) continue;
           final nLen = north.length(suit);
           final sLen = south.length(suit);
-          if (nLen == 0 || sLen == 0) combined += 2.0;
-          else if (nLen == 1 || sLen == 1) combined += 1.0;
+          if (nLen == 0 || sLen == 0) combined += (shortnessWeight * 1.6);
+          else if (nLen == 1 || sLen == 1) combined += (shortnessWeight * 0.8);
         }
       }
     } else {
       // Notrump: reward stopped suits and penalize unstopped suits
+      final runningWeight = weights['running_suit_surplus'] ?? 0.67;
       int stoppedSuits = 0;
       for (final suit in Suit.values) {
         final nCards = north.cardsInSuit(suit);
@@ -552,8 +559,8 @@ class MLPowerEngine {
             (sCards.any((c) => c.rank == Rank.queen) && nCards.length + sCards.length >= 3);
         if (hasAce || hasKing || hasQueen) stoppedSuits++;
       }
-      if (stoppedSuits == 4) combined += 1.0;
-      else if (stoppedSuits <= 2) combined -= 2.0;
+      if (stoppedSuits == 4) combined += (runningWeight * 1.5);
+      else if (stoppedSuits <= 2) combined -= (runningWeight * 3.0);
     }
 
     return double.parse(combined.clamp(0.0, 45.0).toStringAsFixed(1));
@@ -762,7 +769,8 @@ class MLPowerEngine {
     );
   }
 
-  /// Domain 5: Preempt Decisions by Seat & Vulnerability (Rule of 2, 3, and 4).
+  /// Domain 5: Preempt Decisions by Seat & Vulnerability.
+  /// Delegates directly to the active MLPreemptModel from the MLModelRegistry.
   static PreemptDecision evaluatePreempt(
     Hand hand, {
     required Suit suit,
@@ -770,72 +778,12 @@ class MLPowerEngine {
     SeatPosition seat = SeatPosition.first,
     Vulnerability vuln = Vulnerability.none,
   }) {
-    final mpi = evaluateSingleHandMpi(hand, seat: seat, vuln: vuln);
-    final targetTricks = level + 6;
-    final suitLength = hand.length(suit);
-    final ltc = hand.losingTrickCount;
-    // With 7+ card suits, length cards provide additional winners beyond raw 3-card LTC
-    final lengthBonus = suitLength >= 7 ? (suitLength - 6) : 0;
-    final double expTricks = (13.0 - ltc + lengthBonus).clamp(1.0, 13.0);
-
-    // Rule of 15 in 4th Seat: NEVER PREEMPT!
-    if (seat == SeatPosition.fourth) {
-      final ruleOf15 = hand.hcp + hand.spadesLength;
-      final shouldOpen = ruleOf15 >= 15 && hand.hcp >= 10;
-      return PreemptDecision(
-        shouldPreempt: false,
-        effectiveMpi: mpi,
-        allowedUndertricks: 0,
-        expectedTricks: expTricks,
-        recommendedCall: shouldOpen ? '1${suit.symbol}' : 'Pass',
-        reason: '4th Seat Principle: Never preempt when opponents have passed. Rule of 15 ($ruleOf15) ${shouldOpen ? "qualifies for 1${suit.symbol} opening" : "recommends passing out"}.',
-      );
-    }
-
-    // Rule of 2, 3, and 4 based on vulnerability:
-    int allowedDown;
-    if (vuln == Vulnerability.favorable) {
-      allowedDown = 4; // White vs Red: allowed down 4 tricks
-    } else if (vuln == Vulnerability.unfavorable) {
-      allowedDown = 2; // Red vs White: allowed down 2 tricks
-    } else {
-      allowedDown = 3; // Equal: allowed down 3 tricks
-    }
-
-    // 3rd seat tactical aggression: +1 allowed down
-    if (seat == SeatPosition.third) {
-      allowedDown += 1;
-    }
-
-    // Suit length requirement:
-    // Level 2 = 6-card suit; Level 3 = 7-card suit; Level 4 = 8-card suit
-    final minLength = level + 4;
-    final hasLength = suitLength >= minLength;
-
-    // 2nd seat discipline: requires sound suit quality (2 of top 3 or 3 of top 5)
-    bool soundSuit = true;
-    if (seat == SeatPosition.second) {
-      final honors = hand.cardsInSuit(suit).where((c) => c.rank.value >= Rank.ten.value).length;
-      soundSuit = honors >= 2;
-    }
-
-    // Max HCP ceiling: preempts should not hold opening values (<= 10 HCP)
-    final isWeak = hand.hcp <= 10;
-    final deficit = targetTricks - expTricks;
-    final shouldPreempt = hasLength && isWeak && soundSuit && (deficit <= allowedDown);
-
-    final call = '$level${suit.symbol}';
-    final reason = shouldPreempt
-        ? 'ML recommends opening $call ($suitLength-card suit, ${expTricks.toStringAsFixed(1)} exp tricks, allowed down $allowedDown under Rule of 2/3/4 in ${seat.label}).'
-        : 'Preempt $call not recommended: ${!hasLength ? "insufficient length ($suitLength < $minLength)" : (!isWeak ? "too strong for preempt (${hand.hcp} HCP)" : (!soundSuit ? "2nd seat requires sound suit quality" : "deficit ($deficit) exceeds allowed down $allowedDown"))}.';
-
-    return PreemptDecision(
-      shouldPreempt: shouldPreempt,
-      effectiveMpi: mpi,
-      allowedUndertricks: allowedDown,
-      expectedTricks: expTricks,
-      recommendedCall: shouldPreempt ? call : 'Pass',
-      reason: reason,
+    return MLModelRegistry.instance.activePreemptModel.evaluatePreempt(
+      hand,
+      suit: suit,
+      level: level,
+      seat: seat,
+      vuln: vuln,
     );
   }
 

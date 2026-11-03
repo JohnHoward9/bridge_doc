@@ -14,7 +14,7 @@ fragments:
 
       3c:
         desc: "Modified Wolff Relay: Puppet to 3D to sign off in a suit"
-        rule: "0-9hcp"
+        rule: "0-7hcp 5+d | 0-7hcp 5+h | 0-7hcp 5+s"
         priority: 2
         bids:
           3d:
@@ -115,8 +115,8 @@ fragments:
         priority: 1
 
       3nt:
-        desc: "Signoff in 3NT (no 5-card major, 6-11 HCP)"
-        rule: "4-h 4-s 6-11hcp"
+        desc: "Signoff in 3NT (no 5-card major, 5-11 HCP)"
+        rule: "4-h 4-s 5-11hcp"
         priority: 2
 
       4nt:

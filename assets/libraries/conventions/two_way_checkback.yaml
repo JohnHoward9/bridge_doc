@@ -54,8 +54,8 @@ fragments:
                     desc: "Maximum, accept invite to 4H ($1ntRebidMaxRange)"
                     rule: "$1ntRebidMaxRange 3h !balanced"
               2s:
-                desc: "Invitational with 5+ Spades ($1ntRebidInviteRange)"
-                rule: "$1ntRebidInviteRange 5+s"
+                desc: "Invitational with 4+ Spades ($1ntRebidInviteRange)"
+                rule: "$1ntRebidInviteRange 4+s"
                 bids:
                   pass:
                     desc: "Decline invite, minimum ($1ntRebidMinRange)"

@@ -92,21 +92,28 @@ class HcpConstraint extends HandConstraint {
     // Otherwise, raw Milton Work HCP must satisfy min.
     if (min != null) {
       if (valuation is MLHandValuation) {
-        final breakdown = valuation.evaluateBreakdown(hand);
-        if (breakdown.isDowngraded) {
+        if (context != null && context.expectationBonus > 0) {
           if (pts < min!) {
             passed = false;
-            failed.add('ML Downgraded HCP $pts is below minimum $min');
-          }
-        } else if (breakdown.isUpgraded) {
-          if (pts < min! || rawHcp < min! - 1) {
-            passed = false;
-            failed.add('HCP $rawHcp ($pts effective) is below minimum $min');
+            failed.add('Expectation HCP $pts is below minimum $min');
           }
         } else {
-          if (rawHcp < min!) {
-            passed = false;
-            failed.add('HCP $rawHcp is below minimum $min');
+          final breakdown = valuation.evaluateBreakdown(hand);
+          if (breakdown.isDowngraded) {
+            if (pts < min!) {
+              passed = false;
+              failed.add('ML Downgraded HCP $pts is below minimum $min');
+            }
+          } else if (breakdown.isUpgraded) {
+            if (pts < min! || rawHcp < min! - 1) {
+              passed = false;
+              failed.add('HCP $rawHcp ($pts effective) is below minimum $min');
+            }
+          } else {
+            if (rawHcp < min!) {
+              passed = false;
+              failed.add('HCP $rawHcp is below minimum $min');
+            }
           }
         }
       } else {
@@ -122,16 +129,23 @@ class HcpConstraint extends HandConstraint {
     // but if raw HCP exceeds max and is not downgraded, it fails.
     if (max != null) {
       if (valuation is MLHandValuation) {
-        final breakdown = valuation.evaluateBreakdown(hand);
-        if (breakdown.isDowngraded) {
-          if (pts > max!) {
+        if (context != null && context.expectationBonus > 0) {
+          if (pts > max! + 1) {
             passed = false;
-            failed.add('HCP $pts is above maximum $max');
+            failed.add('Expectation HCP $pts exceeds maximum $max');
           }
         } else {
-          if (rawHcp > max!) {
-            passed = false;
-            failed.add('HCP $rawHcp is above maximum $max');
+          final breakdown = valuation.evaluateBreakdown(hand);
+          if (breakdown.isDowngraded) {
+            if (pts > max!) {
+              passed = false;
+              failed.add('HCP $pts is above maximum $max');
+            }
+          } else {
+            if (rawHcp > max!) {
+              passed = false;
+              failed.add('HCP $rawHcp is above maximum $max');
+            }
           }
         }
       } else {

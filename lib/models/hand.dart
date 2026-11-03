@@ -117,6 +117,16 @@ class Hand {
     return best;
   }
 
+  /// Returns the shortest suit length in the hand.
+  int get shortestSuitLength {
+    int minLen = length(Suit.spades);
+    for (final s in [Suit.hearts, Suit.diamonds, Suit.clubs]) {
+      final len = length(s);
+      if (len < minLen) minLen = len;
+    }
+    return minLen;
+  }
+
   /// Whether [suit] is "solid" (at least [minLength] cards headed by AKQ).
   bool isSolidSuit(Suit suit, {int minLength = 7}) {
     final sCards = cardsInSuit(suit);

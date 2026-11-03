@@ -92,7 +92,59 @@ class BiddingStateContext {
   final SeatPosition? explicitSeatPosition;
 
   late final MLHandBreakdown breakdown;
-  double get effectiveHcp => breakdown.effectiveHcp;
+
+  /// Effective HCP incorporating baseline ML valuation and mathematical expectation bonus.
+  double get effectiveHcp => breakdown.effectiveHcp + expectationBonus;
+
+  /// Mathematical expectation bonus incorporating fit probability, ruffing trick potential,
+  /// and asymmetric game bonus payoffs (+300 non-vul, +500 vul) for unbalanced holdings.
+  double get expectationBonus {
+    if (holding.isBalanced) return 0.0;
+
+    // 1. Posterior: Trump suit is already agreed
+    if (agreedTrump != null) {
+      final trumpLen = holding.length(agreedTrump!);
+      if (trumpLen >= 4) {
+        double bonus = 0.0;
+        for (final s in Suit.values) {
+          if (s == agreedTrump) continue;
+          final l = holding.length(s);
+          if (l == 0) bonus += 3.5; // Void with 4+ trumps
+          else if (l == 1) bonus += 1.5; // Singleton with 4+ trumps
+        }
+        return bonus;
+      } else if (trumpLen == 3) {
+        double bonus = 0.0;
+        for (final s in Suit.values) {
+          if (s == agreedTrump) continue;
+          final l = holding.length(s);
+          if (l == 0) bonus += 2.0;
+          else if (l == 1) bonus += 0.8;
+        }
+        return bonus;
+      }
+      return 0.0;
+    }
+
+    // 2. Prior: Unconfirmed fit in constructive auction facing partner opening/rebid
+    if (!isOpeningAuction) {
+      final shortest = holding.shortestSuitLength;
+      if (shortest <= 1) {
+        final fourCardSuits = Suit.values.where((s) => holding.length(s) >= 4).length;
+        if (fourCardSuits >= 2) {
+          double bonus = (shortest == 0)
+              ? (fourCardSuits >= 3 ? 3.5 : 2.5) // Void with multiple fit targets
+              : (fourCardSuits >= 3 ? 1.5 : 1.0); // Singleton with multiple fit targets
+          if (vulnerability.isWeVul) {
+            bonus += 0.5; // Payoff asymmetry: +500 vul game bonus
+          }
+          return bonus;
+        }
+      }
+    }
+
+    return 0.0;
+  }
 
   SeatPosition get seatPosition {
     if (explicitSeatPosition != null) return explicitSeatPosition!;

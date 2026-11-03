@@ -344,7 +344,7 @@ fragments:
             bids:
               3s:
                 desc: "Rebid 5+ Spades"
-                rule: "5+s 6-9hcp"
+                rule: "5+s"
                 priority: 2
                 agreedSuit: "s"
                 bids:
@@ -365,7 +365,7 @@ fragments:
                 priority: 3
               4c:
                 desc: "Fit Clubs"
-                rule: "4+c 6-9hcp"
+                rule: "4+c"
                 priority: 2
                 agreedSuit: "c"
           3s:

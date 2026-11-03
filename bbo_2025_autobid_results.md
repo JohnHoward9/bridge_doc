@@ -27,7 +27,7 @@
 | 14 | 81557 B:1 | ♠7 ♥KQT54 ♦J65 ♣JT96<br>(7 HCP → 6.6 Eff) | ♠JT53 ♥A97 ♦K42 ♣KQ4<br>(13 HCP → 12.6 Eff) | **20 HCP**<br>(19.1 Eff) | 4S (8) | `1c 1h 1nt 2h Pass` | **2h** | ✅ OPTIMUM |
 | 15 | 81557 B:2 | ♠QT653 ♥KT ♦A863 ♣85<br>(9 HCP → 9.5 Eff) | ♠972 ♥AQ74 ♦75 ♣KQT7<br>(11 HCP → 11.1 Eff) | **20 HCP**<br>(20.6 Eff) | 2H (7) | `Pass Pass` | **Pass** | ✅ OPTIMUM |
 | 16 | 81557 B:5 | ♠A9764 ♥J7 ♦92 ♣K863<br>(8 HCP → 7.8 Eff) | ♠QJ53 ♥A5 ♦AT84 ♣QT9<br>(13 HCP → 13.4 Eff) | **21 HCP**<br>(21.2 Eff) | 4S (10) | `1d 1s 2s Pass` | **2s** | ✅ OPTIMUM |
-| 17 | 81557 B:6 | ♠AKJT2 ♥74 ♦— ♣JT9843<br>(9 HCP → 9.1 Eff) | ♠— ♥AJT865 ♦AKJ94 ♣A2<br>(17 HCP → 17.7 Eff) | **26 HCP**<br>(26.8 Eff) | 4H (11) | `1h 1s 3h 4h Pass` | **4h** | ✅ OPTIMUM |
+| 17 | 81557 B:6 | ♠AKJT2 ♥74 ♦— ♣JT9843<br>(9 HCP → 9.1 Eff) | ♠— ♥AJT865 ♦AKJ94 ♣A2<br>(17 HCP → 17.7 Eff) | **26 HCP**<br>(26.8 Eff) | 4H (11) | `1h 1s 4h Pass` | **4h** | ✅ OPTIMUM |
 | 18 | 81557 B:7 | ♠KJT6 ♥Q87 ♦JT96 ♣75<br>(7 HCP → 6.6 Eff) | ♠A4 ♥AJ9432 ♦K8 ♣A83<br>(16 HCP → 16.7 Eff) | **23 HCP**<br>(23.2 Eff) | 4H (11) | `Pass 1h 1s 3h Pass` | **3h** | ✅ OPTIMUM |
 | 19 | 81557 B:8 | ♠K86 ♥QJ3 ♦A87 ♣K432<br>(13 HCP → 12.3 Eff) | ♠Q3 ♥A97654 ♦K2 ♣Q96<br>(11 HCP → 10.8 Eff) | **24 HCP**<br>(23.1 Eff) | 4H (-) | `1c 1h 1nt 2c 2d 3h 4h Pass` | **4h** | ✅ OPTIMUM |
 | 20 | 81557 B:9 | ♠K8 ♥K54 ♦KJ8 ♣JT964<br>(11 HCP → 10.9 Eff) | ♠— ♥AT62 ♦AT42 ♣AKQ85<br>(17 HCP → 18.3 Eff) | **28 HCP**<br>(29.2 Eff) | 6C (13) | `1c 2c 2d 2nt 4d 4s 7c Pass` | **7c** | ✅ OPTIMUM |
@@ -47,7 +47,7 @@
 | 34 | 81559 B:1 | ♠2 ♥AT95 ♦KQJ95 ♣KJ5<br>(14 HCP → 13.8 Eff) | ♠Q53 ♥KJ864 ♦AT6 ♣76<br>(10 HCP → 10.2 Eff) | **24 HCP**<br>(24.0 Eff) | 4S (10) | `Pass 1d 1h 2h 2s 3d 4h Pass` | **4h** | ✅ OPTIMUM |
 | 35 | 81559 B:2 | ♠KJ9 ♥KT82 ♦Q7 ♣AT42<br>(13 HCP → 13.3 Eff) | ♠A53 ♥A9 ♦K ♣KQJ9753<br>(17 HCP → 17.2 Eff) | **30 HCP**<br>(30.5 Eff) | 6C (12) | `1c 1h 3d 4d 4s 6c Pass` | **6c** | ✅ OPTIMUM |
 | 36 | 81559 B:3 | ♠K973 ♥85 ♦A63 ♣J982<br>(8 HCP → 7.8 Eff) | ♠AT64 ♥QT ♦KQ872 ♣KQ<br>(16 HCP → 16.3 Eff) | **24 HCP**<br>(24.1 Eff) | 4S (9) | `Pass 1d 1s 3s 4s Pass` | **4s** | ✅ OPTIMUM |
-| 37 | 81559 B:4 | ♠AKJ752 ♥— ♦K65 ♣9654<br>(11 HCP → 11.0 Eff) | ♠— ♥AQJ965 ♦AT2 ♣AQT3<br>(17 HCP → 17.8 Eff) | **28 HCP**<br>(28.7 Eff) | 6C (11) | `Pass 1h 1s 3h 4c 6c Pass` | **6c** | ✅ OPTIMUM |
+| 37 | 81559 B:4 | ♠AKJ752 ♥— ♦K65 ♣9654<br>(11 HCP → 11.0 Eff) | ♠— ♥AQJ965 ♦AT2 ♣AQT3<br>(17 HCP → 17.8 Eff) | **28 HCP**<br>(28.7 Eff) | 6C (11) | `Pass 1h 1s 3c 3s 4nt 5h 6s Pass` | **6s** | ✅ OPTIMUM |
 | 38 | 81559 B:6 | ♠T53 ♥JT9 ♦AQ932 ♣A8<br>(11 HCP → 11.7 Eff) | ♠AKQ8 ♥AK63 ♦T65 ♣53<br>(16 HCP → 16.8 Eff) | **27 HCP**<br>(28.4 Eff) | 3N (8) | `1nt 3nt Pass` | **3nt** | ✅ OPTIMUM |
-| 39 | 81559 B:8 | ♠75 ♥KQJ953 ♦J ♣AKT9<br>(14 HCP → 14.6 Eff) | ♠A ♥64 ♦A985 ♣QJ8742<br>(11 HCP → 11.9 Eff) | **25 HCP**<br>(26.5 Eff) | 5S (10) | `1h 2c 2h 4h Pass` | **4h** | ✅ OPTIMUM |
-| 40 | 81559 B:9 | ♠KJT842 ♥T753 ♦— ♣KQ3<br>(9 HCP → 8.9 Eff) | ♠A ♥KQ864 ♦Q876 ♣J85<br>(12 HCP → 11.6 Eff) | **21 HCP**<br>(20.5 Eff) | 4H (-) | `1h 3h Pass` | **3h** | ✅ OPTIMUM |
+| 39 | 81559 B:8 | ♠75 ♥KQJ953 ♦J ♣AKT9<br>(14 HCP → 14.6 Eff) | ♠A ♥64 ♦A985 ♣QJ8742<br>(11 HCP → 11.9 Eff) | **25 HCP**<br>(26.5 Eff) | 5S (10) | `1h 2c 2h 3h 4s 5d 6h Pass` | **6h** | ✅ OPTIMUM |
+| 40 | 81559 B:9 | ♠KJT842 ♥T753 ♦— ♣KQ3<br>(9 HCP → 8.9 Eff) | ♠A ♥KQ864 ♦Q876 ♣J85<br>(12 HCP → 11.6 Eff) | **21 HCP**<br>(20.5 Eff) | 4H (-) | `1h 3d 3h Pass` | **3h** | ✅ OPTIMUM |

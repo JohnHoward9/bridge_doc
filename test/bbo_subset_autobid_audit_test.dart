@@ -8,6 +8,7 @@ import 'package:bridge_bidding_system/services/system_library_resolver.dart';
 import 'package:bridge_bidding_system/engine/compiled_auction_graph.dart';
 import 'package:bridge_bidding_system/engine/auction_engine.dart';
 import 'package:bridge_bidding_system/models/bidding_state_context.dart';
+import 'package:bridge_bidding_system/constraints/specificity_resolver.dart';
 
 Map<String, Hand> parseBboDeal(String dealStr) {
   final match = RegExp(r'md\|(\d)([^\|]+)\|').firstMatch(dealStr);
@@ -91,9 +92,10 @@ SimulatedAuctionResult simulateAuction({
   required Hand south,
   required AuctionEngine engine,
   required String dealer,
+  SpecificityResolver? resolverOverride,
 }) {
   final graph = engine.graph;
-  final resolver = engine.resolver;
+  final resolver = resolverOverride ?? engine.resolver;
   final fragments = graph.system.fragments;
 
   final List<String> calls = [];

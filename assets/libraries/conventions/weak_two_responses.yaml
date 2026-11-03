@@ -89,25 +89,25 @@ fragments:
           3c:
             cond: "$suit!=c"
             desc: "Maximum (8-10 HCP) with Club Feature (Ace or King)"
-            rule: "8-10hcp 1+c n#a|kc"
+            rule: "8-10hcp ac | 8-10hcp kc"
             priority: 1
             ref: "fFeatureAskContinuations"
           3d:
             cond: "$suit!=d"
             desc: "Maximum (8-10 HCP) with Diamond Feature (Ace or King)"
-            rule: "8-10hcp 1+d n#a|kd"
+            rule: "8-10hcp ad | 8-10hcp kd"
             priority: 1
             ref: "fFeatureAskContinuations"
           3h:
             cond: "$suit!=h"
             desc: "Maximum (8-10 HCP) with Heart Feature (Ace or King)"
-            rule: "8-10hcp 1+h n#a|kh"
+            rule: "8-10hcp ah | 8-10hcp kh"
             priority: 1
             ref: "fFeatureAskContinuations"
           3s:
             cond: "$suit!=s"
             desc: "Maximum (8-10 HCP) with Spade Feature (Ace or King)"
-            rule: "8-10hcp 1+s n#a|ks"
+            rule: "8-10hcp as | 8-10hcp ks"
             priority: 1
             ref: "fFeatureAskContinuations"
           3$suit:
@@ -117,7 +117,7 @@ fragments:
             ref: "fFeatureAskContinuations"
           3nt:
             desc: "Maximum (8-10 HCP) with solid $suit_name (AKQxxx)"
-            rule: "8-10hcp q#hhh+$suit"
+            rule: "8-10hcp a$suit k$suit q$suit"
             priority: 1
             bids:
               pass:

@@ -60,14 +60,18 @@ class HcpConstraint extends HandConstraint {
     // 1. Strict Effective HCP mode for automated bot bidding (North, East, West)
     if (valuation is MLHandValuation && valuation.strictEffectiveHcp) {
       if (min != null && effectivePts < (min! - 0.49)) {
-        passed = false;
-        failed.add('Effective HCP ${effectivePts.toStringAsFixed(1)} is below minimum $min');
+        if (min == 6 && rawHcp >= 6) {
+          // A hand with 6+ raw HCP should never fail a 6+ HCP minimum response threshold
+        } else {
+          passed = false;
+          failed.add('Effective HCP ${effectivePts.toStringAsFixed(1)} is below minimum $min');
+        }
       }
       if (max != null) {
         final upperLimit = max! + 0.5;
-        if (effectivePts >= upperLimit) {
+        if (effectivePts >= upperLimit || (max! <= 5 && rawHcp >= 6)) {
           passed = false;
-          failed.add('Effective HCP ${effectivePts.toStringAsFixed(1)} is >= upper bound $max');
+          failed.add('Effective HCP ${effectivePts.toStringAsFixed(1)} (raw $rawHcp) is >= upper bound $max');
         }
       }
       final rangeStr = min != null && max != null
@@ -100,7 +104,7 @@ class HcpConstraint extends HandConstraint {
         } else {
           final breakdown = valuation.evaluateBreakdown(hand);
           if (breakdown.isDowngraded) {
-            if (pts < min!) {
+            if (pts < min! && !(min == 6 && rawHcp >= 6)) {
               passed = false;
               failed.add('ML Downgraded HCP $pts is below minimum $min');
             }
@@ -137,7 +141,7 @@ class HcpConstraint extends HandConstraint {
         } else {
           final breakdown = valuation.evaluateBreakdown(hand);
           if (breakdown.isDowngraded) {
-            if (pts > max!) {
+            if (pts > max! || (max! <= 5 && rawHcp >= 6)) {
               passed = false;
               failed.add('HCP $pts is above maximum $max');
             }

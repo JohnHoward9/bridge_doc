@@ -18,8 +18,8 @@ fragments:
     rule: "12+hcp 2+c 3-d 4-s 4-h | 12+hcp 5+c c>d 4-s 4-h | 12+hcp 6+c c>d c>s c>h | 11hcp 5+c 4+d 4-s 4-h"
     bids:
       1d:
-        desc: "Walsh 1D: 4+ Diamonds (bypasses 4M unless GF or 4441)"
-        rule: "6+hcp 4+d"
+        desc: "Walsh 1D: 4+ Diamonds (bypasses 4M unless GF or 4441) or 6+ Diamonds with 5+ HCP"
+        rule: "6+hcp 4+d | 5+hcp 6+d"
         priority: 2
         bids:
           1h:
@@ -713,8 +713,8 @@ fragments:
             rule: "18-19hcp balanced"
             ref: "fTransfersOver2NT"
           3d:
-            desc: "Jump rebid 6+ Diamonds (16-18 HCP)"
-            rule: "6+d 16-18hcp"
+            desc: "Jump rebid 6+ Diamonds (16+ HCP)"
+            rule: "6+d 16+hcp"
             bids:
               3nt:
                 desc: "3NT to play"
@@ -867,9 +867,35 @@ fragments:
             desc: "18-19 balanced"
             rule: "18-19hcp balanced"
             ref: "fTransfersOver2NT"
+          3c:
+            desc: "Opener Jump Shift: 19+ HCP, 5+ Diamonds and 4+ Clubs (Game Force)"
+            rule: "19+hcp 5+d 4+c"
+            priority: 1
+            forceTo: game
+            bids:
+              3d:
+                desc: "Preference / support for Diamonds (3+ Diamonds)"
+                rule: "3+d"
+                priority: 1
+              3s:
+                desc: "Rebid 6+ Spades"
+                rule: "6+s"
+                priority: 2
+              3nt:
+                desc: "3NT to play with stoppers"
+                rule: "balanced"
+                priority: 2
+              4s:
+                desc: "Game in Spades"
+                rule: "5+s"
+                priority: 1
+              5d:
+                desc: "Game in Diamonds"
+                rule: "4+d"
+                priority: 2
           3d:
-            desc: "Jump rebid 6+ Diamonds (16-18 HCP)"
-            rule: "6+d 16-18hcp"
+            desc: "Jump rebid 6+ Diamonds (16+ HCP)"
+            rule: "6+d 16+hcp"
             bids:
               3nt:
                 desc: "3NT to play"

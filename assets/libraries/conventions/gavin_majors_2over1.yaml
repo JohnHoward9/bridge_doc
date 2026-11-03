@@ -50,7 +50,7 @@ fragments:
       # Natural 1S response only over 1H
       1s:
         desc: "Natural 4+ Spades forcing 1 round"
-        rule: "6+hcp 4+s"
+        rule: "5+hcp 4+s"
         cond: "$M=h"
         priority: 2
         bids:
@@ -395,10 +395,24 @@ fragments:
                 priority: 2
                 agreedSuit: "s"
                 bids:
+                  4h:
+                    desc: "Game in Hearts with 6-card Hearts or spade shortness"
+                    rule: "6+h | 5+h 2-s"
+                    priority: 1
+                    agreedSuit: "h"
                   4s:
-                    desc: "Game in Spades"
+                    desc: "Game in Spades with 3+ Spades"
                     rule: "3+s"
                     priority: 1
+                  3nt:
+                    desc: "Choice of game 3NT"
+                    rule: "balanced | 2-s"
+                    priority: 2
+                  4d:
+                    desc: "Fit Diamonds"
+                    rule: "5+d 2-s"
+                    priority: 2
+                    agreedSuit: "d"
               3nt:
                 desc: "Balanced game signoff"
                 rule: "balanced"
@@ -616,17 +630,22 @@ fragments:
             desc: "Opener rebids 6-card $M_name (guarantees 6 cards)"
             rule: "6+$M 11-16hcp | 6+$M 12-15hcp"
           2nt:
-            desc: "Opener balanced invitation (18-19 HCP)"
-            rule: "18-19hcp balanced"
+            desc: "Opener invitation showing 18-19 HCP"
+            rule: "18-19hcp !6+$M"
+            priority: 1
             bids:
               pass:
                 desc: "Decline invitation with 6-7 HCP"
                 rule: "6-7hcp"
                 priority: 10
+              "4$M":
+                desc: "Convert 2NT to 4M with 3-card support (10-11 HCP)"
+                rule: "10-11hcp 3+$M"
+                priority: 1
               3nt:
                 desc: "Accept invitation with 8-11 HCP"
                 rule: "8-11hcp"
-                priority: 1
+                priority: 2
           "3$M":
             desc: "Invitational 6+ $M_name (16-17 HCP)"
             rule: "6+$M 16-17hcp"

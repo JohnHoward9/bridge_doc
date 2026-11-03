@@ -774,7 +774,9 @@ class MLPowerEngine {
     final targetTricks = level + 6;
     final suitLength = hand.length(suit);
     final ltc = hand.losingTrickCount;
-    final double expTricks = (13.0 - ltc).clamp(1.0, 13.0);
+    // With 7+ card suits, length cards provide additional winners beyond raw 3-card LTC
+    final lengthBonus = suitLength >= 7 ? (suitLength - 6) : 0;
+    final double expTricks = (13.0 - ltc + lengthBonus).clamp(1.0, 13.0);
 
     // Rule of 15 in 4th Seat: NEVER PREEMPT!
     if (seat == SeatPosition.fourth) {

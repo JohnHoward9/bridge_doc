@@ -6,28 +6,82 @@ imports:
   - "assets/libraries/conventions/namyats.yaml"
 
 fragments:
+  Preempt3Clubs:
+    aliases: ["fPreempt3ClubResponses"]
+    desc: "Preemptive opening in Clubs (7+ Clubs, 5-11 HCP)"
+    rule: "5-11hcp 7+c 6+ltc controls<=2 outside_ctrl<=1"
+    include: "fPreempt3"
+    vars:
+      suit: "c"
+      suit_name: "Clubs"
+      m: "c"
+      m_name: "Clubs"
+
+  Preempt3Diamonds:
+    aliases: ["fPreempt3DiamondResponses"]
+    desc: "Preemptive opening in Diamonds (7+ Diamonds, 5-11 HCP)"
+    rule: "5-11hcp 7+d 6+ltc controls<=2 outside_ctrl<=1"
+    include: "fPreempt3"
+    vars:
+      suit: "d"
+      suit_name: "Diamonds"
+      m: "d"
+      m_name: "Diamonds"
+
+  Preempt3Hearts:
+    aliases: ["fPreempt3HeartResponses"]
+    desc: "Preemptive opening in Hearts (7+ Hearts, 5-11 HCP)"
+    rule: "5-11hcp 7+h 6+ltc controls<=2 outside_ctrl<=1"
+    include: "fPreempt3"
+    vars:
+      suit: "h"
+      suit_name: "Hearts"
+      M: "h"
+      M_name: "Hearts"
+
+  Preempt3Spades:
+    aliases: ["fPreempt3SpadeResponses"]
+    desc: "Preemptive opening in Spades (7+ Spades, 5-11 HCP)"
+    rule: "5-11hcp 7+s 6+ltc controls<=2 outside_ctrl<=1"
+    include: "fPreempt3"
+    vars:
+      suit: "s"
+      suit_name: "Spades"
+      M: "s"
+      M_name: "Spades"
+
   fPreempt3:
-    aliases:
-      - "Preempt3Clubs"
-      - "Preempt3Diamonds"
-      - "Preempt3Hearts"
-      - "Preempt3Spades"
-      - "fPreempt3ClubResponses"
-      - "fPreempt3DiamondResponses"
-      - "fPreempt3HeartResponses"
-      - "fPreempt3SpadeResponses"
-    desc: "Preemptive opening (7+ $suit_name, 6-10 HCP)"
-    rule: "6-10hcp 7+$suit 6+ltc controls<=2 outside_ctrl<=1"
+    desc: "Preemptive opening responses"
     bids:
-      [3d,3h,3s]:
-        desc: "Natural new suit (5+ $suit_name, 16+ HCP, game forcing)"
-        rule: "16+hcp 5+%"
+      3d:
+        cond: "$suit=c"
+        desc: "Natural 5+ Diamonds (16+ HCP, GF)"
+        rule: "16+hcp 5+d"
         priority: 1
+      3h:
+        cond: "$suit=c,d"
+        desc: "Natural 5+ Hearts (16+ HCP, GF)"
+        rule: "16+hcp 5+h"
+        priority: 1
+      3s:
+        cond: "$suit=c,d,h"
+        desc: "Natural 5+ Spades (16+ HCP, GF)"
+        rule: "16+hcp 5+s"
+        priority: 1
+        bids:
+          4s:
+            desc: "Raise to 4S with 3+ Spades"
+            rule: "3+s"
+            priority: 1
+          pass:
+            desc: "Pass with 2- Spades"
+            rule: "2-s"
+            priority: 10
       3nt:
         desc: "To play (16-19 HCP balanced with outside stoppers)"
         rule: "16-19hcp balanced"
         priority: 2
-      4$suit:
+      "4$suit":
         desc: "Raise in $suit_name (preemptive or to play)"
         rule: "3+$suit"
         priority: 3
@@ -104,22 +158,36 @@ fragments:
             desc: "Opener corrects to 5D holding Diamonds"
             rule: "7+d"
 
+  Preempt4Hearts:
+    aliases: ["fPreempt4HeartResponses"]
+    desc: "Preemptive opening in Hearts (8+ Hearts, 6-10 HCP)"
+    rule: "6-10hcp 8+h 6+ltc controls<=2 outside_ctrl<=1"
+    include: "fPreempt4"
+    vars:
+      suit: "h"
+      suit_name: "Hearts"
+      M: "h"
+      M_name: "Hearts"
+
+  Preempt4Spades:
+    aliases: ["fPreempt4SpadeResponses"]
+    desc: "Preemptive opening in Spades (8+ Spades, 6-10 HCP)"
+    rule: "6-10hcp 8+s 6+ltc controls<=2 outside_ctrl<=1"
+    include: "fPreempt4"
+    vars:
+      suit: "s"
+      suit_name: "Spades"
+      M: "s"
+      M_name: "Spades"
+
   fPreempt4:
-    aliases:
-      - "Preempt4Clubs"
-      - "Preempt4Diamonds"
-      - "Preempt4Hearts"
-      - "Preempt4Spades"
-      - "fPreempt4HeartResponses"
-      - "fPreempt4SpadeResponses"
-    desc: "Preemptive opening to play (8+ $suit_name, 6-10 HCP)"
-    rule: "6-10hcp 8+$suit 6+ltc controls<=2 outside_ctrl<=1"
+    desc: "Preemptive opening to play responses"
     bids:
       4nt:
         desc: "Roman Key Card Blackwood 1430 in $suit_name"
         rule: "16+hcp"
         priority: 1
-      5$suit:
+      "5$suit":
         desc: "Extension of preempt"
         rule: "3+$suit"
         priority: 2

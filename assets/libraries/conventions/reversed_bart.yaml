@@ -31,12 +31,32 @@ fragments:
               2nt:
                 desc: "Solid invitation to 2NT/3NT"
                 rule: "10-11hcp"
-              3c:
-                desc: "Invitational with Club fit"
-                rule: "10-11hcp 4+c"
               3s:
                 desc: "Invitational 3-card Spade limit raise"
                 rule: "10-11hcp 3s"
+                priority: 1
+                bids:
+                  pass:
+                    desc: "Decline invitation (12-13 HCP)"
+                    rule: "12-13hcp"
+                    priority: 10
+                  4s:
+                    desc: "Accept invitation to game in Spades (14+ HCP)"
+                    rule: "14+hcp"
+                    priority: 1
+              3c:
+                desc: "Invitational with Club fit (denies 3 Spades)"
+                rule: "10-11hcp 4+c 2-s"
+                priority: 2
+                bids:
+                  pass:
+                    desc: "Decline invitation"
+                    rule: "12-13hcp"
+                    priority: 10
+                  3nt:
+                    desc: "Accept invitation to 3NT"
+                    rule: "14+hcp"
+                    priority: 1
 
       2s:
         desc: "Constructive preference to 2S (8-10 HCP, 2+ Spades)"

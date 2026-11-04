@@ -80,9 +80,9 @@ fragments:
             desc: "Opener raises to game in Spades"
             rule: "8-10hcp 4+s"
 
-      # Feature Ask (2NT)
+      # Vinny 2NT Inquiry (Gavin Wolpert / Vincent Demuy Structure)
       2nt:
-        desc: "Feature Ask (14+ HCP, forcing): asks opener for strength and outside Ace/King"
+        desc: "Vinny 2NT Inquiry (14+ HCP, forcing): asks opener for strength, suit quality, and features"
         rule: "14+hcp"
         priority: 1
         bids:
@@ -111,18 +111,36 @@ fragments:
             priority: 1
             ref: "fFeatureAskContinuations"
           3$suit:
-            desc: "Minimum (5-7 HCP), rebids $suit_name"
-            rule: "5-7hcp"
+            desc: "Minimum (5-7 HCP), or Maximum without outside feature or good suit, rebids $suit_name"
+            rule: "5-7hcp | 8-10hcp !ac !kc !ad !kd !ah !kh !as !ks"
             priority: 2
-            ref: "fFeatureAskContinuations"
+            bids:
+              pass:
+                desc: "Pass to play in 3$suit when opener signs off with minimum"
+                rule: "14-15hcp"
+                priority: 1
+              3nt:
+                desc: "Signoff in 3NT"
+                rule: "16+hcp"
+                priority: 2
+              "4$suit":
+                desc: "Game in $suit_name"
+                rule: "16+hcp 2+$suit"
+                priority: 1
+              4nt:
+                desc: "RKCB 1430 for $suit_name"
+                rule: "18+hcp"
+                priority: 1
+                ref: "fRKCBResponses"
+                agreedSuit: "$suit"
           3nt:
-            desc: "Maximum (8-10 HCP) with solid $suit_name (AKQxxx)"
-            rule: "8-10hcp a$suit k$suit q$suit"
+            desc: "Maximum (8-10 HCP) with good or solid $suit_name (AK, AQ, KQ, or KQJ)"
+            rule: "8-10hcp k$suit q$suit | 8-10hcp a$suit k$suit | 8-10hcp a$suit q$suit | 8-10hcp a$suit k$suit q$suit"
             priority: 1
             bids:
               pass:
                 desc: "Pass to play in 3NT"
-                rule: "14-17hcp"
+                rule: "14-17hcp 1-$suit"
                 priority: 2
               "4$suit":
                 desc: "Game in $suit_name"
@@ -179,23 +197,20 @@ fragments:
         priority: 4
 
   fFeatureAskContinuations:
-    desc: "Feature Ask continuations by responder"
+    aliases: ["fFeatureShownContinuations", "fVinny2NTContinuations"]
+    desc: "Feature Ask / Vinny 2NT continuations by responder"
     bids:
-      pass:
-        desc: "Pass to play in 3$suit when opener signs off with minimum"
-        rule: "14-15hcp"
-        priority: 1
       "3$suit":
-        desc: "Signoff in $suit_name"
+        desc: "Signoff in $suit_name with minimum invitation"
         rule: "14-15hcp 2+$suit"
-        priority: 3
+        priority: 2
       3nt:
         desc: "Signoff in 3NT"
         rule: "15+hcp"
         priority: 2
       "4$suit":
         desc: "Game in $suit_name"
-        rule: "16+hcp 2+$suit"
+        rule: "14+hcp 2+$suit"
         priority: 1
       4nt:
         desc: "RKCB 1430 for $suit_name"

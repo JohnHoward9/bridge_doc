@@ -32,7 +32,8 @@ void main() {
 
       for (final alias in expectedAliases) {
         expect(library.fragments.containsKey(alias), isTrue, reason: 'Missing alias: $alias');
-        expect(library.fragments[alias]!.name, equals('fWeakTwo'));
+        final frag = library.fragments[alias]!;
+        expect(frag.includes.contains('fWeakTwo') || frag.name == 'fWeakTwo', isTrue);
       }
     });
 

@@ -337,6 +337,28 @@ void main() {
       expect(sim.auctionCalls[3].toLowerCase(), '4s', reason: 'North raises to 4S game');
     });
 
+    test('Deal 81797 B:9: Weak two Vinny 2NT inquiry shows maximum good suit reaching 4S', () async {
+      final engine = await loadGavinEngine();
+
+      // North: ♠KQJ862 ♥Q ♦J2 ♣T953 (9 HCP, 6 spades with KQJ)
+      final north = Hand.fromString('KQJ862:Q:J2:T953');
+      // South: ♠A95 ♥A952 ♦Q84 ♣KQ7 (15 HCP, 3 spades)
+      final south = Hand.fromString('A95:A952:Q84:KQ7');
+
+      final sim = simulateAuction(
+        north: north,
+        south: south,
+        engine: engine,
+        dealer: 'N',
+      );
+
+      print('AUCTION DEAL 81797 B:9: ${sim.auctionCalls.join(" ")}');
+      expect(sim.auctionCalls[0].toLowerCase(), '2s', reason: 'North opens weak two 2S');
+      expect(sim.auctionCalls[1].toLowerCase(), '2nt', reason: 'South inquires with Vinny 2NT');
+      expect(sim.auctionCalls[2].toLowerCase(), anyOf('3nt', '3s', '4s'), reason: 'North must not pass 2NT');
+      expect(sim.finalContract.toLowerCase(), '4s', reason: 'Partnership reaches 4S game with 24 combined HCP and 9 spades');
+    });
+
     test('Deal 81987 B:3: Preempt 3C opening and 3S major investigation reaching 4S', () async {
       final engine = await loadGavinEngine();
 

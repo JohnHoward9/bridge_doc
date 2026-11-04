@@ -169,8 +169,15 @@ fragments:
         rule: "12-16hcp 6+$OM"
         priority: 2
 
-      # Jump cue-bid of opponent's suit
+      # Jump cue-bid of opponent's suit: Leaping Michaels both minors
       "4$os":
-        desc: "Western cue-bid: asks partner for stopper in $os_sym for 3NT or slam try"
-        rule: "16+hcp 2-$os"
-        priority: 1
+        desc: "Leaping Michaels cuebid: 5-5 in both minors, Game Forcing (15+ HCP)"
+        rule: "15+hcp 5+c 5+d"
+        priority: 2
+        bids:
+          5c:
+            desc: "Preference for Clubs"
+            rule: "c>=d"
+          5d:
+            desc: "Preference for Diamonds"
+            rule: "d>c"

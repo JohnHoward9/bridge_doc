@@ -763,3 +763,124 @@ fragments:
         desc: "3NT to play with stoppers in both majors (12-15 HCP)"
         rule: "12-15hcp n#a|k|qh n#a|k|qs"
         priority: 1
+
+  fThreeLevelMajorPreemptDefense:
+    desc: "Defense over opposition 3M preempt (3H or 3S)"
+    rule: "5-10hcp 7+$os [$os=$os, $OM=$OM]"
+    priority: 1
+    aliases: ["fThreeLevelHeartDefense", "fThreeLevelSpadeDefense"]
+    bids:
+      pass:
+        desc: "Pass"
+        rule: "12-hcp"
+        priority: 10
+      dbl:
+        desc: "Takeout Double over 3-level major preempt (14+ HCP, shortness in $os)"
+        rule: "14+hcp 2-$os | 18+hcp"
+        priority: 3
+        bids:
+          pass:
+            desc: "Penalty pass"
+            rule: "4+$os 8+hcp"
+            priority: 1
+          "3$OM":
+            desc: "Natural other major response (0-8 HCP, 4+ cards)"
+            rule: "0-8hcp 4+$OM"
+            priority: 4
+          "[4c,4d]":
+            desc: "Natural minor suit response (0-8 HCP, 4+ cards)"
+            rule: "0-8hcp 4+%"
+            priority: 4
+          "4$OM":
+            desc: "Constructive / game response in other major (9+ HCP, 4+ cards)"
+            rule: "9+hcp 4+$OM"
+            priority: 2
+      3nt:
+        desc: "Natural 3NT to play with stopper in $os (16-19 HCP)"
+        rule: "16-19hcp a$os|k$os"
+        priority: 2
+      # Leaping Michaels over 3M
+      4c:
+        desc: "Leaping Michaels: 5+ Clubs and 5+ other major ($OM_sym), Game Forcing (15+ HCP)"
+        rule: "15+hcp 5+c 5+$OM"
+        priority: 1
+        bids:
+          "4$OM":
+            desc: "To play in other major"
+            rule: "4+$OM"
+          5c:
+            desc: "To play in Clubs"
+            rule: "3+c"
+      4d:
+        desc: "Leaping Michaels: 5+ Diamonds and 5+ other major ($OM_sym), Game Forcing (15+ HCP)"
+        rule: "15+hcp 5+d 5+$OM"
+        priority: 2
+        bids:
+          "4$OM":
+            desc: "To play in other major"
+            rule: "4+$OM"
+          5d:
+            desc: "To play in Diamonds"
+            rule: "3+d"
+      "4$os":
+        desc: "Leaping Michaels cuebid: 5-5 in both minors (15+ HCP, Game Forcing)"
+        rule: "15+hcp 5+c 5+d"
+        priority: 1
+        bids:
+          5c:
+            desc: "To play in Clubs"
+            rule: "c>=d"
+          5d:
+            desc: "To play in Diamonds"
+            rule: "d>c"
+      "4$OM":
+        desc: "Natural to play in other major (6+ cards, 13+ HCP or low LTC)"
+        rule: "13+hcp 6+$OM | 4-ltc 6+$OM"
+        priority: 2
+
+  fThreeLevelMinorPreemptDefense:
+    desc: "Defense over opposition 3m preempt (3C or 3D)"
+    rule: "5-10hcp 7+$om [$om=$om]"
+    priority: 1
+    aliases: ["fThreeLevelClubDefense", "fThreeLevelDiamondDefense"]
+    bids:
+      pass:
+        desc: "Pass"
+        rule: "12-hcp"
+        priority: 10
+      dbl:
+        desc: "Takeout Double over 3-level minor preempt (14+ HCP, 4+ cards in unbid majors)"
+        rule: "14+hcp 2-$om | 18+hcp"
+        priority: 4
+        bids:
+          pass:
+            desc: "Penalty pass"
+            rule: "4+$om 8+hcp"
+            priority: 1
+          "[3h,3s]":
+            desc: "Natural major response (0-8 HCP, 4+ cards)"
+            rule: "0-8hcp 4+%"
+            priority: 4
+          "[4h,4s]":
+            desc: "Game in major to play (9+ HCP, 4+ cards)"
+            rule: "9+hcp 4+%"
+            priority: 2
+      3nt:
+        desc: "Natural 3NT to play with stopper in $om (16-19 HCP)"
+        rule: "16-19hcp n#a|k$om"
+        priority: 2
+      "4$om":
+        desc: "Michaels cuebid: 5-5 in both majors, Game Forcing (15+ HCP)"
+        rule: "15+hcp 5+h 5+s"
+        priority: 1
+        bids:
+          4h:
+            desc: "Preference for Hearts"
+            rule: "h>=s"
+          4s:
+            desc: "Preference for Spades"
+            rule: "s>h"
+      "[4h,4s]":
+        desc: "Natural major overcall to play (6+ cards, 13+ HCP or low LTC)"
+        rule: "13+hcp 6+% | 4-ltc 6+%"
+        priority: 2

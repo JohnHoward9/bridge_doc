@@ -491,6 +491,73 @@ fragments:
         rule: "0-6hcp 5+c"
         priority: 2
 
+      "(1h)":
+        desc: "Opponent 1H overcall"
+        bids:
+          pass:
+            desc: "Pass (0-7 HCP)"
+            rule: "0-7hcp"
+            priority: 10
+          dbl:
+            desc: "Negative Double: Exactly 4 Spades (8+ HCP)"
+            rule: "8+hcp 4=s"
+            priority: 1
+          1s:
+            desc: "Natural 5+ Spades (8+ HCP)"
+            rule: "8+hcp 5+s"
+            priority: 2
+          1nt:
+            desc: "Natural 1NT with Heart stopper (8-10 HCP)"
+            rule: "8-10hcp n#a|k|qh"
+            priority: 3
+          2c:
+            desc: "Simple Club raise (5+ Clubs, 6-9 HCP)"
+            rule: "6-9hcp 5+c"
+            priority: 3
+          2h:
+            desc: "Cuebid of opponent's Heart suit: Limit raise or better in Clubs (10+ HCP, 5+ Clubs)"
+            rule: "10+hcp 5+c"
+            priority: 1
+          2nt:
+            desc: "Natural 2NT with Heart stopper (11-12 HCP)"
+            rule: "11-12hcp n#a|k|qh"
+            priority: 2
+          3c:
+            desc: "Preemptive Club raise (5+ Clubs, weak)"
+            rule: "4-7hcp 5+c"
+            priority: 3
+      "(1s)":
+        desc: "Opponent 1S overcall"
+        bids:
+          pass:
+            desc: "Pass (0-7 HCP)"
+            rule: "0-7hcp"
+            priority: 10
+          dbl:
+            desc: "Negative Double: 4+ Hearts (8+ HCP)"
+            rule: "8+hcp 4+h"
+            priority: 1
+          1nt:
+            desc: "Natural 1NT with Spade stopper (8-10 HCP)"
+            rule: "8-10hcp n#a|k|qs"
+            priority: 3
+          2c:
+            desc: "Simple Club raise (5+ Clubs, 6-9 HCP)"
+            rule: "6-9hcp 5+c"
+            priority: 3
+          2s:
+            desc: "Cuebid of opponent's Spade suit: Limit raise or better in Clubs (10+ HCP, 5+ Clubs)"
+            rule: "10+hcp 5+c"
+            priority: 1
+          2nt:
+            desc: "Natural 2NT with Spade stopper (11-12 HCP)"
+            rule: "11-12hcp n#a|k|qs"
+            priority: 2
+          3c:
+            desc: "Preemptive Club raise (5+ Clubs, weak)"
+            rule: "4-7hcp 5+c"
+            priority: 3
+
       "(2c)":
         desc: "Interference Michaels Cuebid (both Majors 5-5)"
         ref: "fMichaelsDefense_Minor"
@@ -1069,6 +1136,73 @@ fragments:
         desc: "Preemptive Inverted Minor: 0-6 HCP, 5+ Diamonds"
         rule: "0-6hcp 5+d"
         priority: 2
+
+      "(1h)":
+        desc: "Opponent 1H overcall"
+        bids:
+          pass:
+            desc: "Pass (0-7 HCP)"
+            rule: "0-7hcp"
+            priority: 10
+          dbl:
+            desc: "Negative Double: Exactly 4 Spades (8+ HCP)"
+            rule: "8+hcp 4=s"
+            priority: 1
+          1s:
+            desc: "Natural 5+ Spades (8+ HCP)"
+            rule: "8+hcp 5+s"
+            priority: 2
+          1nt:
+            desc: "Natural 1NT with Heart stopper (8-10 HCP)"
+            rule: "8-10hcp n#a|k|qh"
+            priority: 3
+          2d:
+            desc: "Simple Diamond raise (4+ Diamonds, 6-9 HCP)"
+            rule: "6-9hcp 4+d"
+            priority: 3
+          2h:
+            desc: "Cuebid of opponent's Heart suit: Limit raise or better in Diamonds (10+ HCP, 4+ Diamonds)"
+            rule: "10+hcp 4+d"
+            priority: 1
+          2nt:
+            desc: "Natural 2NT with Heart stopper (11-12 HCP)"
+            rule: "11-12hcp n#a|k|qh"
+            priority: 2
+          3d:
+            desc: "Preemptive Diamond raise (4+ Diamonds, weak)"
+            rule: "4-7hcp 4+d"
+            priority: 3
+      "(1s)":
+        desc: "Opponent 1S overcall"
+        bids:
+          pass:
+            desc: "Pass (0-7 HCP)"
+            rule: "0-7hcp"
+            priority: 10
+          dbl:
+            desc: "Negative Double: 4+ Hearts (8+ HCP)"
+            rule: "8+hcp 4+h"
+            priority: 1
+          1nt:
+            desc: "Natural 1NT with Spade stopper (8-10 HCP)"
+            rule: "8-10hcp n#a|k|qs"
+            priority: 3
+          2d:
+            desc: "Simple Diamond raise (4+ Diamonds, 6-9 HCP)"
+            rule: "6-9hcp 4+d"
+            priority: 3
+          2s:
+            desc: "Cuebid of opponent's Spade suit: Limit raise or better in Diamonds (10+ HCP, 4+ Diamonds)"
+            rule: "10+hcp 4+d"
+            priority: 1
+          2nt:
+            desc: "Natural 2NT with Spade stopper (11-12 HCP)"
+            rule: "11-12hcp n#a|k|qs"
+            priority: 2
+          3d:
+            desc: "Preemptive Diamond raise (4+ Diamonds, weak)"
+            rule: "4-7hcp 4+d"
+            priority: 3
 
       "(2d)":
         desc: "Interference Michaels Cuebid (both Majors 5-5)"

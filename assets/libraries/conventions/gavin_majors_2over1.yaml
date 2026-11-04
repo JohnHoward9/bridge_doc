@@ -12,6 +12,8 @@ imports:
   - "assets/libraries/conventions/fourth_suit_forcing.yaml"
   - "assets/libraries/conventions/transfers_after_one_major_double.yaml"
   - "assets/libraries/conventions/exclusion_rkcb.yaml"
+  - "assets/libraries/conventions/support_doubles.yaml"
+  - "assets/libraries/conventions/suit_overcalls_and_michaels.yaml"
 
 fragments:
   GavinHeartOpening:
@@ -25,6 +27,125 @@ fragments:
       "(x)":
         desc: "Transfers after 1H - (X)"
         ref: "fTransfersAfter1H_Double"
+      "(1s)":
+        desc: "Opponent 1S overcall over 1H"
+        bids:
+          pass:
+            desc: "Pass (0-7 HCP)"
+            rule: "0-7hcp"
+            priority: 10
+          dbl:
+            desc: "Negative Double (8+ HCP, minor length or balanced without 3-card Heart support)"
+            rule: "8+hcp 3-s 2-h"
+            priority: 1
+          1nt:
+            desc: "Natural 1NT with Spade stopper (8-10 HCP)"
+            rule: "8-10hcp n#a|k|qs"
+            priority: 3
+          2h:
+            desc: "LoTT simple competitive raise (3-card support, 6-9 HCP)"
+            rule: "6-9hcp 3h"
+            priority: 2
+          2s:
+            desc: "Cuebid of opponent's Spade suit: Limit raise or better in Hearts (10+ HCP, 3+ Hearts)"
+            rule: "10+hcp 3+h"
+            priority: 1
+          "[2c,2d]":
+            desc: "Natural non-forcing 5+ minor (8-11 HCP)"
+            rule: "8-11hcp 5+%"
+            priority: 3
+          2nt:
+            desc: "Natural 2NT invitational with Spade stopper (11-12 HCP)"
+            rule: "11-12hcp n#a|k|qs"
+            priority: 2
+          3h:
+            desc: "LoTT preemptive jump raise (4-card support, 5-9 HCP)"
+            rule: "5-9hcp 4+h"
+            priority: 2
+          4h:
+            desc: "LoTT game raise / preemptive (5+ card support, 0-9 HCP or 10+ HCP)"
+            rule: "5+h"
+            priority: 1
+      "(2c)":
+        desc: "Opponent 2C overcall over 1H"
+        bids:
+          pass:
+            desc: "Pass (0-7 HCP)"
+            rule: "0-7hcp"
+            priority: 10
+          dbl:
+            desc: "Negative Double: Exactly 4 Spades (8+ HCP)"
+            rule: "8+hcp 4=s"
+            priority: 1
+          2d:
+            desc: "Natural 5+ Diamonds (8+ HCP)"
+            rule: "8+hcp 5+d"
+            priority: 2
+          2h:
+            desc: "LoTT simple competitive raise (3-card support, 6-9 HCP)"
+            rule: "6-9hcp 3h"
+            priority: 2
+          2s:
+            desc: "Natural 5+ Spades (8+ HCP)"
+            rule: "8+hcp 5+s"
+            priority: 1
+          2nt:
+            desc: "Natural with Club stopper (10-12 HCP)"
+            rule: "10-12hcp n#a|k|qc"
+            priority: 2
+          3c:
+            desc: "Cuebid of opponent's Club suit: Limit raise or better in Hearts (10+ HCP, 3+ Hearts)"
+            rule: "10+hcp 3+h"
+            priority: 1
+          3h:
+            desc: "LoTT preemptive jump raise (4-card support, 5-9 HCP)"
+            rule: "5-9hcp 4+h"
+            priority: 2
+          4h:
+            desc: "LoTT game raise (5+ Hearts)"
+            rule: "5+h"
+            priority: 1
+      "(2d)":
+        desc: "Opponent 2D overcall over 1H"
+        bids:
+          pass:
+            desc: "Pass (0-7 HCP)"
+            rule: "0-7hcp"
+            priority: 10
+          dbl:
+            desc: "Negative Double: Exactly 4 Spades (8+ HCP)"
+            rule: "8+hcp 4=s"
+            priority: 1
+          2h:
+            desc: "LoTT simple competitive raise (3-card support, 6-9 HCP)"
+            rule: "6-9hcp 3h"
+            priority: 2
+          2s:
+            desc: "Natural 5+ Spades (8+ HCP)"
+            rule: "8+hcp 5+s"
+            priority: 1
+          2nt:
+            desc: "Natural with Diamond stopper (10-12 HCP)"
+            rule: "10-12hcp n#a|k|qd"
+            priority: 2
+          3d:
+            desc: "Cuebid of opponent's Diamond suit: Limit raise or better in Hearts (10+ HCP, 3+ Hearts)"
+            rule: "10+hcp 3+h"
+            priority: 1
+          3h:
+            desc: "LoTT preemptive jump raise (4-card support, 5-9 HCP)"
+            rule: "5-9hcp 4+h"
+            priority: 2
+          4h:
+            desc: "LoTT game raise (5+ Hearts)"
+            rule: "5+h"
+            priority: 1
+      "(2nt)":
+        desc: "Opponent Unusual 2NT over 1H (showing minors 5-5)"
+        ref: "fUnusualOverUnusual_Hearts"
+      "(2h)":
+        desc: "Opponent Michaels Cuebid over 1H (showing Spades + minor 5-5)"
+        ref: "fMichaelsDefense_Major"
 
   GavinSpadeOpening:
     aliases:
@@ -37,6 +158,117 @@ fragments:
       "(x)":
         desc: "Transfers after 1S - (X)"
         ref: "fTransfersAfter1S_Double"
+      "(2c)":
+        desc: "Opponent 2C overcall over 1S"
+        bids:
+          pass:
+            desc: "Pass (0-7 HCP)"
+            rule: "0-7hcp"
+            priority: 10
+          dbl:
+            desc: "Negative Double: 4+ Hearts (8+ HCP)"
+            rule: "8+hcp 4+h"
+            priority: 1
+          2d:
+            desc: "Natural 5+ Diamonds (8+ HCP)"
+            rule: "8+hcp 5+d"
+            priority: 2
+          2h:
+            desc: "Natural 5+ Hearts (10+ HCP)"
+            rule: "10+hcp 5+h"
+            priority: 1
+          2s:
+            desc: "LoTT simple competitive raise (3-card support, 6-9 HCP)"
+            rule: "6-9hcp 3s"
+            priority: 2
+          2nt:
+            desc: "Natural with Club stopper (10-12 HCP)"
+            rule: "10-12hcp n#a|k|qc"
+            priority: 2
+          3c:
+            desc: "Cuebid of opponent's Club suit: Limit raise or better in Spades (10+ HCP, 3+ Spades)"
+            rule: "10+hcp 3+s"
+            priority: 1
+          3s:
+            desc: "LoTT preemptive jump raise (4-card support, 5-9 HCP)"
+            rule: "5-9hcp 4+s"
+            priority: 2
+          4s:
+            desc: "LoTT game raise (5+ Spades)"
+            rule: "5+s"
+            priority: 1
+      "(2d)":
+        desc: "Opponent 2D overcall over 1S"
+        bids:
+          pass:
+            desc: "Pass (0-7 HCP)"
+            rule: "0-7hcp"
+            priority: 10
+          dbl:
+            desc: "Negative Double: 4+ Hearts (8+ HCP)"
+            rule: "8+hcp 4+h"
+            priority: 1
+          2h:
+            desc: "Natural 5+ Hearts (10+ HCP)"
+            rule: "10+hcp 5+h"
+            priority: 1
+          2s:
+            desc: "LoTT simple competitive raise (3-card support, 6-9 HCP)"
+            rule: "6-9hcp 3s"
+            priority: 2
+          2nt:
+            desc: "Natural with Diamond stopper (10-12 HCP)"
+            rule: "10-12hcp n#a|k|qd"
+            priority: 2
+          3d:
+            desc: "Cuebid of opponent's Diamond suit: Limit raise or better in Spades (10+ HCP, 3+ Spades)"
+            rule: "10+hcp 3+s"
+            priority: 1
+          3s:
+            desc: "LoTT preemptive jump raise (4-card support, 5-9 HCP)"
+            rule: "5-9hcp 4+s"
+            priority: 2
+          4s:
+            desc: "LoTT game raise (5+ Spades)"
+            rule: "5+s"
+            priority: 1
+      "(2h)":
+        desc: "Opponent 2H overcall over 1S"
+        bids:
+          pass:
+            desc: "Pass (0-7 HCP)"
+            rule: "0-7hcp"
+            priority: 10
+          dbl:
+            desc: "Negative Double: 4+ in a minor or balanced (8+ HCP)"
+            rule: "8+hcp 3-s"
+            priority: 1
+          2s:
+            desc: "LoTT simple competitive raise (3-card support, 6-9 HCP)"
+            rule: "6-9hcp 3s"
+            priority: 2
+          2nt:
+            desc: "Natural with Heart stopper (10-12 HCP)"
+            rule: "10-12hcp n#a|k|qh"
+            priority: 2
+          3h:
+            desc: "Cuebid of opponent's Heart suit: Limit raise or better in Spades (10+ HCP, 3+ Spades)"
+            rule: "10+hcp 3+s"
+            priority: 1
+          3s:
+            desc: "LoTT preemptive jump raise (4-card support, 5-9 HCP)"
+            rule: "5-9hcp 4+s"
+            priority: 2
+          4s:
+            desc: "LoTT game raise (5+ Spades)"
+            rule: "5+s"
+            priority: 1
+      "(2nt)":
+        desc: "Opponent Unusual 2NT over 1S (showing minors 5-5)"
+        ref: "fUnusualOverUnusual_Spades"
+      "(2s)":
+        desc: "Opponent Michaels Cuebid over 1S (showing Hearts + minor 5-5)"
+        ref: "fMichaelsDefense_Major"
 
   Gavin1H1SOpening:
     desc: "Gavin 5+ $M_name opening (12+ HCP)"
@@ -53,6 +285,7 @@ fragments:
         rule: "5+hcp 4+s"
         cond: "$M=h"
         priority: 2
+        include: "fSupportDoubles"
         bids:
           1nt:
             desc: "Balanced minimum without 4 Spades"

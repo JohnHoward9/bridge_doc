@@ -40,6 +40,7 @@ imports:
   - "assets/libraries/conventions/transfers_after_2nt_rebid.yaml"
   - "assets/libraries/conventions/gavin_1nt_runouts.yaml"
   - "assets/libraries/conventions/exclusion_rkcb.yaml"
+  - "assets/libraries/conventions/major_interference_defense.yaml"
 
 definitions:
   1NTOpening: "15-17"
@@ -166,3 +167,15 @@ OppositionOpeningBids:
 
   "(2c_majors)":
     ref: "fTwoClubMajorsDefense"
+
+  "(3c)":
+    ref: "fThreeLevelMinorPreemptDefense"
+
+  "(3d)":
+    ref: "fThreeLevelMinorPreemptDefense"
+
+  "(3h)":
+    ref: "fThreeLevelMajorPreemptDefense"
+
+  "(3s)":
+    ref: "fThreeLevelMajorPreemptDefense"

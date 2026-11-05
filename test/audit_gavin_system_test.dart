@@ -85,7 +85,10 @@ SimulatedAuctionResult simulateAuction({
   final List<String> calls = [];
   final List<String> systemSequence = [];
 
-  bool isNorthTurn = (dealer.toUpperCase() == 'N' || dealer.toUpperCase() == 'E');
+  // Clockwise: N -> E -> S -> W -> N.
+  // Uncontested NS: If dealer is N, N acts. If dealer is W, W passes and N acts.
+  // If dealer is S, S acts. If dealer is E, E passes and S acts.
+  bool isNorthTurn = (dealer.toUpperCase() == 'N' || dealer.toUpperCase() == 'W');
 
   Hand currentHand = isNorthTurn ? north : south;
   String currentSeat = isNorthTurn ? 'N' : 'S';

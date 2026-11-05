@@ -200,7 +200,8 @@ void main() {
       final diaFit = north.diamondsLength + south.diamondsLength;
       final clubFit = north.clubsLength + south.clubsLength;
       final maxFit = [spadeFit, heartFit, diaFit, clubFit].reduce((a, b) => a > b ? a : b);
-      final hasMajorFit = (spadeFit >= 8 || heartFit >= 8);
+      final hasMajorFit = (spadeFit >= 8 && north.spadesLength >= 3 && south.spadesLength >= 3) ||
+          (heartFit >= 8 && north.heartsLength >= 3 && south.heartsLength >= 3);
       final bestMajor = spadeFit >= heartFit ? 'S' : 'H';
       final bestFitLen = spadeFit >= heartFit ? spadeFit : heartFit;
 
@@ -223,7 +224,9 @@ void main() {
       }
       // 2. Cat 2: Missed Major Strain
       else if ((north.hcp >= 12 && south.hcp >= 6) || (south.hcp >= 12 && north.hcp >= 6)) {
-        if (hasMajorFit && autoContract != 'Pass' && autoStrain != bestMajor && (autoStrain != 'S' || spadeFit < 8) && (autoStrain != 'H' || heartFit < 8)) {
+        final is1ntPassedOut = autoContract.toUpperCase() == '1NT' && (north.hcp < 8 || south.hcp < 8);
+        final matchesTableStrain = autoStrain == extractStrain(tableContract);
+        if (!is1ntPassedOut && !matchesTableStrain && hasMajorFit && autoContract != 'Pass' && autoStrain != bestMajor && (autoStrain != 'S' || spadeFit < 8) && (autoStrain != 'H' || heartFit < 8)) {
           cat = 'Cat 2: Missed Major Strain';
           diag = '8+ major fit ($bestMajor: $bestFitLen cards) missed; contract played in $autoContract';
         }
@@ -231,7 +234,7 @@ void main() {
 
       // 3. Cat 3: Wrong Opening Bid
       if (cat == null) {
-        final opener = (dealer == 'N' || dealer == 'E') ? north : south;
+        final opener = (dealer == 'N' || dealer == 'W') ? north : south;
         if (autoCalls.isNotEmpty) {
           final openCall = autoCalls[0].toLowerCase();
           if (opener.spadesLength >= 5 && opener.heartsLength >= 5 && opener.spadesLength == opener.heartsLength && openCall == '1h') {

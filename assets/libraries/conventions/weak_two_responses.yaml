@@ -42,21 +42,27 @@ fragments:
         rule: "14+hcp 5+h"
         priority: 2
         bids:
-          pass:
-            desc: "Opener passes with minimum Heart fit (sub-minimum)"
-            rule: "3+h 5-7hcp"
           2nt:
             desc: "Opener balanced minimum without Heart fit"
             rule: "5-7hcp 2-h"
+            priority: 2
           3d:
             desc: "Opener rebids Diamond suit without Heart fit"
             rule: "6+d 2-h 5-7hcp"
+            priority: 2
           3h:
-            desc: "Opener supports Hearts with maximum (8-10 HCP, 3+ Hearts)"
-            rule: "8-10hcp 3+h"
+            desc: "Opener supports Hearts (3+ Hearts)"
+            rule: "3+h"
+            priority: 1
+            bids:
+              4h:
+                desc: "Responder game in Hearts"
+                rule: "14+hcp"
+                priority: 1
           4h:
             desc: "Opener raises to game in Hearts"
             rule: "8-10hcp 4+h"
+            priority: 1
 
       2s:
         cond: "$suit=d,h"
@@ -64,26 +70,32 @@ fragments:
         rule: "14+hcp 5+s"
         priority: 2
         bids:
-          pass:
-            desc: "Opener passes with minimum Spade fit"
-            rule: "3+s 5-7hcp"
           2nt:
             desc: "Opener balanced minimum without Spade fit"
             rule: "5-7hcp 2-s"
+            priority: 2
           3$suit:
             desc: "Opener rebids $suit_name without Spade fit"
             rule: "6+$suit 2-s 5-7hcp"
+            priority: 2
           3s:
-            desc: "Opener supports Spades with maximum (8-10 HCP, 3+ Spades)"
-            rule: "8-10hcp 3+s"
+            desc: "Opener supports Spades (3+ Spades)"
+            rule: "3+s"
+            priority: 1
+            bids:
+              4s:
+                desc: "Responder game in Spades"
+                rule: "14+hcp"
+                priority: 1
           4s:
             desc: "Opener raises to game in Spades"
             rule: "8-10hcp 4+s"
+            priority: 1
 
       # Vinny 2NT Inquiry (Gavin Wolpert / Vincent Demuy Structure)
       2nt:
         desc: "Vinny 2NT Inquiry (14+ HCP, forcing): asks opener for strength, suit quality, and features"
-        rule: "14+hcp"
+        rule: "14+hcp 4-h 4-s | 14+hcp 3+$suit"
         priority: 1
         bids:
           3c:
@@ -118,14 +130,15 @@ fragments:
               pass:
                 desc: "Pass to play in 3$suit when opener signs off with minimum"
                 rule: "14-15hcp"
-                priority: 1
+                priority: 2
               3nt:
                 desc: "Signoff in 3NT"
                 rule: "16+hcp"
-                priority: 2
-              "4$suit":
-                desc: "Game in $suit_name"
-                rule: "16+hcp 2+$suit"
+                priority: 1
+              "4$M":
+                cond: "$M"
+                desc: "Game in $M_name"
+                rule: "16+hcp 2+$M"
                 priority: 1
               4nt:
                 desc: "RKCB 1430 for $suit_name"
@@ -142,9 +155,10 @@ fragments:
                 desc: "Pass to play in 3NT"
                 rule: "14-17hcp 1-$suit"
                 priority: 2
-              "4$suit":
-                desc: "Game in $suit_name"
-                rule: "14+hcp 2+$suit"
+              "4$M":
+                cond: "$M"
+                desc: "Game in $M_name"
+                rule: "14+hcp 2+$M"
                 priority: 1
               4nt:
                 desc: "RKCB 1430 for $suit_name"
@@ -167,9 +181,22 @@ fragments:
 
       3h:
         cond: "$suit=s"
-        desc: "Natural new suit (5+ Hearts, 14+ HCP, forcing 1 round)"
-        rule: "14+hcp 5+h"
+        desc: "Natural new suit (5+ Hearts, 12+ HCP, forcing 1 round)"
+        rule: "12+hcp 5+h"
         priority: 2
+        bids:
+          3s:
+            desc: "Opener rebids Spades without Heart fit"
+            rule: "6+s 2-h 5-7hcp"
+            priority: 2
+          3nt:
+            desc: "Opener maximum with stoppers and without Heart fit"
+            rule: "8-10hcp 2-h"
+            priority: 2
+          4h:
+            desc: "Opener raises to game in Hearts with fit"
+            rule: "3+h"
+            priority: 1
 
       # Preemptive raise
       3$suit:
@@ -200,17 +227,19 @@ fragments:
     aliases: ["fFeatureShownContinuations", "fVinny2NTContinuations"]
     desc: "Feature Ask / Vinny 2NT continuations by responder"
     bids:
-      "3$suit":
-        desc: "Signoff in $suit_name with minimum invitation"
-        rule: "14-15hcp 2+$suit"
+      "3$M":
+        cond: "$M"
+        desc: "Signoff in $M_name with minimum invitation"
+        rule: "14-15hcp 2+$M"
         priority: 2
       3nt:
         desc: "Signoff in 3NT"
         rule: "15+hcp"
-        priority: 2
-      "4$suit":
-        desc: "Game in $suit_name"
-        rule: "14+hcp 2+$suit"
+        priority: 1
+      "4$M":
+        cond: "$M"
+        desc: "Game in $M_name"
+        rule: "14+hcp 2+$M"
         priority: 1
       4nt:
         desc: "RKCB 1430 for $suit_name"

@@ -740,11 +740,42 @@ fragments:
                 desc: "Natural balanced invitation (10-11 HCP)"
                 rule: "10-11hcp"
                 priority: 2
+                bids:
+                  pass:
+                    desc: "Decline invitation with minimum"
+                    rule: "12-13hcp"
+                    priority: 10
+                  3nt:
+                    desc: "Accept invitation in 3NT"
+                    rule: "14-15hcp 2-h"
+                    priority: 2
+                  4h:
+                    desc: "Accept invitation in 4H with 3-card support"
+                    rule: "14-15hcp 3h"
+                    priority: 1
               3c:
                 desc: "Artificial Game-Forcing enquiry (12+ HCP)"
-                rule: "12+hcp"
+                rule: "12+hcp 5+h | 12+hcp 3-h"
                 priority: 1
                 forceTo: game
+                bids:
+                  3d:
+                    desc: "Opener rebids Diamond suit without Heart support"
+                    rule: "6+d 2-h"
+                    priority: 2
+                  3h:
+                    desc: "Opener shows 3-card Heart support"
+                    rule: "3h"
+                    priority: 1
+                    bids:
+                      4h:
+                        desc: "Game in Hearts (8-card fit)"
+                        rule: "5+h"
+                        priority: 1
+                  3nt:
+                    desc: "Opener balanced without 3-card Heart support"
+                    rule: "2-h"
+                    priority: 2
               3d:
                 desc: "Constructive raise in Diamonds (10-11 HCP, 4+ Diamonds)"
                 rule: "10-11hcp 4+d"
@@ -767,9 +798,9 @@ fragments:
                     rule: "15+hcp 2-h"
                     priority: 2
               3nt:
-                desc: "3NT to play with balanced game values (12-15 HCP)"
-                rule: "12-15hcp balanced"
-                priority: 1
+                desc: "3NT to play with balanced game values without 5-card major (12-15 HCP)"
+                rule: "12-15hcp balanced 4-h"
+                priority: 2
               4d:
                 desc: "Minor suit slam try in Diamonds (12+ HCP, 4+ Diamonds)"
                 rule: "12+hcp 4+d"
@@ -911,6 +942,10 @@ fragments:
             desc: "Jump rebid 6+ Diamonds (16+ HCP)"
             rule: "6+d 16+hcp"
             bids:
+              pass:
+                desc: "Pass with minimum (6-9 HCP)"
+                rule: "6-9hcp"
+                priority: 10
               3nt:
                 desc: "3NT to play"
                 rule: "10+hcp balanced"
@@ -922,8 +957,8 @@ fragments:
                 priority: 1
                 ref: "fKickbackDiamonds"
               4d:
-                desc: "Diamond raise"
-                rule: "3+d"
+                desc: "Diamond raise (10-11 HCP, 3+ Diamonds)"
+                rule: "3+d 10-11hcp"
                 priority: 2
                 bids:
                   4h:
@@ -1152,6 +1187,10 @@ fragments:
             desc: "Jump rebid 6+ Diamonds (16+ HCP)"
             rule: "6+d 16+hcp"
             bids:
+              pass:
+                desc: "Pass with minimum (6-9 HCP)"
+                rule: "6-9hcp"
+                priority: 10
               3nt:
                 desc: "3NT to play"
                 rule: "10+hcp balanced"
@@ -1163,8 +1202,8 @@ fragments:
                 priority: 1
                 ref: "fKickbackDiamonds"
               4d:
-                desc: "Diamond raise"
-                rule: "3+d"
+                desc: "Diamond raise (10-11 HCP, 3+ Diamonds)"
+                rule: "3+d 10-11hcp"
                 priority: 2
                 bids:
                   4h:

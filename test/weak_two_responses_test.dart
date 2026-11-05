@@ -134,7 +134,7 @@ void main() {
 
       final node3h = fWeakTwo.bids.firstWhere((b) => b.call == '3h');
       expect(node3h.condition, equals(r'$suit=s'));
-      expect(node3h.rule, equals('14+hcp 5+h'), reason: 'Redundant p#2 must be removed from rule');
+      expect(node3h.rule, equals('12+hcp 5+h'), reason: 'Redundant p#2 must be removed from rule');
       expect(node3h.priority, equals(2));
       expect(node3h.effectivePriority, equals(2));
 

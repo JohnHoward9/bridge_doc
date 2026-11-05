@@ -308,7 +308,7 @@ fragments:
               2h:
                 desc: "Preference to Hearts (6-10 HCP, 2+ Hearts)"
                 rule: "6-10hcp 2+h"
-                priority: 2
+                priority: 1
                 bids:
                   pass:
                     desc: "Pass with minimum 11-13 HCP"
@@ -323,8 +323,8 @@ fragments:
                     rule: "14-15hcp 6+h"
                     priority: 1
               2s:
-                desc: "Rebid 5+ Spades (6-10 HCP)"
-                rule: "6-10hcp 5+s"
+                desc: "Rebid 6+ Spades (6-10 HCP)"
+                rule: "6-10hcp 6+s"
                 priority: 2
                 bids:
                   pass:
@@ -422,7 +422,7 @@ fragments:
               2h:
                 desc: "Preference to Hearts (6-10 HCP, 2+ Hearts)"
                 rule: "6-10hcp 2+h"
-                priority: 2
+                priority: 1
                 bids:
                   pass:
                     desc: "Pass with minimum 11-13 HCP"
@@ -437,8 +437,8 @@ fragments:
                     rule: "14-15hcp 6+h"
                     priority: 1
               2s:
-                desc: "Rebid 5+ Spades (6-10 HCP)"
-                rule: "6-10hcp 5+s"
+                desc: "Rebid 6+ Spades (6-10 HCP)"
+                rule: "6-10hcp 6+s"
                 priority: 2
                 bids:
                   pass:
@@ -910,10 +910,12 @@ fragments:
             desc: "Natural Hearts (4+ Hearts)"
             rule: "4+h"
             cond: "$M=s"
+            priority: 1
             ref: "fGavin2Over1Continuations"
           "2$M":
             desc: "Opener rebids 6-card $M_name (guarantees 6 cards)"
             rule: "6+$M"
+            priority: 2
             ref: "fGavin2Over1MajorRebidContinuations"
           "<cond:$M=h> 2s":
             desc: "Reverse showing 4+ Spades and 16+ HCP"
@@ -940,10 +942,12 @@ fragments:
             desc: "Natural Hearts (4+ Hearts)"
             rule: "4+h"
             cond: "$M=s"
+            priority: 1
             ref: "fGavin2Over1Continuations"
           "2$M":
             desc: "Opener rebids 6-card $M_name (guarantees 6 cards)"
             rule: "6+$M"
+            priority: 2
             ref: "fGavin2Over1MajorRebidContinuations"
           "<cond:$M=h> 2s":
             desc: "Reverse showing 4+ Spades and 16+ HCP"
@@ -953,6 +957,10 @@ fragments:
           2nt:
             desc: "Balanced stopper ask"
             rule: "balanced"
+            ref: "fGavin2Over1Continuations"
+          3c:
+            desc: "Natural secondary Clubs (4+ Clubs)"
+            rule: "4+c"
             ref: "fGavin2Over1Continuations"
           3d:
             desc: "Opener fits Diamonds (3+ Diamonds)"
@@ -997,12 +1005,12 @@ fragments:
             priority: 2
             bids:
               pass:
-                desc: "Decline invitation with 6-7 HCP"
-                rule: "6-7hcp"
+                desc: "Decline invitation with minimum 6-8 HCP"
+                rule: "6-8hcp"
                 priority: 10
               "4$M":
-                desc: "Accept invitation with 8-9 HCP"
-                rule: "8-9hcp"
+                desc: "Accept invitation with maximum 9-10 HCP"
+                rule: "9-10hcp | 8hcp 4+$M"
                 priority: 1
           "4$M":
             desc: "To play in game with 18+ HCP"
@@ -1206,17 +1214,17 @@ fragments:
         rule: "12-14hcp"
         priority: 10
       "3$M":
-        desc: "Invitational game try in $M (15-17 HCP, or 6+ $M with extra playing strength)"
-        rule: "15-17hcp | 6+$M 12+hcp | 6-ltc"
+        desc: "Invitational game try in $M (16-17 HCP, or 6+ $M 14+ HCP, or 5-ltc)"
+        rule: "16-17hcp | 14-17hcp 6+$M | 5-ltc"
         priority: 2
         bids:
           pass:
-            desc: "Decline invitation with minimum 6-7 HCP"
-            rule: "6-7hcp"
+            desc: "Decline invitation with minimum 6-8 HCP"
+            rule: "6-8hcp"
             priority: 10
           "4$M":
-            desc: "Accept invitation to game with maximum 8-9 HCP"
-            rule: "8-9hcp"
+            desc: "Accept invitation to game with maximum 9-10 HCP"
+            rule: "9-10hcp | 8hcp 4+$M"
             priority: 1
             bids:
               pass:

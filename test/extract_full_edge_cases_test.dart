@@ -19,7 +19,7 @@ Map<String, Hand> parseBboDeal(String dealStr) {
   final Map<String, Hand> result = {};
 
   for (int i = 0; i < handsRaw.length; i++) {
-    final seat = seatOrder[(startSeat - 1 + i) % 4];
+    final seat = seatOrder[i % 4]; // In BBO LIN, handsRaw is always ordered [S, W, N, E]
     final hStr = handsRaw[i];
     final sm = RegExp(r'S(.*?)H(.*?)D(.*?)C(.*)').firstMatch(hStr);
     if (sm != null) {

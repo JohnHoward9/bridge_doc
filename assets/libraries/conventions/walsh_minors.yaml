@@ -786,6 +786,21 @@ fragments:
                 desc: "Preference / support for Diamonds (3+ Diamonds)"
                 rule: "3+d"
                 priority: 1
+                bids:
+                  3nt:
+                    desc: "3NT to play with stoppers"
+                    rule: "balanced"
+                    priority: 2
+                  4h:
+                    desc: "Kickback RKCB 1430 for Diamonds"
+                    agreedSuit: "d"
+                    rule: "16+hcp 5+d"
+                    priority: 1
+                    ref: "fKickbackDiamonds"
+                  5d:
+                    desc: "Game in Diamonds"
+                    rule: "5+d"
+                    priority: 2
               3h:
                 desc: "Rebid 6+ Hearts"
                 rule: "6+h"
@@ -798,10 +813,32 @@ fragments:
                 desc: "Club raise with 4+ Clubs"
                 rule: "4+c"
                 priority: 2
+                bids:
+                  4d:
+                    desc: "Kickback RKCB 1430 for Clubs"
+                    agreedSuit: "c"
+                    rule: "16+hcp 4+c"
+                    priority: 1
+                    ref: "fKickbackClubs"
+                  5c:
+                    desc: "Game in Clubs"
+                    rule: "4+c"
+                    priority: 2
               4d:
                 desc: "Diamond raise with 4+ Diamonds"
                 rule: "4+d"
                 priority: 1
+                bids:
+                  4h:
+                    desc: "Kickback RKCB 1430 for Diamonds"
+                    agreedSuit: "d"
+                    rule: "16+hcp 5+d"
+                    priority: 1
+                    ref: "fKickbackDiamonds"
+                  5d:
+                    desc: "Game in Diamonds"
+                    rule: "5+d"
+                    priority: 2
           3h:
             desc: "Jump raise 4+ Hearts (16-18 HCP)"
             rule: "4+h 16-18hcp"
@@ -990,6 +1027,21 @@ fragments:
                 desc: "Preference / support for Diamonds (3+ Diamonds)"
                 rule: "3+d"
                 priority: 1
+                bids:
+                  3nt:
+                    desc: "3NT to play with stoppers"
+                    rule: "balanced"
+                    priority: 2
+                  4h:
+                    desc: "Kickback RKCB 1430 for Diamonds"
+                    agreedSuit: "d"
+                    rule: "16+hcp 5+d"
+                    priority: 1
+                    ref: "fKickbackDiamonds"
+                  5d:
+                    desc: "Game in Diamonds"
+                    rule: "5+d"
+                    priority: 2
               3s:
                 desc: "Rebid 6+ Spades"
                 rule: "6+s"
@@ -998,6 +1050,36 @@ fragments:
                 desc: "3NT to play with stoppers"
                 rule: "balanced"
                 priority: 2
+              4c:
+                desc: "Club raise with 4+ Clubs"
+                rule: "4+c"
+                priority: 2
+                bids:
+                  4d:
+                    desc: "Kickback RKCB 1430 for Clubs"
+                    agreedSuit: "c"
+                    rule: "16+hcp 4+c"
+                    priority: 1
+                    ref: "fKickbackClubs"
+                  5c:
+                    desc: "Game in Clubs"
+                    rule: "4+c"
+                    priority: 2
+              4d:
+                desc: "Diamond raise with 4+ Diamonds"
+                rule: "4+d"
+                priority: 1
+                bids:
+                  4h:
+                    desc: "Kickback RKCB 1430 for Diamonds"
+                    agreedSuit: "d"
+                    rule: "16+hcp 5+d"
+                    priority: 1
+                    ref: "fKickbackDiamonds"
+                  5d:
+                    desc: "Game in Diamonds"
+                    rule: "5+d"
+                    priority: 2
               4s:
                 desc: "Game in Spades"
                 rule: "5+s"

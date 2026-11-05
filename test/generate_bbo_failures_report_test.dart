@@ -169,13 +169,18 @@ void main() {
       final tricksMade = raw['tricks_made'];
 
       String tableContract = 'Pass';
+      String declarerSide = 'NS';
       for (int k = bboAuction.length - 1; k >= 0; k--) {
         final c = bboAuction[k].replaceAll('!', '').trim();
         if (c.toLowerCase() != 'p' && c.toLowerCase() != 'pass' && c.toLowerCase() != 'd' && c.toLowerCase() != 'rd') {
           tableContract = c.toUpperCase();
+          final bidderIndex = (dealerSeatNum - 1 + k) % 4;
+          declarerSide = (bidderIndex % 2 == 0) ? 'NS' : 'EW';
           break;
         }
       }
+      final tableContractLevel = extractLevel(tableContract) ?? 0;
+      final isOpponentContract = declarerSide == 'EW';
 
       final sim = simulateAuction(
         north: north,
@@ -240,17 +245,21 @@ void main() {
       }
 
       // 4. Cat 4: Slam Stoppage
+      final tricks = (tricksMade is num) ? tricksMade.toInt() : (tricksMade != null ? int.tryParse(tricksMade.toString()) : null);
       if (cat == null) {
-        final isTableSlam = tableContract.startsWith('6') || tableContract.startsWith('7');
-        if ((combHcp >= 30 || isTableSlam) && autoLevel < 6 && autoContract != 'Pass') {
+        final isNsTableSlam = !isOpponentContract && (tableContract.startsWith('6') || tableContract.startsWith('7'));
+        final isTableSlamValid = isNsTableSlam && (tricks == null || tricks >= (tableContractLevel + 6 - 1));
+        final hasSlamValues = combHcp >= 31 || (combHcp >= 29 && maxFit >= 9 && (nEff + sEff >= 30.0));
+
+        if ((hasSlamValues || isTableSlamValid) && autoLevel < 6 && autoContract != 'Pass') {
           cat = 'Cat 4: Slam Stoppage';
-          diag = 'Stopped at $autoContract despite $combHcp combined HCP (Table contract was $tableContract)';
+          final tableStr = isOpponentContract ? 'EW $tableContract' : tableContract;
+          diag = 'Stopped at $autoContract despite $combHcp combined HCP (Table contract was $tableStr)';
         }
       }
 
       // 5. Cat 5: Overbid Runaway
       if (cat == null) {
-        final tricks = (tricksMade is num) ? tricksMade.toInt() : (tricksMade != null ? int.tryParse(tricksMade.toString()) : null);
         final makesContract = tricks != null && tricks >= (autoLevel + 6);
         final isDistributionalFit = (maxFit >= 10 || (north.losingTrickCount + south.losingTrickCount <= 13));
         if (!makesContract && !isDistributionalFit && combHcp <= 21 && autoLevel >= 4 && autoContract != 'Pass') {
@@ -283,7 +292,7 @@ void main() {
           northEff: nEff,
           southEff: sEff,
           combHcp: combHcp,
-          tableContract: tableContract + (tricksMade != null ? ' ($tricksMade)' : ''),
+          tableContract: (isOpponentContract ? 'EW ' : '') + tableContract + (tricksMade != null ? ' ($tricksMade)' : ''),
           autoAuction: autoCalls.join(' '),
           autoContract: autoContract,
           diagnosis: diag ?? 'Defect flagged',

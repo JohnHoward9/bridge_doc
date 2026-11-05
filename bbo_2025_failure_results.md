@@ -1,7 +1,7 @@
 # BBO 2025 Championship Bidding Failures Audit
 
 Evaluated deals from **`res/bbo_championships_2025_dataset.json`** and `./errors/` against the Gavin Wolpert 2/1 engine.
-Identified **15 active representative failure deals** across the 6 defect categories, and verified **7 resolved defect hands**.
+Identified **17 active representative failure deals** across the 6 defect categories, and verified **7 resolved defect hands**.
 
 ## 1. Resolved Defect Hands (Verified Fixed)
 
@@ -22,26 +22,28 @@ Identified **15 active representative failure deals** across the 6 defect catego
 - **Cat 2: Missed Major Strain**: 5 representative deals
 - **Cat 3: Wrong Opening Bid**: 0 representative deals
 - **Cat 4: Slam Stoppage**: 5 representative deals
-- **Cat 5: Overbid Runaway**: 0 representative deals
+- **Cat 5: Overbid Runaway**: 2 representative deals
 - **Cat 6: Rebid Precision**: 0 representative deals
 
 | # | Match / Deal | Category | North Hand | South Hand | Comb HCP | Table Contract | Auto Auction | Auto Contract | Defect Diagnosis |
 |---|---|---|---|---|:---:|:---:|---|:---:|---|
-| 1 | **81564 B:13** | **Cat 4: Slam Stoppage** | ♠AKT93 ♥T3 ♦KJT92 ♣7<br>(11 HCP → 11.7 Eff) | ♠J872 ♥Q4 ♦875 ♣JT94<br>(4 HCP → 3.2 Eff) | **15 HCP** | **6H (12)** | `1d Pass` | **1d** | Stopped at 1d despite 15 combined HCP (Table contract was 6H) |
-| 2 | **81564 B:14** | **Cat 4: Slam Stoppage** | ♠954 ♥K8 ♦AQT8 ♣AKQT<br>(18 HCP → 18.8 Eff) | ♠K2 ♥AQT943 ♦7652 ♣3<br>(9 HCP → 10.1 Eff) | **27 HCP** | **6H (11)** | `1d 1h 2c 3h 4h Pass` | **4h** | Stopped at 4h despite 27 combined HCP (Table contract was 6H) |
-| 3 | **81566 B:15** | **Cat 4: Slam Stoppage** | ♠QJ53 ♥KQ53 ♦A752 ♣T<br>(12 HCP → 11.8 Eff) | ♠A72 ♥— ♦KQT963 ♣AKJ9<br>(17 HCP → 17.4 Eff) | **29 HCP** | **6D (12)** | `1d 1h 3c 4d Pass` | **4d** | Stopped at 4d despite 29 combined HCP (Table contract was 6D) |
-| 4 | **81768 B:3** | **Cat 4: Slam Stoppage** | ♠7 ♥KQT532 ♦A93 ♣J72<br>(10 HCP → 9.8 Eff) | ♠JT653 ♥A96 ♦64 ♣T65<br>(5 HCP → 5.5 Eff) | **15 HCP** | **6D (9)** | `Pass 2h 3h Pass` | **3h** | Stopped at 3h despite 15 combined HCP (Table contract was 6D) |
-| 5 | **81779 B:47** | **Cat 4: Slam Stoppage** | ♠AJ4 ♥QT82 ♦9864 ♣A8<br>(11 HCP → 11.3 Eff) | ♠KQ93 ♥K ♦KQJ2 ♣KQ74<br>(19 HCP → 18.3 Eff) | **30 HCP** | **5D (11)** | `1d 1h 1s 2d 2s 3nt Pass` | **3nt** | Stopped at 3nt despite 30 combined HCP (Table contract was 5D) |
-| 6 | **82045 B:16** | **Cat 2: Missed Major Strain** | ♠J43 ♥KJ74 ♦J64 ♣962<br>(6 HCP → 4.5 Eff) | ♠KQ6 ♥T962 ♦KQ7 ♣KT7<br>(13 HCP → 12.6 Eff) | **19 HCP** | **3D (9)** | `1c Pass` | **1c** | 8+ major fit (H: 8 cards) missed; contract played in 1c |
-| 7 | **82046 B:16** | **Cat 2: Missed Major Strain** | ♠J43 ♥KJ74 ♦J64 ♣962<br>(6 HCP → 4.5 Eff) | ♠KQ6 ♥T962 ♦KQ7 ♣KT7<br>(13 HCP → 12.6 Eff) | **19 HCP** | **2C (10)** | `1c Pass` | **1c** | 8+ major fit (H: 8 cards) missed; contract played in 1c |
-| 8 | **82064 B:16** | **Cat 2: Missed Major Strain** | ♠Q93 ♥7532 ♦Q32 ♣K75<br>(7 HCP → 5.9 Eff) | ♠AT2 ♥AQJ94 ♦T8 ♣AQT<br>(17 HCP → 18.2 Eff) | **24 HCP** | **4H (10)** | `1nt Pass` | **1nt** | 8+ major fit (H: 9 cards) missed; contract played in 1nt |
-| 9 | **82064 B:18** | **Cat 2: Missed Major Strain** | ♠83 ♥QJT93 ♦T76 ♣A54<br>(7 HCP → 7.3 Eff) | ♠AQ954 ♥K75 ♦A542 ♣3<br>(13 HCP → 13.4 Eff) | **20 HCP** | **4H (9)** | `Pass 1s 1nt 2d 2s Pass` | **2s** | 8+ major fit (H: 8 cards) missed; contract played in 2s |
-| 10 | **82067 B:30** | **Cat 2: Missed Major Strain** | ♠AK5 ♥AQT9654 ♦7 ♣KT<br>(16 HCP → 17.0 Eff) | ♠Q743 ♥J2 ♦K96 ♣AQ87<br>(12 HCP → 11.6 Eff) | **28 HCP** | **5H (12)** | `1h 1s 3h 4c Pass` | **4c** | 8+ major fit (H: 9 cards) missed; contract played in 4c |
-| 11 | **82623 B:27** | **Cat 1: Forcing Broken / Stalled** | ♠Q542 ♥AQ87 ♦T9 ♣K93<br>(11 HCP → 11.0 Eff) | ♠AT ♥J63 ♦Q874 ♣AT64<br>(11 HCP → 11.6 Eff) | **22 HCP** | **1N** | `Pass Pass` | **Pass** | Passed out with 22 combined HCP (N=11, S=11) |
-| 12 | **82635 B:19** | **Cat 1: Forcing Broken / Stalled** | ♠A8 ♥A864 ♦632 ♣QJT4<br>(11 HCP → 11.3 Eff) | ♠J7 ♥KQT732 ♦Q9 ♣K63<br>(11 HCP → 10.5 Eff) | **22 HCP** | **2C (5)** | `Pass Pass` | **Pass** | Passed out with 22 combined HCP (N=11, S=11) |
-| 13 | **82636 B:19** | **Cat 1: Forcing Broken / Stalled** | ♠A8 ♥A864 ♦632 ♣QJT4<br>(11 HCP → 11.3 Eff) | ♠J7 ♥KQT732 ♦Q9 ♣K63<br>(11 HCP → 10.5 Eff) | **22 HCP** | **4H (9)** | `Pass Pass` | **Pass** | Passed out with 22 combined HCP (N=11, S=11) |
-| 14 | **82669 B:14** | **Cat 1: Forcing Broken / Stalled** | ♠Q854 ♥QJ2 ♦KJT ♣KT6<br>(12 HCP → 11.0 Eff) | ♠AJ97 ♥A943 ♦7 ♣J874<br>(10 HCP → 9.9 Eff) | **22 HCP** | **4S (8)** | `Pass Pass` | **Pass** | Passed out with 22 combined HCP (N=12, S=10) |
-| 15 | **82687 B:17** | **Cat 1: Forcing Broken / Stalled** | ♠T532 ♥K95 ♦K763 ♣KQ<br>(11 HCP → 11.0 Eff) | ♠K6 ♥Q82 ♦AQ94 ♣7432<br>(11 HCP → 10.8 Eff) | **22 HCP** | **3S (8)** | `Pass Pass` | **Pass** | Passed out with 22 combined HCP (N=11, S=11) |
+| 1 | **81559 B:9** | **Cat 2: Missed Major Strain** | ♠KJT842 ♥T753 ♦— ♣KQ3<br>(9 HCP → 8.9 Eff) | ♠A ♥KQ864 ♦Q876 ♣J85<br>(12 HCP → 11.6 Eff) | **21 HCP** | **4H** | `2s Pass` | **2s** | 8+ major fit (H: 9 cards) missed; contract played in 2s |
+| 2 | **81564 B:17** | **Cat 4: Slam Stoppage** | ♠KT43 ♥AKQT95 ♦J3 ♣Q<br>(15 HCP → 16.0 Eff) | ♠AQ752 ♥863 ♦A65 ♣AJ<br>(15 HCP → 15.7 Eff) | **30 HCP** | **6H (13)** | `1h 1s 3s 4s Pass` | **4s** | Stopped at 4s despite 30 combined HCP (Table contract was 6H) |
+| 3 | **81566 B:24** | **Cat 2: Missed Major Strain** | ♠K754 ♥J8 ♦Q753 ♣J43<br>(7 HCP → 6.1 Eff) | ♠AT983 ♥KQT ♦K9 ♣KQ8<br>(17 HCP → 17.7 Eff) | **24 HCP** | **4S (8)** | `1nt Pass` | **1nt** | 8+ major fit (S: 9 cards) missed; contract played in 1nt |
+| 4 | **81567 B:6** | **Cat 2: Missed Major Strain** | ♠AKT ♥AQ432 ♦K3 ♣952<br>(16 HCP → 16.9 Eff) | ♠8653 ♥KT9 ♦9 ♣QJT83<br>(6 HCP → 5.8 Eff) | **22 HCP** | **3H (10)** | `1nt Pass` | **1nt** | 8+ major fit (H: 8 cards) missed; contract played in 1nt |
+| 5 | **81574 B:18** | **Cat 4: Slam Stoppage** | ♠AJ8 ♥K ♦AQJ5 ♣AJ432<br>(20 HCP → 20.1 Eff) | ♠Q92 ♥AT92 ♦T8732 ♣9<br>(6 HCP → 6.3 Eff) | **26 HCP** | **6D (11)** | `2c 2d 3c Pass` | **3c** | Stopped at 3c despite 26 combined HCP (Table contract was 6D) |
+| 6 | **81577 B:5** | **Cat 2: Missed Major Strain** | ♠973 ♥8 ♦QJ6532 ♣K75<br>(6 HCP → 5.1 Eff) | ♠AKJ42 ♥KQ7 ♦A9 ♣A86<br>(21 HCP → 21.8 Eff) | **27 HCP** | **3N** | `2d 2nt 3d 4d Pass` | **4d** | 8+ major fit (S: 8 cards) missed; contract played in 4d |
+| 7 | **81768 B:4** | **Cat 2: Missed Major Strain** | ♠AJ965 ♥JT8 ♦J ♣9654<br>(7 HCP → 6.5 Eff) | ♠Q3 ♥KQ543 ♦KT954 ♣K<br>(13 HCP → 12.9 Eff) | **20 HCP** | **EW 2D (5)** | `1h 1s 2d 2s Pass` | **2s** | 8+ major fit (H: 8 cards) missed; contract played in 2s |
+| 8 | **81768 B:10** | **Cat 4: Slam Stoppage** | ♠QJ652 ♥AQ8432 ♦K ♣J<br>(13 HCP → 12.3 Eff) | ♠K83 ♥T9 ♦AJ2 ♣AKQ97<br>(17 HCP → 17.6 Eff) | **30 HCP** | **6S (12)** | `1h 2c 2h 3h 4h Pass` | **4h** | Stopped at 4h despite 30 combined HCP (Table contract was 6S) |
+| 9 | **81769 B:10** | **Cat 4: Slam Stoppage** | ♠QJ652 ♥AQ8432 ♦K ♣J<br>(13 HCP → 12.3 Eff) | ♠K83 ♥T9 ♦AJ2 ♣AKQ97<br>(17 HCP → 17.6 Eff) | **30 HCP** | **6S (11)** | `1h 2c 2h 3h 4h Pass` | **4h** | Stopped at 4h despite 30 combined HCP (Table contract was 6S) |
+| 10 | **81995 B:29** | **Cat 1: Forcing Broken / Stalled** | ♠K964 ♥AK93 ♦AK73 ♣Q<br>(19 HCP → 19.5 Eff) | ♠AQJ5 ♥T75 ♦QJ8 ♣K76<br>(13 HCP → 12.1 Eff) | **32 HCP** | **6S (12)** | `1d 1s Pass` | **1s** | Auction stalled at 1s with 32 combined HCP (Calls: `1d 1s Pass`) |
+| 11 | **81996 B:29** | **Cat 1: Forcing Broken / Stalled** | ♠K964 ♥AK93 ♦AK73 ♣Q<br>(19 HCP → 19.5 Eff) | ♠AQJ5 ♥T75 ♦QJ8 ♣K76<br>(13 HCP → 12.1 Eff) | **32 HCP** | **6S (12)** | `1d 1s Pass` | **1s** | Auction stalled at 1s with 32 combined HCP (Calls: `1d 1s Pass`) |
+| 12 | **81997 B:29** | **Cat 1: Forcing Broken / Stalled** | ♠K964 ♥AK93 ♦AK73 ♣Q<br>(19 HCP → 19.5 Eff) | ♠AQJ5 ♥T75 ♦QJ8 ♣K76<br>(13 HCP → 12.1 Eff) | **32 HCP** | **6S (12)** | `1d 1s Pass` | **1s** | Auction stalled at 1s with 32 combined HCP (Calls: `1d 1s Pass`) |
+| 13 | **81998 B:29** | **Cat 1: Forcing Broken / Stalled** | ♠K964 ♥AK93 ♦AK73 ♣Q<br>(19 HCP → 19.5 Eff) | ♠AQJ5 ♥T75 ♦QJ8 ♣K76<br>(13 HCP → 12.1 Eff) | **32 HCP** | **6S (12)** | `1d 1s Pass` | **1s** | Auction stalled at 1s with 32 combined HCP (Calls: `1d 1s Pass`) |
+| 14 | **81999 B:29** | **Cat 1: Forcing Broken / Stalled** | ♠K964 ♥AK93 ♦AK73 ♣Q<br>(19 HCP → 19.5 Eff) | ♠AQJ5 ♥T75 ♦QJ8 ♣K76<br>(13 HCP → 12.1 Eff) | **32 HCP** | **6S (12)** | `1d 1s Pass` | **1s** | Auction stalled at 1s with 32 combined HCP (Calls: `1d 1s Pass`) |
+| 15 | **82004 B:6** | **Cat 4: Slam Stoppage** | ♠A85 ♥T ♦AJ84 ♣KQJ96<br>(15 HCP → 15.1 Eff) | ♠T94 ♥K64 ♦KQ52 ♣A42<br>(12 HCP → 11.8 Eff) | **27 HCP** | **6D (12)** | `1c 1d 2d 3nt Pass` | **3nt** | Stopped at 3nt despite 27 combined HCP (Table contract was 6D) |
+| 16 | **82637 B:20** | **Cat 5: Overbid Runaway** | ♠Q76 ♥6432 ♦K3 ♣KT65<br>(8 HCP → 8.0 Eff) | ♠AJ852 ♥KT975 ♦AJ2 ♣—<br>(13 HCP → 13.3 Eff) | **21 HCP** | **EW 3C (7)** | `1s 2s 3s 4s Pass` | **4s** | Overbid to 4s on only 21 combined HCP without distribution or tricks (N=8, S=13) |
+| 17 | **82661 B:2** | **Cat 5: Overbid Runaway** | ♠97 ♥AJT743 ♦52 ♣K98<br>(8 HCP → 8.1 Eff) | ♠KJT86 ♥— ♦AKT86 ♣654<br>(11 HCP → 11.5 Eff) | **19 HCP** | **2H (8)** | `2h 2nt 3c 4c Pass` | **4c** | Overbid to 4c on only 19 combined HCP without distribution or tricks (N=8, S=11) |
 
 ## Systematic Resolution Strategy
 1. **Category 1 (Forcing Broken & Stalls)**: Strengthen forcing state persistence in `walsh_minors.yaml` and `gavin_majors_2over1.yaml` so responder's 1-level response guarantees a rebid.

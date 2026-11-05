@@ -396,10 +396,23 @@ fragments:
         rule: "11-13hcp ad | 11-13hcp kd | 11-13hcp qd"
         priority: 2
         bids:
+          4h:
+            desc: "Game in Hearts with 3+ Hearts"
+            rule: "12+hcp 3+h"
+            priority: 1
+            agreedSuit: "h"
+          4nt:
+            desc: "RKCB 1430 for Hearts"
+            rule: "15+hcp 3+h"
+            priority: 1
+            ref: "fRKCBResponses"
+            variables:
+              trump: "h"
+            agreedSuit: "h"
           3nt:
             desc: "3NT to play"
-            rule: "12+hcp"
-            priority: 1
+            rule: "12+hcp 2-h"
+            priority: 2
           4s:
             desc: "Signoff in 4S with 6+ Spades"
             rule: "12+hcp 6+s"
@@ -408,6 +421,29 @@ fragments:
         desc: "Opener has Diamond stopper, maximum (Priority 2, 14-15 HCP)"
         rule: "14-15hcp ad | 14-15hcp kd | 14-15hcp qd"
         priority: 2
+        bids:
+          pass:
+            desc: "Pass to play 3NT without 3 Hearts"
+            rule: "2-h"
+            priority: 10
+          4h:
+            desc: "Convert 3NT to 4H with 3+ Hearts (12-14 HCP)"
+            rule: "3+h 12-14hcp"
+            priority: 2
+            agreedSuit: "h"
+          4nt:
+            desc: "RKCB 1430 for Hearts (15+ HCP, 3+ Hearts)"
+            rule: "3+h 15+hcp"
+            priority: 1
+            ref: "fRKCBResponses"
+            variables:
+              trump: "h"
+            agreedSuit: "h"
+          6h:
+            desc: "Small Slam in Hearts (17+ HCP, 3+ Hearts)"
+            rule: "3+h 17+hcp"
+            priority: 1
+            agreedSuit: "h"
       2h:
         desc: "Opener rebids Hearts (5+ Hearts, default waiting bid without stopper or spade support)"
         rule: "11-15hcp 5+h"

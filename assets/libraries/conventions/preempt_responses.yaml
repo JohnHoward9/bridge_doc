@@ -58,25 +58,89 @@ fragments:
         desc: "Natural 5+ Diamonds (16+ HCP, GF)"
         rule: "16+hcp 5+d"
         priority: 1
+        agreedSuit: "d"
+        bids:
+          4d:
+            desc: "Raise to 4D with 3+ Diamonds"
+            rule: "3+d"
+            priority: 1
+          3nt:
+            desc: "Choice of game with outside stoppers"
+            rule: "9-11hcp"
+            priority: 2
+          4c:
+            desc: "Rebid preempt Clubs (2- Diamonds)"
+            rule: "7+c 2-d"
+            priority: 3
       3h:
         cond: "$suit=c,d"
         desc: "Natural 5+ Hearts (16+ HCP, GF)"
         rule: "16+hcp 5+h"
         priority: 1
+        agreedSuit: "h"
+        bids:
+          4h:
+            desc: "Raise to 4H with 3+ Hearts"
+            rule: "3+h"
+            priority: 1
+          3nt:
+            desc: "Choice of game with outside stoppers"
+            rule: "9-11hcp"
+            priority: 2
+          "4$suit":
+            desc: "Rebid preempt suit (2- Hearts)"
+            rule: "7+$suit 2-h"
+            priority: 3
       3s:
         cond: "$suit=c,d,h"
         desc: "Natural 5+ Spades (16+ HCP, GF)"
         rule: "16+hcp 5+s"
         priority: 1
+        agreedSuit: "s"
         bids:
           4s:
             desc: "Raise to 4S with 3+ Spades"
             rule: "3+s"
             priority: 1
-          pass:
-            desc: "Pass with 2- Spades"
-            rule: "2-s"
-            priority: 10
+          3nt:
+            desc: "Choice of game with outside stoppers"
+            rule: "9-11hcp"
+            priority: 2
+            bids:
+              pass:
+                desc: "Pass 3NT to play"
+                rule: "16-17hcp"
+                priority: 10
+              4nt:
+                desc: "Quantitative slam invitation"
+                rule: "19+hcp"
+                priority: 1
+                bids:
+                  pass:
+                    desc: "Decline invitation with minimum (5-8 HCP)"
+                    rule: "5-8hcp"
+                    priority: 10
+                  "5$suit":
+                    desc: "Signoff in 5-level minor with maximum (9-11 HCP)"
+                    rule: "9-11hcp"
+                    priority: 2
+                  6nt:
+                    desc: "Accept slam in NT with maximum and solid suit"
+                    rule: "11+hcp 7+$suit"
+                    priority: 1
+          "4$suit":
+            desc: "Rebid preempt suit (2- Spades)"
+            rule: "7+$suit 2-s"
+            priority: 3
+            bids:
+              pass:
+                desc: "Pass with minimum 16-17 HCP"
+                rule: "16-17hcp"
+                priority: 10
+              "5$suit":
+                desc: "Raise to game in preempt suit with 18+ HCP"
+                rule: "18+hcp"
+                priority: 1
       3nt:
         desc: "To play (16-19 HCP balanced with outside stoppers)"
         rule: "16-19hcp balanced"
@@ -95,6 +159,8 @@ fragments:
         rule: "16+hcp 3+$M"
         cond: "$M"
         priority: 1
+        ref: "fRKCBResponses"
+        agreedSuit: "$M"
 
   SolidMinor3NT:
     aliases:

@@ -226,7 +226,7 @@ void main() {
       else if ((north.hcp >= 12 && south.hcp >= 6) || (south.hcp >= 12 && north.hcp >= 6)) {
         final is1ntPassedOut = autoContract.toUpperCase() == '1NT' && (north.hcp < 8 || south.hcp < 8);
         final matchesTableStrain = autoStrain == extractStrain(tableContract);
-        if (!is1ntPassedOut && !matchesTableStrain && hasMajorFit && autoContract != 'Pass' && autoStrain != bestMajor && (autoStrain != 'S' || spadeFit < 8) && (autoStrain != 'H' || heartFit < 8)) {
+        if (autoLevel < 6 && !is1ntPassedOut && !matchesTableStrain && hasMajorFit && autoContract != 'Pass' && autoStrain != bestMajor && (autoStrain != 'S' || spadeFit < 8) && (autoStrain != 'H' || heartFit < 8)) {
           cat = 'Cat 2: Missed Major Strain';
           diag = '8+ major fit ($bestMajor: $bestFitLen cards) missed; contract played in $autoContract';
         }
@@ -254,7 +254,7 @@ void main() {
       final tricks = (tricksMade is num) ? tricksMade.toInt() : (tricksMade != null ? int.tryParse(tricksMade.toString()) : null);
       if (cat == null) {
         final isNsTableSlam = !isOpponentContract && (tableContract.startsWith('6') || tableContract.startsWith('7'));
-        final isTableSlamValid = isNsTableSlam && (tricks == null || tricks >= (tableContractLevel + 6 - 1));
+        final isTableSlamValid = isNsTableSlam && (tricks == null || tricks >= (tableContractLevel + 6));
         final hasSlamValues = combHcp >= 31 || (combHcp >= 29 && maxFit >= 9 && (nEff + sEff >= 30.0));
 
         if ((hasSlamValues || isTableSlamValid) && autoLevel < 6 && autoContract != 'Pass') {

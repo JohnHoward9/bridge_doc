@@ -87,9 +87,32 @@ fragments:
             rule: "16+hcp"
             priority: 1
           3nt:
-            desc: "FG 13-15 HCP"
+            desc: "FG 13-15 HCP relay"
             rule: "13-15hcp"
             priority: 1
+            bids:
+              "4$M":
+                desc: "Signoff in agreed major game"
+                rule: "14-16hcp"
+                priority: 2
+                agreedSuit: "$M"
+                bids:
+                  pass:
+                    desc: "Pass to play 4M"
+                    rule: "12-14hcp"
+                    priority: 10
+                  4nt:
+                    desc: "Responder RKCB 1430 for $M"
+                    agreedSuit: "$M"
+                    rule: "15+hcp"
+                    priority: 1
+                    ref: "fRKCBResponses"
+              4nt:
+                desc: "RKCB 1430 for agreed major"
+                rule: "17+hcp | 5-ltc"
+                priority: 1
+                ref: "fRKCBResponses"
+                agreedSuit: "$M"
           4$M:
             desc: "Original invitational"
             rule: "10-12hcp"
@@ -120,9 +143,32 @@ fragments:
             cond: "$M=h"
             priority: 1
           3nt:
-            desc: "FG 13-15 HCP"
+            desc: "FG 13-15 HCP relay"
             rule: "13-15hcp"
             priority: 1
+            bids:
+              "4$M":
+                desc: "Signoff in agreed major game"
+                rule: "14-16hcp"
+                priority: 2
+                agreedSuit: "$M"
+                bids:
+                  pass:
+                    desc: "Pass to play 4M"
+                    rule: "12-14hcp"
+                    priority: 10
+                  4nt:
+                    desc: "Responder RKCB 1430 for $M"
+                    agreedSuit: "$M"
+                    rule: "15+hcp"
+                    priority: 1
+                    ref: "fRKCBResponses"
+              4nt:
+                desc: "RKCB 1430 for agreed major"
+                rule: "17+hcp | 5-ltc"
+                priority: 1
+                ref: "fRKCBResponses"
+                agreedSuit: "$M"
           "[4c-4d]":
             desc: "16+ HCP naturalish"
             rule: "16+hcp 4+%"
@@ -138,9 +184,32 @@ fragments:
         priority: 2
         bids:
           3nt:
-            desc: "FG 13-15 HCP"
+            desc: "FG 13-15 HCP relay"
             rule: "13-15hcp"
             priority: 1
+            bids:
+              "4$M":
+                desc: "Signoff in agreed major game"
+                rule: "14-16hcp"
+                priority: 2
+                agreedSuit: "$M"
+                bids:
+                  pass:
+                    desc: "Pass to play 4M"
+                    rule: "12-14hcp"
+                    priority: 10
+                  4nt:
+                    desc: "Responder RKCB 1430 for $M"
+                    agreedSuit: "$M"
+                    rule: "15+hcp"
+                    priority: 1
+                    ref: "fRKCBResponses"
+              4nt:
+                desc: "RKCB 1430 for agreed major"
+                rule: "17+hcp | 5-ltc"
+                priority: 1
+                ref: "fRKCBResponses"
+                agreedSuit: "$M"
           "[4c-4d]":
             desc: "16+ HCP naturalish"
             rule: "16+hcp 4+%"

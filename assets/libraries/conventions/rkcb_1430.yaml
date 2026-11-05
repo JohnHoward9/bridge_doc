@@ -113,17 +113,17 @@ fragments:
         rule: "kc<=1 $trump | kc=2 !q$trump"
         priority: 2
       5nt:
-        desc: "King ask / Grand slam try (All 5 KC + Queen: Captain has 3 KC + Trump Queen + Partner's 2 = all 6 controls)"
-        rule: "kc=3 $trump q$trump"
+        desc: "King ask / Grand slam try (All 5 KC + Queen: Captain has 3+ KC + Trump Queen + Partner's 2 = all 6 controls)"
+        rule: "kc>=3 $trump q$trump"
         priority: 1
         ref: "fSpecificKingResponses"
       "6$trump":
-        desc: "Small slam in 6$trump_name (Captain has 2 KC with Queen or 3 KC)"
-        rule: "kc=2 $trump q$trump | kc=3 $trump"
+        desc: "Small slam in 6$trump_name (Captain has 2+ KC with Queen or 3+ KC)"
+        rule: "kc>=2 $trump q$trump | kc>=3 $trump"
         priority: 2
       "7$trump":
         desc: "Grand slam in $trump_name"
-        rule: "kc=3 $trump q$trump"
+        rule: "kc>=3 $trump q$trump"
         priority: 3
 
   fRKCBOverStep4:
@@ -134,17 +134,17 @@ fragments:
         rule: "kc<=1 $trump | kc=2 !q$trump"
         priority: 2
       5nt:
-        desc: "King ask / Grand slam try (All 5 KC + Queen: Captain has 3 KC + Partner's 2 with Queen = all 6 controls)"
-        rule: "kc=3 $trump"
+        desc: "King ask / Grand slam try (All 5 KC + Queen: Captain has 3+ KC + Partner's 2 with Queen = all 6 controls)"
+        rule: "kc>=3 $trump"
         priority: 1
         ref: "fSpecificKingResponses"
       "6$trump":
-        desc: "Small slam in 6$trump_name (Captain has 2 KC + Partner's 2 with Queen = 4 KC with Queen)"
-        rule: "kc=2 $trump"
+        desc: "Small slam in 6$trump_name (Captain has 2+ KC + Partner's 2 with Queen = 4+ KC with Queen)"
+        rule: "kc>=2 $trump"
         priority: 2
       "7$trump":
         desc: "Grand slam in $trump_name"
-        rule: "kc=3 $trump"
+        rule: "kc>=3 $trump"
         priority: 3
 
   fRKCBCaptainContinuations:

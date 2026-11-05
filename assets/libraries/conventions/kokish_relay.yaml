@@ -92,10 +92,47 @@ fragments:
         rule: "5+c gf | 20+hcp 5+c | 4-ltc 16+hcp 5+c | 22+hcp 5+c"
         priority: 3
         bids:
+          3d:
+            desc: "Natural Diamonds (5+ Diamonds, GF)"
+            rule: "5+d"
+            priority: 1
+            bids:
+              4d:
+                desc: "Opener fits Diamonds"
+                rule: "3+d"
+                priority: 1
+                agreedSuit: "d"
+                bids:
+                  4h:
+                    desc: "Kickback RKCB 1430 for Diamonds"
+                    agreedSuit: "d"
+                    rule: "4+d"
+                    priority: 1
+                    ref: "fKickbackDiamonds"
+                  5d:
+                    desc: "Game in Diamonds"
+                    rule: "4+d"
+                    priority: 2
+                  6d:
+                    desc: "Small Slam in Diamonds"
+                    rule: "4+d 5+hcp"
+                    priority: 1
+              3nt:
+                desc: "Opener choice of game 3NT"
+                rule: "balanced | 2-d"
+                priority: 2
+          3h:
+            desc: "Natural Hearts (5+ Hearts, GF)"
+            rule: "5+h"
+            priority: 1
+          3s:
+            desc: "Natural Spades (5+ Spades, GF)"
+            rule: "5+s"
+            priority: 1
           3nt:
             desc: "To play"
-            rule: "balanced"
-            priority: 2
+            rule: "0+hcp"
+            priority: 3
           4c:
             desc: "Support for Clubs"
             rule: "3+c"

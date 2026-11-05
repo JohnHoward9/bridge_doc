@@ -57,8 +57,8 @@ fragments:
             desc: "3NT to play"
             rule: "balanced 2-s"
       2nt:
-        desc: "Positive balanced (8+ HCP, balanced)"
-        rule: "8+hcp balanced"
+        desc: "Positive balanced without 4-card major (8+ HCP, balanced, 3- Spades, 3- Hearts)"
+        rule: "8+hcp balanced 3-s 3-h"
         priority: 2
         bids:
           3nt:
@@ -75,6 +75,7 @@ fragments:
           3h:
             desc: "Natural Hearts (5+ Hearts)"
             rule: "5+h"
+            priority: 1
             bids:
               4h:
                 desc: "Game in Hearts"
@@ -101,6 +102,7 @@ fragments:
           3s:
             desc: "Natural Spades (5+ Spades)"
             rule: "5+s"
+            priority: 1
             bids:
               4s:
                 desc: "Game in Spades"
@@ -126,7 +128,7 @@ fragments:
                     agreedSuit: "s"
           3nt:
             desc: "3NT to play or forward going"
-            rule: "balanced | 22+hcp"
+            rule: "balanced 4-h 4-s | 22+hcp 4-h 4-s"
             priority: 2
             bids:
               pass:

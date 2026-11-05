@@ -2,6 +2,9 @@ library: "Smolen Convention"
 description: "Smolen transfer after 1NT - 2C - 2D with 5-4 or 4-5 in the majors (10+ HCP GF)"
 version: "1.0"
 
+imports:
+  - "assets/libraries/conventions/rkcb_1430.yaml"
+
 fragments:
   fSmolen:
     desc: "Smolen convention: responder jumps to 3 of the 4-card major ($M) so opener declares the 5-card major ($OM)"
@@ -15,7 +18,19 @@ fragments:
             desc: "Opener accepts Spades with 3-card fit (minimum 15 HCP)"
             rule: "3+s 15-hcp"
             cond: "$OM=s"
+            agreedSuit: "s"
             priority: 1
+            bids:
+              4s:
+                desc: "Signoff in 4S game"
+                rule: "10-12hcp"
+                priority: 2
+              4nt:
+                desc: "RKCB 1430 for Spades"
+                agreedSuit: "s"
+                rule: "14+hcp | 5-ltc"
+                priority: 1
+                ref: "fRKCBResponses"
 
           3nt:
             desc: "Opener signs off in 3NT (only 2 in $OM_sym)"
@@ -26,10 +41,42 @@ fragments:
             desc: "Opener jumps to 4S game with 3-card fit and maximum"
             rule: "3+s 16+hcp"
             cond: "$OM=s"
+            agreedSuit: "s"
             priority: 1
+            bids:
+              pass:
+                desc: "Signoff in 4S game"
+                rule: "10-12hcp"
+                priority: 10
+              4nt:
+                desc: "RKCB 1430 for Spades"
+                agreedSuit: "s"
+                rule: "13+hcp | 5-ltc"
+                priority: 1
+                ref: "fRKCBResponses"
+              6s:
+                desc: "Direct small slam in Spades"
+                rule: "15+hcp | 4-ltc"
+                priority: 1
 
           4h:
             desc: "Opener accepts Hearts with 3-card fit"
             rule: "3+h"
             cond: "$OM=h"
+            agreedSuit: "h"
             priority: 1
+            bids:
+              pass:
+                desc: "Signoff in 4H game"
+                rule: "10-12hcp"
+                priority: 10
+              4nt:
+                desc: "RKCB 1430 for Hearts"
+                agreedSuit: "h"
+                rule: "13+hcp | 5-ltc"
+                priority: 1
+                ref: "fRKCBResponses"
+              6h:
+                desc: "Direct small slam in Hearts"
+                rule: "15+hcp | 4-ltc"
+                priority: 1

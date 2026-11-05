@@ -885,6 +885,15 @@ fragments:
                     desc: "Game in Clubs"
                     rule: "4+c"
                     priority: 2
+                    bids:
+                      pass:
+                        desc: "Pass to play 5C"
+                        rule: "15-hcp"
+                        priority: 10
+                      6c:
+                        desc: "Small Slam in Clubs with 16+ HCP"
+                        rule: "16+hcp | 5-ltc"
+                        priority: 1
               4d:
                 desc: "Diamond raise with 4+ Diamonds"
                 rule: "4+d"
@@ -1160,6 +1169,15 @@ fragments:
                     desc: "Game in Clubs"
                     rule: "4+c"
                     priority: 2
+                    bids:
+                      pass:
+                        desc: "Pass to play 5C"
+                        rule: "15-hcp"
+                        priority: 10
+                      6c:
+                        desc: "Small Slam in Clubs with 16+ HCP"
+                        rule: "16+hcp | 5-ltc"
+                        priority: 1
               4d:
                 desc: "Diamond raise with 4+ Diamonds"
                 rule: "4+d"

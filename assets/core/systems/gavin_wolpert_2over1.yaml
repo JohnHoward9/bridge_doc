@@ -72,12 +72,15 @@ OpeningBids:
 
   1h:
     ref: "GavinHeartOpening"
+    priority: 1
 
   1s:
     ref: "GavinSpadeOpening"
+    priority: 1
 
   1nt:
     ref: "Gavin1NTOpening"
+    priority: 2
 
   2c:
     ref: "StrongTwoClubsKokish"

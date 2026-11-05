@@ -119,10 +119,42 @@ fragments:
             desc: "Opener fits Diamonds (3+ Diamonds, slam interest)"
             rule: "15-17hcp 3+d"
             priority: 1
+            agreedSuit: "d"
+            bids:
+              4h:
+                desc: "Kickback RKCB 1430 for Diamonds"
+                agreedSuit: "d"
+                rule: "14+hcp"
+                priority: 1
+                ref: "fKickbackDiamonds"
+              4nt:
+                desc: "RKCB 1430 for Diamonds"
+                agreedSuit: "d"
+                rule: "14+hcp"
+                priority: 2
+                ref: "fRKCBResponses"
+              5d:
+                desc: "Signoff in 5D"
+                rule: "10-13hcp"
+                priority: 3
+              6d:
+                desc: "Small Slam in Diamonds"
+                rule: "14+hcp"
+                priority: 1
           5d:
             desc: "Opener game in Diamonds"
             rule: "15-17hcp 4+d"
             priority: 2
+            agreedSuit: "d"
+            bids:
+              pass:
+                desc: "Pass to play 5D"
+                rule: "10-13hcp"
+                priority: 10
+              6d:
+                desc: "Small Slam in Diamonds"
+                rule: "14+hcp"
+                priority: 1
 
       3nt:
         desc: "Signoff in 3NT with both 4-card majors (10-15 HCP)"

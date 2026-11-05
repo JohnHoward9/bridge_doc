@@ -50,3 +50,22 @@ fragments:
         desc: "To play (denies 4-card or 5-card major)"
         rule: "3-h 3-s"
         priority: 4
+        bids:
+          pass:
+            desc: "Pass to play 3NT"
+            rule: "20-21hcp balanced"
+            priority: 10
+          4d:
+            desc: "Opener slam try in Diamonds with 4+ Diamonds"
+            rule: "22+hcp 4+d"
+            priority: 1
+            agreedSuit: "d"
+            bids:
+              6d:
+                desc: "Accept Diamond slam"
+                rule: "4+d"
+                priority: 1
+          4nt:
+            desc: "Quantitative slam invite"
+            rule: "22+hcp"
+            priority: 2

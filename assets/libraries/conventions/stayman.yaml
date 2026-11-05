@@ -165,36 +165,36 @@ fragments:
         rule: "10+hcp 5+c 4+$OM 3-$M"
         priority: 1
         bids:
+          "4$M":
+            desc: "Opener 5-card major game (5+ $M_name, 15-17 HCP)"
+            rule: "15-17hcp 5+$M"
+            priority: 1
           3nt:
-            desc: "Opener signs off in 3NT"
-            rule: "15-17hcp 2-c"
-            priority: 1
-          4c:
-            desc: "Opener fits Clubs (3+ Clubs)"
-            rule: "15-17hcp 3+c"
-            priority: 1
-          5c:
-            desc: "Opener game in Clubs"
-            rule: "15-17hcp 4+c"
+            desc: "Opener signs off in 3NT to play (15-17 HCP)"
+            rule: "15-17hcp"
             priority: 2
+          5c:
+            desc: "Opener game in Clubs with 4+ Clubs"
+            rule: "15-17hcp 4+c !balanced"
+            priority: 3
 
       3d:
         desc: "Natural 5+ Diamonds with 4 cards in other major (10+ HCP, Game Forcing)"
         rule: "10+hcp 5+d 4+$OM 3-$M"
         priority: 1
         bids:
+          "4$M":
+            desc: "Opener 5-card major game (5+ $M_name, 15-17 HCP)"
+            rule: "15-17hcp 5+$M"
+            priority: 1
           3nt:
-            desc: "Opener signs off in 3NT"
-            rule: "15-17hcp 2-d"
-            priority: 1
-          4d:
-            desc: "Opener fits Diamonds (3+ Diamonds)"
-            rule: "15-17hcp 3+d"
-            priority: 1
-          5d:
-            desc: "Opener game in Diamonds"
-            rule: "15-17hcp 4+d"
+            desc: "Opener signs off in 3NT to play (15-17 HCP)"
+            rule: "15-17hcp"
             priority: 2
+          5d:
+            desc: "Opener game in Diamonds with 4+ Diamonds"
+            rule: "15-17hcp 4+d !balanced"
+            priority: 3
 
       3$M:
         desc: "Invitational raise in major (8-9 HCP)"

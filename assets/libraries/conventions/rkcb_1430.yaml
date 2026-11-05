@@ -70,7 +70,7 @@ fragments:
       "6$trump":
         desc: "Small slam in 6$trump_name (Captain has 3 or 4 KC + Partner's 1 = 4 or 5 KC)"
         rule: "kc>=3 $trump"
-        priority: 2
+        priority: 1
       "7$trump":
         desc: "Grand slam in $trump_name (All 5 KC + Trump Queen held)"
         rule: "kc=4 $trump q$trump"
@@ -185,11 +185,20 @@ fragments:
         priority: 1
         include: "fRKCBOverStep1"
         bids:
-          5s:
+          5d:
             cond: "$trump=h"
-            desc: "Queen ask in Hearts"
-            rule: "kc>=3 h"
+            desc: "Queen ask in Hearts (cheapest step over 5C)"
+            rule: "kc=3 !qh"
             priority: 2
+            bids:
+              5h:
+                desc: "No Queen of Hearts: signoff in 5H"
+                rule: "!qh"
+                priority: 1
+              6h:
+                desc: "Queen of Hearts held: accept small slam in 6H"
+                rule: "qh"
+                priority: 1
 
       "step#2":
         desc: "Step 2: 0 or 3 key cards"
@@ -197,11 +206,20 @@ fragments:
         priority: 1
         include: "fRKCBOverStep2"
         bids:
-          5s:
+          5d:
             cond: "$trump=h"
-            desc: "Queen ask in Hearts"
-            rule: "kc>=2 h"
+            desc: "Queen ask in Hearts (cheapest step over 5C)"
+            rule: "kc=2 !qh"
             priority: 2
+            bids:
+              5h:
+                desc: "No Queen of Hearts: signoff in 5H"
+                rule: "!qh"
+                priority: 1
+              6h:
+                desc: "Queen of Hearts held: accept small slam in 6H"
+                rule: "qh"
+                priority: 1
 
       "step#3":
         desc: "Step 3: 2 key cards without Queen of $trump_name"

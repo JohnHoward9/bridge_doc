@@ -41,11 +41,57 @@ fragments:
             desc: "Opener 6+ Clubs minimum"
             rule: "6+c 12-15hcp"
             priority: 3
+          2d:
+            desc: "Opener Diamond raise (4+ Diamonds or 3+ Diamonds unbalanced, 12-17 HCP)"
+            rule: "4+d 12-17hcp | 3+d 12-15hcp !balanced"
+            priority: 2
+            bids:
+              pass:
+                desc: "Pass with minimum (6-9 HCP)"
+                rule: "6-9hcp"
+                priority: 10
+              2nt:
+                desc: "Natural invitational (10-11 HCP)"
+                rule: "10-11hcp balanced"
+                priority: 2
+              3d:
+                desc: "Invitational Diamond raise (10-11 HCP, 5+ Diamonds)"
+                rule: "10-11hcp 5+d"
+                priority: 2
+              3nt:
+                desc: "Game to play (12-15 HCP)"
+                rule: "12-15hcp"
+                priority: 1
+              5d:
+                desc: "Game in Diamonds"
+                rule: "12+hcp 5+d"
+                priority: 2
           2nt:
             desc: "Opener 18-19 balanced"
             rule: "18-19hcp balanced"
             priority: 1
             ref: "fTransfersOver2NT"
+          3c:
+            desc: "Opener jump rebid in Clubs (6+ Clubs, 16-18 HCP, highly invitational)"
+            rule: "6+c 16-18hcp"
+            priority: 2
+            bids:
+              pass:
+                desc: "Pass with minimum (6-8 HCP)"
+                rule: "6-8hcp"
+                priority: 10
+              3d:
+                desc: "Preference for Diamonds (6+ Diamonds, 8-10 HCP)"
+                rule: "8-10hcp 6+d"
+                priority: 2
+              3nt:
+                desc: "Game in 3NT with stoppers (9-12 HCP)"
+                rule: "9-12hcp"
+                priority: 1
+              5c:
+                desc: "Game in Clubs (9+ HCP, 3+ Clubs)"
+                rule: "9+hcp 3+c"
+                priority: 1
 
       1h:
         desc: "Natural 4+ Hearts (6+ HCP, Hearts longer than Spades or 4-4 majors)"

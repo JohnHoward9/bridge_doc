@@ -40,8 +40,8 @@ Identified **15 active representative failure deals** across the 6 defect catego
 | 11 | **82623 B:27** | **Cat 1: Forcing Broken / Stalled** | ♠Q542 ♥AQ87 ♦T9 ♣K93<br>(11 HCP → 11.0 Eff) | ♠AT ♥J63 ♦Q874 ♣AT64<br>(11 HCP → 11.6 Eff) | **22 HCP** | **1N** | `Pass Pass` | **Pass** | Passed out with 22 combined HCP (N=11, S=11) |
 | 12 | **82635 B:19** | **Cat 1: Forcing Broken / Stalled** | ♠A8 ♥A864 ♦632 ♣QJT4<br>(11 HCP → 11.3 Eff) | ♠J7 ♥KQT732 ♦Q9 ♣K63<br>(11 HCP → 10.5 Eff) | **22 HCP** | **2C (5)** | `Pass Pass` | **Pass** | Passed out with 22 combined HCP (N=11, S=11) |
 | 13 | **82636 B:19** | **Cat 1: Forcing Broken / Stalled** | ♠A8 ♥A864 ♦632 ♣QJT4<br>(11 HCP → 11.3 Eff) | ♠J7 ♥KQT732 ♦Q9 ♣K63<br>(11 HCP → 10.5 Eff) | **22 HCP** | **4H (9)** | `Pass Pass` | **Pass** | Passed out with 22 combined HCP (N=11, S=11) |
-| 14 | **82646 B:25** | **Cat 1: Forcing Broken / Stalled** | ♠AKQ53 ♥AQ86 ♦Q7 ♣93<br>(17 HCP → 17.1 Eff) | ♠J9 ♥K94 ♦43 ♣AJ6542<br>(9 HCP → 8.6 Eff) | **26 HCP** | **3N (7)** | `1s 1nt Pass` | **1nt** | Auction stalled at 1nt with 26 combined HCP (Calls: `1s 1nt Pass`) |
-| 15 | **82656 B:4** | **Cat 1: Forcing Broken / Stalled** | ♠T ♥AKJ ♦K73 ♣AQ7432<br>(17 HCP → 17.3 Eff) | ♠Q8 ♥72 ♦QT642 ♣KJ96<br>(8 HCP → 7.4 Eff) | **25 HCP** | **5C (11)** | `Pass 1c 1d Pass` | **1d** | Auction stalled at 1d with 25 combined HCP (Calls: `Pass 1c 1d Pass`) |
+| 14 | **82669 B:14** | **Cat 1: Forcing Broken / Stalled** | ♠Q854 ♥QJ2 ♦KJT ♣KT6<br>(12 HCP → 11.0 Eff) | ♠AJ97 ♥A943 ♦7 ♣J874<br>(10 HCP → 9.9 Eff) | **22 HCP** | **4S (8)** | `Pass Pass` | **Pass** | Passed out with 22 combined HCP (N=12, S=10) |
+| 15 | **82687 B:17** | **Cat 1: Forcing Broken / Stalled** | ♠T532 ♥K95 ♦K763 ♣KQ<br>(11 HCP → 11.0 Eff) | ♠K6 ♥Q82 ♦AQ94 ♣7432<br>(11 HCP → 10.8 Eff) | **22 HCP** | **3S (8)** | `Pass Pass` | **Pass** | Passed out with 22 combined HCP (N=11, S=11) |
 
 ## Systematic Resolution Strategy
 1. **Category 1 (Forcing Broken & Stalls)**: Strengthen forcing state persistence in `walsh_minors.yaml` and `gavin_majors_2over1.yaml` so responder's 1-level response guarantees a rebid.

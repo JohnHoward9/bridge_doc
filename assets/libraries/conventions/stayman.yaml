@@ -34,7 +34,7 @@ fragments:
     bids:
       2h:
         desc: "Garbage Stayman: weak with both majors (pass or correct to 2S)"
-        rule: "0-7hcp 4+h 4+s | 0-7hcp 5+h 4+s"
+        rule: "0-7hcp 4=h 4=s | 0-7hcp 5+h 4=s | 0-7hcp 4+h 3-s"
         priority: 1
         bids:
           pass:
@@ -47,8 +47,8 @@ fragments:
             priority: 1
 
       2s:
-        desc: "Invitational with 5 Spades (8-9 HCP) or weak 5S-4H Garbage Stayman"
-        rule: "0-7hcp 5+s 4+h | 8-9hcp 5+s"
+        desc: "Invitational with 5 Spades (8-9 HCP)"
+        rule: "8-9hcp 5+s"
         priority: 1
         bids:
           pass:
@@ -170,6 +170,33 @@ fragments:
   fStaymanMajorResponses:
     desc: "Responder follow-ups after opener shows 4-card major"
     bids:
+      2s:
+        desc: "Invitational with 5 Spades (8-9 HCP), had 4 Hearts or explored for major fit"
+        rule: "8-9hcp 5+s"
+        cond: "$M=h"
+        priority: 1
+        bids:
+          pass:
+            desc: "Opener declines invitation with minimum and 2-3 Spades (to play in 2S)"
+            rule: "15-hcp"
+            priority: 10
+          2nt:
+            desc: "Opener declines invitation with minimum and doubleton spade"
+            rule: "15-hcp 2-s"
+            priority: 2
+          3s:
+            desc: "Opener mild acceptance with 3+ Spades (16 HCP)"
+            rule: "16hcp 3+s"
+            priority: 1
+          4s:
+            desc: "Opener accepts game with maximum and 3+ Spades (16-17 HCP)"
+            rule: "16-17hcp 3+s"
+            priority: 1
+          3nt:
+            desc: "Opener accepts game with maximum and 2 Spades (16-17 HCP)"
+            rule: "16-17hcp 2-s"
+            priority: 2
+
       2nt:
         desc: "Invitational to 3NT (8-9 HCP), had 4 in other major"
         rule: "8-9hcp 3-$M"

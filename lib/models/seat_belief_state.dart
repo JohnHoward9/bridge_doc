@@ -1,5 +1,6 @@
 import '../models/card.dart';
 import '../models/hand.dart';
+import 'bridge_probabilities.dart';
 
 /// Represents the accumulated knowledge / belief state about a specific seat (N, E, S, W)
 /// based on their calls and conventions throughout the auction.
@@ -15,6 +16,10 @@ class SeatBeliefState {
   final List<String> bidHistory;
   final List<String> shownFeatures;
   final Set<Suit> controlledSuits;
+
+  /// Exact conditional expected HCP E[HCP | minHcp <= HCP <= maxHcp]
+  /// calculated via a priori probability distribution (mean 10.00, std 4.13).
+  double get expectedHcp => BridgeProbabilities.conditionalExpectedHcp(minHcp: minHcp, maxHcp: maxHcp);
 
   SeatBeliefState({
     required this.seat,
@@ -163,10 +168,9 @@ class SeatBeliefState {
     return prim >= 8 && sec >= 8;
   }
 
-  /// Calculates empirically expected continuous suit lengths (summing to 13.0)
-  /// conditioned on shown auction calls and whether opponents were silent or active.
-  /// Mined directly from 13,975 BBO Championship deals.
-  Map<Suit, double> expectedSuitLengths({bool isOpponentActive = false}) {
+  /// Calculates mathematically expected continuous suit lengths (summing to 13.0)
+  /// conditioned on shown auction ranges using exact hypergeometric conditional expectations.
+  Map<Suit, double> expectedSuitLengths({Hand? myHand, bool isOpponentActive = false}) {
     final expected = <Suit, double>{};
     double allocatedCards = 0.0;
     final unshownSuits = <Suit>[];
@@ -176,27 +180,19 @@ class SeatBeliefState {
       final maxL = maxSuitLength[s] ?? 13;
 
       if (minL == maxL && minL > 0) {
-        // Exact length known (e.g. 4=h or dist#)
+        // Exact length known
         expected[s] = minL.toDouble();
         allocatedCards += minL;
-      } else if (minL >= 8) {
-        expected[s] = 8.12;
-        allocatedCards += 8.12;
-      } else if (minL >= 7) {
-        expected[s] = 7.18;
-        allocatedCards += 7.18;
-      } else if (minL >= 6) {
-        // Preempt / strong 6+ card suit: empirical mean 6.22 cards
-        expected[s] = 6.22;
-        allocatedCards += 6.22;
-      } else if (minL >= 5) {
-        // 5+ Major: empirical mean 5.38 cards
-        expected[s] = 5.38;
-        allocatedCards += 5.38;
-      } else if (minL >= 4) {
-        // 4+ Minor/Major: empirical mean 4.47 cards
-        expected[s] = 4.47;
-        allocatedCards += 4.47;
+      } else if (minL > 0 || maxL < 13) {
+        // Bounded range: compute exact conditional expectation E[L | minL <= L <= maxL]
+        final myL = myHand != null ? myHand.length(s) : 0;
+        final expL = BridgeProbabilities.conditionalExpectedSuitLength(
+          minLen: minL,
+          maxLen: maxL,
+          myLen: myL,
+        );
+        expected[s] = expL;
+        allocatedCards += expL;
       } else {
         unshownSuits.add(s);
       }
@@ -207,17 +203,13 @@ class SeatBeliefState {
     if (unshownSuits.isNotEmpty) {
       final perSuit = remainingCards / unshownSuits.length;
       for (final s in unshownSuits) {
-        final maxAllowed = (maxSuitLength[s] ?? 13).toDouble();
-        // If opponents are active, unshown suits have slightly higher variance / lower floor
-        final minFloor = isBalanced ? (isOpponentActive ? 1.2 : 1.5) : (isOpponentActive ? 0.3 : 0.5);
-        final val = perSuit.clamp(minFloor, maxAllowed);
-        expected[s] = double.parse(val.toStringAsFixed(2));
+        expected[s] = double.parse(perSuit.toStringAsFixed(2));
       }
     }
 
     // Normalize so sum across all 4 suits is exactly 13.0
     final currentSum = expected.values.fold(0.0, (a, b) => a + b);
-    if (currentSum > 0 && (currentSum - 13.0).abs() > 0.05) {
+    if (currentSum > 0 && (currentSum - 13.0).abs() > 0.01) {
       final scale = 13.0 / currentSum;
       for (final s in Suit.values) {
         if (expected.containsKey(s)) {
@@ -229,9 +221,9 @@ class SeatBeliefState {
     return expected;
   }
 
-  /// Calculates expected partnership fit in [suit] using empirical expectations.
+  /// Calculates expected partnership fit in [suit] using exact conditional expectations.
   double expectedPartnershipFit(Hand myHand, Suit suit, {bool isOpponentActive = false}) {
-    final expLengths = expectedSuitLengths(isOpponentActive: isOpponentActive);
+    final expLengths = expectedSuitLengths(myHand: myHand, isOpponentActive: isOpponentActive);
     return myHand.length(suit) + (expLengths[suit] ?? 3.25);
   }
 
@@ -469,7 +461,33 @@ class AuctionBeliefState {
     final newShownFeatures = List<String>.from(current.shownFeatures);
     final newHistory = List<String>.from(current.bidHistory)..add(call);
 
-    final combinedText = '${rule ?? ''} ${desc ?? ''}'.toLowerCase();
+    final normCall = call.toLowerCase().trim();
+    final combinedText = '$normCall ${rule ?? ''} ${desc ?? ''}'.toLowerCase();
+
+    // Natural inferences from standard call patterns when rule/desc are not fully specified:
+    if (newHistory.length == 1) {
+      if (normCall == '1c') {
+        if (newMinHcp < 12) newMinHcp = 12;
+        if ((newMinSuit[Suit.clubs] ?? 0) < 3) newMinSuit[Suit.clubs] = 3;
+      } else if (normCall == '1d') {
+        if (newMinHcp < 12) newMinHcp = 12;
+        if ((newMinSuit[Suit.diamonds] ?? 0) < 3) newMinSuit[Suit.diamonds] = 3;
+      } else if (normCall == '1h') {
+        if (newMinHcp < 12) newMinHcp = 12;
+        if ((newMinSuit[Suit.hearts] ?? 0) < 5) newMinSuit[Suit.hearts] = 5;
+      } else if (normCall == '1s') {
+        if (newMinHcp < 12) newMinHcp = 12;
+        if ((newMinSuit[Suit.spades] ?? 0) < 5) newMinSuit[Suit.spades] = 5;
+      } else if (normCall == '1nt') {
+        if (newMinHcp < 15) newMinHcp = 15;
+        if (newMaxHcp > 17) newMaxHcp = 17;
+        newIsBalanced = true;
+      }
+    } else if (newHistory.length == 2 && normCall == '1nt') {
+      if (newMinHcp < 12) newMinHcp = 12;
+      if (newMaxHcp > 14) newMaxHcp = 14;
+      newIsBalanced = true;
+    }
 
     // 1. Parse HCP: e.g. "15-17", "10+", "12-14", "8-9"
     final rangeRegex = RegExp(r'(\d+)\s*[-–]\s*(\d+)\s*(?:hcp|points)?');

@@ -5,8 +5,9 @@
   "calibration": {
     "target_mean": 10.0,
     "target_std": 4.13,
-    "calibrated_mean": 10.01,
-    "calibrated_15_17_frequency_pct": 10.52,
+    "calibrated_mean": 10.0,
+    "calibrated_std": 4.37,
+    "calibrated_15_17_frequency_pct": 10.79,
     "milton_work_15_17_frequency_pct": 10.47
   },
   "feature_names": [
@@ -40,14 +41,14 @@
     0.1,
     -0.15,
     -0.25,
-    0.25,
-    -0.03,
+    0.4,
+    0.12,
+    0.8,
     0.0,
     0.0,
     0.0,
-    0.0,
-    -0.5,
-    0.2,
+    -0.15,
+    0.15,
     0.85,
     -0.2,
     0.0,
@@ -55,16 +56,18 @@
     0.2,
     0.054,
     0.25,
-    0.0,
-    0.521,
-    0.006
+    -2.0,
+    1.5,
+    1.0
   ],
-  "bias": -0.35,
+  "bias": -0.87,
   "explanation_labels": {
+    "length_1": "Long suit trick-taking surplus (cards over 5)",
     "shape_6421": "6-4-2-1 two-suiter length distribution",
     "shape_6331": "6-3-3-1 single-suiter distribution",
     "shape_4333": "Flat 4333 distribution",
     "shape_5332": "5332 semi-balanced distribution",
+    "honors_in_long_suits_ratio": "Concentration of honors in primary suits",
     "opp_king_lho_trapped": "Unsupported K trapped under LHO opponent call",
     "opp_king_rho_protected": "Protected K sitting over RHO opponent call",
     "opp_soft_lho": "Wasted soft honors under LHO opponent call",
@@ -75,6 +78,7 @@
     "jacks": "Jack soft value discount",
     "tens": "Tens intermediate density",
     "nines": "Nines intermediate density",
+    "is_notrump": "Misfit or unworkable suit in No-Trump",
     "has_trump_shortness": "Ruffing shortness in side suit",
     "partner_working_honor": "Working honor in partner suit"
   }

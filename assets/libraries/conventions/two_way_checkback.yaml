@@ -506,8 +506,8 @@ fragments:
                 rule: "4+s 16+hcp"
                 priority: 1
               3h:
-                desc: "Slam try in Hearts with 5+ Hearts"
-                rule: "5+h 16+hcp"
+                desc: "Slam try in Hearts with 6+ Hearts"
+                rule: "6+h 16+hcp"
                 priority: 1
               4nt:
                 desc: "RKCB 1430"

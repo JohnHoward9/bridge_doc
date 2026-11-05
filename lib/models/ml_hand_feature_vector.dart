@@ -1,5 +1,6 @@
 import 'card.dart';
 import 'hand.dart';
+import 'seat_belief_state.dart';
 import 'bidding_state_context.dart';
 
 /// Extracts standardized numerical feature vectors for Machine Learning hand valuation.
@@ -36,6 +37,8 @@ class MLHandFeatureVector {
     Suit? trumpSuit,
     Suit? partnerSuit,
     List<OpponentSuitAction> opponentActions = const [],
+    SeatBeliefState? partnerBelief,
+    bool isNotrumpStrain = false,
   }) {
     final rawHcp = hand.hcp.toDouble();
     final aces = hand.cards.where((c) => c.rank == Rank.ace).length.toDouble();
@@ -53,16 +56,28 @@ class MLHandFeatureVector {
       MapEntry(Suit.clubs, hand.clubsLength),
     ]..sort((a, b) => b.value.compareTo(a.value));
 
-    final l1 = suitLengths[0].value.toDouble();
-    final l2 = suitLengths[1].value.toDouble();
-    final l3 = suitLengths[2].value.toDouble();
-    final l4 = suitLengths[3].value.toDouble();
+    final rawL1 = suitLengths[0].value;
+    final rawL2 = suitLengths[1].value;
+    final rawL3 = suitLengths[2].value;
+    final rawL4 = suitLengths[3].value;
+
+    // Detect extreme misfit: holding a 6+ suit when partner promises at most 1 card
+    final isMisfit = partnerBelief != null &&
+        rawL1 >= 6 &&
+        partnerBelief.maxSuitLength[suitLengths[0].key] != null &&
+        partnerBelief.maxSuitLength[suitLengths[0].key]! <= 1;
+
+    // Surplus length over 5 in longest suit (dampened in unplayable misfit)
+    final l1 = isMisfit ? 0.0 : (rawL1 - 5).clamp(0, 8).toDouble();
+    final l2 = rawL2.toDouble();
+    final l3 = rawL3.toDouble();
+    final l4 = rawL4.toDouble();
 
     // Specific shape indicators
-    final is4333 = (l1 == 4 && l2 == 3 && l3 == 3 && l4 == 3) ? 1.0 : 0.0;
-    final is5332 = (l1 == 5 && l2 == 3 && l3 == 3 && l4 == 2) ? 1.0 : 0.0;
-    final is6421 = (l1 == 6 && l2 == 4 && l3 == 2 && l4 == 1) ? 1.0 : 0.0;
-    final is6331 = (l1 == 6 && l2 == 3 && l3 == 3 && l4 == 1) ? 1.0 : 0.0;
+    final is4333 = (rawL1 == 4 && rawL2 == 3 && rawL3 == 3 && rawL4 == 3) ? 1.0 : 0.0;
+    final is5332 = (rawL1 == 5 && rawL2 == 3 && rawL3 == 3 && rawL4 == 2) ? 1.0 : 0.0;
+    final is6421 = (rawL1 == 6 && rawL2 == 4 && rawL3 == 2 && rawL4 == 1) ? 1.0 : 0.0;
+    final is6331 = (rawL1 == 6 && rawL2 == 3 && rawL3 == 3 && rawL4 == 1) ? 1.0 : 0.0;
 
     // Honor concentration: HCP in the 2 longest suits / total HCP
     final longestSuits = [suitLengths[0].key, suitLengths[1].key];
@@ -104,24 +119,39 @@ class MLHandFeatureVector {
       }
     }
 
-    // Strain and Shortness
-    final isNotrump = trumpSuit == null ? 1.0 : 0.0;
+    // Strain, Shortness, and Misfit
+    double isNotrump = 0.0;
+    if (isNotrumpStrain || isMisfit) {
+      isNotrump = 1.0;
+    }
+
     double hasTrumpShortness = 0.0;
     if (trumpSuit != null) {
       for (final s in Suit.values) {
         if (s == trumpSuit) continue;
-        if (hand.length(s) <= 1) {
-          hasTrumpShortness = 1.0;
+        final len = hand.length(s);
+        if (len == 0) {
+          hasTrumpShortness = 2.0; // Void
           break;
+        } else if (len == 1 && hasTrumpShortness < 1.0) {
+          hasTrumpShortness = 1.0; // Singleton
         }
       }
     }
 
-    // Partner mesh
+    // Partner mesh & working honor
     double partnerWorkingHonor = 0.0;
-    if (partnerSuit != null) {
-      final pCards = hand.cards.where((c) => c.suit == partnerSuit);
+    final targetPartnerSuit = partnerSuit ?? trumpSuit;
+    if (targetPartnerSuit != null) {
+      final pCards = hand.cards.where((c) => c.suit == targetPartnerSuit);
       if (pCards.any((c) => c.rank == Rank.ace || c.rank == Rank.king)) {
+        partnerWorkingHonor = 1.0;
+      }
+    }
+    if (partnerBelief != null) {
+      final longestSuit = suitLengths[0].key;
+      final partnerMinInLongest = partnerBelief.minSuitLength[longestSuit] ?? 0;
+      if (partnerMinInLongest >= 3) {
         partnerWorkingHonor = 1.0;
       }
     }

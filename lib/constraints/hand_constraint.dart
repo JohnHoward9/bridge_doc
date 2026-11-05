@@ -87,78 +87,34 @@ class HcpConstraint extends HandConstraint {
     }
 
     // 2. Learner mode (South) or MiltonWorkValuation:
-    // If downgraded, effective points must still meet min.
-    // If upgraded, effective points can promote into min (by at most 1 point).
-    // Otherwise, raw Milton Work HCP must satisfy min.
-    if (min != null) {
+    // Passes if EITHER effective HCP satisfies [min, max],
+    // OR raw Milton Work HCP satisfies [min, max].
+    final rangeStr = min != null && max != null
+        ? '$min-$max HCP'
+        : (min != null ? '$min+ HCP' : '$max- HCP');
+
+    if (min != null || max != null) {
       if (valuation is MLHandValuation) {
-        if (context != null && context.expectationBonus > 0) {
-          if (pts < min!) {
-            passed = false;
-            failed.add('Expectation HCP $pts is below minimum $min');
-          }
-        } else {
-          final breakdown = valuation.evaluateBreakdown(hand);
-          if (breakdown.isDowngraded) {
-            if (pts < min!) {
-              passed = false;
-              failed.add('ML Downgraded HCP $pts is below minimum $min');
-            }
-          } else if (breakdown.isUpgraded) {
-            if (pts < min! || rawHcp < min! - 1) {
-              passed = false;
-              failed.add('HCP $rawHcp ($pts effective) is below minimum $min');
-            }
-          } else {
-            if (rawHcp < min!) {
-              passed = false;
-              failed.add('HCP $rawHcp is below minimum $min');
-            }
-          }
+        final passesEffective = (min == null || effectivePts >= (min! - 0.49)) &&
+            (max == null || effectivePts < (max! + 0.5));
+        final passesRaw = (min == null || rawHcp >= min!) &&
+            (max == null || rawHcp <= max!);
+
+        if (!passesEffective && !passesRaw) {
+          passed = false;
+          failed.add('Neither Effective HCP ${effectivePts.toStringAsFixed(1)} nor Raw HCP $rawHcp matches $rangeStr');
         }
       } else {
-        if (pts < min!) {
+        if (min != null && pts < min!) {
           passed = false;
           failed.add('HCP $pts is below minimum $min');
         }
-      }
-    }
-
-    // Check maximum:
-    // Hands are not disqualified from their natural range by an upgrade bonus,
-    // but if raw HCP exceeds max and is not downgraded, it fails.
-    if (max != null) {
-      if (valuation is MLHandValuation) {
-        if (context != null && context.expectationBonus > 0) {
-          if (pts > max! + 1) {
-            passed = false;
-            failed.add('Expectation HCP $pts exceeds maximum $max');
-          }
-        } else {
-          final breakdown = valuation.evaluateBreakdown(hand);
-          if (breakdown.isDowngraded) {
-            if (pts > max!) {
-              passed = false;
-              failed.add('HCP $pts is above maximum $max');
-            }
-          } else {
-            if (rawHcp > max!) {
-              passed = false;
-              failed.add('HCP $rawHcp is above maximum $max');
-            }
-          }
-        }
-      } else {
-        if (pts > max!) {
+        if (max != null && pts > max!) {
           passed = false;
           failed.add('HCP $pts is above maximum $max');
         }
       }
     }
-
-    final rangeStr = min != null && max != null
-        ? '$min-$max HCP'
-        : (min != null ? '$min+ HCP' : '$max- HCP');
 
     if (passed) {
       satisfied.add('HCP $pts matches $rangeStr');

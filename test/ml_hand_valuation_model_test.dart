@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:bridge_bidding_system/models/card.dart';
 import 'package:bridge_bidding_system/models/hand.dart';
 import 'package:bridge_bidding_system/models/bidding_state_context.dart';
+import 'package:bridge_bidding_system/models/seat_belief_state.dart';
 import 'package:bridge_bidding_system/models/ml_hand_valuation_model.dart';
 import 'package:bridge_bidding_system/models/ml_hand_feature_vector.dart';
 import 'package:bridge_bidding_system/evaluators/valuation_engine.dart';
@@ -32,6 +33,46 @@ void main() {
       expect(model.weightOf('shape_6421', 0.0), equals(0.85));
       expect(model.weightOf('shape_6331', 0.0), equals(-0.2));
       expect(model.weightOf('opp_king_lho_trapped', 0.0), equals(-1.3));
+    });
+
+    test('Dynamic ML re-evaluation of 7-card major holding (KJ8 AJ97632 65 5)', () {
+      final valuation = MLHandValuation();
+      // South: KJ8 in Spades, AJ97632 in Hearts, 65 in Diamonds, 5 in Clubs (9 raw HCP)
+      final hand = Hand.fromString('KJ8:AJ97632:65:5');
+      expect(hand.hcp, equals(9));
+      expect(hand.heartsLength, equals(7));
+
+      // 1. Initial unconditioned valuation incorporates long suit power (~9.8-10.5 Eff, not 8.6)
+      final unconditionedEff = valuation.evaluatePoints(hand);
+      expect(unconditionedEff, greaterThanOrEqualTo(9.8));
+      expect(unconditionedEff, closeTo(10.0, 0.5));
+
+      // 2. Conditioned on partner confirming Heart fit (3+ Hearts) -> elevates to >= 12.0 Eff
+      final partnerWithFit = SeatBeliefState(
+        seat: 'N',
+        minHcp: 10,
+        maxHcp: 15,
+        minSuitLength: {Suit.hearts: 3, Suit.spades: 2, Suit.diamonds: 3, Suit.clubs: 3},
+      );
+      final fitBreakdown = valuation.evaluateWithAuctionContext(
+        hand,
+        partnerBelief: partnerWithFit,
+      );
+      expect(fitBreakdown.effectiveHcp, greaterThanOrEqualTo(12.0));
+
+      // 3. Conditioned on partner showing Heart shortness / misfit (max 1 Heart) -> drops to <= 8.5 Eff
+      final partnerWithShortness = SeatBeliefState(
+        seat: 'N',
+        minHcp: 12,
+        maxHcp: 14,
+        minSuitLength: {Suit.hearts: 0, Suit.spades: 4, Suit.diamonds: 5, Suit.clubs: 4},
+        maxSuitLength: {Suit.hearts: 1, Suit.spades: 5, Suit.diamonds: 6, Suit.clubs: 5},
+      );
+      final misfitBreakdown = valuation.evaluateWithAuctionContext(
+        hand,
+        partnerBelief: partnerWithShortness,
+      );
+      expect(misfitBreakdown.effectiveHcp, lessThanOrEqualTo(8.5));
     });
 
     test('Custom MLHandValuationModel dynamically modifies valuation without hardcoding', () {

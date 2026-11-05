@@ -176,35 +176,24 @@ class MLHandValuation extends HandValuationEngine {
   }
 
   /// Evaluates hand with full auction context including opponent positional actions.
-
   MLHandBreakdown evaluateWithAuctionContext(
-
     Hand hand, {
-
     Suit? trumpSuit,
-
     Suit? partnerSuit,
-
     Suit? oppSuit,
-
     List<OpponentSuitAction> opponentActions = const [],
-
+    SeatBeliefState? partnerBelief,
+    bool isNotrumpStrain = false,
   }) {
-
     return evaluateBreakdown(
-
       hand,
-
       trumpSuit: trumpSuit,
-
       partnerSuit: partnerSuit,
-
       oppSuit: oppSuit,
-
       opponentActions: opponentActions,
-
+      partnerBelief: partnerBelief,
+      isNotrumpStrain: isNotrumpStrain,
     );
-
   }
 
   /// Evaluates hand on the 0-37 ML Power Index scale.
@@ -291,37 +280,43 @@ class MLHandValuation extends HandValuationEngine {
   }
 
   MLHandBreakdown evaluateBreakdown(
-
     Hand hand, {
-
     Suit? trumpSuit,
-
     Suit? partnerSuit,
-
     Suit? oppSuit,
-
     List<OpponentSuitAction> opponentActions = const [],
-
+    SeatBeliefState? partnerBelief,
+    bool isNotrumpStrain = false,
   }) {
-
     var actions = opponentActions;
-
     if (actions.isEmpty && oppSuit != null) {
-
       actions = [OpponentSuitAction(suit: oppSuit, position: RelativeOpponentPosition.lho, call: 'bid', seat: 'LHO')];
-
     }
 
+    // Detect extreme misfit: holding a 6+ suit when partner promises at most 1 card
+    final longestSuit = hand.longestSuit;
+    final isMisfit = partnerBelief != null &&
+        hand.length(longestSuit) >= 6 &&
+        partnerBelief.maxSuitLength[longestSuit] != null &&
+        partnerBelief.maxSuitLength[longestSuit]! <= 1;
+
+    final effectiveTrump = isMisfit
+        ? null
+        : (trumpSuit ??
+            (partnerBelief != null && partnerBelief.primaryFit(hand) >= 7
+                ? partnerBelief.bestFitSuit(hand)
+                : null));
+    final isFitConfirmed = !isMisfit &&
+        (trumpSuit != null ||
+            (partnerBelief != null && effectiveTrump != null && partnerBelief.primaryFit(hand) >= 7));
+
     final vector = MLHandFeatureVector.extract(
-
       hand,
-
-      trumpSuit: trumpSuit,
-
-      partnerSuit: partnerSuit,
-
+      trumpSuit: isFitConfirmed ? effectiveTrump : null,
+      partnerSuit: partnerSuit ?? (partnerBelief != null ? partnerBelief.bestFitSuit(hand) : null),
       opponentActions: actions,
-
+      partnerBelief: partnerBelief,
+      isNotrumpStrain: isNotrumpStrain,
     );
 
     // Direct ML prediction returning a single continuous score on the 0.0 - 37.0 scale
@@ -332,7 +327,6 @@ class MLHandValuation extends HandValuationEngine {
       rawHcp: rawHcp,
       effectiveHcp: effectiveHcp,
     );
-
   }
 
   @override

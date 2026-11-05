@@ -99,13 +99,13 @@ SimulatedAuctionResult simulateAuction({
   final fragments = graph.system.fragments;
 
   final List<String> calls = [];
+  final List<AuctionEntry> auctionEntries = [];
   final List<String> systemSequence = [];
 
   BiddingStateContext buildContext(Hand hand, String seat) {
-    final history = calls.map((c) => AuctionEntry(seat: seat, call: c)).toList();
     return BiddingStateContext(
       holding: hand,
-      auctionHistory: history,
+      auctionHistory: List.unmodifiable(auctionEntries),
       activeSeat: seat,
       valuation: resolver.valuation,
       vulnerability: engine.vulnerability,
@@ -129,6 +129,7 @@ SimulatedAuctionResult simulateAuction({
 
   if (bestBid == null || bestBid.isPass) {
     calls.add('Pass');
+    auctionEntries.add(AuctionEntry(seat: currentSeat, call: 'Pass'));
     isNorthTurn = !isNorthTurn;
     currentHand = isNorthTurn ? north : south;
     currentSeat = isNorthTurn ? 'N' : 'S';
@@ -141,6 +142,7 @@ SimulatedAuctionResult simulateAuction({
     );
     if (bestBid == null || bestBid.isPass) {
       calls.add('Pass');
+      auctionEntries.add(AuctionEntry(seat: currentSeat, call: 'Pass'));
       return SimulatedAuctionResult(
         auctionCalls: calls,
         finalContract: 'Pass',
@@ -150,6 +152,7 @@ SimulatedAuctionResult simulateAuction({
   }
 
   calls.add(bestBid.displayCall);
+  auctionEntries.add(AuctionEntry(seat: currentSeat, call: bestBid.displayCall));
   systemSequence.add(CompiledAuctionState.normalizeCallKey(bestBid.displayCall));
 
   int consecutivePasses = 0;
@@ -179,9 +182,11 @@ SimulatedAuctionResult simulateAuction({
     );
     if (nextBid == null || nextBid.isPass) {
       calls.add('Pass');
+      auctionEntries.add(AuctionEntry(seat: currentSeat, call: 'Pass'));
       break;
     } else {
       calls.add(nextBid.displayCall);
+      auctionEntries.add(AuctionEntry(seat: currentSeat, call: nextBid.displayCall));
       systemSequence.add(CompiledAuctionState.normalizeCallKey(nextBid.displayCall));
       consecutivePasses = 0;
       lastContract = nextBid.displayCall;

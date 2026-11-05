@@ -23,7 +23,7 @@ fragments:
 
       2c:
         desc: "Stayman: asks for 4-card major (or 5-4 majors GF for Smolen, 4M-5m GF, or weak Garbage Stayman)"
-        rule: "10+hcp 5h 4s | 10+hcp 4h 5s | 10+hcp 4+h 4+s | 10+hcp 4+h 5+c | 10+hcp 4+h 5+d | 10+hcp 4+s 5+c | 10+hcp 4+s 5+d | 8-9hcp 4=h 3-s !s#4333 | 8-9hcp 4=s 3-h !s#4333 | 8-9hcp 4+h 4+s | 0-7hcp 4+h 4+s | 0-7hcp 5+h 4+s | 0-7hcp 4+h 5+s"
+        rule: "10+hcp 5h 4s | 10+hcp 4h 5s | 10+hcp 4=h 4=s | 10+hcp 4+h 5+c | 10+hcp 4+h 5+d | 10+hcp 4+s 5+c | 10+hcp 4+s 5+d | 8-9hcp 4=h 3-s !s#4333 | 8-9hcp 4=s 3-h !s#4333 | 8-9hcp 4=h 4=s | 8-9hcp 4=h 5=s | 0-7hcp 4+h 4+s | 0-7hcp 5+h 4+s | 0-7hcp 4+h 5+s"
         priority: 1
         ref: "fStayman"
 

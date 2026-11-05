@@ -10,6 +10,36 @@ fragments:
         desc: "Signoff with weak hand (0-7 HCP)"
         rule: "0-7hcp"
         priority: 10
+      2s:
+        desc: "5-5 in the majors, invitational (8-9 HCP, 5+ Hearts, 5+ Spades)"
+        rule: "8-9hcp 5+h 5+s"
+        cond: "$M=h"
+        priority: 1
+        bids:
+          pass:
+            desc: "Opener declines with minimum and spade preference (3+ spades)"
+            rule: "15-hcp 3+s"
+            priority: 10
+          2nt:
+            desc: "Opener declines with minimum and doubleton in both majors"
+            rule: "15-hcp 2-s 2-h"
+            priority: 2
+          3h:
+            desc: "Opener declines with minimum and heart preference (3+ hearts)"
+            rule: "15-hcp 3+h"
+            priority: 1
+          3s:
+            desc: "Opener invites/accepts spades"
+            rule: "16+hcp 3+s"
+            priority: 1
+          4h:
+            desc: "Opener accepts game in Hearts with maximum and 3+ hearts"
+            rule: "16+hcp 3+h"
+            priority: 1
+          4s:
+            desc: "Opener accepts game in Spades with maximum and 3+ spades"
+            rule: "16+hcp 3+s"
+            priority: 1
       2nt:
         desc: "Invitational with 5-card major (8-9 HCP)"
         rule: "8-9hcp 5$M"
@@ -31,6 +61,70 @@ fragments:
             desc: "Opener accepts in 4$M with 3-card fit"
             rule: "16+hcp 3+$M"
             priority: 1
+      3h:
+        desc: "Second major Hearts, 5-5 in majors, GF or highly constructive (8+ HCP, 5+ Spades, 5+ Hearts)"
+        rule: "8+hcp 5+s 5+h"
+        cond: "$M=s"
+        priority: 1
+        bids:
+          3nt:
+            desc: "No 3-card fit in either major (2-h 2-s)"
+            rule: "2-h 2-s"
+            priority: 2
+            bids:
+              pass:
+                desc: "Pass to play 3NT"
+                priority: 10
+              4s:
+                desc: "6-5 majors, preference to 4S"
+                rule: "6+s"
+                priority: 1
+          4h:
+            desc: "Opener chooses 4H with 3+ Heart fit"
+            rule: "3+h"
+            priority: 1
+            bids:
+              pass:
+                desc: "To play"
+                priority: 10
+          4s:
+            desc: "Opener chooses 4S with 3+ Spade fit"
+            rule: "3+s"
+            priority: 1
+            bids:
+              pass:
+                desc: "To play"
+                priority: 10
+      3s:
+        desc: "Second major Spades over Heart transfer, GF 5-5 majors (10+ HCP)"
+        rule: "10+hcp 5+h 5+s"
+        cond: "$M=h"
+        priority: 1
+        bids:
+          3nt:
+            desc: "No 3-card fit in either major (2-h 2-s)"
+            rule: "2-h 2-s"
+            priority: 2
+            bids:
+              pass:
+                desc: "Pass to play 3NT"
+                priority: 10
+          4h:
+            desc: "Opener chooses 4H with 3+ Heart fit"
+            rule: "3+h"
+            priority: 1
+            bids:
+              pass:
+                desc: "To play"
+                priority: 10
+          4s:
+            desc: "Opener chooses 4S with 3+ Spade fit"
+            rule: "3+s"
+            priority: 1
+            bids:
+              pass:
+                desc: "To play"
+                priority: 10
       3$M:
         desc: "Invitational with 6+ card major (8-9 HCP)"
         rule: "8-9hcp 6+$M"

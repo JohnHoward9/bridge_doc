@@ -19,6 +19,7 @@ class FailureDealRecord {
   final String autoAuction;
   final String autoContract;
   final String diagnosis;
+  final String origin;
 
   FailureDealRecord({
     required this.index,
@@ -33,6 +34,7 @@ class FailureDealRecord {
     required this.autoAuction,
     required this.autoContract,
     required this.diagnosis,
+    this.origin = '📋 Existing Backlog',
   });
 }
 
@@ -75,13 +77,47 @@ void main() {
 
     final List<FailureDealRecord> failures = [];
     final List<FailureDealRecord> resolvedDeals = [];
-    final Map<String, int> catCounts = {
+    final Map<String, int> repCatCounts = {
       'Cat 1: Forcing Broken / Stalled': 0,
       'Cat 2: Missed Major Strain': 0,
       'Cat 3: Wrong Opening Bid': 0,
       'Cat 4: Slam Stoppage': 0,
       'Cat 5: Overbid Runaway': 0,
       'Cat 6: Rebid Precision': 0,
+    };
+    final Map<String, int> totalCatCounts = {
+      'Cat 1: Forcing Broken / Stalled': 0,
+      'Cat 2: Missed Major Strain': 0,
+      'Cat 3: Wrong Opening Bid': 0,
+      'Cat 4: Slam Stoppage': 0,
+      'Cat 5: Overbid Runaway': 0,
+      'Cat 6: Rebid Precision': 0,
+    };
+
+    // Initial baseline failures (before fixes) to distinguish existing backlog from new regressions
+    final Set<String> baselineFailures = {
+      '81564 B:18', '81580 B:8', '81768 B:10', '82021 B:18', '82023 B:18',
+      '82052 B:18', '82060 B:6', '82021 B:30', '82022 B:30', '82023 B:30',
+      '82024 B:30', '82041 B:12', '82042 B:12', '82632 B:24', '82633 B:18',
+      '82648 B:5', '82651 B:8', '82652 B:1', '82653 B:25', '82654 B:17',
+      '82654 B:23', '82660 B:25', '82942 B:12'
+    };
+
+    // Tournament deals that previously failed and are now fixed & verified
+    final Map<String, String> knownResolvedTournamentDeals = {
+      '81580 B:8': 'Cat 4: Slam Stoppage',
+      '81768 B:10': 'Cat 4: Slam Stoppage',
+      '82021 B:30': 'Cat 2: Missed Major Strain',
+      '82022 B:30': 'Cat 2: Missed Major Strain',
+      '82023 B:30': 'Cat 2: Missed Major Strain',
+      '82024 B:30': 'Cat 2: Missed Major Strain',
+      '82041 B:12': 'Cat 2: Missed Major Strain',
+      '82042 B:12': 'Cat 2: Missed Major Strain',
+      '82633 B:18': 'Cat 2: Missed Major Strain',
+      '82648 B:5': 'Cat 2: Missed Major Strain',
+      '82651 B:8': 'Cat 2: Missed Major Strain',
+      '82652 B:1': 'Cat 2: Missed Major Strain',
+      '82653 B:25': 'Cat 2: Missed Major Strain',
     };
 
     final Set<String> seenDeals = {};
@@ -135,8 +171,9 @@ void main() {
 
             if (isFixed) {
               resolvedDeals.add(record);
-            } else if ((catCounts[cat] ?? 0) < maxPerCat) {
-              catCounts[cat] = (catCounts[cat] ?? 0) + 1;
+            } else if ((repCatCounts[cat] ?? 0) < maxPerCat) {
+              repCatCounts[cat] = (repCatCounts[cat] ?? 0) + 1;
+              totalCatCounts[cat] = (totalCatCounts[cat] ?? 0) + 1;
               failures.add(record);
             }
           }
@@ -286,13 +323,35 @@ void main() {
         }
       }
 
-      if (cat != null && (catCounts[cat] ?? 0) < maxPerCat) {
+      if (cat != null) {
+        totalCatCounts[cat] = (totalCatCounts[cat] ?? 0) + 1;
+        if ((repCatCounts[cat] ?? 0) < maxPerCat) {
+          seenDeals.add(matchBoardKey);
+          repCatCounts[cat] = (repCatCounts[cat] ?? 0) + 1;
+          final isNewRegression = !baselineFailures.contains(matchBoardKey);
+          failures.add(FailureDealRecord(
+            index: failures.length + 1,
+            matchBoard: matchBoardKey,
+            category: cat,
+            north: north,
+            south: south,
+            northEff: nEff,
+            southEff: sEff,
+            combHcp: combHcp,
+            tableContract: (isOpponentContract ? 'EW ' : '') + tableContract + (tricksMade != null ? ' ($tricksMade)' : ''),
+            autoAuction: autoCalls.join(' '),
+            autoContract: autoContract,
+            diagnosis: diag ?? 'Defect flagged',
+            origin: isNewRegression ? '🚨 NEW REGRESSION' : '📋 Existing Backlog',
+          ));
+        }
+      } else if (knownResolvedTournamentDeals.containsKey(matchBoardKey)) {
         seenDeals.add(matchBoardKey);
-        catCounts[cat] = (catCounts[cat] ?? 0) + 1;
-        failures.add(FailureDealRecord(
-          index: failures.length + 1,
+        final origCat = knownResolvedTournamentDeals[matchBoardKey]!;
+        resolvedDeals.add(FailureDealRecord(
+          index: resolvedDeals.length + 1,
           matchBoard: matchBoardKey,
-          category: cat,
+          category: origCat,
           north: north,
           south: south,
           northEff: nEff,
@@ -301,25 +360,26 @@ void main() {
           tableContract: (isOpponentContract ? 'EW ' : '') + tableContract + (tricksMade != null ? ' ($tricksMade)' : ''),
           autoAuction: autoCalls.join(' '),
           autoContract: autoContract,
-          diagnosis: diag ?? 'Defect flagged',
+          diagnosis: 'Verified fixed and passing',
+          origin: '✅ Fixed',
         ));
       }
     }
 
     print('Scanned $scanned deals. Found ${failures.length} representative failures across categories:');
-    catCounts.forEach((k, v) => print('  $k: $v'));
+    repCatCounts.forEach((k, v) => print('  $k: $v (Total in dataset: ${totalCatCounts[k]})'));
 
     // Write bbo_2025_failure_results.md
     final sb = StringBuffer();
     sb.writeln('# BBO 2025 Championship Bidding Failures Audit');
     sb.writeln();
     sb.writeln('Evaluated deals from **`res/bbo_championships_2025_dataset.json`** and `./errors/` against the Gavin Wolpert 2/1 engine.');
-    sb.writeln('Identified **${failures.length} active representative failure deals** across the 6 defect categories, and verified **${resolvedDeals.length} resolved defect hands**.');
+    sb.writeln('Identified **${failures.length} active representative failure deals** across the 6 defect categories, and verified **${resolvedDeals.length} resolved defect hands & tournament deals**.');
     sb.writeln();
     if (resolvedDeals.isNotEmpty) {
-      sb.writeln('## 1. Resolved Defect Hands (Verified Fixed)');
+      sb.writeln('## 1. Resolved Defect Hands & Verified Deals (${resolvedDeals.length} Verified)');
       sb.writeln();
-      sb.writeln('| # | Error File | Category | North Hand | South Hand | Comb HCP | Table Contract | Verified Auto Auction | Final Contract | Status |');
+      sb.writeln('| # | Error File / Deal | Category | North Hand | South Hand | Comb HCP | Table Contract | Verified Auto Auction | Final Contract | Status |');
       sb.writeln('|---|---|---|---|---|:---:|:---:|---|:---:|:---:|');
       for (final r in resolvedDeals) {
         final nDisplay = formatHand(r.north, r.northEff);
@@ -331,19 +391,24 @@ void main() {
 
     sb.writeln('## 2. Active Unfixed BBO Failures');
     sb.writeln();
-    sb.writeln('### Failure Distribution Summary');
-    catCounts.forEach((k, v) {
-      sb.writeln('- **$k**: $v representative deals');
+    sb.writeln('### Total Failure Count Across 4,001 Tournament Deals');
+    totalCatCounts.forEach((k, total) {
+      final rep = repCatCounts[k] ?? 0;
+      if (total == 0) {
+        sb.writeln('- **$k**: **0 failures** (100% Cleared)');
+      } else {
+        sb.writeln('- **$k**: $rep representative deals shown (**$total total in dataset**)');
+      }
     });
     sb.writeln();
-    sb.writeln('| # | Match / Deal | Category | North Hand | South Hand | Comb HCP | Table Contract | Auto Auction | Auto Contract | Defect Diagnosis |');
-    sb.writeln('|---|---|---|---|---|:---:|:---:|---|:---:|---|');
+    sb.writeln('| # | Match / Deal | Category | Origin / Status | North Hand | South Hand | Comb HCP | Table Contract | Auto Auction | Auto Contract | Defect Diagnosis |');
+    sb.writeln('|---|---|---|:---:|---|---|:---:|:---:|---|:---:|---|');
 
     for (var i = 0; i < failures.length; i++) {
       final f = failures[i];
       final nDisplay = formatHand(f.north, f.northEff);
       final sDisplay = formatHand(f.south, f.southEff);
-      sb.writeln('| ${i + 1} | **${f.matchBoard}** | **${f.category}** | $nDisplay | $sDisplay | **${f.combHcp} HCP** | **${f.tableContract}** | `${f.autoAuction}` | **${f.autoContract}** | ${f.diagnosis} |');
+      sb.writeln('| ${i + 1} | **${f.matchBoard}** | **${f.category}** | ${f.origin} | $nDisplay | $sDisplay | **${f.combHcp} HCP** | **${f.tableContract}** | `${f.autoAuction}` | **${f.autoContract}** | ${f.diagnosis} |');
     }
 
     sb.writeln();

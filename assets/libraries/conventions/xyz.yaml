@@ -82,8 +82,8 @@ fragments:
 
       2d:
         forceTo: game
-        desc: "Artificial Game-Forcing enquiry (11+ HCP, enquiry for 3-card support or unbid 4M)"
-        rule: "11+hcp 4+h | 11+hcp 4+s | 18+hcp"
+        desc: "Artificial Game-Forcing enquiry (11+ HCP)"
+        rule: "11+hcp"
         priority: 1
         bids:
           2h:
@@ -162,6 +162,10 @@ fragments:
                 desc: "3NT to play with balanced hand"
                 rule: "11-15hcp"
                 priority: 1
+              5d:
+                desc: "Game in Diamonds with 6+ Diamonds"
+                rule: "6+d"
+                priority: 1
               3s:
                 desc: "Slam try in Spades"
                 rule: "5+s 16+hcp"
@@ -202,6 +206,24 @@ fragments:
         desc: "Invitational with 6+ Clubs (direct 3-level = 6-card invite, 8-10 HCP)"
         rule: "8-10hcp 6+c"
         priority: 3
+
+      3d:
+        desc: "Invitational with 6+ Diamonds (direct 3-level = 6-card invite, 8-10 HCP)"
+        rule: "8-10hcp 6+d"
+        priority: 3
+        bids:
+          pass:
+            desc: "Decline invite with minimum (12-13 HCP)"
+            rule: "12-13hcp"
+            priority: 10
+          3nt:
+            desc: "3NT to play with stoppers in unbid suits"
+            rule: "14+hcp"
+            priority: 1
+          5d:
+            desc: "Game in Diamonds"
+            rule: "14+hcp 2+d"
+            priority: 2
 
       3nt:
         desc: "To play with balanced hand and no 4-card major (10-17 HCP)"

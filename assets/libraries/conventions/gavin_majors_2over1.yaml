@@ -20,8 +20,8 @@ fragments:
     aliases:
       - "fGavinHeartResponses"
       - "fGavinMajors1HResponses"
-    desc: "Gavin 5+ Hearts opening (12+ HCP)"
-    rule: "12+hcp 5+h h>s [$M=h, $OM=s]"
+    desc: "Gavin 5+ Hearts opening (12+ HCP, or 11 HCP with Rule of 20)"
+    rule: "12+hcp 5+h h>s [$M=h, $OM=s] | 11hcp 5+h 4+m [$M=h, $OM=s]"
     ref: "Gavin1H1SOpening"
     bids:
       "(x)":
@@ -151,8 +151,8 @@ fragments:
     aliases:
       - "fGavinSpadeResponses"
       - "fGavinMajors1SResponses"
-    desc: "Gavin 5+ Spades opening (12+ HCP)"
-    rule: "12+hcp 5+s s>=h [$M=s, $OM=h]"
+    desc: "Gavin 5+ Spades opening (12+ HCP, or 11 HCP with Rule of 20)"
+    rule: "12+hcp 5+s s>=h [$M=s, $OM=h] | 11hcp 5+s 4+h [$M=s, $OM=h] | 11hcp 5+s 4+m [$M=s, $OM=h]"
     ref: "Gavin1H1SOpening"
     bids:
       "(x)":

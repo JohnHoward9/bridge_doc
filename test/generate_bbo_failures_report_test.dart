@@ -211,10 +211,13 @@ void main() {
       String? diag;
 
       // 1. Cat 1: Premature Passout or Stalled Auction
-      if (combHcp >= 22 && sim.isPassOut) {
-        cat = 'Cat 1: Forcing Broken / Stalled';
-        diag = 'Passed out with $combHcp combined HCP (N=${north.hcp}, S=${south.hcp})';
-      } else if (combHcp >= 25 && autoLevel <= 1 && autoContract != 'Pass' && autoCalls.length >= 2) {
+      final maxEff = nEff > sEff ? nEff : sEff;
+      if (sim.isPassOut) {
+        if (!isOpponentContract && (maxEff >= 12.0 || combHcp >= 24) && tableContract != 'Pass') {
+          cat = 'Cat 1: Forcing Broken / Stalled';
+          diag = 'Passed out with $combHcp combined HCP (N=${north.hcp}, S=${south.hcp})';
+        }
+      } else if (combHcp >= 25 && autoLevel <= 1 && autoCalls.length >= 2) {
         cat = 'Cat 1: Forcing Broken / Stalled';
         diag = 'Auction stalled at $autoContract with $combHcp combined HCP (Calls: `${autoCalls.join(" ")}`)';
       }

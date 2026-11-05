@@ -182,7 +182,7 @@ fragments:
           3h:
             desc: "Jump raise 4+ Hearts (16-18 HCP)"
             rule: "4+h 16-18hcp"
-            priority: 1
+            priority: 2
             bids:
               pass:
                 desc: "Decline with 6-7 HCP"
@@ -198,6 +198,21 @@ fragments:
                 rule: "12+hcp"
                 priority: 1
                 ref: "fRKCBResponses"
+          4h:
+            desc: "Game in Hearts with 4+ Hearts and 19+ HCP"
+            rule: "4+h 19+hcp"
+            priority: 1
+            bids:
+              pass:
+                desc: "Pass with minimum response (6-9 HCP)"
+                rule: "6-9hcp"
+                priority: 10
+              4s:
+                desc: "Kickback RKCB 1430 for Hearts"
+                agreedSuit: "h"
+                rule: "10+hcp"
+                priority: 1
+                ref: "fKickbackHearts"
           2nt:
             desc: "18-19 balanced"
             rule: "18-19hcp balanced"
@@ -381,9 +396,9 @@ fragments:
             priority: 1
             ref: "fSpiralRaises_Spade"
           3s:
-            desc: "Jump raise 4+ Spades (16-19 HCP)"
-            rule: "4+s 16-19hcp"
-            priority: 1
+            desc: "Jump raise 4+ Spades (16-18 HCP)"
+            rule: "4+s 16-18hcp"
+            priority: 2
             bids:
               pass:
                 desc: "Decline with 6-7 HCP"
@@ -397,6 +412,21 @@ fragments:
                 desc: "RKCB 1430 for Spades"
                 agreedSuit: "s"
                 rule: "12+hcp"
+                priority: 1
+                ref: "fRKCBResponses"
+          4s:
+            desc: "Game in Spades with 4+ Spades and 19+ HCP"
+            rule: "4+s 19+hcp"
+            priority: 1
+            bids:
+              pass:
+                desc: "Pass with minimum response (6-9 HCP)"
+                rule: "6-9hcp"
+                priority: 10
+              4nt:
+                desc: "RKCB 1430 for Spades"
+                agreedSuit: "s"
+                rule: "10+hcp"
                 priority: 1
                 ref: "fRKCBResponses"
           2nt:
@@ -842,7 +872,7 @@ fragments:
           3h:
             desc: "Jump raise 4+ Hearts (16-18 HCP)"
             rule: "4+h 16-18hcp"
-            priority: 1
+            priority: 2
             bids:
               pass:
                 desc: "Decline with 6-7 HCP"
@@ -858,6 +888,21 @@ fragments:
                 rule: "12+hcp"
                 priority: 1
                 ref: "fRKCBResponses"
+          4h:
+            desc: "Game in Hearts with 4+ Hearts and 19+ HCP"
+            rule: "4+h 19+hcp"
+            priority: 1
+            bids:
+              pass:
+                desc: "Pass with minimum response (6-9 HCP)"
+                rule: "6-9hcp"
+                priority: 10
+              4s:
+                desc: "Kickback RKCB 1430 for Hearts"
+                agreedSuit: "h"
+                rule: "10+hcp"
+                priority: 1
+                ref: "fKickbackHearts"
           2nt:
             desc: "18-19 balanced"
             rule: "18-19hcp balanced"
@@ -995,9 +1040,9 @@ fragments:
             priority: 1
             ref: "fSpiralRaises_Spade"
           3s:
-            desc: "Jump raise 4+ Spades (16-19 HCP)"
-            rule: "4+s 16-19hcp"
-            priority: 1
+            desc: "Jump raise 4+ Spades (16-18 HCP)"
+            rule: "4+s 16-18hcp"
+            priority: 2
             bids:
               pass:
                 desc: "Decline with 6-7 HCP"
@@ -1011,6 +1056,21 @@ fragments:
                 desc: "RKCB 1430 for Spades"
                 agreedSuit: "s"
                 rule: "12+hcp"
+                priority: 1
+                ref: "fRKCBResponses"
+          4s:
+            desc: "Game in Spades with 4+ Spades and 19+ HCP"
+            rule: "4+s 19+hcp"
+            priority: 1
+            bids:
+              pass:
+                desc: "Pass with minimum response (6-9 HCP)"
+                rule: "6-9hcp"
+                priority: 10
+              4nt:
+                desc: "RKCB 1430 for Spades"
+                agreedSuit: "s"
+                rule: "10+hcp"
                 priority: 1
                 ref: "fRKCBResponses"
           2nt:
